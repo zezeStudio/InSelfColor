@@ -7,106 +7,244 @@ import html2canvas from "html2canvas";
 const SEASONS: Record<string, any> = {
   spring: {
     id:"spring",name:"봄 웜 타입",nameEn:"Spring Warm",icon:"🌸",
-    keyword:"밝고 화사한",subtypes:["라이트 스프링","웜 스프링","비비드 스프링"],
+    keyword:"밝고 화사한",keywordEn:"Bright & Vibrant",
+    subtypes:["라이트 스프링","웜 스프링","비비드 스프링"],subtypesEn:["Light Spring","Warm Spring","Vivid Spring"],
     heroBg:"linear-gradient(160deg,#FFF5EE 0%,#FFE8D6 45%,#FFBCA9 100%)",
     primary:"#D96A3A",textOnBg:"#4A1E0A",
     description:"피부에 밝고 투명한 황금빛 베이스가 깔려 있으며, 복숭아빛·산호빛 혈색이 자연스럽게 나타납니다. 생기 있고 화사한 인상을 줍니다.",
+    descriptionEn:"Your skin has a bright and transparent golden undertone base, radiating a naturally vibrant and cheerful appeal.",
     characteristics:["맑고 투명한 피부톤","황금빛·복숭아빛 베이스","밝고 선명한 눈동자","골든·애쉬브라운 모발"],
-    palette:[{hex:"#FF9E7C",name:"코랄"},{hex:"#FFA07A",name:"살몬"},{hex:"#FFD700",name:"골드"},{hex:"#FFDAB9",name:"피치"},{hex:"#F4A460",name:"카멜"},{hex:"#ADDFAD",name:"민트"}],
+    characteristicsEn:["Transparent, bright skin tone","Golden and peach skin base","Bright and sparkling eyes","Golden or ash-brown hair"],
+    palette:[
+      {hex:"#FF9E7C",name:"코랄",nameEn:"Coral"},
+      {hex:"#FFA07A",name:"살몬",nameEn:"Salmon"},
+      {hex:"#FFD700",name:"골드",nameEn:"Gold"},
+      {hex:"#FFDAB9",name:"피치",nameEn:"Peach"},
+      {hex:"#F4A460",name:"카멜",nameEn:"Camel"},
+      {hex:"#ADDFAD",name:"민트",nameEn:"Mint"}
+    ],
     recommended:["코랄","살몬","피치","아이보리","카멜","골드","애플그린","터콰이즈"],
+    recommendedEn:["Coral","Salmon","Peach","Ivory","Camel","Gold","Apple Green","Turquoise"],
     avoid:["와인레드","다크네이비","블랙","딥퍼플","차콜그레이"],
+    avoidEn:["Wine Red","Dark Navy","Black","Deep Purple","Charcoal Gray"],
     tip:"밝고 따뜻한 색상으로 활기찬 분위기를 연출하세요. 채도가 너무 낮거나 어두운 색은 피하고, 맑고 생기 있는 색이 잘 어울립니다.",
-    makeup:{foundation:"밝은 피치베이지·아이보리 계열",blush:"코랄, 살몬핑크",lip:"코랄레드, 피치핑크, 오렌지레드",eye:"골드브라운, 카퍼, 테라코타",liner:"브라운, 카퍼",dots:["#FF9E7C","#FFB347","#FFA07A","#CD853F"]},
-    fashion:{style:"화사한 스프링 내추럴 룩",items:["플로럴 원피스","아이보리 니트","코랄 블라우스","카멜 트렌치코트"],fabrics:["시폰","면","린넨","니트"],avoid:["블랙 모노톤","무채색 전체 착장"]},
-    celebs:["아이유","수지","임수정"],
+    tipEn:"Embrace bright, warm hues to amplify your lively charm. Avoid heavy or overly muted tones; clear, sunny colors suit you best.",
+    makeup:{
+      foundation:"밝은 피치베이지·아이보리 계열",foundationEn:"Light Peach Beige / Ivory",
+      blush:"코랄, 살몬핑크",blushEn:"Coral, Salmon Pink",
+      lip:"코랄레드, 피치핑크, 오렌지레드",lipEn:"Coral Red, Peach Pink, Orange Red",
+      eye:"골드브라운, 카퍼, 테라코타",eyeEn:"Gold Brown, Copper, Terracotta",
+      liner:"브라운, 카퍼",linerEn:"Brown, Copper",
+      dots:["#FF9E7C","#FFB347","#FFA07A","#CD853F"]
+    },
+    fashion:{
+      style:"화사한 스프링 내추럴 룩",styleEn:"Vibrant Spring Casual Look",
+      items:["플로럴 원피스","아이보리 니트","코랄 블라우스","카멜 트렌치코트"],itemsEn:["Floral Dress","Ivory Knitwear","Coral Blouse","Camel Trench Coat"],
+      fabrics:["시폰","면","린넨","니트"],fabricsEn:["Chiffon","Cotton","Linen","Knitwear"],
+      avoid:["블랙 모노톤","무채색 전체 착장"],avoidEn:["Total Black Look","Achromatic Outfits"]
+    },
+    celebs:["아이유","수지","임수정"],celebsEn:["IU","Suzy","Lim Soo-jung"],
     scoreColor:"#FF9E7C",gradStops:["#FFE8D6","#FFBCA9"],
   },
   summer: {
     id:"summer",name:"여름 쿨 타입",nameEn:"Summer Cool",icon:"🌊",
-    keyword:"부드럽고 우아한",subtypes:["라이트 서머","소프트 서머","뮤트 서머"],
+    keyword:"부드럽고 우아한",keywordEn:"Soft & Elegant",
+    subtypes:["라이트 서머","소프트 서머","뮤트 서머"],subtypesEn:["Light Summer","Soft Summer","Muted Summer"],
     heroBg:"linear-gradient(160deg,#F5F8FF 0%,#E4ECF8 45%,#C0CFEA 100%)",
     primary:"#5274A8",textOnBg:"#0D1F3C",
     description:"피부에 핑크빛·로즈빛이 감도는 차가운 베이스를 가집니다. 뮤트되고 부드러운 쿨톤 파스텔이 잘 어울리며, 우아하고 로맨틱한 인상을 줍니다.",
+    descriptionEn:"Your skin features a rosy cool base. Soft pastel tones with grayish or bluish undertones highlight your elegant and romantic vibe.",
     characteristics:["핑크빛·로즈빛 피부 베이스","부드러운 쿨톤 혈색","회색빛이 감도는 눈동자","애쉬·블루그레이 모발"],
-    palette:[{hex:"#B0C4DE",name:"스틸블루"},{hex:"#C8A2C8",name:"라일락"},{hex:"#F4C2C2",name:"파스텔핑크"},{hex:"#99C5C4",name:"소프트민트"},{hex:"#9FA8DA",name:"페리윙클"},{hex:"#D8C4D8",name:"연보라"}],
+    characteristicsEn:["Pinkish, rosy undertone skin","Soft cool and hazy glow","Muted gray-tinted eyes","Ash-brown or blue-black hair"],
+    palette:[
+      {hex:"#B0C4DE",name:"스틸블루",nameEn:"Steel Blue"},
+      {hex:"#C8A2C8",name:"라일락",nameEn:"Lilac"},
+      {hex:"#F4C2C2",name:"파스텔핑크",nameEn:"Pastel Pink"},
+      {hex:"#99C5C4",name:"소프트민트",nameEn:"Soft Mint"},
+      {hex:"#9FA8DA",name:"페리윙클",nameEn:"Periwinkle"},
+      {hex:"#D8C4D8",name:"연보라",nameEn:"Lavender"}
+    ],
     recommended:["라벤더","소프트로즈","스모키블루","파우더핑크","민트그레이","스카이블루"],
+    recommendedEn:["Lavender","Soft Rose","Smoky Blue","Powder Pink","Mint Gray","Sky Blue"],
     avoid:["오렌지","골드","카멜","올리브그린","브릭레드"],
+    avoidEn:["Orange","Gold","Camel","Olive Green","Brick Red"],
     tip:"그레이쉬하고 뮤트된 쿨톤 색상이 피부를 돋보이게 합니다. 너무 선명하거나 채도 높은 색보다 부드럽게 가라앉은 톤이 가장 잘 어울려요.",
-    makeup:{foundation:"핑크베이지·뉴트럴 계열",blush:"로즈핑크, 소프트핑크",lip:"로즈, 모브, 소프트레드, 베이비핑크",eye:"그레이, 라벤더, 소프트퍼플",liner:"다크브라운, 네이비, 그레이",dots:["#C8A2C8","#B0C4DE","#F4C2C2","#9FA8DA"]},
-    fashion:{style:"로맨틱 소프트 서머 룩",items:["라벤더 블라우스","소프트핑크 카디건","스모키블루 팬츠","모브 롱스커트"],fabrics:["시폰","새틴","벨벳","울 블렌드"],avoid:["오렌지·골드 계열 전체 착장","강렬한 원색 코디"]},
-    celebs:["태연","문가영","박신혜"],
+    tipEn:"Muted, subtle cool tones make your skin look radiant. Choose soft, dusty pastels over bright primary or strong earthy colors.",
+    makeup:{
+      foundation:"핑크베이지·뉴트럴 계열",foundationEn:"Pink Beige / Neutral",
+      blush:"로즈핑크, 소프트핑크",blushEn:"Rose Pink, Soft Pink",
+      lip:"로즈, 모브, 소프트레드, 베이비핑크",lipEn:"Rose, Mauve, Soft Red, Baby Pink",
+      eye:"그레이, 라벤더, 소프트퍼플",eyeEn:"Gray, Lavender, Muted Purple",
+      liner:"다크브라운, 네이비, 그레이",linerEn:"Dark Brown, Navy, Slate Gray",
+      dots:["#C8A2C8","#B0C4DE","#F4C2C2","#9FA8DA"]
+    },
+    fashion:{
+      style:"로맨틱 소프트 서머 룩",styleEn:"Romantic Soft Summer Look",
+      items:["라벤더 블라우스","소프트핑크 카디건","스모키블루 팬츠","모브 롱스커트"],itemsEn:["Lavender Blouse","Soft Pink Cardigan","Smoky Blue Pants","Mauve Long Skirt"],
+      fabrics:["시폰","새틴","벨벳","울 블렌드"],fabricsEn:["Chiffon","Satin","Velvet","Wool Blend"],
+      avoid:["오렌지·골드 계열 전체 착장","강렬한 원색 코디"],avoidEn:["Total Orange/Gold Outfit","Vivid Primary Colors"]
+    },
+    celebs:["태연","문가영","박신혜"],celebsEn:["Taeyeon","Mun Ka-young","Park Shin-hye"],
     scoreColor:"#8FA8D4",gradStops:["#E8EEF8","#C0CFEA"],
   },
   autumn: {
     id:"autumn",name:"가을 웜 타입",nameEn:"Autumn Warm",icon:"🍂",
-    keyword:"깊고 풍부한",subtypes:["소프트 어텀","웜 어텀","딥 어텀"],
+    keyword:"깊고 풍부한",keywordEn:"Deep & Rich",
+    subtypes:["소프트 어텀","웜 어텀","딥 어텀"],subtypesEn:["Soft Autumn","Warm Autumn","Deep Autumn"],
     heroBg:"linear-gradient(160deg,#FFF5E8 0%,#F0D5B0 45%,#D4936A 100%)",
     primary:"#8B4520",textOnBg:"#2A1408",
     description:"황금빛·구리빛의 깊고 따뜻한 피부 베이스를 가집니다. 어스톤과 뮤트된 웜컬러가 특히 잘 어울리며, 자연스럽고 성숙한 인상을 줍니다.",
+    descriptionEn:"Your skin has a golden bronze-like warm base. Warm, rich earth tones suit you best, presenting a sophisticated, mature, and natural charisma.",
     characteristics:["황금빛·구리빛 피부 베이스","주근깨가 있는 경우 많음","올리브·갈색 눈동자","어두운 갈색·구리빛 모발"],
-    palette:[{hex:"#C17A3E",name:"카멜"},{hex:"#8B5E3C",name:"다크브라운"},{hex:"#CC6633",name:"테라코타"},{hex:"#556B2F",name:"올리브그린"},{hex:"#A0785A",name:"코퍼"},{hex:"#8B7355",name:"카키"}],
+    characteristicsEn:["Deep golden, bronze skin tone","Often has warm freckles","Olive or deep brown eyes","Dark brown, copper hair"],
+    palette:[
+      {hex:"#C17A3E",name:"카멜",nameEn:"Camel"},
+      {hex:"#8B5E3C",name:"다크브라운",nameEn:"Dark Brown"},
+      {hex:"#CC6633",name:"테라코타",nameEn:"Terracotta"},
+      {hex:"#556B2F",name:"올리브그린",nameEn:"Olive Green"},
+      {hex:"#A0785A",name:"코퍼",nameEn:"Copper"},
+      {hex:"#8B7355",name:"카키",nameEn:"Khaki"}
+    ],
     recommended:["테라코타","번트오렌지","올리브그린","카멜","카키","머스타드","초콜릿브라운"],
+    recommendedEn:["Terracotta","Burnt Orange","Olive Green","Camel","Khaki","Mustard","Chocolate Brown"],
     avoid:["브라이트핑크","라벤더","네온컬러","실버","아이시블루"],
+    avoidEn:["Bright Pink","Lavender","Neon Colors","Silver","Icy Blue"],
     tip:"깊이 있는 어스톤과 자연에서 가져온 따뜻한 색이 최고로 잘 어울립니다. 채도를 낮추고 깊이 있는 색감으로 고급스러운 분위기를 완성하세요.",
-    makeup:{foundation:"워뮤 베이지·골든 베이지",blush:"테라코타, 브릭, 피치브라운",lip:"테라코타, 브릭레드, 넛브라운, 머스타드",eye:"올리브, 카키브라운, 카퍼, 골드",liner:"다크브라운, 카키, 초콜릿",dots:["#CC6633","#8B5E3C","#556B2F","#A0785A"]},
-    fashion:{style:"내추럴 어스 어텀 룩",items:["카멜 코트","올리브 재킷","테라코타 니트","초콜릿 팬츠"],fabrics:["트위드","울","코듀로이","가죽"],avoid:["형광·네온 계열","차가운 파스텔 단독 착장"]},
-    celebs:["한가인","전지현","이나영"],
+    tipEn:"Deep earth tones and warm colors found in nature are your perfect match. Complete a luxurious vibe with deep, muted shades.",
+    makeup:{
+      foundation:"워뮤 베이지·골든 베이지",foundationEn:"Warm Beige / Golden Beige",
+      blush:"테라코타, 브릭, 피치브라운",blushEn:"Terracotta, Brick, Peach Brown",
+      lip:"테라코타, 브릭레드, 넛브라운, 머스타드",lipEn:"Terracotta, Brick Red, Nut Brown",
+      eye:"올리브, 카키브라운, 카퍼, 골드",eyeEn:"Olive, Khaki Brown, Copper, Gold",
+      liner:"다크브라운, 카키, 초콜릿",linerEn:"Dark Brown, Khaki, Dark Chocolate",
+      dots:["#CC6633","#8B5E3C","#556B2F","#A0785A"]
+    },
+    fashion:{
+      style:"내추럴 어스 어텀 룩",styleEn:"Natural Earth Autumn Look",
+      items:["카멜 코트","올리브 재킷","테라코타 니트","초콜릿 팬츠"],itemsEn:["Camel Coat","Olive Jacket","Terracotta Knitwear","Chocolate Pants"],
+      fabrics:["트위드","울","코듀로이","가죽"],fabricsEn:["Tweed","Wool","Corduroy","Leather"],
+      avoid:["형광·네온 계열","차가운 파스텔 단독 착장"],avoidEn:["Fluorescent/Neon Colors","Cold Pastel Outfits"]
+    },
+    celebs:["한가인","전지현","이나영"],celebsEn:["Han Ga-in","Jun Ji-hyun","Lee Na-young"],
     scoreColor:"#C17A3E",gradStops:["#D4936A","#9A5A25"],
   },
   winter: {
     id:"winter",name:"겨울 쿨 타입",nameEn:"Winter Cool",icon:"❄️",
-    keyword:"선명하고 대담한",subtypes:["딥 윈터","쿨 윈터","브라이트 윈터"],
+    keyword:"선명하고 대담한",keywordEn:"Bold & Sophisticated",
+    subtypes:["딥 윈터","쿨 윈터","브라이트 윈터"],subtypesEn:["Deep Winter","Cool Winter","Bright Winter"],
     heroBg:"linear-gradient(160deg,#EEF2F8 0%,#C8D5E8 45%,#8898B8 100%)",
     primary:"#1A3055",textOnBg:"#0A1828",
     description:"블루빛·올리브빛의 차갑고 선명한 피부 베이스를 가집니다. 강한 대비와 선명한 색상이 잘 어울리며, 세련되고 모던한 도시적 인상을 줍니다.",
+    descriptionEn:"Your skin features a bluish, cool tone. Strong contrast and bold, clear monochromatic compositions highlight your modern and charismatic impression.",
     characteristics:["블루빛·올리브빛 피부 베이스","선명하고 강한 이목구비","짙은 눈동자·강한 명도 대비","다크브라운·블랙 모발"],
-    palette:[{hex:"#1C1C1C",name:"블랙"},{hex:"#F5F5F5",name:"화이트"},{hex:"#722F37",name:"버건디"},{hex:"#1B3A6B",name:"로열블루"},{hex:"#1B5E4B",name:"에메ラル드"},{hex:"#4B0082",name:"인디고"}],
-    recommended:["블랙","화이트","버건디","로열블루","에메ラル드","핫핑크","아이시핑크"],
+    characteristicsEn:["Bluish, pale or olive-cool base","Sharp, high-contrast facial features","Deep dark or pitch black eyes","Dark brown or jet-black hair"],
+    palette:[
+      {hex:"#1C1C1C",name:"블랙",nameEn:"Black"},
+      {hex:"#F5F5F5",name:"화이트",nameEn:"White"},
+      {hex:"#722F37",name:"버건디",nameEn:"Burgundy"},
+      {hex:"#1B3A6B",name:"로열블루",nameEn:"Royal Blue"},
+      {hex:"#1B5E4B",name:"에메랄드",nameEn:"Emerald"},
+      {hex:"#4B0082",name:"인디고",nameEn:"Indigo"}
+    ],
+    recommended:["블랙","화이트","버건디","로열블루","에메랄드","핫핑크","아이시핑크"],
+    recommendedEn:["Black","White","Burgundy","Royal Blue","Emerald","Hot Pink","Icy Pink"],
     avoid:["베이지","카멜","오렌지","피치","코랄","카키브라운"],
+    avoidEn:["Beige","Camel","Orange","Peach","Coral","Warm Brown"],
     tip:"강한 명도 대비와 선명한 쿨톤 색상으로 임팩트를 주세요. 블랙&화이트 조합이나 보석 톤의 선명한 색상이 세련된 매력을 극대화합니다.",
-    makeup:{foundation:"뉴트럴·쿨핑크베이지",blush:"차가운 핑크, 버건디로즈",lip:"버건디, redundancy, 핫핑크, 체리",eye:"블랙, 딥그레이, 딥네이비, 스모키",liner:"블랙, 딥네이비",dots:["#722F37","#1B3A6B","#4B0082","#1C1C1C"]},
-    fashion:{style:"모던 미니멀 윈터 룩",items:["블랙 수트","화이트 셔츠","버건디 코트","로열블루 블라우스"],fabrics:["캐시미어","실크","울","가죽"],avoid:["따뜻한 베이지·카멜 전체 착장","뮤트한 어스톤 코디"]},
-    celebs:["김태희","고현정","송혜교"],
+    tipEn:"Maximize your sophisticated appeal with stark color contrast. Black-and-white combos or jewel-tones bring out your best features.",
+    makeup:{
+      foundation:"뉴트럴·쿨핑크베이지",foundationEn:"Neutral / Cool Pink Beige",
+      blush:"차가운 핑크, 버건디로즈",blushEn:"Icy Pink, Burgundy Rose",
+      lip:"버건디, 레드, 핫핑크, 체리",lipEn:"Burgundy, Red, Hot Pink, Cherry",
+      eye:"블랙, 딥그레이, 딥네이비, 스모키",eyeEn:"Black, Deep Gray, Deep Navy, Smoky",
+      liner:"블랙, 딥네이비",linerEn:"Black, Deep Navy",
+      dots:["#722F37","#1B3A6B","#4B0082","#1C1C1C"]
+    },
+    fashion:{
+      style:"모던 미니멀 윈터 룩",styleEn:"Modern Minimal Winter Look",
+      items:["블랙 수트","화이트 셔츠","버건디 코트","로열블루 블라우스"],itemsEn:["Black Suit","White Shirt","Burgundy Coat","Royal Blue Blouse"],
+      fabrics:["캐시미어","실크","울","가죽"],fabricsEn:["Cashmere","Silk","Wool","Leather"],
+      avoid:["따뜻한 베이지·카멜 전체 착장","뮤트한 어스톤 코디"],avoidEn:["Beige/Camel Outfits","Muted Earthy Tones"]
+    },
+    celebs:["김태희","고현정","송혜교"],celebsEn:["Kim Tae-hee","Go Hyun-jung","Song Hye-kyo"],
     scoreColor:"#4A6484",gradStops:["#253545","#1A2A38"],
   },
 };
 
-const FAQ_DATA = [
-  {
-    q: "퍼스널 컬러 테스트가 정확한가요?",
-    a: `본 진단은 카메라로 촬영된 사진에서 피부 영역을 스스로 감지하여 정밀한 RGB 색상 스펙트럼, 웜/쿨 언더톤(골드-옐로우와 블루-핑크 베이스의 비율), 그리고 전체 밝기(명도)와 채도를 수학적 알고리즘으로 분석하는 시스템입니다.
+const FAQ_DATA: Record<string, { q: string; a: string }[]> = {
+  ko: [
+    {
+      q: "퍼스널 컬러 테스트가 정확한가요?",
+      a: `본 진단은 카메라로 촬영된 사진에서 피부 영역을 스스로 감지하여 정밀한 RGB 색상 스펙트럼, 웜/쿨 언더톤(골드-옐로우와 블루-핑크 베이스의 비율), 그리고 전체 밝기(명도)와 채도를 수학적 알고리즘으로 분석하는 시스템입니다.
 
 물론 오프라인에서 직접 다양한 실물 천(드레이프)을 대지 않는 이상 완전한 물리적 드레이핑과 100% 동일할 순 없지만, 디지털 분석 기법을 통해 객관적인 수치적 데이터 측면에서는 매우 높은 정확도와 일관적인 결과를 제공합니다.
 
 더욱 정확한 결과를 얻기 위해서는 인공적인 노란 조명이나 붉은 조명 아래가 아닌, 왜곡이 없는 '자연광(창가 근처)'에서 촬영하거나 올바른 화이트 밸런스가 조절되어 눈으로 보는 실제 피부 톤과 비슷하게 표현된 사진을 활용하시는 것이 핵심입니다.
 
 💡 참고 사항: 본 테스트는 픽셀 기반 알고리즘을 통한 자가 진단 서비스로, 촬영 환경(조명, 카메라 기종)에 따라 결과가 달라질 수 있습니다. 오프라인 전문가의 정밀 진단과는 차이가 있을 수 있으니 스타일링 스타일 팁을 얻는 즐거운 참고용(재미용)으로 활용해 주세요.`
-  },
-  {
-    q: "어떤 사진을 업로드해야 하나요?",
-    a: `최상의 분석 결과를 얻기 위해 아래 세 가지 조건을 충족하는 사진을 준비해 주세요:
+    },
+    {
+      q: "어떤 사진을 업로드해야 하나요?",
+      a: `최상의 분석 결과를 얻기 위해 아래 세 가지 조건을 충족하는 사진을 준비해 주세요:
 
 1. ☀️ 밝고 부드러운 자연광: 색 온도에 왜곡을 주는 노란 백열등이나 밤 시간대 형광등 대신, 낮 시간대 창문을 통해 들어오는 간접 자연광 아래에서 촬영한 사진이 좋습니다. 플래시나 직사광선은 흐릿한 그림자나 번들거림을 만들어 오차가 생길 수 있습니다.
 2. 🚫 노 필터 & 보정 최소화: 보정 앱의 모공 스무딩, 피부 화이트닝 헤일로 필터 등은 임의로 노란기나 붉은기를 왜곡하여 분석할 수 있습니다. 보정 필터가 들어가지 않은 기본 카메라 원본 사진을 권장합니다.
 3. 👤 정면 얼굴과 메이크업 상태: 색조 메이크업이나 두꺼운 파운데이션은 피부 본연의 색조를 가리므로, 가급적 선크림까지만 바른 민낯 상태에서 이마와 얼굴 전체 윤곽이 또렷하게 드러나는 정면 사진이 가장 정밀하게 분석됩니다.`
-  },
-  {
-    q: "사진은 어떻게 처리되나요?",
-    a: `개인 정보와 프라이버시는 저희 서비스의 가장 중요한 가치입니다. InSelf Color는 업로드하신 소중한 얼굴 사진을 절대로 외부 서버에 전송하거나 저장하지 않습니다.
+    },
+    {
+      q: "사진은 어떻게 처리되나요?",
+      a: `개인 정보와 프라이버시는 저희 서비스의 가장 중요한 가치입니다. InSelf Color는 업로드하신 소중한 얼굴 사진을 절대로 외부 서버에 전송하거나 저장하지 않습니다.
 
 모든 색상 좌표 픽셀 추출, 이미지 처리, 통계 매칭 분석 알고리즘은 사용자의 웹 브라우저(로컬 디바이스) 내부 메모리 상에서만 즉시 계산되고 폐기됩니다. 테스트 창을 닫거나 새로고침을 누르시면 업로드했던 사진 데이터는 물리적으로 완전히 흔적 없이 소멸되므로, 어떠한 유출 걱정도 없이 안심하고 테스트를 진행하셔도 좋습니다.`
-  },
-  {
-    q: "퍼스널 컬러는 평생 바뀌지 않나요?",
-    a: `우리가 타고나는 선천적인 유전적 신체 색상(퍼스널 컬러의 핵심인 언더톤)은 나이가 들거나 계절이 바뀌어도 평생 동안 기본 뼈대는 잘 바뀌지 않는 것이 일반적입니다.
+    },
+    {
+      q: "퍼스널 컬러는 평생 바뀌지 않나요?",
+      a: `우리가 타고나는 선천적인 유전적 신체 색상(퍼스널 컬러의 핵심인 언더톤)은 나이가 들거나 계절이 바뀌어도 평생 동안 기본 뼈대는 잘 바뀌지 않는 것이 일반적입니다.
 
 다만, 후천적인 환경 변화나 신체 변화에 따라 표현되는 명도와 채도, 그리고 어울리는 스타일 범위(서브 타입)는 유연하게 달라질 수 있습니다.
 
 • 노화 및 건강 상태: 나이가 들면서 피부 속 멜라닌과 헤모글로빈 수치가 변해 피부의 윤기가 감소하거나 톤의 투명도가 살짝 낮아질 수 있습니다.
 • 태닝 및 자외선 노출: 오랜 야외 활동으로 피부가 검게 그을려 기본 피부톤이 낮아지면 어울리는 명도 조절 범위가 확장되어 이전보다 비비드한 컬러가 더 좋게 매치될 수 있습니다.
 • 헤어/스타일링 연출: 머리 염색 색상, 컬러 렌즈, 메이크업 등의 대비 변화에 따라 베스트 룩의 폭이 조금씩 이동하며 어울리는 연출법이 서브 톤 영역으로 유동적으로 조화를 이룰 수 있습니다.`
-  },
-];
+    },
+  ],
+  en: [
+    {
+      q: "Is personal color analysis accurate?",
+      a: `Our diagnosis system automatically detects the skin region from your camera photo, analyzing precise RGB spectrums, warm/cool undertone ratio (the balance between yellow-gold and pink-blue bases), brightness, and saturation via a mathematical model.
+
+While it cannot fully replicate physical draping (laying actual fabrics on your body) at a 100% match rate, it provides highly consistent and accurate results relative to objective color coordinates.
+
+To get the most precise results, use photos taken under "direct/indirect natural light" (e.g. near a window) instead of indoor fluorescent, yellow, or red lights.
+
+💡 Note: This is an algorithm-based self-test. Results may vary depending on camera devices and lighting environments. Use it as an exciting style tip and entertainment guide!`
+    },
+    {
+      q: "What kind of photo is best to upload?",
+      a: `For optimal skin tone scanning results, please prepare a photo that meets the following three conditions:
+
+1. ☀️ Gentle Natural Light: Photos taken during daytime in natural indirect sunlight are highly recommended. Avoid overhead yellowish incandescent bulbs or direct flashes, which cause harsh highlights or yellow distortion.
+2. 🚫 Clean Cam & No Filter: Mobile beauty filters (whitening halos, smoothing filters) distort your natural skin pigmets. Share an unedited original photo taken with your device's default camera application.
+3. 👤 Front Angle & Minimized Makeup: Thick foundation covers your real skin chemistry. A bare face (sunscreen only) taken directly from the front with your eyes, forehead, and jawline fully visible yields the most precise classification.`
+    },
+    {
+      q: "How are my uploaded photos handled?",
+      a: `Your privacy is our utmost priority. InSelf Color never sends, saves, or stores your face images on external databases or cloud servers.
+
+All calculations—such as pixel scanning, RGB extracting, and matching statistics—run exclusively in-memory inside your browser client. Once you close the tab or refresh the page, your photo is instantly and permanently destroyed, so you can enjoy the test with absolute peace of mind.`
+    },
+    {
+      q: "Does my personal-color stay the same forever?",
+      a: `Your primary genetic undertone (the warm/cool anchor) typically remains unchanged throughout your lifetime.
+
+However, your sub-classification range (the best-matching brightness, saturation levels, and styling seasons) can shift slightly based on environmental changes:
+
+• Dynamic Aging: Over time, subtle shifts in melanin and hemoglobin levels can lower skin transparency, calling for brighter or softer highlights.
+• Sun Exposure & Tanning: Outdoor activities and sun-tanning darken your skin, slightly expanding the compatible brightness values to bold vivid limits.
+• Wardrobe & Contrast: Changes in dyed hair colors, contact lenses, or styling make your look adjust across adjacent seasonal sub-types smoothly.`
+    },
+  ],
+};
 
 // ═══════════════════════════════════════════════════════════
 // ALGORITHM
@@ -190,8 +328,18 @@ function analyzePersonalColor(imgEl: HTMLImageElement){
   }
 }
 
+function getFormattedTimestamp() {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const hh = String(d.getHours()).padStart(2, '0');
+  const min = String(d.getMinutes()).padStart(2, '0');
+  return `${yyyy}${mm}${dd}_${hh}${min}`;
+}
+
 // Download result card
-function downloadResultCard(season: any, scores: Record<string, number>){
+function downloadResultCard(season: any, scores: Record<string, number>, lang: "ko" | "en"){
   const W=600,H=880,dpr=2;
   const c=document.createElement("canvas");
   c.width=W*dpr;c.height=H*dpr;
@@ -216,9 +364,11 @@ function downloadResultCard(season: any, scores: Record<string, number>){
   ctx.fillStyle="rgba(255,255,255,0.7)";ctx.font="12px sans-serif";
   ctx.fillText("PERSONAL COLOR RESULT",W/2,62);
   ctx.fillStyle="#fff";ctx.font="bold 30px serif";
-  ctx.fillText(`${season.icon}  ${season.name}`,W/2,108);
+  const seasonName = lang === "ko" ? season.name : season.nameEn;
+  ctx.fillText(`${season.icon}  ${seasonName}`,W/2,108);
   ctx.font="italic 14px serif";ctx.fillStyle="rgba(255,255,255,0.82)";
-  ctx.fillText(`"${season.keyword}"`,W/2,136);
+  const seasonKeyword = lang === "ko" ? season.keyword : season.keywordEn;
+  ctx.fillText(`"${seasonKeyword}"`,W/2,136);
   // Palette
   const sw=season.palette;const py=250;
   sw.forEach(({hex}: any, i: number)=>{
@@ -226,7 +376,8 @@ function downloadResultCard(season: any, scores: Record<string, number>){
     ctx.beginPath();ctx.arc(x,py,24,0,Math.PI*2);
     ctx.fillStyle=hex;ctx.shadowColor="rgba(0,0,0,0.1)";ctx.shadowBlur=8;ctx.fill();ctx.shadowBlur=0;
     ctx.fillStyle="rgba(60,35,20,0.6)";ctx.font="9px sans-serif";ctx.textAlign="center";
-    ctx.fillText(season.palette[i].name,x,py+36);
+    const swatchName = lang === "ko" ? season.palette[i].name : season.palette[i].nameEn;
+    ctx.fillText(swatchName,x,py+36);
   });
   // Divider
   ctx.strokeStyle="rgba(196,149,106,0.22)";ctx.lineWidth=1;
@@ -236,8 +387,9 @@ function downloadResultCard(season: any, scores: Record<string, number>){
   const order=["spring","summer","autumn","winter"];
   order.forEach((key,i)=>{
     const y=330+i*60;const s=SEASONS[key];
+    const sName = lang === "ko" ? s.name : s.nameEn;
     ctx.fillStyle="rgba(60,35,20,0.72)";ctx.font="12px sans-serif";
-    ctx.fillText(`${s.icon} ${s.name}`,60,y);
+    ctx.fillText(`${s.icon} ${sName}`,60,y);
     ctx.fillStyle="rgba(196,149,106,0.14)";
     ctx.fillRect(60,y+10,W-120,9);
     ctx.fillStyle=s.scoreColor;
@@ -248,7 +400,8 @@ function downloadResultCard(season: any, scores: Record<string, number>){
   // Recommended
   ctx.fillStyle="rgba(196,149,106,0.85)";ctx.font="600 10px sans-serif";
   ctx.fillText("BEST COLORS",60,600);
-  season.recommended.slice(0,5).forEach((r: string, i: number)=>{
+  const recoArr = lang === "ko" ? season.recommended : season.recommendedEn;
+  recoArr.slice(0,5).forEach((r: string, i: number)=>{
     const tx=60+i*105,ty=614;
     ctx.fillStyle="rgba(196,149,106,0.10)";ctx.fillRect(tx,ty,94,24);
     ctx.strokeStyle="rgba(196,149,106,0.28)";ctx.lineWidth=1;ctx.strokeRect(tx,ty,94,24);
@@ -257,13 +410,14 @@ function downloadResultCard(season: any, scores: Record<string, number>){
   });
   // Branding
   ctx.textAlign="center";ctx.fillStyle="rgba(180,140,100,0.45)";ctx.font="10px serif";
-  ctx.fillText("InSelf Color  ·  나만의 컬러를 찾아보세요",W/2,H-28);
+  const brandSub = lang === "ko" ? "InSelf Color  ·  나만의 컬러를 찾아보세요" : "InSelf Color  ·  Discover Your Personalized Vibe";
+  ctx.fillText(brandSub,W/2,H-28);
   const a=document.createElement("a");
-  a.download=`personal-color-${season.id}.png`;a.href=c.toDataURL("image/png");a.click();
+  a.download=`personal-color-${season.id}_${getFormattedTimestamp()}.png`;a.href=c.toDataURL("image/png");a.click();
 }
 
 // Download detailed high-design result card for SNS Virality
-function downloadDetailedResultCard(season: any, scores: Record<string, number>){
+function downloadDetailedResultCard(season: any, scores: Record<string, number>, lang: "ko" | "en"){
   const W=800,H=1500,dpr=2;
   const c=document.createElement("canvas");
   c.width=W*dpr;c.height=H*dpr;
@@ -348,11 +502,13 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   ctx.fillStyle="#fff";
   ctx.font="bold 35px serif";
-  ctx.fillText(`${season.icon}  ${season.name}`, W/2, 114);
+  const seasonName = lang === "ko" ? season.name : season.nameEn;
+  ctx.fillText(`${season.icon}  ${seasonName}`, W/2, 114);
 
   ctx.font="italic 15px serif";
   ctx.fillStyle="rgba(255,255,255,0.85)";
-  ctx.fillText(`"${season.keyword}"`, W/2, 144);
+  const seasonKeyword = lang === "ko" ? season.keyword : season.keywordEn;
+  ctx.fillText(`"${seasonKeyword}"`, W/2, 144);
 
   // 4. Card 0: Bridge Description Card
   ctx.shadowColor = "rgba(62,40,20,0.06)";
@@ -364,7 +520,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
   ctx.fillStyle = "rgba(61,43,26,0.88)";
   ctx.font = "normal 13.5px sans-serif";
   ctx.textAlign = "center";
-  wrapText(season.description, W/2, 212, 640, 21);
+  const seasonDesc = lang === "ko" ? season.description : season.descriptionEn;
+  wrapText(seasonDesc, W/2, 212, 640, 21);
 
   // 5. Card 1: Scores Card
   ctx.shadowColor = "rgba(62,40,20,0.05)";
@@ -376,7 +533,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
   ctx.fillStyle = "#C4956A";
   ctx.font = "bold 13px sans-serif";
   ctx.textAlign = "left";
-  ctx.fillText("📊  타입별 매칭 스코어 (Diagnostic Scores)", 72, 332);
+  const scoreTitle = lang === "ko" ? "📊  타입별 매칭 스코어 (Diagnostic Scores)" : "📊  Diagnostic Matching Scores";
+  ctx.fillText(scoreTitle, 72, 332);
 
   // Soft divider
   ctx.strokeStyle = "rgba(196,149,106,0.14)";
@@ -390,11 +548,12 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
   order.forEach((key, i) => {
     const y = 362 + i * 30;
     const s = SEASONS[key];
+    const sName = lang === "ko" ? s.name : s.nameEn;
     
     // Icon & Name
     ctx.fillStyle = "rgba(61,43,26,0.85)";
     ctx.font = "bold 11.5px sans-serif";
-    ctx.fillText(`${s.icon}  ${s.name}`, 74, y + 10);
+    ctx.fillText(`${s.icon}  ${sName}`, 74, y + 10);
 
     // Progress bar BG
     ctx.fillStyle = "rgba(196,149,106,0.1)";
@@ -420,7 +579,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   ctx.fillStyle = "#C4956A";
   ctx.font = "bold 13px sans-serif";
-  ctx.fillText("🎨  추천 베스트 컬러 팔레트 (Best Color Palette)", 72, 547);
+  const paletteTitle = lang === "ko" ? "🎨  추천 베스트 컬러 팔레트" : "🎨  Recommended Best Palette";
+  ctx.fillText(paletteTitle, 72, 547);
 
   ctx.beginPath();
   ctx.moveTo(72, 559);
@@ -431,7 +591,7 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
   const sw = season.palette;
   const startX = 48 + 352 - (sw.length - 1) * 98 / 2;
   const py = 599;
-  sw.forEach(({hex, name}: any, i: number) => {
+  sw.forEach(({hex, name, nameEn}: any, i: number) => {
     const cx_sw = startX + i * 98;
     // Circle color
     ctx.beginPath();
@@ -445,7 +605,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
     ctx.fillStyle = "rgba(61,43,26,0.8)";
     ctx.font = "10px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(name, cx_sw, py + 36);
+    const swatchName = lang === "ko" ? name : nameEn;
+    ctx.fillText(swatchName, cx_sw, py + 36);
 
     // Hex
     ctx.fillStyle = "rgba(61,43,26,0.45)";
@@ -464,7 +625,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
   ctx.fillStyle = "#C4956A";
   ctx.font = "bold 13px sans-serif";
   ctx.textAlign = "left";
-  ctx.fillText("💄  퍼스널 메이크업 추천 가이드", 70, 717);
+  const makeupTitle = lang === "ko" ? "💄  퍼스널 메이크업 추천 가이드" : "💄  Personal Makeup Guide";
+  ctx.fillText(makeupTitle, 70, 717);
 
   ctx.strokeStyle = "rgba(196,149,106,0.14)";
   ctx.beginPath();
@@ -472,11 +634,16 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
   ctx.lineTo(354, 729);
   ctx.stroke();
 
-  const makeupKeys = [
+  const makeupKeys = lang === "ko" ? [
     { label: "파운데이션", val: season.makeup.foundation },
     { label: "블러셔", val: season.makeup.blush },
     { label: "립스틱/틴트", val: season.makeup.lip },
     { label: "아이섀도", val: season.makeup.eye }
+  ] : [
+    { label: "Foundation", val: season.makeup.foundationEn },
+    { label: "Blusher", val: season.makeup.blushEn },
+    { label: "Lipstick/Tint", val: season.makeup.lipEn },
+    { label: "Eyeshadow", val: season.makeup.eyeEn }
   ];
 
   makeupKeys.forEach((item, idx) => {
@@ -493,7 +660,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
   // Color chips dots
   ctx.fillStyle = "rgba(196,149,106,0.9)";
   ctx.font = "bold 10px sans-serif";
-  ctx.fillText("추천 메이크업 감성 칩", 70, 990);
+  const colorChipsTitle = lang === "ko" ? "추천 메이크업 감성 칩" : "Sensory Makeup Chips";
+  ctx.fillText(colorChipsTitle, 70, 990);
 
   const dots = season.makeup.dots;
   dots.forEach((dotColor: string, dotIdx: number) => {
@@ -516,7 +684,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   ctx.fillStyle = "#C4956A";
   ctx.font = "bold 13px sans-serif";
-  ctx.fillText("👗  패션 스타일 가이드", 436, 717);
+  const fashionGuideTitle = lang === "ko" ? "👗  패션 스타일 가이드" : "👗  Fashion Style Guide";
+  ctx.fillText(fashionGuideTitle, 436, 717);
 
   ctx.strokeStyle = "rgba(196,149,106,0.14)";
   ctx.beginPath();
@@ -526,40 +695,47 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   ctx.fillStyle = season.primary;
   ctx.font = "bold 12.5px sans-serif";
-  ctx.fillText(season.fashion.style, 436, 751);
+  const fashionStyle = lang === "ko" ? season.fashion.style : season.fashion.styleEn;
+  ctx.fillText(fashionStyle, 436, 751);
 
   ctx.fillStyle = "rgba(61,43,26,0.6)";
   ctx.font = "bold 10.5px sans-serif";
-  ctx.fillText("✅  추천 아이템", 436, 781);
+  const recoItemsTitle = lang === "ko" ? "✅  추천 아이템" : "✅  Recommended Items";
+  ctx.fillText(recoItemsTitle, 436, 781);
 
   ctx.font = "normal 10.5px sans-serif";
   ctx.fillStyle = "rgba(61,43,26,0.85)";
   let curY = 799;
-  season.fashion.items.forEach((it: string) => {
+  const itemsArr = lang === "ko" ? season.fashion.items : season.fashion.itemsEn;
+  itemsArr.forEach((it: string) => {
     ctx.fillText(`• ${it}`, 436, curY);
     curY += 16;
   });
 
   ctx.fillStyle = "rgba(61,43,26,0.6)";
   ctx.font = "bold 10.5px sans-serif";
-  ctx.fillText("🧵  어울리는 소재", 436, curY + 8);
+  const fabricsTitle = lang === "ko" ? "🧵  어울리는 소재" : "🧵  Matching Fabrics";
+  ctx.fillText(fabricsTitle, 436, curY + 8);
 
   ctx.font = "normal 10.5px sans-serif";
   ctx.fillStyle = "rgba(61,43,26,0.85)";
   curY = curY + 24;
-  season.fashion.fabrics.forEach((fb: string) => {
+  const fabricsArr = lang === "ko" ? season.fashion.fabrics : season.fashion.fabricsEn;
+  fabricsArr.forEach((fb: string) => {
     ctx.fillText(`• ${fb}`, 436, curY);
     curY += 16;
   });
 
   ctx.fillStyle = "rgba(139,64,64,0.76)";
   ctx.font = "bold 10.5px sans-serif";
-  ctx.fillText("❌  피하면 좋은 코디", 436, curY + 8);
+  const avoidTitle = lang === "ko" ? "❌  피하면 좋은 코디" : "❌  Colors / Outfits to Avoid";
+  ctx.fillText(avoidTitle, 436, curY + 8);
 
   ctx.font = "normal 10.5px sans-serif";
   ctx.fillStyle = "#8B4040";
   curY = curY + 24;
-  season.fashion.avoid.forEach((av: string) => {
+  const avoidArr = lang === "ko" ? season.fashion.avoid : season.fashion.avoidEn;
+  avoidArr.forEach((av: string) => {
     ctx.fillText(`• ${av}`, 436, curY);
     curY += 16;
   });
@@ -574,7 +750,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   ctx.fillStyle = "#C4956A";
   ctx.font = "bold 13px sans-serif";
-  ctx.fillText("💡  스타일링 팁 어드바이스", 70, 1097);
+  const stylingTipsTitle = lang === "ko" ? "💡  스타일링 팁 어드바이스" : "💡  Styling Tips & Advice";
+  ctx.fillText(stylingTipsTitle, 70, 1097);
 
   ctx.strokeStyle = "rgba(196,149,106,0.14)";
   ctx.beginPath();
@@ -584,7 +761,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   ctx.fillStyle = "rgba(61,43,26,0.85)";
   ctx.font = "normal 12px sans-serif";
-  wrapText(season.tip, 70, 1137, 290, 21);
+  const tipVal = lang === "ko" ? season.tip : season.tipEn;
+  wrapText(tipVal, 70, 1137, 290, 21);
 
   // Right Card: Celebs
   ctx.shadowColor = "rgba(62,40,20,0.05)";
@@ -594,7 +772,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   ctx.fillStyle = "#C4956A";
   ctx.font = "bold 13px sans-serif";
-  ctx.fillText("✦  같은 타입 유명인 메이트", 436, 1097);
+  const celebTitle = lang === "ko" ? "✦  같은 타입 유명인 메이트" : "✦  Celebrity Vibe Mates";
+  ctx.fillText(celebTitle, 436, 1097);
 
   ctx.strokeStyle = "rgba(196,149,106,0.14)";
   ctx.beginPath();
@@ -602,7 +781,7 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
   ctx.lineTo(720, 1109);
   ctx.stroke();
 
-  const celebs = season.celebs;
+  const celebs = lang === "ko" ? season.celebs : season.celebsEn;
   celebs.forEach((clb: string, clbIdx: number) => {
     const clbY = 1127 + clbIdx * 20;
     ctx.fillStyle = "rgba(61,43,26,0.85)";
@@ -621,7 +800,8 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
   ctx.textAlign="center";
   ctx.fillStyle="rgba(180,140,100,0.52)";
   ctx.font="bold 12px serif";
-  ctx.fillText("InSelf Color   ·   나만의 감각 발굴", W/2, 1405);
+  const footerTitle = lang === "ko" ? "InSelf Color   ·   나만의 감각 발굴" : "InSelf Color   ·   Discover Your Vibe";
+  ctx.fillText(footerTitle, W/2, 1405);
 
   ctx.fillStyle="rgba(180,140,100,0.36)";
   ctx.font="9px sans-serif";
@@ -629,7 +809,7 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   // Trigger download
   const a=document.createElement("a");
-  a.download=`personal-color-detailed-${season.id}.png`;
+  a.download=`personal-color-detailed-${season.id}_${getFormattedTimestamp()}.png`;
   a.href=c.toDataURL("image/png");
   a.click();
 }
@@ -827,10 +1007,61 @@ const CSS=`
   .btr:hover{background:rgba(196,149,106,.14);transform:translateY(-1px);}
   .bdl-detailed{flex:1.2;min-width:140px;background:rgba(196,149,106,.1);border:1px solid rgba(196,149,106,.4);color:var(--dark);border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;font-weight:600;}
   .bdl-detailed:hover{background:rgba(196,149,106,.18);transform:translateY(-1px);}
-  .bdl-sns{flex:1.2;min-width:140px;background:rgba(30,20,15,.05);border:1px solid rgba(30,20,15,.12);color:var(--dark);border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;}
-  .bdl-sns:hover{background:rgba(30,20,15,.09);transform:translateY(-1px);}
-  .bsh{flex:1;min-width:110px;background:linear-gradient(135deg,#C4956A,#E8AA80);border:none;color:#fff;border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;box-shadow:0 6px 20px rgba(196,149,106,.26);}
-  .bsh:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(196,149,106,0.36);}
+  .bdl-sns{flex:1.2;min-width:140px;background:linear-gradient(135deg,#C4956A,#E8AA80);border:none;color:#fff;border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;box-shadow:0 6px 20px rgba(196,149,106,.26);font-weight:600;}
+  .bdl-sns:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(196,149,106,0.36);}
+
+  /* During Image Save: Remove bubbles/boxes/borders, render as clean bullet text lists */
+  .no-bubbles .ftags, .no-bubbles .rtags, .no-bubbles .clist {
+    display: flex;
+    flex-direction: column !important;
+    gap: 6px !important;
+    align-items: flex-start !important;
+    padding-left: 4px;
+  }
+  .no-bubbles .ftag, .no-bubbles .rtag, .no-bubbles .cchip {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    font-size: 12.5px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    margin: 0 !important;
+  }
+  .no-bubbles .ftag.fg, .no-bubbles .rtag.rgg {
+    color: rgba(61,43,26,0.85) !important;
+  }
+  .no-bubbles .ftag.fg::before, .no-bubbles .rtag.rgg::before {
+    content: "• " !important;
+    font-weight: bold;
+    color: var(--rg) !important;
+  }
+  
+  .no-bubbles .ftag.fb, .no-bubbles .rtag.rgb2 {
+    color: #8B4040 !important;
+  }
+  .no-bubbles .ftag.fb::before, .no-bubbles .rtag.rgb2::before {
+    content: "• " !important;
+    font-weight: bold;
+    color: #8B4040 !important;
+  }
+
+  .no-bubbles .cchip {
+    color: rgba(61,43,26,0.85) !important;
+  }
+
+  .no-bubbles .tbox {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 4px !important;
+    border-radius: 0 !important;
+    font-size: 13px !important;
+    line-height: 1.8 !important;
+    color: rgba(61,43,26,0.85) !important;
+  }
 
   /* TOAST */
   .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:rgba(30,20,15,.88);backdrop-filter:blur(12px);color:#fff;padding:11px 22px;border-radius:100px;font-size:13px;z-index:9999;white-space:nowrap;animation:tai .3s cubic-bezier(.34,1.56,.64,1);}
@@ -879,13 +1110,129 @@ function FontLoader(){
   return null;
 }
 
+// ═══════════════════════════════════════════════════════════
+// TRANSLATIONS DICTIONARY (BILINGUAL)
+// ═══════════════════════════════════════════════════════════
+const T: Record<string, Record<string, any>> = {
+  ko: {
+    appTitle: "나만의 컬러를",
+    appTitleSub: "발견하세요",
+    appDesc: `사진 한 장으로 나만의 퍼스널 컬러를 분석해드립니다.\n봄·여름·가을·겨울, 당신에게 가장 잘 어울리는 색을 찾아보세요.`,
+    startBtn: "지금 테스트 시작하기",
+    guideBtn: "📖 PCCS 상세 색채 가이드북 읽기",
+    step1: "얼굴 사진 업로드",
+    step2: "색상 알고리즘 분석",
+    step3: "퍼스널 컬러 확인",
+    faqTitle: "자주 묻는 질문",
+    termsTitle: "⚠️ 테스트 참고 및 의무 면책 고지",
+    disclaimer1: "• 일반정보 제공 목적: 본 자가 진단 서비스는 전문 퍼스널 컬러 컨설턴트의 실물 드레이핑 진단법을 디지털 방식으로 구현한 모의 분석 툴입니다. 전문적인 오프라인 진단이나 진료를 완벽히 대체할 수 없습니다.",
+    disclaimer2: "• 오락용 부가 사항: 추천되는 메이크업 정보, 베스트 패션 스타일, 스타일링 팁 및 유사 연예인은 사용자 만족도 제고를 위한 추천 가이드이자 재미(Entertainment) 목적으로 설계되었습니다. 최종 결정 전에 유연하게 개별 판단하시기 바랍니다.",
+    disclaimer3: "• 손실 책임 면제: 사용자는 본 프로그램의 수치 분석 결과를 절대적 기준으로 신뢰하지 않을 것에 동의하며, 오진 또는 가이드 오인에 따라 개인의 선택 혹은 패션/뷰티 제품 구매 후 발생한 직접적·간접적 부작용 및 불만족 등의 불이익에 대해 본 어플리케이션(InSelf Color) 제작 및 운영 측은 어떠한 법적 분쟁에 대한 보상적 또는 법적 책임도 부담하지 않습니다.",
+    back: "뒤로",
+    uploadTitle: "사진을 업로드하세요",
+    uploadDesc: "얼굴이 잘 보이는 정면 사진을 사용하면 더 정확한 결과를 얻을 수 있어요.",
+    dragOrClick: "클릭하거나 사진을 드래그하세요",
+    fileSupport: "JPG, PNG, WEBP 지원 / 정면 얼굴 사진 권장",
+    selectFile: "파일 선택",
+    changePhoto: "사진 변경",
+    uploadTips: "💡 좋은 결과를 위한 팁: 자연광 아래 촬영, 과도한 필터 없음, 메이크업 최소화, 얼굴이 중앙에 있는 정면 사진을 사용해주세요.",
+    startAnalysis: "🔬 분석 시작하기 →",
+    pleaseUpload: "사진을 먼저 업로드해주세요",
+    analyzingTitle: "분석 중입니다",
+    analyzingDesc: "색상 알고리즘이 피부 톤을 분석하고 있어요.\n잠시만 기다려주세요.",
+    analyzingProg: "분석 진행 중...",
+    analysisSteps: ["이미지 데이터 추출", "피부 픽셀 감지 및 필터링", "RGB 평균값 계산", "웜/쿨 언더톤 분석", "명도·채도 측정", "퍼스널 컬러 타입 결정"],
+    resultHeader: "퍼스널 컬러 분석 결과",
+    scoreTitle: "분석 점수",
+    skinScanWarning: "⚠️ 피부 픽셀 감지가 어려운 사진이었습니다. 얼굴이 잘 보이는 사진을 사용하시면 더 정확합니다.",
+    recoPalette: "추천 컬러 팔레트",
+    characteristicsTitle: "나의 특징",
+    makeupTitle: "메이크업 추천",
+    makeupLabels: ["파운데이션", "블러셔", "립", "아이섀도", "아이라이너", "컬러칩"],
+    fashionTitle: "패션 스타일 가이드",
+    fashionLabels: ["추천 아이템", "어울리는 소재", "피하면 좋은 코디"],
+    colorGuideTitle: "컬러 가이드",
+    colorGuideLabels: ["잘 어울리는 색", "피하면 좋은 색"],
+    stylingTipsTitle: "스타일링 팁",
+    famousCelebsTitle: "같은 타입 유명인",
+    retryBtn: "← 다시 테스트",
+    saveAllBtn: "📋 전체내용 이미지 저장",
+    saveSnsBtn: "📸 SNS용 이미지 저장",
+    guidebookBtn: "📖 색채 가이드북",
+    toastCopied: "클립보드에 복사되었습니다 ✓",
+    toastColorCopied: "{hex} 복사됨",
+    toastNoShare: "공유 기능이 지원되지 않습니다",
+    toastStartingAll: "전체 결과 이미지 생성을 시작합니다...",
+    toastSaveSuccess: "전체 내용 이미지가 저장되었습니다 ✓",
+    toastSavingCard: "상세 결과 카드를 저장하고 있어요...",
+    toastError: "저장 중 오류가 발생했습니다",
+    disclaimerBottom: "※ 본 자가 분석 결과는 업로드된 이미지 분석 알고리즘에 기초한 간이적 참고 수치입니다. 환경 조명에 따른 차이가 발생할 수 있으며, 일상적인 스타일링 참고 및 재미 목적의 가이드로 즐겨주시기 바라며 법적 분쟁 보상 및 보증의 대상이 되지 않습니다.",
+  },
+  en: {
+    appTitle: "Discover Your",
+    appTitleSub: "Personal Color",
+    appDesc: `Analyze your unique personal color with just one photo.\nWhether you are Spring, Summer, Autumn, or Winter, find the perfect shades for you.`,
+    startBtn: "Start Test Now",
+    guideBtn: "📖 Read Detailed PCCS Color Guidebook",
+    step1: "Upload Face Photo",
+    step2: "Analyze Color Algorithm",
+    step3: "Check Personal Color",
+    faqTitle: "Frequently Asked Questions",
+    termsTitle: "⚠️ Test Reference & Limitation of Liability Notice",
+    disclaimer1: "• General Information Purpose: This self-diagnosis service is a simulated analysis tool that digitally implements the physical draping method of professional personal color consultants. It cannot completely replace professional offline diagnosis or consultation.",
+    disclaimer2: "• Entertainment Purpose: Recommended makeup, best fashion styles, styling tips, and similar celebrities are provided purely for user styling guide reference and entertainment purposes. Please make your final decisions flexibly based on your own judgment.",
+    disclaimer3: "• Limitation of Liability: Users agree not to rely on numerical results of this application as an absolute standard. The development and operation of this application (InSelf Color) shall not be held liable for any direct or indirect disadvantages, side effects, or dissatisfaction arising from products purchased or styling decisions made following the instructions.",
+    back: "Back",
+    uploadTitle: "Upload Your Photo",
+    uploadDesc: "Using a front-facing photo where your face is clearly visible delivers more accurate results.",
+    dragOrClick: "Click or drag a photo here",
+    fileSupport: "Supports JPG, PNG, WEBP / Front face photo recommended",
+    selectFile: "Select File",
+    changePhoto: "Change Photo",
+    uploadTips: "💡 Tips for great results: Share a front-facing photo taken under soft natural light, with no heavy filters, minimal makeup, and your face centered.",
+    startAnalysis: "🔬 Start Analysis →",
+    pleaseUpload: "Please upload a photo first",
+    analyzingTitle: "Analyzing Your Color",
+    analyzingDesc: `Our color algorithm is analyzing your unique skin tone.\nPlease wait a moment.`,
+    analyzingProg: "Analyzing...",
+    analysisSteps: ["Extracting image data", "Detecting & filtering skin pixels", "Calculating average RGB", "Analyzing Warm/Cool undertones", "Measuring brightness & saturation", "Determining personal color type"],
+    resultHeader: "Personal Color Result",
+    scoreTitle: "Analysis Score",
+    skinScanWarning: "⚠️ It was difficult to detect skin pixels from this photo. Using a clear photo will result in higher accuracy.",
+    recoPalette: "Recommended Color Palette",
+    characteristicsTitle: "My Characteristics",
+    makeupTitle: "Recommended Makeup",
+    makeupLabels: ["Foundation", "Blusher", "Lip", "Eyeshadow", "Eyeliner", "Color Chips"],
+    fashionTitle: "Fashion Style Guide",
+    fashionLabels: ["Recommended Items", "Matching Fabrics", "Avoid Outfits"],
+    colorGuideTitle: "Color Guide",
+    colorGuideLabels: ["Best Colors", "Colors to Avoid"],
+    stylingTipsTitle: "Styling Tips",
+    famousCelebsTitle: "Celebrities with Same Type",
+    retryBtn: "← Retest",
+    saveAllBtn: "📋 Save Full Content",
+    saveSnsBtn: "📸 Save Card for SNS",
+    guidebookBtn: "📖 Color Guidebook",
+    toastCopied: "Copied to clipboard ✓",
+    toastColorCopied: "{hex} copied",
+    toastNoShare: "Sharing is not supported on this browser",
+    toastStartingAll: "Generating image...",
+    toastSaveSuccess: "Full result image saved successfully ✓",
+    toastSavingCard: "Saving detailed result card...",
+    toastError: "An error occurred while saving",
+    disclaimerBottom: "※ This self-analysis result is an approximate reference value based on the uploaded image analysis algorithm. Differences may occur due to environmental lighting. Please utilize it for fun and style guidance.",
+  }
+};
+
 function Toast({msg}: {msg: string}){return msg?<div className="toast">{msg}</div>:null;}
 
 interface NavProps {
   onGoToGuide?: () => void;
+  lang: "ko" | "en";
+  setLang: (lang: "ko" | "en") => void;
 }
 
-function Nav({ onGoToGuide }: NavProps){
+function Nav({ onGoToGuide, lang, setLang }: NavProps){
   return(
     <nav className="nav">
       <div className="logo" style={{ cursor: "pointer" }} onClick={() => window.location.reload()}>InSelf<span>Color</span></div>
@@ -906,9 +1253,45 @@ function Nav({ onGoToGuide }: NavProps){
             }}
             onClick={onGoToGuide}
           >
-            📖 색채 가이드북
+            {lang === "ko" ? "📖 색채 가이드북" : "📖 Color Guidebook"}
           </button>
         )}
+        <div style={{ display: "flex", gap: "2px", background: "rgba(196,149,106,0.1)", padding: "2px", borderRadius: "20px" }}>
+          <button
+            type="button"
+            onClick={() => setLang("ko")}
+            style={{
+              padding: "2px 8px",
+              fontSize: "10px",
+              fontWeight: "600",
+              border: "none",
+              background: lang === "ko" ? "#C4956A" : "transparent",
+              color: lang === "ko" ? "#fff" : "var(--sub)",
+              borderRadius: "100px",
+              cursor: "pointer",
+              transition: "all 0.15s"
+            }}
+          >
+            KO
+          </button>
+          <button
+            type="button"
+            onClick={() => setLang("en")}
+            style={{
+              padding: "2px 8px",
+              fontSize: "10px",
+              fontWeight: "600",
+              border: "none",
+              background: lang === "en" ? "#C4956A" : "transparent",
+              color: lang === "en" ? "#fff" : "var(--sub)",
+              borderRadius: "100px",
+              cursor: "pointer",
+              transition: "all 0.15s"
+            }}
+          >
+            EN
+          </button>
+        </div>
       </div>
     </nav>
   );
@@ -918,18 +1301,19 @@ function Nav({ onGoToGuide }: NavProps){
 // DIAMOND CHART
 // ═══════════════════════════════════════════════════════════
 const AXES=[
-  {key:"spring",label:"봄",icon:"🌸",dx:0,dy:-1},
-  {key:"summer",label:"여름",icon:"🌊",dx:1,dy:0},
-  {key:"autumn",label:"가을",icon:"🍂",dx:0,dy:1},
-  {key:"winter",label:"겨울",icon:"❄️",dx:-1,dy:0},
+  {key:"spring",label:"봄",labelEn:"Spring",icon:"🌸",dx:0,dy:-1},
+  {key:"summer",label:"여름",labelEn:"Summer",icon:"🌊",dx:1,dy:0},
+  {key:"autumn",label:"가을",labelEn:"Autumn",icon:"🍂",dx:0,dy:1},
+  {key:"winter",label:"겨울",labelEn:"Winter",icon:"❄️",dx:-1,dy:0},
 ];
 
 interface DiamondChartProps {
   scores: Record<string, number>;
   winner: string;
+  lang: "ko" | "en";
 }
 
-function DiamondChart({scores,winner}: DiamondChartProps){
+function DiamondChart({scores,winner,lang}: DiamondChartProps){
   const[on,setOn]=useState(false);
   useEffect(()=>{const t=setTimeout(()=>setOn(true),200);return()=>clearTimeout(t);},[]);
   const SZ=186,cx=SZ/2,cy=SZ/2,R=66;
@@ -942,10 +1326,10 @@ function DiamondChart({scores,winner}: DiamondChartProps){
   return(
     <svg viewBox={`0 0 ${SZ} ${SZ}`} width={SZ} height={SZ} className="dsvg" style={{overflow:"visible"}}>
       {[0.25,0.5,0.75,1].map(v=><polygon key={v} points={gl(v)} fill="none" stroke="rgba(196,149,106,.12)" strokeWidth="1"/>)}
-      {AXES.map(({dx,dy,label,icon},i)=>(
+      {AXES.map(({dx,dy,label,labelEn,icon},i)=>(
         <g key={i}>
           <line x1={cx} y1={cy} x2={cx+dx*R} y2={cy+dy*R} stroke="rgba(196,149,106,.17)" strokeWidth="1"/>
-          <text x={cx+dx*(R+17)} y={cy+dy*(R+18)} textAnchor="middle" dominantBaseline="middle" fontSize="9.5" fill="#7A6052">{icon} {label}</text>
+          <text x={cx+dx*(R+17)} y={cy+dy*(R+18)} textAnchor="middle" dominantBaseline="middle" fontSize="9.5" fill="#7A6052">{icon} {lang === "ko" ? label : labelEn}</text>
         </g>
       ))}
       <path d={d} fill="rgba(196,149,106,.18)" stroke="#C4956A" strokeWidth="1.8" strokeLinejoin="round" style={{transition:on?"all .9s cubic-bezier(.34,1.2,.64,1)":"none"}}/>
@@ -960,25 +1344,33 @@ function DiamondChart({scores,winner}: DiamondChartProps){
 interface LandingScreenProps {
   onStart: () => void;
   onGoToGuide: () => void;
+  lang: "ko" | "en";
+  setLang: (lang: "ko" | "en") => void;
 }
 
-function LandingScreen({onStart, onGoToGuide}: LandingScreenProps){
+function LandingScreen({onStart, onGoToGuide, lang, setLang}: LandingScreenProps){
   const[openFaq,setOpenFaq]=useState<number | null>(null);
   return(
-    <div className="w"><FontLoader/><style>{CSS}</style><Nav onGoToGuide={onGoToGuide}/>
+    <div className="w"><FontLoader/><style>{CSS}</style><Nav onGoToGuide={onGoToGuide} lang={lang} setLang={setLang}/>
       <div className="land se">
         <div className="orb o1"/><div className="orb o2"/><div className="orb o3"/>
         <div className="lbadge">✦ Personal Color Analysis</div>
-        <h1 className="ltitle">당신의 컬러를<span>발견하세요</span></h1>
-        <p className="lsub">사진 한 장으로 나만의 퍼스널 컬러를 분석해드립니다.<br/>봄·여름·가을·겨울, 당신에게 가장 잘 어울리는 색을 찾아보세요.</p>
+        <h1 className="ltitle">{T[lang].appTitle}<span>{T[lang].appTitleSub}</span></h1>
+        <p className="lsub" style={{ whiteSpace: "pre-line" }}>{T[lang].appDesc}</p>
         <div className="ldiv"/>
         <div className="chips">
-          {[["csp","🌸 봄 웜"],["csu","🌊 여름 쿨"],["cau","🍂 가을 웜"],["cwi","❄️ 겨울 쿨"]].map(([c,l])=>(
-            <span key={c} className={`chip ${c}`}>{l}</span>
-          ))}
+          {lang === "ko" ? (
+            [["csp","🌸 봄 웜"],["csu","🌊 여름 쿨"],["cau","🍂 가을 웜"],["cwi","❄️ 겨울 쿨"]].map(([c,l])=>(
+              <span key={c} className={`chip ${c}`}>{l}</span>
+            ))
+          ) : (
+            [["csp","🌸 Spring Warm"],["csu","🌊 Summer Cool"],["cau","🍂 Autumn Warm"],["cwi","❄️ Winter Cool"]].map(([c,l])=>(
+              <span key={c} className={`chip ${c}`}>{l}</span>
+            ))
+          )}
         </div>
         <div style={{ display: "flex", gap: "12px", flexDirection: "column", alignItems: "center" }}>
-          <button className="btnst" onClick={onStart}><span>지금 테스트 시작하기</span><span>→</span></button>
+          <button className="btnst" onClick={onStart}><span>{T[lang].startBtn}</span><span>→</span></button>
           <button 
             type="button"
             onClick={onGoToGuide} 
@@ -995,23 +1387,29 @@ function LandingScreen({onStart, onGoToGuide}: LandingScreenProps){
               fontFamily: "var(--fs)"
             }}
           >
-            📖 PCCS 상세 색채 가이드북 읽기
+            {T[lang].guidebookBtn}
           </button>
         </div>
         <div className="lsteps">
-          {[["📸","STEP 01","얼굴 사진 업로드"],["🔬","STEP 02","색상 알고리즘 분석"],["🎨","STEP 03","퍼스널 컬러 확인"]].map(([ic,num,txt])=>(
-            <div className="si" key={num}><div className="sic">{ic}</div><div className="sn">{num}</div><div className="st">{txt}</div></div>
-          ))}
+          {lang === "ko" ? (
+            [["📸","STEP 01","얼굴 사진 업로드"],["🔬","STEP 02","색상 알고리즘 분석"],["🎨","STEP 03","퍼스널 컬러 확인"]].map(([ic,num,txt])=>(
+              <div className="si" key={num}><div className="sic">{ic}</div><div className="sn">{num}</div><div className="st">{txt}</div></div>
+            ))
+          ) : (
+            [["📸","STEP 01","Upload Face Photo"],["🔬","STEP 02","Color Analysis"],["🎨","STEP 03","Get Personal Color"]].map(([ic,num,txt])=>(
+              <div className="si" key={num}><div className="sic">{ic}</div><div className="sn">{num}</div><div className="st">{txt}</div></div>
+            ))
+          )}
         </div>
         <div className="faq">
-          <div className="faqt">자주 묻는 질문</div>
-          {FAQ_DATA.map((f,i)=>(
+          <div className="faqt">{T[lang].faqTitle}</div>
+          {FAQ_DATA[lang].map((f,i)=>(
             <div className="fqi" key={i}>
               <div className="fqq" onClick={()=>setOpenFaq(openFaq===i?null:i)}>
                 <span>{f.q}</span>
                 <span className={`fqch${openFaq===i?" open":""}`}>▼</span>
               </div>
-              {openFaq===i&&<div className="fqa">{f.a}</div>}
+              {openFaq===i&&<div className="fqa" style={{ whiteSpace: "pre-line" }}>{f.a}</div>}
             </div>
           ))}
         </div>
@@ -1030,12 +1428,12 @@ function LandingScreen({onStart, onGoToGuide}: LandingScreenProps){
           color: "var(--sub)"
         }}>
           <p style={{ fontWeight: 600, color: "var(--rg)", marginBottom: "8px", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
-            ⚠️ 테스트 참고 및 의무 면책 고지
+            {T[lang].termsTitle}
           </p>
           <div style={{ textAlign: "left", display: "flex", flexDirection: "column", gap: "6px", color: "var(--sub)" }}>
-            <p style={{ margin: 0 }}>• <strong>일반정보 제공 목적:</strong> 본 자가 진단 서비스는 전문 퍼스널 컬러 컨설턴트의 실물 드레이핑 진단법을 디지털 방식으로 구현한 모의 분석 툴입니다. 전문적인 오프라인 진단이나 진료를 완벽히 대체할 수 없습니다.</p>
-            <p style={{ margin: 0 }}>• <strong>오락용 부가 사항:</strong> 추천되는 메이크업 정보, 베스트 패션 스타일, 스타일링 팁 및 유사 연예인은 사용자 만족도 제고를 위한 추천 가이드이자 재미(Entertainment) 목적으로 설계되었습니다. 최종 결정 전에 유연하게 개별 판단하시기 바랍니다.</p>
-            <p style={{ margin: 0 }}>• <strong>손실 책임 면제:</strong> 사용자는 본 프로그램의 수치 분석 결과를 절대적 기준으로 신뢰하지 않을 것에 동의하며, 오진 또는 가이드 오인에 따라 개인의 선택 혹은 패션/뷰티 제품 구매 후 발생한 직접적·간접적 부작용 및 불만족 등의 불이익에 대해 본 어플리케이션(InSelf Color) 제작 및 운영 측은 어떠한 법적 분쟁에 대한 보상적 또는 법적 책임도 부담하지 않습니다.</p>
+            <p style={{ margin: 0 }}>{T[lang].disclaimer1}</p>
+            <p style={{ margin: 0 }}>{T[lang].disclaimer2}</p>
+            <p style={{ margin: 0 }}>{T[lang].disclaimer3}</p>
           </div>
         </div>
       </div>
@@ -1051,9 +1449,11 @@ interface UploadScreenProps {
   onAnalyze: () => void;
   uploadedImage: string | null;
   onImageSet: (img: string | null) => void;
+  lang: "ko" | "en";
+  setLang: (lang: "ko" | "en") => void;
 }
 
-function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet}: UploadScreenProps){
+function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang}: UploadScreenProps){
   const[isDrag,setIsDrag]=useState(false);
   const handleFile=useCallback((file: File)=>{
     if(!file||!file.type.startsWith("image/"))return;
@@ -1092,12 +1492,12 @@ function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet}: UploadScreenP
   const INPUT_ID="pct-file-input";
 
   return(
-    <div className="w"><FontLoader/><style>{CSS}</style><Nav/>
+    <div className="w"><FontLoader/><style>{CSS}</style><Nav lang={lang} setLang={setLang}/>
       <div className="uppage se">
         <div className="phdr">
-          <button className="btnbk" onClick={onBack}>← 뒤로</button>
-          <h2 className="ptitle">사진을 업로드하세요</h2>
-          <p className="pdesc">얼굴이 잘 보이는 정면 사진을 사용하면 더 정확한 결과를 얻을 수 있어요.</p>
+          <button className="btnbk" onClick={onBack}>← {T[lang].back}</button>
+          <h2 className="ptitle">{T[lang].uploadTitle}</h2>
+          <p className="pdesc">{T[lang].uploadDesc}</p>
         </div>
 
         <input
@@ -1120,26 +1520,26 @@ function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet}: UploadScreenP
         >
           {uploadedImage?(
             <>
-              <img src={uploadedImage} alt="미리보기" className="pimg"/>
+              <img src={uploadedImage} alt="Preview" className="pimg"/>
               <div className="pov">
-                <label htmlFor={INPUT_ID} className="uchglabel">📁 사진 변경</label>
+                <label htmlFor={INPUT_ID} className="uchglabel">📁 {T[lang].changePhoto}</label>
               </div>
             </>
           ):(
             <label htmlFor={INPUT_ID} className="ulabel">
               <div className="uic">📷</div>
-              <p className="umain">클릭하거나 사진을 드래그하세요</p>
-              <p className="usub">JPG, PNG, WEBP 지원<br/>정면 얼굴 사진 권장</p>
-              <span className="btnf">📁 파일 선택</span>
+              <p className="umain">{T[lang].dragOrClick}</p>
+              <p className="usub" style={{ whiteSpace: "pre-line" }}>{T[lang].fileSupport}</p>
+              <span className="btnf">📁 {T[lang].selectFile}</span>
             </label>
           )}
         </div>
         <div className="tips">
           <span style={{fontSize:15,flexShrink:0}}>💡</span>
-          <p className="tiptxt"><strong>좋은 결과를 위한 팁:</strong> 자연광 아래 촬영, 과도한 필터 없음, 메이크업 최소화, 얼굴이 중앙에 있는 정면 사진을 사용해주세요.</p>
+          <p className="tiptxt" style={{ whiteSpace: "pre-line" }}>{T[lang].uploadTips}</p>
         </div>
         <button className="btnan" disabled={!uploadedImage} onClick={onAnalyze}>
-          {uploadedImage?"🔬 분석 시작하기 →":"사진을 먼저 업로드해주세요"}
+          {uploadedImage ? T[lang].startAnalysis : T[lang].pleaseUpload}
         </button>
       </div>
     </div>
@@ -1151,26 +1551,27 @@ function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet}: UploadScreenP
 // ═══════════════════════════════════════════════════════════
 interface AnalyzingScreenProps {
   progress: number;
+  lang: "ko" | "en";
+  setLang: (lang: "ko" | "en") => void;
 }
-const ASTEPS=["이미지 데이터 추출","피부 픽셀 감지 및 필터링","RGB 평균값 계산","웜/쿨 언더톤 분석","명도·채도 측정","퍼스널 컬러 타입 결정"];
 
-function AnalyzingScreen({progress}: AnalyzingScreenProps){
-  const active=Math.min(Math.floor((progress/100)*ASTEPS.length),ASTEPS.length-1);
+function AnalyzingScreen({progress,lang,setLang}: AnalyzingScreenProps){
+  const active=Math.min(Math.floor((progress/100)*T[lang].analysisSteps.length),T[lang].analysisSteps.length-1);
   return(
-    <div className="w"><FontLoader/><style>{CSS}</style><Nav/>
+    <div className="w"><FontLoader/><style>{CSS}</style><Nav lang={lang} setLang={setLang}/>
       <div className="anpage se">
         <div className="ringw">
           <div className="ar r1"/><div className="ar r2"/>
           <div className="ac">🎨</div>
         </div>
-        <h2 className="antit">분석 중입니다</h2>
-        <p className="ansub">색상 알고리즘이 피부 톤을 분석하고 있어요.<br/>잠시만 기다려주세요.</p>
+        <h2 className="antit">{T[lang].analyzingTitle}</h2>
+        <p className="ansub" style={{ whiteSpace: "pre-line" }}>{T[lang].analyzingDesc}</p>
         <div className="prw">
           <div className="prb"><div className="prf" style={{width:`${progress}%`}}/></div>
-          <div className="prl"><span>분석 진행 중...</span><span>{Math.round(progress)}%</span></div>
+          <div className="prl"><span>{T[lang].analyzingProg}</span><span>{Math.round(progress)}%</span></div>
         </div>
         <div className="asteps">
-          {ASTEPS.map((s,i)=>{
+          {T[lang].analysisSteps.map((s: string,i: number)=>{
             const st=i<active?"done":i===active?"active":"pending";
             return<div key={i} className={`astep ${st}`}><span className="adot"/><span>{i<active?"✓ ":""}{s}</span></div>;
           })}
@@ -1187,9 +1588,11 @@ interface ResultsScreenProps {
   result: any;
   onRetry: () => void;
   onToast: (msg: string) => void;
+  lang: "ko" | "en";
+  setLang: (lang: "ko" | "en") => void;
 }
 
-function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
+function ResultsScreen({result,onRetry,onToast,lang,setLang}: ResultsScreenProps){
   const[bars,setBars] = useState<Record<string, number>>({spring:0,summer:0,autumn:0,winter:0});
   const season=SEASONS[result.season];
   const{scores}=result;
@@ -1202,64 +1605,96 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
   },[scores]);
 
   const handleShare=()=>{
-    const txt=`나의 퍼스널 컬러 결과: ${season.name} ${season.icon}\n#InSelfColor #퍼스널컬러`;
+    const seasonName = lang === "ko" ? season.name : season.nameEn;
+    const txt = lang === "ko"
+      ? `나의 퍼스널 컬러 결과: ${seasonName} ${season.icon}\n#InSelfColor #퍼스널컬러`
+      : `My Personal Color Result: ${seasonName} ${season.icon}\n#InSelfColor #PersonalColor`;
     if(navigator.share) {
-      navigator.share({title:"퍼스널 컬러 결과-InSelf Color",text:txt}).catch(() => {});
+      navigator.share({title:"Personal Color - InSelf Color",text:txt}).catch(() => {});
     } else if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(txt).then(()=>onToast("클립보드에 복사되었습니다 ✓")).catch(()=>onToast("공유 기능이 지원되지 않습니다"));
+      navigator.clipboard.writeText(txt).then(()=>onToast(T[lang].toastCopied)).catch(()=>onToast(T[lang].toastNoShare));
     } else {
-      onToast("공유 기능이 지원되지 않습니다");
+      onToast(T[lang].toastNoShare);
     }
   };
   const handleDlDetailed=async()=>{
     const el=document.getElementById("result-page-content");
     if(!el)return;
-    onToast("전체 결과 이미지 생성을 시작합니다...");
+    onToast(T[lang].toastStartingAll);
     try{
+      el.classList.add("no-bubbles");
+      await new Promise(r => setTimeout(r, 80));
+
       const canvas=await html2canvas(el,{
         useCORS:true,
         scale:2, // High DPI support
         backgroundColor:"#FDF8F2", // Match system background
         logging:false
       });
+
+      el.classList.remove("no-bubbles");
+
       const a=document.createElement("a");
-      a.download=`personal-color-all-${season.id}.png`;
+      a.download=`personal-color-all-${season.id}_${getFormattedTimestamp()}.png`;
       a.href=canvas.toDataURL("image/png");
       a.click();
-      onToast("전체 내용 이미지가 저장되었습니다 ✓");
+      onToast(T[lang].toastSaveSuccess);
     }catch(e){
       console.error(e);
-      onToast("저장 중 오류가 발생했습니다");
+      el.classList.remove("no-bubbles");
+      onToast(T[lang].toastError);
     }
   };
   const handleDlSns=()=>{
-    try{downloadDetailedResultCard(season,scores);onToast("상세 결과 카드를 저장하고 있어요...");}
-    catch{onToast("저장 중 오류가 발생했습니다");}
+    try{downloadDetailedResultCard(season,scores,lang);onToast(T[lang].toastSavingCard);}
+    catch{onToast(T[lang].toastError);}
   };
 
+  const seasonName = lang === "ko" ? season.name : season.nameEn;
+  const seasonKeyword = lang === "ko" ? season.keyword : season.keywordEn;
+  const seasonDesc = lang === "ko" ? season.description : season.descriptionEn;
+  const subtypesArr = lang === "ko" ? season.subtypes : season.subtypesEn;
+  const characteristicsArr = lang === "ko" ? season.characteristics : season.characteristicsEn;
+
+  const mKeyLabels = lang === "ko" ? ["파운데이션", "블러셔", "립", "아이섀도", "아이라이너"] : ["Foundation", "Blusher", "Lip", "Eyeshadow", "Eyeliner"];
+  const mValList = lang === "ko" ? 
+    [season.makeup.foundation, season.makeup.blush, season.makeup.lip, season.makeup.eye, season.makeup.liner] :
+    [season.makeup.foundationEn, season.makeup.blushEn, season.makeup.lipEn, season.makeup.eyeEn, season.makeup.linerEn];
+
+  const fashionStyle = lang === "ko" ? season.fashion.style : season.fashion.styleEn;
+  const fashionItems = lang === "ko" ? season.fashion.items : season.fashion.itemsEn;
+  const fashionFabrics = lang === "ko" ? season.fashion.fabrics : season.fashion.fabricsEn;
+  const fashionAvoid = lang === "ko" ? season.fashion.avoid : season.fashion.avoidEn;
+
+  const bestColors = lang === "ko" ? season.recommended : season.recommendedEn;
+  const avoidColors = lang === "ko" ? season.avoid : season.avoidEn;
+
+  const rTip = lang === "ko" ? season.tip : season.tipEn;
+  const rCelebs = lang === "ko" ? season.celebs : season.celebsEn;
+
   return(
-    <div className="w"><FontLoader/><style>{CSS}</style><Nav/>
+    <div className="w"><FontLoader/><style>{CSS}</style><Nav lang={lang} setLang={setLang}/>
       <div className="rpage se" id="result-page-content">
         {/* HERO */}
         <div className="rhero" style={{background:season.heroBg,color:season.textOnBg}}>
-          <div className="rb" style={{color:season.primary}}>퍼스널 컬러 분석 결과</div>
+          <div className="rb" style={{color:season.primary}}>{T[lang].resultHeader}</div>
           <div className="ri">{season.icon}</div>
-          <h2 className="rn">{season.name}</h2>
-          <p className="rkw">"{season.keyword}"</p>
-          <p className="rdesc">{season.description}</p>
-          <div className="rsubs">{season.subtypes.map((s: string)=><span key={s} className="rsub" style={{color:season.primary}}>{s}</span>)}</div>
+          <h2 className="rn">{seasonName}</h2>
+          <p className="rkw">"{seasonKeyword}"</p>
+          <p className="rdesc" style={{ whiteSpace: "pre-line" }}>{seasonDesc}</p>
+          <div className="rsubs">{subtypesArr.map((s: string)=><span key={s} className="rsub" style={{color:season.primary}}>{s}</span>)}</div>
         </div>
 
         <div className="rc" style={{marginTop:22}}>
           {/* SCORE + DIAMOND */}
           <div className="rcard">
-            <div className="rlbl">분석 점수</div>
+            <div className="rlbl">{T[lang].scoreTitle}</div>
             <div className="dw">
-              <DiamondChart scores={scores} winner={result.season}/>
+              <DiamondChart scores={scores} winner={result.season} lang={lang}/>
               <div className="scl">
                 {order.map(k=>(
                   <div className="scr" key={k}>
-                    <span className="sclbl">{SEASONS[k].icon} {SEASONS[k].name.replace(" 타입","")}</span>
+                    <span className="sclbl">{SEASONS[k].icon} {lang === "ko" ? SEASONS[k].name.replace(" 타입","") : SEASONS[k].nameEn}</span>
                     <div className="scbg"><div className="scfill" style={{width:`${bars[k]||0}%`,background:SEASONS[k].scoreColor}}/></div>
                     <span className="scpct">{scores[k]}%</span>
                   </div>
@@ -1268,24 +1703,25 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
             </div>
             {result.error&&(
               <p style={{fontSize:11,color:"var(--sub)",marginTop:13,padding:"9px 13px",background:"rgba(196,149,106,.07)",borderRadius:10}}>
-                ⚠️ 피부 픽셀 감지가 어려운 사진이었습니다. 얼굴이 잘 보이는 사진을 사용하시면 더 정확합니다.
+                {T[lang].skinScanWarning}
               </p>
             )}
           </div>
 
           {/* PALETTE */}
           <div className="rcard">
-            <div className="rlbl">추천 컬러 팔레트</div>
+            <div className="rlbl">{T[lang].recoPalette}</div>
             <div className="pg">
-              {season.palette.map(({hex,name}: any)=>(
-                <div key={hex} className="sw" title={`${name} — ${hex} (클릭하여 복사)`}
+              {season.palette.map(({hex,name,nameEn}: any)=>(
+                <div key={hex} className="sw" title={`${lang === "ko" ? name : nameEn} — ${hex}`}
                   onClick={()=>{
                     if (navigator.clipboard?.writeText) {
-                      navigator.clipboard.writeText(hex).then(()=>onToast(`${hex} 복사됨`)).catch(()=>{});
+                      const toastMsg = T[lang].toastColorCopied.replace("{hex}", hex);
+                      navigator.clipboard.writeText(hex).then(()=>onToast(toastMsg)).catch(()=>{});
                     }
                   }}>
                   <div className="swc" style={{background:hex}}/>
-                  <span className="swn">{name}</span>
+                  <span className="swn">{lang === "ko" ? name : nameEn}</span>
                 </div>
               ))}
             </div>
@@ -1293,9 +1729,9 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
 
           {/* CHARACTERISTICS */}
           <div className="rcard">
-            <div className="rlbl">나의 특징</div>
+            <div className="rlbl">{T[lang].characteristicsTitle}</div>
             <ul className="cl">
-              {season.characteristics.map((c: string, i: number)=>(
+              {characteristicsArr.map((c: string, i: number)=>(
                 <li key={i} className="ci"><span className="cd" style={{background:season.primary}}/>{c}</li>
               ))}
             </ul>
@@ -1303,13 +1739,13 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
 
           {/* MAKEUP */}
           <div className="rcard">
-            <div className="rlbl">메이크업 추천</div>
+            <div className="rlbl">{T[lang].makeupTitle}</div>
             <div className="mkrows">
-              {[["파운데이션",season.makeup.foundation],["블러셔",season.makeup.blush],["립",season.makeup.lip],["아이섀도",season.makeup.eye],["아이라이너",season.makeup.liner]].map(([k,v])=>(
-                <div key={k} className="mkrow"><span className="mkkey">{k}</span><span className="mkval">{v}</span></div>
+              {mKeyLabels.map((lbl: string, idx: number)=>(
+                <div key={lbl} className="mkrow"><span className="mkkey">{lbl}</span><span className="mkval">{mValList[idx]}</span></div>
               ))}
               <div className="mkrow">
-                <span className="mkkey">컬러칩</span>
+                <span className="mkkey">{lang === "ko" ? "컬러칩" : "Color Chips"}</span>
                 <div className="mkdots">{season.makeup.dots.map((c: string)=><div key={c} className="mkdot" style={{background:c}} title={c}/>)}</div>
               </div>
             </div>
@@ -1317,83 +1753,56 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
 
           {/* FASHION */}
           <div className="rcard">
-            <div className="rlbl">패션 스타일 가이드</div>
-            <p style={{fontSize:13,fontWeight:500,color:season.primary,marginBottom:13}}>{season.fashion.style}</p>
+            <div className="rlbl">{T[lang].fashionTitle}</div>
+            <p style={{fontSize:13,fontWeight:500,color:season.primary,marginBottom:13}}>{fashionStyle}</p>
             <div className="fgrid">
               <div>
-                <div className="fctit">✅ 추천 아이템</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "rgba(61,43,26,0.85)", paddingLeft: "4px" }}>
-                  {season.fashion.items.map((i: string) => (
-                    <div key={i}>• {i}</div>
-                  ))}
-                </div>
+                <div className="fctit">{lang === "ko" ? "✅ 추천 아이템" : "✅ Recommended Items"}</div>
+                <div className="ftags">{fashionItems.map((i: string)=><span key={i} className="ftag fg">{i}</span>)}</div>
               </div>
               <div>
-                <div className="fctit">🧵 어울리는 소재</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "rgba(61,43,26,0.85)", paddingLeft: "4px" }}>
-                  {season.fashion.fabrics.map((f: string) => (
-                    <div key={f}>• {f}</div>
-                  ))}
-                </div>
+                <div className="fctit">{lang === "ko" ? "🧵 어울리는 소재" : "🧵 Matching Fabrics"}</div>
+                <div className="ftags">{fashionFabrics.map((f: string)=><span key={f} className="ftag fg">{f}</span>)}</div>
               </div>
               <div style={{gridColumn:"1/-1"}}>
-                <div className="fctit">❌ 피하면 좋은 코디</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "#8B4040", paddingLeft: "4px" }}>
-                  {season.fashion.avoid.map((a: string) => (
-                    <div key={a}>• {a}</div>
-                  ))}
-                </div>
+                <div className="fctit">{lang === "ko" ? "❌ 피하면 좋은 코디" : "❌ Outfits to Avoid"}</div>
+                <div className="ftags">{fashionAvoid.map((a: string)=><span key={a} className="ftag fb">{a}</span>)}</div>
               </div>
             </div>
           </div>
 
           {/* COLOR GUIDE */}
           <div className="rcard">
-            <div className="rlbl">컬러 가이드</div>
+            <div className="rlbl">{T[lang].colorGuideTitle}</div>
             <div className="rg2">
               <div>
-                <div className="rtit">✅ 잘 어울리는 색</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "rgba(61,43,26,0.85)", paddingLeft: "4px" }}>
-                  {season.recommended.map((r: string) => (
-                    <div key={r}>• {r}</div>
-                  ))}
-                </div>
+                <div className="rtit"><span>✅</span> {lang === "ko" ? "잘 어울리는 색" : "Best Colors"}</div>
+                <div className="rtags">{bestColors.map((r: string)=><span key={r} className="rtag rgg">{r}</span>)}</div>
               </div>
               <div>
-                <div className="rtit">❌ 피하면 좋은 색</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "#8B4040", paddingLeft: "4px" }}>
-                  {season.avoid.map((r: string) => (
-                    <div key={r}>• {r}</div>
-                  ))}
-                </div>
+                <div className="rtit"><span>❌</span> {lang === "ko" ? "피하면 좋은 색" : "Colors to Avoid"}</div>
+                <div className="rtags">{avoidColors.map((r: string)=><span key={r} className="rtag rgb2">{r}</span>)}</div>
               </div>
             </div>
           </div>
 
           {/* TIP */}
           <div className="rcard">
-            <div className="rlbl">스타일링 팁</div>
-            <div style={{ fontSize: "12.5px", lineHeight: "1.8", color: "rgba(61,43,26,0.85)", paddingLeft: "4px" }}>
-              {season.tip}
-            </div>
+            <div className="rlbl">{T[lang].stylingTipsTitle}</div>
+            <div className="tbox" style={{ whiteSpace: "pre-line" }}>{rTip}</div>
           </div>
 
           {/* CELEB */}
           <div className="rcard">
-            <div className="rlbl">같은 타입 유명인</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "rgba(61,43,26,0.85)", paddingLeft: "4px" }}>
-              {season.celebs.map((c: string) => (
-                <div key={c}>✦ {c}</div>
-              ))}
-            </div>
+            <div className="rlbl">{T[lang].famousCelebsTitle}</div>
+            <div className="clist">{rCelebs.map((c: string)=><span key={c} className="cchip">✦ {c}</span>)}</div>
           </div>
 
           {/* ACTIONS */}
           <div className="ract" data-html2canvas-ignore="true">
-            <button className="btr" onClick={onRetry}>← 다시 테스트</button>
-            <button className="bdl-detailed" onClick={handleDlDetailed}>📋 전체내용 이미지 저장</button>
-            <button className="bdl-sns" onClick={handleDlSns}>📸 SNS용 이미지 저장</button>
-            <button className="bsh" onClick={handleShare}>↗ 공유하기</button>
+            <button className="btr" onClick={onRetry}>{T[lang].retryBtn}</button>
+            <button className="bdl-detailed" onClick={handleDlDetailed}>{T[lang].saveAllBtn}</button>
+            <button className="bdl-sns" onClick={handleDlSns}>{T[lang].saveSnsBtn}</button>
           </div>
 
           <div className="res-disclaimer" style={{
@@ -1405,9 +1814,10 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
             padding: "0 10px",
             maxWidth: "500px",
             marginLeft: "auto",
-            marginRight: "auto"
+            marginRight: "auto",
+            whiteSpace: "pre-line"
           }}>
-            ※ 본 자가 분석 결과는 업로드된 이미지 분석 알고리즘에 기초한 간이적 참고 수치입니다. 환경 조명에 따른 차이가 발생할 수 있으며, 일상적인 스타일링 참고 및 재미 목적의 가이드로 즐겨주시기 바라며 법적 분쟁 보상 및 보증의 대상이 되지 않습니다.
+            {T[lang].disclaimerBottom}
           </div>
         </div>
       </div>
@@ -1420,9 +1830,11 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
 // ═══════════════════════════════════════════════════════════
 interface PersonalColorTestProps {
   onGoToGuide: () => void;
+  lang: "ko" | "en";
+  setLang: (lang: "ko" | "en") => void;
 }
 
-export default function PersonalColorTest({ onGoToGuide }: PersonalColorTestProps){
+export default function PersonalColorTest({ onGoToGuide, lang, setLang }: PersonalColorTestProps){
   const[page,setPage]=useState("landing");
   const[image,setImage]=useState<string | null>(null);
   const[result,setResult]=useState<any>(null);
@@ -1467,10 +1879,10 @@ export default function PersonalColorTest({ onGoToGuide }: PersonalColorTestProp
 
   return(
     <>
-      {page==="landing"&&<LandingScreen onStart={()=>setPage("upload")} onGoToGuide={onGoToGuide}/>}
-      {page==="upload"&&<UploadScreen onBack={()=>setPage("landing")} onAnalyze={handleAnalyze} uploadedImage={image} onImageSet={setImage}/>}
-      {page==="analyzing"&&<AnalyzingScreen progress={progress}/>}
-      {page==="results"&&result&&<ResultsScreen result={result} onRetry={handleRetry} onToast={showToast}/>}
+      {page==="landing"&&<LandingScreen onStart={()=>setPage("upload")} onGoToGuide={onGoToGuide} lang={lang} setLang={setLang}/>}
+      {page==="upload"&&<UploadScreen onBack={()=>setPage("landing")} onAnalyze={handleAnalyze} uploadedImage={image} onImageSet={setImage} lang={lang} setLang={setLang}/>}
+      {page==="analyzing"&&<AnalyzingScreen progress={progress} lang={lang} setLang={setLang}/>}
+      {page==="results"&&result&&<ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang}/>}
       <Toast msg={toast}/>
     </>
   );

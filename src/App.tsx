@@ -6,6 +6,7 @@ export default function App() {
   const [view, setView] = useState<"test" | "guide">(
     typeof window !== "undefined" && window.location.hash === "#guide" ? "guide" : "test"
   );
+  const [lang, setLang] = useState<"ko" | "en">("ko");
 
   useEffect(() => {
     const handlePopState = () => {
@@ -38,9 +39,9 @@ export default function App() {
   return (
     <>
       {view === "test" ? (
-        <PersonalColorTest onGoToGuide={handleGoToGuide} />
+        <PersonalColorTest onGoToGuide={handleGoToGuide} lang={lang} setLang={setLang} />
       ) : (
-        <PersonalColorGuide onBack={handleBackToTest} />
+        <PersonalColorGuide onBack={handleBackToTest} lang={lang} setLang={setLang} />
       )}
     </>
   );
