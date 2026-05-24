@@ -620,7 +620,7 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   ctx.fillStyle = "#C4956A";
   ctx.font = "bold 13px sans-serif";
-  ctx.fillText("⭐  같은 타입 유명인 메이트", 436, 1097);
+  ctx.fillText("✦  같은 타입 유명인 메이트", 436, 1097);
 
   ctx.strokeStyle = "rgba(196,149,106,0.14)";
   ctx.beginPath();
@@ -683,13 +683,13 @@ const CSS=`
     --r:18px;--rl:26px;
     --fs:'Noto Serif KR',Georgia,serif;--fd:'Cormorant Garamond',Georgia,serif;
   }
-  body{background:var(--cream);font-family:var(--fs);color:var(--text);}
-  .w{min-height:100vh;background:var(--cream);position:relative;overflow-x:hidden;}
+  body{background:var(--cream);font-family:var(--fs);color:var(--text);overflow-x:hidden;}
+  .w{min-height:100vh;background:var(--cream);position:relative;}
   .se{animation:si .55s cubic-bezier(0.16,1,0.3,1) both;}
   @keyframes si{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
   /* NAV */
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;position:relative;z-index:10;}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;position:sticky;top:0;background:rgba(253,248,242,0.85);backdrop-filter:blur(10px);z-index:100;border-bottom:1px solid rgba(196,149,106,0.12);}
   .logo{font-family:var(--fd);font-size:20px;font-weight:600;color:var(--dark);letter-spacing:.04em;}
   .logo span{color:var(--rg);font-style:italic;}
   .nav-tag{font-size:11px;color:var(--sub);letter-spacing:.1em;}
@@ -863,8 +863,10 @@ const CSS=`
   .ract{display:flex;gap:9px;margin-top:22px;flex-wrap:wrap;}
   .btr{flex:1;min-width:110px;background:rgba(196,149,106,.08);border:1px solid rgba(196,149,106,.26);color:var(--rg);border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;}
   .btr:hover{background:rgba(196,149,106,.14);transform:translateY(-1px);}
-  .bdl{flex:1;min-width:110px;background:rgba(30,20,15,.05);border:1px solid rgba(30,20,15,.12);color:var(--dark);border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;}
-  .bdl:hover{background:rgba(30,20,15,.09);transform:translateY(-1px);}
+  .bdl-detailed{flex:1.2;min-width:140px;background:rgba(196,149,106,.1);border:1px solid rgba(196,149,106,.4);color:var(--dark);border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;font-weight:600;}
+  .bdl-detailed:hover{background:rgba(196,149,106,.18);transform:translateY(-1px);}
+  .bdl-sns{flex:1.2;min-width:140px;background:rgba(30,20,15,.05);border:1px solid rgba(30,20,15,.12);color:var(--dark);border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;}
+  .bdl-sns:hover{background:rgba(30,20,15,.09);transform:translateY(-1px);}
   .bsh{flex:1;min-width:110px;background:linear-gradient(135deg,#C4956A,#E8AA80);border:none;color:#fff;border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;box-shadow:0 6px 20px rgba(196,149,106,.26);}
   .bsh:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(196,149,106,0.36);}
 
@@ -945,7 +947,6 @@ function Nav({ onGoToGuide }: NavProps){
             📖 색채 가이드북
           </button>
         )}
-        <span>퍼스널 컬러 테스트</span>
       </div>
     </nav>
   );
@@ -1221,8 +1222,12 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
       onToast("공유 기능이 지원되지 않습니다");
     }
   };
-  const handleDl=()=>{
-    try{downloadDetailedResultCard(season,scores);onToast("상세 결과 카드를 저장하고 있어요...");}
+  const handleDlDetailed=()=>{
+    try{downloadDetailedResultCard(season,scores);onToast("전체 상세 결과 카드를 저장하고 있어요...");}
+    catch{onToast("저장 중 오류가 발생했습니다");}
+  };
+  const handleDlSns=()=>{
+    try{downloadResultCard(season,scores);onToast("SNS 전용 결과 카드를 저장하고 있어요...");}
     catch{onToast("저장 중 오류가 발생했습니다");}
   };
 
@@ -1348,13 +1353,14 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
           {/* CELEB */}
           <div className="rcard">
             <div className="rlbl">같은 타입 유명인</div>
-            <div className="clist">{season.celebs.map((c: string)=><span key={c} className="cchip">⭐ {c}</span>)}</div>
+            <div className="clist">{season.celebs.map((c: string)=><span key={c} className="cchip">✦ {c}</span>)}</div>
           </div>
 
           {/* ACTIONS */}
           <div className="ract">
             <button className="btr" onClick={onRetry}>← 다시 테스트</button>
-            <button className="bdl" onClick={handleDl}>⬇ 결과 저장</button>
+            <button className="bdl-detailed" onClick={handleDlDetailed}>📋 전체내용 이미지 저장</button>
+            <button className="bdl-sns" onClick={handleDlSns}>📸 SNS용 이미지 저장</button>
             <button className="bsh" onClick={handleShare}>↗ 공유하기</button>
           </div>
 

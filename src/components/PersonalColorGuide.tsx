@@ -156,8 +156,8 @@ const CSS = `
     --r:16px;--rl:24px;
     --fs:'Noto Serif KR',Georgia,serif;--fd:'Cormorant Garamond',Georgia,serif;
   }
-  body{background:var(--cream);font-family:var(--fs);color:var(--text);}
-  .gw{min-height:100vh;background:var(--cream);overflow-x:hidden;}
+  body{background:var(--cream);font-family:var(--fs);color:var(--text);overflow-x:hidden;}
+  .gw{min-height:100vh;background:var(--cream);position:relative;}
 
   /* ── NAV ── */
   .gnav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;position:sticky;top:0;background:rgba(253,248,242,0.88);backdrop-filter:blur(12px);z-index:100;border-bottom:1px solid var(--border);}
@@ -614,10 +614,49 @@ function SeasonCard({s}: SeasonCardProps){
           </div>
         </div>
 
-        <div style={{fontSize:11,color:"var(--sub)",marginBottom:6,fontWeight:500}}>컬러 팔레트</div>
-        <div className="sc-palette">
+        <div style={{fontSize:11,color:"var(--sub)",marginBottom:8,fontWeight:600,letterSpacing:"0.03em"}}>🎨대표 컬러 프리뷰</div>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1.5fr)",
+          gap: "6px",
+          marginBottom: "14px"
+        }}>
           {s.palette.map((c,i)=>(
-            <div key={c} className="sc-sw" style={{background:c}} title={s.paletteNames[i]}/>
+            <div key={c} style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              background: `${c}10`,
+              border: `1px solid ${c}28`,
+              borderRadius: "100px",
+              padding: "4px 6px",
+              boxShadow: "0 1px 2px rgba(62,40,20,0.02)",
+              transition: "transform 0.2s, box-shadow 0.2s",
+              cursor: "default"
+            }}
+            title={`${s.paletteNames[i]}: ${c}`}
+            >
+              <div style={{
+                width: "12px",
+                height: "12px",
+                borderRadius: "50%",
+                background: c,
+                boxShadow: "0 1px 3px rgba(0,0,0,0.18)",
+                border: "1px solid rgba(255,255,255,0.8)",
+                flexShrink: 0
+              }} />
+              <span style={{
+                fontSize: "10px",
+                fontWeight: "600",
+                color: "var(--dark)",
+                opacity: 0.85,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis"
+              }}>
+                {s.paletteNames[i]}
+              </span>
+            </div>
           ))}
         </div>
 
