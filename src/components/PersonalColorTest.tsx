@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
+import html2canvas from "html2canvas";
 
 // ═══════════════════════════════════════════════════════════
 // SEASON DATA
@@ -529,65 +530,38 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   ctx.fillStyle = "rgba(61,43,26,0.6)";
   ctx.font = "bold 10.5px sans-serif";
-  ctx.fillText("✅  추천 데일리 아이템", 436, 781);
+  ctx.fillText("✅  추천 아이템", 436, 781);
 
-  let tempX = 436;
-  let tempY = 801;
+  ctx.font = "normal 10.5px sans-serif";
+  ctx.fillStyle = "rgba(61,43,26,0.85)";
+  let curY = 799;
   season.fashion.items.forEach((it: string) => {
-    ctx.font = "normal 10.5px sans-serif";
-    const itemW = ctx.measureText(it).width + 16;
-    if (tempX + itemW > 720) {
-      tempX = 436;
-      tempY += 24;
-    }
-    drawRoundRect(tempX, tempY, itemW, 18, 9, "rgba(196,149,106,0.08)", "rgba(196,149,106,0.2)");
-    ctx.fillStyle = "#C4956A";
-    ctx.textAlign = "center";
-    ctx.fillText(it, tempX + itemW/2, tempY + 12);
-    ctx.textAlign = "left";
-    tempX += itemW + 6;
+    ctx.fillText(`• ${it}`, 436, curY);
+    curY += 16;
   });
 
   ctx.fillStyle = "rgba(61,43,26,0.6)";
   ctx.font = "bold 10.5px sans-serif";
-  ctx.fillText("🧵  찰떡 베스트 패브릭", 436, tempY + 38);
+  ctx.fillText("🧵  어울리는 소재", 436, curY + 8);
 
-  tempX = 436;
-  tempY += 56;
+  ctx.font = "normal 10.5px sans-serif";
+  ctx.fillStyle = "rgba(61,43,26,0.85)";
+  curY = curY + 24;
   season.fashion.fabrics.forEach((fb: string) => {
-    ctx.font = "normal 10.5px sans-serif";
-    const fabW = ctx.measureText(fb).width + 16;
-    if (tempX + fabW > 720) {
-      tempX = 436;
-      tempY += 24;
-    }
-    drawRoundRect(tempX, tempY, fabW, 18, 9, "rgba(196,149,106,0.08)", "rgba(196,149,106,0.18)");
-    ctx.fillStyle = "rgba(61,43,26,0.73)";
-    ctx.textAlign = "center";
-    ctx.fillText(fb, tempX + fabW/2, tempY + 12);
-    ctx.textAlign = "left";
-    tempX += fabW + 6;
+    ctx.fillText(`• ${fb}`, 436, curY);
+    curY += 16;
   });
 
   ctx.fillStyle = "rgba(139,64,64,0.76)";
   ctx.font = "bold 10.5px sans-serif";
-  ctx.fillText("❌  피해야 하는 스타일", 436, tempY + 38);
+  ctx.fillText("❌  피하면 좋은 코디", 436, curY + 8);
 
-  tempX = 436;
-  tempY += 56;
+  ctx.font = "normal 10.5px sans-serif";
+  ctx.fillStyle = "#8B4040";
+  curY = curY + 24;
   season.fashion.avoid.forEach((av: string) => {
-    ctx.font = "normal 10.5px sans-serif";
-    const avoidW = ctx.measureText(av).width + 16;
-    if (tempX + avoidW > 720) {
-      tempX = 436;
-      tempY += 24;
-    }
-    drawRoundRect(tempX, tempY, avoidW, 18, 9, "rgba(139,64,64,0.04)", "rgba(139,64,64,0.18)");
-    ctx.fillStyle = "#8B4040";
-    ctx.textAlign = "center";
-    ctx.fillText(av, tempX + avoidW/2, tempY + 12);
-    ctx.textAlign = "left";
-    tempX += avoidW + 6;
+    ctx.fillText(`• ${av}`, 436, curY);
+    curY += 16;
   });
 
   // 8. CARD Bento Grid Row 2 (Coordinates Y: 1063, H: 260)
@@ -630,22 +604,10 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>)
 
   const celebs = season.celebs;
   celebs.forEach((clb: string, clbIdx: number) => {
-    const clbY = 1127 + clbIdx * 38;
-    drawRoundRect(436, clbY, 290, 28, 8, "rgba(196,149,106,0.05)", "rgba(196,149,106,0.12)");
-    
-    ctx.fillStyle = "#C4956A";
-    ctx.font = "14px sans-serif";
-    ctx.fillText("✦", 452, clbY + 18);
-
-    ctx.fillStyle = "rgba(61,43,26,0.88)";
-    ctx.font = "bold 12px sans-serif";
-    ctx.fillText(clb, 474, clbY + 18);
-
-    ctx.fillStyle = "rgba(196,149,106,0.65)";
-    ctx.font = "normal 10px sans-serif";
-    ctx.textAlign = "right";
-    ctx.fillText(`Wannabe 스타`, 712, clbY + 17);
-    ctx.textAlign = "left";
+    const clbY = 1127 + clbIdx * 20;
+    ctx.fillStyle = "rgba(61,43,26,0.85)";
+    ctx.font = "normal 11.5px sans-serif";
+    ctx.fillText(`✦ ${clb}`, 436, clbY + 14);
   });
 
   // 9. COLOR ANALYSIS ACCENT WATERMARK/DIVIDER
@@ -1096,7 +1058,34 @@ function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet}: UploadScreenP
   const handleFile=useCallback((file: File)=>{
     if(!file||!file.type.startsWith("image/"))return;
     const r=new FileReader();
-    r.onload=(e)=>onImageSet(e.target?.result as string);
+    r.onload=(e)=>{
+      const src=e.target?.result as string;
+      const img=new Image();
+      img.onload=()=>{
+        const MAX_WIDTH=1024;
+        const MAX_HEIGHT=1024;
+        let w=img.width;
+        let h=img.height;
+        if(w>MAX_WIDTH||h>MAX_HEIGHT){
+          if(w>h){h=Math.round((h*MAX_WIDTH)/w);w=MAX_WIDTH;}
+          else{w=Math.round((w*MAX_HEIGHT)/h);h=MAX_HEIGHT;}
+          const canvas=document.createElement("canvas");
+          canvas.width=w;
+          canvas.height=h;
+          const ctx=canvas.getContext("2d");
+          if(ctx){
+            ctx.drawImage(img,0,0,w,h);
+            onImageSet(canvas.toDataURL("image/jpeg",0.9));
+          }else{
+            onImageSet(src);
+          }
+        }else{
+          onImageSet(src);
+        }
+      };
+      img.onerror=()=>onImageSet(src);
+      img.src=src;
+    };
     r.readAsDataURL(file);
   },[onImageSet]);
 
@@ -1222,18 +1211,35 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
       onToast("공유 기능이 지원되지 않습니다");
     }
   };
-  const handleDlDetailed=()=>{
-    try{downloadDetailedResultCard(season,scores);onToast("전체 상세 결과 카드를 저장하고 있어요...");}
-    catch{onToast("저장 중 오류가 발생했습니다");}
+  const handleDlDetailed=async()=>{
+    const el=document.getElementById("result-page-content");
+    if(!el)return;
+    onToast("전체 결과 이미지 생성을 시작합니다...");
+    try{
+      const canvas=await html2canvas(el,{
+        useCORS:true,
+        scale:2, // High DPI support
+        backgroundColor:"#FDF8F2", // Match system background
+        logging:false
+      });
+      const a=document.createElement("a");
+      a.download=`personal-color-all-${season.id}.png`;
+      a.href=canvas.toDataURL("image/png");
+      a.click();
+      onToast("전체 내용 이미지가 저장되었습니다 ✓");
+    }catch(e){
+      console.error(e);
+      onToast("저장 중 오류가 발생했습니다");
+    }
   };
   const handleDlSns=()=>{
-    try{downloadResultCard(season,scores);onToast("SNS 전용 결과 카드를 저장하고 있어요...");}
+    try{downloadDetailedResultCard(season,scores);onToast("상세 결과 카드를 저장하고 있어요...");}
     catch{onToast("저장 중 오류가 발생했습니다");}
   };
 
   return(
     <div className="w"><FontLoader/><style>{CSS}</style><Nav/>
-      <div className="rpage se">
+      <div className="rpage se" id="result-page-content">
         {/* HERO */}
         <div className="rhero" style={{background:season.heroBg,color:season.textOnBg}}>
           <div className="rb" style={{color:season.primary}}>퍼스널 컬러 분석 결과</div>
@@ -1316,15 +1322,27 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
             <div className="fgrid">
               <div>
                 <div className="fctit">✅ 추천 아이템</div>
-                <div className="ftags">{season.fashion.items.map((i: string)=><span key={i} className="ftag fg">{i}</span>)}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "rgba(61,43,26,0.85)", paddingLeft: "4px" }}>
+                  {season.fashion.items.map((i: string) => (
+                    <div key={i}>• {i}</div>
+                  ))}
+                </div>
               </div>
               <div>
                 <div className="fctit">🧵 어울리는 소재</div>
-                <div className="ftags">{season.fashion.fabrics.map((f: string)=><span key={f} className="ftag fg">{f}</span>)}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "rgba(61,43,26,0.85)", paddingLeft: "4px" }}>
+                  {season.fashion.fabrics.map((f: string) => (
+                    <div key={f}>• {f}</div>
+                  ))}
+                </div>
               </div>
               <div style={{gridColumn:"1/-1"}}>
                 <div className="fctit">❌ 피하면 좋은 코디</div>
-                <div className="ftags">{season.fashion.avoid.map((a: string)=><span key={a} className="ftag fb">{a}</span>)}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "#8B4040", paddingLeft: "4px" }}>
+                  {season.fashion.avoid.map((a: string) => (
+                    <div key={a}>• {a}</div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -1334,12 +1352,20 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
             <div className="rlbl">컬러 가이드</div>
             <div className="rg2">
               <div>
-                <div className="rtit"><span>✅</span> 잘 어울리는 색</div>
-                <div className="rtags">{season.recommended.map((r: string)=><span key={r} className="rtag rgg">{r}</span>)}</div>
+                <div className="rtit">✅ 잘 어울리는 색</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "rgba(61,43,26,0.85)", paddingLeft: "4px" }}>
+                  {season.recommended.map((r: string) => (
+                    <div key={r}>• {r}</div>
+                  ))}
+                </div>
               </div>
               <div>
-                <div className="rtit"><span>❌</span> 피하면 좋은 색</div>
-                <div className="rtags">{season.avoid.map((r: string)=><span key={r} className="rtag rgb2">{r}</span>)}</div>
+                <div className="rtit">❌ 피하면 좋은 색</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "#8B4040", paddingLeft: "4px" }}>
+                  {season.avoid.map((r: string) => (
+                    <div key={r}>• {r}</div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -1347,17 +1373,23 @@ function ResultsScreen({result,onRetry,onToast}: ResultsScreenProps){
           {/* TIP */}
           <div className="rcard">
             <div className="rlbl">스타일링 팁</div>
-            <div className="tbox">{season.tip}</div>
+            <div style={{ fontSize: "12.5px", lineHeight: "1.8", color: "rgba(61,43,26,0.85)", paddingLeft: "4px" }}>
+              {season.tip}
+            </div>
           </div>
 
           {/* CELEB */}
           <div className="rcard">
             <div className="rlbl">같은 타입 유명인</div>
-            <div className="clist">{season.celebs.map((c: string)=><span key={c} className="cchip">✦ {c}</span>)}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px", color: "rgba(61,43,26,0.85)", paddingLeft: "4px" }}>
+              {season.celebs.map((c: string) => (
+                <div key={c}>✦ {c}</div>
+              ))}
+            </div>
           </div>
 
           {/* ACTIONS */}
-          <div className="ract">
+          <div className="ract" data-html2canvas-ignore="true">
             <button className="btr" onClick={onRetry}>← 다시 테스트</button>
             <button className="bdl-detailed" onClick={handleDlDetailed}>📋 전체내용 이미지 저장</button>
             <button className="bdl-sns" onClick={handleDlSns}>📸 SNS용 이미지 저장</button>
