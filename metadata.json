@@ -1,0 +1,6 @@
+{
+  "name": "InSelf Color",
+  "description": "나다운 아름다움을 찾는 가장 정확한 퍼스널 컬러 자가 진단 및 상세 정보 가이드 서비스",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
