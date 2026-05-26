@@ -455,15 +455,28 @@ function downloadDetailedResultCard(
   cardImg?: HTMLImageElement | null,
   userName?: string
 ){
-  const W=1200,H=630,dpr=2;
+  const W=1280,H=720,dpr=2;
   const c=document.createElement("canvas");
   c.width=W*dpr;c.height=H*dpr;
   const ctx=c.getContext("2d");
   if (!ctx) return;
   ctx.scale(dpr,dpr);
 
+  // Helper map for converting worst/avoid color names to matching premium hex codes
+  const colorNameToHex: Record<string, string> = {
+    "와인레드": "#722F37", "다크네이비": "#1B2A4A", "블랙": "#1C1C1C", "딥퍼플": "#4B0082", "차콜그레이": "#36454F",
+    "오렌지": "#FF5F1F", "골드": "#D4AF37", "카멜": "#C19A6B", "올리브그린": "#556B2F", "브릭레드": "#8E3A1F",
+    "브라이트핑크": "#FF007F", "라벤더": "#C8A2C8", "네온컬러": "#39FF14", "실버": "#C0C0C0", "아이시블루": "#D0F0F0",
+    "베이지": "#F5F5DC", "피치": "#FFDAB9", "코랄": "#FF7F50", "카키브라운": "#4B4D36", "황금빛": "#FFD700",
+    "차가운 파스텔": "#B0E0E6", "형광": "#ADFF2F", "네온": "#00FF00", "올리브": "#808000",
+    "Wine Red": "#722F37", "Dark Navy": "#1B2A4A", "Black": "#1C1C1C", "Deep Purple": "#4B0082", "Charcoal Gray": "#36454F",
+    "Orange": "#FF5F1F", "Gold": "#D4AF37", "Camel": "#C19A6B", "Olive Green": "#556B2F", "Brick Red": "#8E3A1F",
+    "Bright Pink": "#FF007F", "Lavender": "#C8A2C8", "Neon Colors": "#39FF14", "Silver": "#C0C0C0", "Icy Blue": "#D0F0F0",
+    "Beige": "#F5F5DC", "Peach": "#FFDAB9", "Coral": "#FF7F50", "Warm Brown": "#8B5E3C"
+  };
+
   // Helper: Draw rounded rectangle
-  const drawRoundRect = (x: number, y: number, w: number, h: number, r: number, fill?: string, stroke?: string) => {
+  const drawRoundRect = (x: number, y: number, w: number, h: number, r: number, fill?: string | CanvasGradient, stroke?: string) => {
     ctx.beginPath();
     ctx.moveTo(x + r, y);
     ctx.lineTo(x + w - r, y);
@@ -481,141 +494,119 @@ function downloadDetailedResultCard(
     }
     if (stroke) {
       ctx.strokeStyle = stroke;
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 1.2;
       ctx.stroke();
     }
   };
 
-  // Helper: Wrap text
-  const wrapText = (text: string, x: number, y: number, maxWidth: number, lineHeight: number) => {
+  // Helper: Wrap text that automatically shrinks if it overflows slightly
+  const wrapText = (text: string, x: number, y: number, maxWidth: number, lineHeight: number, maxLines: number = 3) => {
+    let words = text.split(" ");
     let line = "";
     let currentY = y;
-    for (let i = 0; i < text.length; i++) {
-      const char = text[i];
-      const testLine = line + char;
-      const testWidth = ctx.measureText(testLine).width;
-      if (testWidth > maxWidth) {
+    let linesDrawn = 0;
+
+    for (let n = 0; n < words.length; n++) {
+      let testLine = line + words[n] + " ";
+      let metrics = ctx.measureText(testLine);
+      let testWidth = metrics.width;
+      if (testWidth > maxWidth && n > 0) {
         ctx.fillText(line, x, currentY);
-        line = char;
+        line = words[n] + " ";
         currentY += lineHeight;
+        linesDrawn++;
+        if (linesDrawn >= maxLines) {
+          return currentY;
+        }
       } else {
         line = testLine;
       }
     }
     ctx.fillText(line, x, currentY);
-    return currentY;
+    return currentY + lineHeight;
   };
 
-  // Helper: Draw formatted fitting bullet text item
-  const drawFittedBullet = (label: string, value: string, x: number, y: number, maxWidth: number, baseFontSize: number, valueColor: string, isWorst = false) => {
-    let fontSize = baseFontSize;
-    ctx.font = `normal ${fontSize}px sans-serif`;
-    
-    const fullText = `• ${label} ${value}`;
-    let textWidth = ctx.measureText(fullText).width;
-    
-    // If it is too long, try to shrink font size first
-    while (textWidth > maxWidth && fontSize > 8.5) {
-      fontSize -= 0.5;
-      ctx.font = `normal ${fontSize}px sans-serif`;
-      textWidth = ctx.measureText(fullText).width;
-    }
-    
-    // If even with the minimal font size it overflows, wrap into two lines
-    if (textWidth > maxWidth) {
-      let line1 = `• ${label} `;
-      let line2 = "";
-      const words = value.split(", ");
-      let addedAny = false;
-      
-      for (let i = 0; i < words.length; i++) {
-        const item = words[i] + (i < words.length - 1 ? ", " : "");
-        const testLine = line1 + item;
-        ctx.font = `normal ${fontSize}px sans-serif`;
-        const testWidth = ctx.measureText(testLine).width;
-        if (testWidth <= maxWidth || !addedAny) {
-          line1 = testLine;
-          addedAny = true;
-        } else {
-          line2 += (line2 ? ", " : "") + words[i];
-        }
-      }
-      
-      if (!line2) {
-        line1 = "";
-        let isL1 = true;
-        for (let i = 0; i < fullText.length; i++) {
-          const char = fullText[i];
-          const testLine = (isL1 ? line1 : line2) + char;
-          ctx.font = `normal ${fontSize}px sans-serif`;
-          const testWidth = ctx.measureText(testLine).width;
-          if (isL1) {
-            if (testWidth > maxWidth) {
-              isL1 = false;
-              line2 = char;
-            } else {
-              line1 = testLine;
-            }
-          } else {
-            line2 = testLine;
-          }
-        }
-      }
-
-      ctx.fillStyle = isWorst ? "#A44E44" : "rgba(122,96,82,0.95)";
-      ctx.font = `bold ${fontSize}px sans-serif`;
-      const prefix = `• ${label} `;
-      ctx.fillText(prefix, x, y);
-      const prefixWidth = ctx.measureText(prefix).width;
-      
-      ctx.fillStyle = isWorst ? "#A44E44" : valueColor;
-      ctx.font = `normal ${fontSize}px sans-serif`;
-      const val1 = line1.replace(prefix, "");
-      ctx.fillText(val1, x + prefixWidth, y);
-      
-      const indent = ctx.measureText("• ").width;
-      ctx.fillText(line2, x + indent, y + fontSize + 3, maxWidth - indent);
-      return y + fontSize + 9;
-    } else {
-      ctx.fillStyle = isWorst ? "#A44E44" : "rgba(122,96,82,0.95)";
-      ctx.font = `bold ${fontSize}px sans-serif`;
-      const prefix = `• ${label} `;
-      ctx.fillText(prefix, x, y);
-      const prefixWidth = ctx.measureText(prefix).width;
-      
-      ctx.fillStyle = isWorst ? "#A44E44" : valueColor;
-      ctx.font = `normal ${fontSize}px sans-serif`;
-      const val = fullText.replace(prefix, "");
-      ctx.fillText(val, x + prefixWidth, y, maxWidth - prefixWidth);
-      return y + fontSize + 6;
-    }
+  const getFormattedDate = () => {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}.${mm}.${dd}`;
   };
 
-  // 1. BG Gradient
-  const bg = ctx.createLinearGradient(0,0,W,H);
-  bg.addColorStop(0,"#FDF8F2");
-  bg.addColorStop(1,"#F5EBE0");
-  ctx.fillStyle = bg;
-  ctx.fillRect(0,0,W,H);
+  ctx.fillStyle = "#FBF9F5"; // Elegant cotton sand off-white
+  ctx.fillRect(0, 0, W, H);
 
-  // Elegant border framing
-  ctx.strokeStyle = "rgba(196,149,106,0.18)";
-  ctx.lineWidth = 14;
-  ctx.strokeRect(7, 7, W - 14, H - 14);
+  // Geometric layout border framing (Double ultra-fine lines mimicking premium luxury collection catalogues)
+  ctx.strokeStyle = "rgba(196,149,106,0.32)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(18, 18, W - 36, H - 36);
+  ctx.strokeStyle = "rgba(196,149,106,0.12)";
+  ctx.strokeRect(23, 23, W - 46, H - 46);
 
-  // 2. Left Column: Representative Style Image Card (Y: 50, X: 50, W: 400, H: 530)
-  ctx.shadowColor = "rgba(62,40,20,0.08)";
-  ctx.shadowBlur = 16;
-  ctx.shadowOffsetY = 6;
-  drawRoundRect(50, 50, 400, 530, 24, "rgba(255,255,255,0.95)", "rgba(196,149,106,0.18)");
-  ctx.shadowBlur = 0; // Reset shadows
+  // 2. High-Fashion Editorial Header
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#2D1E12"; // Deep Espresso Charcoal
+  ctx.font = "bold 23px serif";
+  ctx.fillText("✦  INSELF STYLE MASTER REPORT", 48, 62);
 
-  // Draw the image clipped to be rounded
-  const imgX = 74, imgY = 74, imgW = 352, imgH = 414;
+  ctx.fillStyle = "rgba(122,96,82,0.72)";
+  ctx.font = "bold 9.5px sans-serif";
+  ctx.fillText("PREMIUM PERSONAL COLOR DIAGNOSIS & Bespoke STYLE REPORT", 48, 83);
+
+  const passengerName = userName && userName.trim() ? userName.trim().toUpperCase() : "INSELF GUEST";
+  const uniqueId = `IS-${season.id.substring(0,3).toUpperCase()}-${Math.floor(100000 + Math.random()*900000)}`;
+
+  ctx.textAlign = "right";
+  ctx.font = "bold 11px monospace";
+  ctx.fillStyle = "#C4956A";
+  ctx.fillText(`ID: ${uniqueId}`, 1230, 50);
+
+  ctx.font = "normal 10.5px sans-serif";
+  ctx.fillStyle = "rgba(122,96,82,0.8)";
+  ctx.fillText(`PASSENGER: ${passengerName}`, 1230, 68);
+  ctx.fillText(`ISSUED: ${getFormattedDate()}`, 1230, 84);
+  
+  // Clean horizontal divider rule
+  ctx.strokeStyle = "rgba(196,149,106,0.22)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(48, 102);
+  ctx.lineTo(1230, 102);
+  ctx.stroke();
+
+  // 3. THREE-COLUMN EDITORIAL GEOMETRIC GRID (Establish clean Swiss-design guidelines via thin layout grids)
+  ctx.strokeStyle = "rgba(196,149,106,0.15)";
+  ctx.lineWidth = 1;
+  
+  // Grid Divider Line 1 (x = 390)
+  ctx.beginPath();
+  ctx.moveTo(390, 120);
+  ctx.lineTo(390, 665);
+  ctx.stroke();
+
+  // Grid Divider Line 2 (x = 830)
+  ctx.beginPath();
+  ctx.moveTo(830, 120);
+  ctx.lineTo(830, 665);
+  ctx.stroke();
+
+  // ═══════════════════════════════════════════════════════════
+  // COLUMN 1: PERSONAL TONE & DESCRIPTION (X: 48 ~ 370)
+  // ═══════════════════════════════════════════════════════════
+  ctx.textAlign = "left";
+  
+  // Section Index Label
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("01  /  PERSONAL IDENTITY", 48, 131);
+
+  // Representative Mood Image Frame
+  const imgX = 48, imgY = 153, imgW = 320, imgH = 240;
   if (cardImg) {
     ctx.save();
     ctx.beginPath();
-    const r = 16;
+    const r = 12;
     ctx.moveTo(imgX + r, imgY);
     ctx.lineTo(imgX + imgW - r, imgY);
     ctx.quadraticCurveTo(imgX + imgW, imgY, imgX + imgW, imgY + r);
@@ -634,189 +625,285 @@ function downloadDetailedResultCard(
       console.warn("Could not draw representative image", e);
     }
     ctx.restore();
+    
+    // Fine golden frame around the image clip
+    drawRoundRect(imgX, imgY, imgW, imgH, 12, undefined, "rgba(196,149,106,0.22)");
   } else {
-    drawRoundRect(imgX, imgY, imgW, imgH, 16, "rgba(196,149,106,0.06)", "rgba(196,149,106,0.18)");
-    ctx.fillStyle = "rgba(61,43,26,0.4)";
-    ctx.font = "bold 14px sans-serif";
+    // Elegant dynamic color tone gradient wash
+    const grad = ctx.createLinearGradient(imgX, imgY, imgX + imgW, imgY + imgH);
+    grad.addColorStop(0, season.gradStops?.[0] || "#E8EEF8");
+    grad.addColorStop(1, season.gradStops?.[1] || "#C0CFEA");
+    drawRoundRect(imgX, imgY, imgW, imgH, 12, grad, "rgba(196,149,106,0.18)");
+    
+    ctx.fillStyle = "#2D1E12";
+    ctx.font = "bold 13px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("[ Style Mood ]", imgX + imgW/2, imgY + imgH/2);
+    ctx.fillText("[ Aesthetic Color Swatch ]", imgX + imgW/2, imgY + imgH/2);
+    ctx.textAlign = "left";
   }
 
-  // Draw tag pill centered under the image inside the left card
-  const tagText = activeCard ? activeCard.tag : "#나의_스타일_무드";
-  ctx.font = "bold 17px sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillStyle = "rgba(196,149,106,0.08)";
-  const textW = ctx.measureText(tagText).width + 36;
-  drawRoundRect(50 + 200 - textW/2, 510, textW, 40, 20, "rgba(196,149,106,0.08)", "rgba(196,149,106,0.22)");
+  // Detected Season Tone title label
+  ctx.fillStyle = "#2D1E12";
+  ctx.font = "bold 23px serif";
+  const masterSeasonName = lang === "ko" ? season.name : season.nameEn;
+  ctx.fillText(`${season.icon}  ${masterSeasonName}`, 48, 423);
+
+  // Style Tag Badge
+  const signatureTag = activeCard ? activeCard.tag : (lang === "ko" ? "#인셀프_시그니처_바이온" : "#InSelfCustomVibe");
+  ctx.font = "bold 9.5px sans-serif";
+  ctx.fillStyle = "rgba(196,149,106,0.06)";
+  const specPillW = ctx.measureText(signatureTag).width + 18;
+  drawRoundRect(48, 439, specPillW, 20, 10, "rgba(196,149,106,0.06)", "rgba(196,149,106,0.2)");
   
-  ctx.fillStyle = "#3D2B1A";
-  ctx.fillText(tagText, 50 + 200, 535);
-
-  // 3. Right Column: Diagnostic & Palette Info (X: 500, W: 630)
-  // Top Headers
-  ctx.textAlign = "left";
   ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 18px serif";
-  ctx.fillText("✦ InSelf Color", 500, 84);
+  ctx.fillText(signatureTag, 57, 452);
 
-  ctx.fillStyle = "rgba(122,96,82,0.65)";
-  ctx.font = "bold 11px sans-serif";
-  ctx.fillText("PERSONAL COLOR DIAGNOSTIC REPORT", 650, 81);
+  // Elegant cursive spacing mood keyword
+  ctx.font = "italic bold 13.5px serif";
+  ctx.fillStyle = "#8B5E3C";
+  const signatureKeyword = lang === "ko" ? `"${season.keyword}"` : `"${season.keywordEn}"`;
+  ctx.fillText(signatureKeyword, 48, 484);
 
-  // Metadata labels: Passenger Name and Save/Issue Date
-  const getFormattedDate = () => {
-    const d = new Date();
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    return `${yyyy}.${mm}.${dd}`;
-  };
+  // Detailed Description Body
+  ctx.font = "normal 11px sans-serif";
+  ctx.fillStyle = "rgba(61,43,26,0.85)";
+  const descString = lang === "ko" ? season.description : season.descriptionEn;
+  wrapText(descString, 48, 505, 320, 16.5, 9);
 
-  const passengerName = userName && userName.trim() ? userName.trim().toUpperCase() : "INSELF GUEST";
-  const issueDateStr = getFormattedDate();
 
-  ctx.textAlign = "right";
-  ctx.font = "bold 10px monospace";
-  ctx.fillStyle = "rgba(122,96,82,0.7)";
-  ctx.fillText(`PASSENGER: ${passengerName}   |   DATE: ${issueDateStr}`, 1130, 81);
-  ctx.textAlign = "left"; // Reset alignment
+  // ═══════════════════════════════════════════════════════════
+  // COLUMN 2: ANALYTICAL SWATCH & SCORES (X: 415 ~ 800)
+  // ═══════════════════════════════════════════════════════════
+  // Section Index Label
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("02  /  RECOMMENDED STYLE COLOR PALETTE", 415, 131);
 
-  // Divider line
-  ctx.strokeStyle = "rgba(196,149,106,0.18)";
-  ctx.lineWidth = 1.5;
+  // Material Palette Chips row (6 elegant leather palette items)
+  const swatchChipW = 54;
+  const swatchChipH = 75;
+  const swatchGap = 12;
+  const startX_sw = 415;
+  const swY = 153;
+  const swList = season.palette || [];
+
+  swList.forEach(({hex, name, nameEn}: any, i: number) => {
+    if (i > 5) return; // Top 6 colors limit
+    const cx_sw = startX_sw + i * (swatchChipW + swatchGap);
+    
+    // Draw paint card swatch block
+    drawRoundRect(cx_sw, swY, swatchChipW, swatchChipH, 6, hex, "rgba(0,0,0,0.05)");
+    
+    // Fine paper matte boundary labels block
+    ctx.fillStyle = "rgba(255,255,255,0.72)";
+    drawRoundRect(cx_sw, swY + swatchChipH - 24, swatchChipW, 24, 2, "rgba(255,255,255,0.72)");
+    
+    ctx.fillStyle = "#3D2B1A";
+    ctx.font = "bold 8.5px sans-serif";
+    ctx.textAlign = "center";
+    const swatchLabel = lang === "ko" ? name.substring(0, 5) : nameEn.substring(0, 7);
+    ctx.fillText(swatchLabel, cx_sw + swatchChipW/2, swY + swatchChipH - 10, swatchChipW - 6);
+  });
+  ctx.textAlign = "left"; // reset alignment
+
+  // Section Index Label
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("03  /  DIAGNOSTIC ANALYSIS MATRIX", 415, 273);
+
+  // Custom Slider Dots Score Visualizers (Very clean and precise lines)
+  const sortedKeysList = Object.keys(scores).sort((a,b) => scores[b] - scores[a]);
+  sortedKeysList.forEach((key, kIdx) => {
+    if (kIdx > 3) return; // 사계절 모두 포진
+    const yLine = 299 + kIdx * 34;
+    const s = SEASONS[key];
+    if (!s) return;
+    const sName = lang === "ko" ? s.name.replace(" 타입","") : s.nameEn;
+    const currentScore = scores[key] || 0;
+
+    // Season Descriptor name
+    ctx.fillStyle = "#2D1E12";
+    ctx.font = "bold 11px sans-serif";
+    ctx.fillText(`${s.icon} ${sName}`, 415, yLine + 9);
+
+    // Flat thin rail line
+    const railX = 515;
+    const railW = 215;
+    ctx.fillStyle = "rgba(196,149,106,0.14)";
+    ctx.fillRect(railX, yLine + 6, railW, 4);
+
+    // Filled slider color line
+    ctx.fillStyle = s.scoreColor || "#C4956A";
+    const activeLength = railW * (currentScore / 100);
+    ctx.fillRect(railX, yLine + 6, activeLength, 4);
+
+    // Slider Dial Pin Dot button
+    ctx.beginPath();
+    ctx.arc(railX + activeLength, yLine + 8, 5, 0, Math.PI * 2);
+    ctx.fillStyle = s.scoreColor || "#C4956A";
+    ctx.fill();
+    ctx.strokeStyle = "#FBF9F5";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Score Label
+    ctx.textAlign = "right";
+    ctx.font = "bold 10px monospace";
+    ctx.fillStyle = "rgba(61,43,26,0.85)";
+    ctx.fillText(`${currentScore}%`, 795, yLine + 10);
+    ctx.textAlign = "left";
+  });
+
+  // Flat divider line
+  ctx.strokeStyle = "rgba(196,149,106,0.15)";
+  ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(500, 102);
-  ctx.lineTo(1130, 102);
+  ctx.moveTo(415, 461);
+  ctx.lineTo(805, 461);
   ctx.stroke();
 
-  // Detected Season / Personal Color details
-  ctx.fillStyle = "#3D2B1A";
-  ctx.font = "bold 44px serif";
-  const seasonName = lang === "ko" ? season.name : season.nameEn;
-  ctx.fillText(`${season.icon}  ${seasonName}`, 500, 154);
+  // Premium Studio Branding Note in Empty Base of Column 2
+  ctx.fillStyle = "#8B5E3C";
+  ctx.font = "italic 13px serif";
+  ctx.fillText("✦  Tailored for Authentic Aesthetics  ✦", 415, 498);
 
-  // Season Keyword
-  ctx.font = "italic 21px serif";
+  ctx.fillStyle = "rgba(122,96,82,0.82)";
+  ctx.font = "normal 10.5px sans-serif";
+  const brandingNote = lang === "ko"
+    ? "인셀프 마스터 분석은 유닛 컬러 및 고유 스펙트럼 데이터를 조합 가공한 럭셔리 결과 리포트로서, 최적의 뷰티 연출을 위한 가이드를 제공합니다."
+    : "This analysis integrates and calibrates personal spectrum logs to project elite aesthetic direction with meticulous precision.";
+  wrapText(brandingNote, 415, 519, 390, 15.5, 6);
+
+
+  // ═══════════════════════════════════════════════════════════
+  // COLUMN 3: STYLIST CURATION & AVOID WARNINGS (X: 855 ~ 1220)
+  // ═══════════════════════════════════════════════════════════
+  // Section Index Label
   ctx.fillStyle = "#C4956A";
-  const seasonKeyword = lang === "ko" ? season.keyword : season.keywordEn;
-  ctx.fillText(`"${seasonKeyword}"`, 500, 194);
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("04  /  COUTURE BEAUTY & STYLE CURATION", 855, 131);
 
-  // 4. Palette Section (Y: 215 ~ 350)
-  ctx.fillStyle = "rgba(61,43,26,0.85)";
-  ctx.font = "bold 14px sans-serif";
-  const paletteTitle = lang === "ko" ? "🎨  추천 베스트 컬러 팔레트" : "🎨  Recommended Best Palette";
-  ctx.fillText(paletteTitle, 500, 246);
+  let rightY = 153;
 
-  const sw = season.palette;
-  const startX = 500 + 35; 
-  const py = 296;
-  sw.forEach(({hex, name, nameEn}: any, i: number) => {
-    if (i > 5) return; 
-    const cx_sw = startX + i * 94;
+  // Beauty Makeup / Wardrobe Columns card drawers
+  const drawCurationBlock = (curLabel: string, curText: string, iconStr: string) => {
+    ctx.fillStyle = "rgba(122,96,82,0.95)";
+    ctx.font = "bold 10.5px sans-serif";
+    ctx.fillText(`${iconStr}  ${curLabel}`, 855, rightY);
     
-    // Circle Color
+    ctx.fillStyle = "rgba(45,30,18,0.9)";
+    ctx.font = "normal 10px sans-serif";
+    
+    // Auto margin and text mapping
+    rightY = wrapText(curText, 855 + 12, rightY + 16, 350, 14, 3);
+    
+    // Thin separating horizontal dot lines
+    ctx.strokeStyle = "rgba(196,149,106,0.11)";
     ctx.beginPath();
-    ctx.arc(cx_sw, py, 24, 0, Math.PI * 2);
-    ctx.fillStyle = hex;
+    ctx.moveTo(855, rightY);
+    ctx.lineTo(1220, rightY);
+    ctx.stroke();
+    rightY += 12;
+  };
+
+  // Base Foundation info
+  drawCurationBlock(
+    lang === "ko" ? "피부 베이스 (Skin Base Recommendation)" : "Skin Base Formulation",
+    lang === "ko" ? season.makeup.foundation : season.makeup.foundationEn,
+    "💄"
+  );
+
+  // Lip point info
+  drawCurationBlock(
+    lang === "ko" ? "립 메이크업 (Lip Color Accent)" : "Bespoke Lip Point",
+    lang === "ko" ? season.makeup.lip : season.makeup.lipEn,
+    "💋"
+  );
+
+  // Clothing signature couture mood
+  drawCurationBlock(
+    lang === "ko" ? "스타일 가이드 무드 (Signature Couture Mood)" : "Couture Styling Mood",
+    lang === "ko" ? season.fashion.style : season.fashion.styleEn,
+    "👗"
+  );
+
+  // Fashion styling best match items
+  drawCurationBlock(
+    lang === "ko" ? "머스트 해브 패션 아이템 (Key Style Pieces)" : "Couture Key Pieces",
+    lang === "ko" ? season.fashion.items.join(", ") : season.fashion.itemsEn.join(", "),
+    "👔"
+  );
+
+  // Fabric Materials
+  drawCurationBlock(
+    lang === "ko" ? "추천 패브릭 & 소재 (Recommended Material)" : "Recommended Fabrics & Finish",
+    lang === "ko" ? season.fashion.fabrics.join(", ") : season.fashion.fabricsEn.join(", "),
+    "✦"
+  );
+
+  // Section Index Label (Warning alerts)
+  ctx.fillStyle = "#A44E44"; // Warning Brick Red color
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("05  /  AVOIDANCE & WORST ACTION WARNING", 855, rightY + 2);
+  rightY += 18;
+
+  // Disk swatch for worst warning colors
+  const avoidColors = season.avoid || [];
+  const startX_av = 855 + 12;
+
+  avoidColors.forEach((colorName: string, i: number) => {
+    if (i > 3) return; // Top 4 colors limit
+    const cx_av = startX_av + i * 55;
+    const hexValue = colorNameToHex[colorName] || "#CCCCCC";
+    
+    // Pastel warning circle disk with tiny cross marker
+    ctx.beginPath();
+    ctx.arc(cx_av, rightY + 14, 13, 0, Math.PI * 2);
+    ctx.fillStyle = hexValue;
     ctx.fill();
-    ctx.strokeStyle = "rgba(0,0,0,0.06)";
+    ctx.strokeStyle = "rgba(164,78,68,0.3)";
     ctx.lineWidth = 1;
     ctx.stroke();
-    
-    ctx.fillStyle = "rgba(61,43,26,0.85)";
-    ctx.font = "bold 10px sans-serif";
+
+    // Small elegant warning cross markup
+    ctx.strokeStyle = "#A44E44";
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(cx_av - 6, rightY + 14 - 6);
+    ctx.lineTo(cx_av + 6, rightY + 14 + 6);
+    ctx.moveTo(cx_av + 6, rightY + 14 - 6);
+    ctx.lineTo(cx_av - 6, rightY + 14 + 6);
+    ctx.stroke();
+
+    // Swatch Label
+    ctx.fillStyle = "rgba(45,30,18,0.95)";
+    ctx.font = "bold 8.5px sans-serif";
     ctx.textAlign = "center";
-    const swatchName = lang === "ko" ? name : nameEn;
-    ctx.fillText(swatchName, cx_sw, py + 42);
+    const avoidLabel = lang === "ko" ? colorName : (season.avoidEn?.[i] || colorName);
+    ctx.fillText(avoidLabel, cx_av, rightY + 39, 48);
   });
-  ctx.textAlign = "left"; // Reset alignment
+  ctx.textAlign = "left"; // reset alignment
 
-  // 5. Card Bento Box (Y: 368, H: 190, W: 630)
-  drawRoundRect(500, 368, 630, 190, 16, "rgba(255,255,255,0.7)", "rgba(196,149,106,0.16)");
+  // Dermal styling warnings summary
+  ctx.font = "normal 10px sans-serif";
+  ctx.fillStyle = "rgba(164,78,68,0.95)";
+  const avoidWardrobe = lang === "ko" 
+    ? `Avoid wear: ${season.fashion.avoid.slice(0, 2).join(", ")} | ${season.tip}` 
+    : `Avoid wear: ${season.fashion.avoidEn.slice(0, 2).join(", ")} | ${season.tipEn}`;
+  wrapText(avoidWardrobe, 855 + 12, rightY + 54, 345, 13.5, 3);
 
-  // Left Bento Column (X: 518 ~ 708): Scores
-  ctx.fillStyle = "rgba(122,96,82,0.85)";
-  ctx.font = "bold 12px sans-serif";
-  ctx.fillText(lang === "ko" ? "📊  진단 스코어" : "📊  Matching Scores", 518, 396);
 
-  const sortedKeys = Object.keys(scores).sort((a,b) => scores[b] - scores[a]);
-  sortedKeys.forEach((key, kIdx) => {
-    if (kIdx > 2) return; 
-    const yLine = 416 + kIdx * 34;
-    const s = SEASONS[key];
-    const sName = lang === "ko" ? s.name.replace(" 타입","") : s.nameEn;
-    
-    ctx.fillStyle = "rgba(61,43,26,0.85)";
-    ctx.font = "normal 11px sans-serif";
-    ctx.fillText(`${s.icon} ${sName}`, 518, yLine + 10);
-    
-    ctx.fillStyle = "rgba(196,149,106,0.1)";
-    ctx.fillRect(595, yLine + 2, 80, 5);
-    ctx.fillStyle = s.scoreColor;
-    ctx.fillRect(595, yLine + 2, 80 * (scores[key] || 0) / 100, 5);
-    
-    ctx.font = "bold 10.5px sans-serif";
-    ctx.fillStyle = "rgba(61,43,26,0.7)";
-    ctx.fillText(`${scores[key]}%`, 682, yLine + 10);
-  });
-
-  // Center Bento Column (X: 724 ~ 914): Makeup Color Guide
-  ctx.fillStyle = "rgba(122,96,82,0.85)";
-  ctx.font = "bold 12px sans-serif";
-  ctx.fillText(lang === "ko" ? "💄  추천 메이크업" : "💄  Makeup Accent", 724, 396);
-
-  ctx.fillStyle = "rgba(61,43,26,0.85)";
-  ctx.font = "normal 11px sans-serif";
-  
-  const mFnd = lang === "ko" ? `피부: ${season.makeup.foundation}` : `Base: ${season.makeup.foundationEn}`;
-  const mBlsh = lang === "ko" ? `블러셔: ${season.makeup.blush}` : `Blush: ${season.makeup.blushEn}`;
-  const mLip = lang === "ko" ? `립: ${season.makeup.lip}` : `Lip: ${season.makeup.lipEn}`;
-  
-  ctx.fillText(`• ${mFnd}`, 724, 424);
-  ctx.fillText(`• ${mBlsh}`, 724, 446);
-  
-  ctx.font = "bold 11px sans-serif";
-  ctx.fillText(lang === "ko" ? "• 립/틴트 포인트:" : "• Best Lip Point:", 724, 468);
-  ctx.font = "normal 11px sans-serif";
-  wrapText(mLip, 724 + 10, 486, 185, 14);
-
-  // Right Bento Column (X: 934 ~ 1124): Fashion Styling Guide & Color Guide
-  ctx.fillStyle = "rgba(122,96,82,0.85)";
-  ctx.font = "bold 12px sans-serif";
-  ctx.fillText(lang === "ko" ? "👔  추천 코디 & 패션" : "👔  Styling & Fashion", 934, 396);
-
-  ctx.fillStyle = "rgba(61,43,26,0.85)";
-  ctx.font = "normal 11px sans-serif";
-  
-  const fashionStyleText = lang === "ko" ? `${season.fashion.style.substring(0, 36)}` : `${season.fashion.styleEn.substring(0, 40)}`;
-  const bestItemLabel = lang === "ko" ? "추천 연출:" : "Best Items:";
-  const bestItemValue = lang === "ko" ? season.fashion.items.slice(0, 2).join(", ") : season.fashion.itemsEn.slice(0, 2).join(", ");
-  const avoidLabel = lang === "ko" ? "워스트:" : "Worst:";
-  const avoidValue = lang === "ko" ? season.avoid.slice(0, 2).join(", ") : season.avoidEn.slice(0, 2).join(", ");
-  
-  ctx.fillStyle = "rgba(122,96,82,0.95)";
-  ctx.font = "bold 11px sans-serif";
-  ctx.fillText(lang === "ko" ? "• 추천 무드:" : "• Key Mood:", 934, 424);
-  ctx.font = "normal 11px sans-serif";
-  ctx.fillStyle = "rgba(61,43,26,0.85)";
-  const lastY = wrapText(fashionStyleText, 934 + 10, 440, 180, 14);
-  
-  const bestItemY = lastY + 22;
-  const nextY = drawFittedBullet(bestItemLabel, bestItemValue, 934, bestItemY, 180, 10.5, "rgba(61,43,26,0.85)", false);
-  
-  const avoidY = Math.max(nextY + 8, bestItemY + 24);
-  drawFittedBullet(avoidLabel, avoidValue, 934, avoidY, 180, 10.5, "#A44E44", true);
-
-  // 6. Footer Branding
+  // ═══════════════════════════════════════════════════════════
+  // 4. FOOTER FINE BRANDING SECTION
+  // ═══════════════════════════════════════════════════════════
   ctx.textAlign = "center";
-  ctx.fillStyle = "rgba(180,140,100,0.5)";
-  ctx.font = "normal 11px sans-serif";
-  ctx.fillText("InSelf Color   ·   Discover Your Personalized Vibe   ·   https://ais-dev-g7zxntbi75ba5k3uy7fnlf-335224396579.asia-northeast1.run.app", W/2, 594);
+  ctx.fillStyle = "rgba(180,140,100,0.55)";
+  ctx.font = "normal 9.5px sans-serif";
+  ctx.fillText("INSELF COLOR   ·   CREATIVE ARCHITECTS OF AUTHENTIC VIBE   ·   STUDIO REPORT PERSISTENCE", W / 2, 701);
 
   // Trigger Download
   const a=document.createElement("a");
-  a.download=`personal-color-card-${season.id}_${getFormattedTimestamp()}.png`;
+  a.download=`inself-style-master-report-${season.id}_${getFormattedTimestamp()}.png`;
   a.href=c.toDataURL("image/png");
   a.click();
 }
@@ -1618,12 +1705,11 @@ const SeasonIcon = ({ seasonId, emoji, className, style }: { seasonId: string; e
 interface LandingScreenProps {
   onStart: () => void;
   onGoToGuide: () => void;
-  onGoToDashboard: () => void;
   lang: "ko" | "en";
   setLang: (lang: "ko" | "en") => void;
 }
 
-function LandingScreen({onStart, onGoToGuide, onGoToDashboard, lang, setLang}: LandingScreenProps){
+function LandingScreen({onStart, onGoToGuide, lang, setLang}: LandingScreenProps){
   const[openFaq,setOpenFaq]=useState<number | null>(null);
   return(
     <div className="w"><FontLoader/><style>{CSS}</style><Nav onGoToGuide={onGoToGuide} lang={lang} setLang={setLang}/>
@@ -1671,28 +1757,6 @@ function LandingScreen({onStart, onGoToGuide, onGoToDashboard, lang, setLang}: L
               }}
             >
               {T[lang].guidebookBtn}
-            </button>
-
-            <button 
-              type="button"
-              onClick={onGoToDashboard} 
-              style={{ 
-                marginTop: "12px", 
-                background: "rgba(126,92,141,0.06)", 
-                color: "#7E5C8D", 
-                border: "1px solid rgba(126,92,141,0.3)", 
-                padding: "9px 24px", 
-                borderRadius: "100px", 
-                fontSize: "13px", 
-                cursor: "pointer", 
-                fontWeight: 500,
-                fontFamily: "var(--fs)",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "5px"
-              }}
-            >
-              📊 {lang === "ko" ? "서비스 분석 통계" : "Analytics & Stats"}
             </button>
           </div>
         </div>
@@ -2642,12 +2706,11 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
 // ═══════════════════════════════════════════════════════════
 interface PersonalColorTestProps {
   onGoToGuide: () => void;
-  onGoToDashboard: () => void;
   lang: "ko" | "en";
   setLang: (lang: "ko" | "en") => void;
 }
 
-export default function PersonalColorTest({ onGoToGuide, onGoToDashboard, lang, setLang }: PersonalColorTestProps){
+export default function PersonalColorTest({ onGoToGuide, lang, setLang }: PersonalColorTestProps){
   const[page,setPage]=useState("landing");
   const[image,setImage]=useState<string | null>(null);
   const[gender,setGender]=useState<"female" | "male">("female");
@@ -2703,7 +2766,7 @@ export default function PersonalColorTest({ onGoToGuide, onGoToDashboard, lang, 
   return(
     <>
       {page==="navigate_guide" && <Nav lang={lang} setLang={setLang}/>}
-      {page==="landing"&&<LandingScreen onStart={()=>setPage("upload")} onGoToGuide={onGoToGuide} onGoToDashboard={onGoToDashboard} lang={lang} setLang={setLang}/>}
+      {page==="landing"&&<LandingScreen onStart={()=>setPage("upload")} onGoToGuide={onGoToGuide} lang={lang} setLang={setLang}/>}
       {page==="upload"&&<UploadScreen onBack={()=>setPage("landing")} onAnalyze={handleAnalyze} uploadedImage={image} onImageSet={setImage} lang={lang} setLang={setLang} gender={gender} setGender={setGender}/>}
       {page==="analyzing"&&<AnalyzingScreen progress={progress} lang={lang} setLang={setLang}/>}
       {page==="results"&&result&&<ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang} gender={gender} setGender={setGender}/>}
