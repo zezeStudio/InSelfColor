@@ -1,5 +1,6 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import html2canvas from "html2canvas";
+import { trackEvent, trackSessionVisit } from "../utils/stats";
 
 // ═══════════════════════════════════════════════════════════
 // SEASON DATA
@@ -43,7 +44,14 @@ const SEASONS: Record<string, any> = {
       fabrics:["시폰","면","린넨","니트"],fabricsEn:["Chiffon","Cotton","Linen","Knitwear"],
       avoid:["블랙 모노톤","무채색 전체 착장"],avoidEn:["Total Black Look","Achromatic Outfits"]
     },
-    celebs:["아이유","수지","임수정"],celebsEn:["IU","Suzy","Lim Soo-jung"],
+    celebs:{
+      female: ["#사랑스러운_과즙미", "#상큼청량", "#인간_비타민", "#햇살가득_포근함", "#피치브릭_어바웃", "#상큼발랄한_무드"],
+      male: ["#밀크남", "#청량한_소년미", "#따뜻한_밀크티", "#부드러운_클래식", "#피치베이지_댄디", "#상큼한_스무디"]
+    },
+    celebsEn:{
+      female: ["#LovelyPeachVibe", "#FreshJuicy", "#WarmSunshine", "#InnocentSweetness", "#CharmingCoral", "#BrightEnergy"],
+      male: ["#SoftBoyishCharm", "#WarmMilkTea", "#GentleClassic", "#PeachBeigeDandy", "#FreshSunnySmile", "#VibrantCasual"]
+    },
     scoreColor:"#FF9E7C",gradStops:["#FFE8D6","#FFBCA9"],
   },
   summer: {
@@ -84,7 +92,14 @@ const SEASONS: Record<string, any> = {
       fabrics:["시폰","새틴","벨벳","울 블렌드"],fabricsEn:["Chiffon","Satin","Velvet","Wool Blend"],
       avoid:["오렌지·골드 계열 전체 착장","강렬한 원색 코디"],avoidEn:["Total Orange/Gold Outfit","Vivid Primary Colors"]
     },
-    celebs:["태연","문가영","박신혜"],celebsEn:["Taeyeon","Mun Ka-young","Park Shin-hye"],
+    celebs:{
+      female: ["#청초한_아우라", "#이슬같은_투명함", "#은은한_라벤더", "#우아한_클래식", "#깨끗한_퓨어룩", "#소프트모브_아로마"],
+      male: ["#청량미소년", "#이온음료_무드", "#깨끗한_댄디룩", "#투명한_청량함", "#파우더블루_셔츠핏", "#뮤트브리즈"]
+    },
+    celebsEn:{
+      female: ["#ElegantAura", "#DewyTransparent", "#MutedLavender", "#GracefulClassic", "#PureAndSoft", "#DreamyPastel"],
+      male: ["#PureFreshPrince", "#SoftMutedDandy", "#BlueBreeze", "#IcyLavenderMood", "#CrispWhiteShirt", "#SummerMist"]
+    },
     scoreColor:"#8FA8D4",gradStops:["#E8EEF8","#C0CFEA"],
   },
   autumn: {
@@ -125,7 +140,14 @@ const SEASONS: Record<string, any> = {
       fabrics:["트위드","울","코듀로이","가죽"],fabricsEn:["Tweed","Wool","Corduroy","Leather"],
       avoid:["형광·네온 계열","차가운 파스텔 단독 착장"],avoidEn:["Fluorescent/Neon Colors","Cold Pastel Outfits"]
     },
-    celebs:["한가인","전지현","이나영"],celebsEn:["Han Ga-in","Jun Ji-hyun","Lee Na-young"],
+    celebs:{
+      female: ["#성숙한_분위기", "#가을뮤즈_센치", "#클래식_트렌치", "#고혹적인_음영", "#웜벨벳_러브", "#메이플브릭_감성"],
+      male: ["#깊이있는_서사", "#분위기_남신", "#클래식_트렌치", "#묵직한_어른미", "#따뜻한_라떼", "#빈티지코퍼_멋남"]
+    },
+    celebsEn:{
+      female: ["#SophisticatedMood", "#AutumnMuse", "#ClassicTrench", "#SeductiveShadow", "#WarmVelvetSoft", "#MapleBrickSensibility"],
+      male: ["#DeepStorytelling", "#AtmosphereGod", "#ClassicTrenchCoat", "#HeavyAdultCharm", "#WarmLatteVibe", "#VintageCopper"]
+    },
     scoreColor:"#C17A3E",gradStops:["#D4936A","#9A5A25"],
   },
   winter: {
@@ -166,7 +188,14 @@ const SEASONS: Record<string, any> = {
       fabrics:["캐시미어","실크","울","가죽"],fabricsEn:["Cashmere","Silk","Wool","Leather"],
       avoid:["따뜻한 베이지·카멜 전체 착장","뮤트한 어스톤 코디"],avoidEn:["Beige/Camel Outfits","Muted Earthy Tones"]
     },
-    celebs:["김태희","고현정","송혜교"],celebsEn:["Kim Tae-hee","Go Hyun-jung","Song Hye-kyo"],
+    celebs:{
+      female: ["#도시적인_시크", "#볼드한_카리스마", "#독보적_아우라", "#백설공주_무드", "#대비감이_빛나는", "#차가운_버건디피플"],
+      male: ["#시크한_냉미남", "#독보적_아우라", "#치명적인_모던함", "#볼드한_카리스마", "#블랙수트_정석", "#스틸블루_어반피플"]
+    },
+    celebsEn:{
+      female: ["#UrbanChic", "#BoldCharisma", "#IceQueen", "#FlawlessContrast", "#RoyalBlueElegance", "#SharpSleekMinimal"],
+      male: ["#CoolChicGentleman", "#VampireVibe", "#FatalModernity", "#BoldCharisma", "#PerfectBlackSuit", "#SleekSharpIntellect"]
+    },
     scoreColor:"#4A6484",gradStops:["#253545","#1A2A38"],
   },
 };
@@ -416,9 +445,17 @@ function downloadResultCard(season: any, scores: Record<string, number>, lang: "
   a.download=`personal-color-${season.id}_${getFormattedTimestamp()}.png`;a.href=c.toDataURL("image/png");a.click();
 }
 
-// Download detailed high-design result card for SNS Virality
-function downloadDetailedResultCard(season: any, scores: Record<string, number>, lang: "ko" | "en"){
-  const W=800,H=1500,dpr=2;
+// Download detailed high-design result card for SNS Virality - Landscape format
+function downloadDetailedResultCard(
+  season: any,
+  scores: Record<string, number>,
+  lang: "ko" | "en",
+  customCelebs?: string[],
+  activeCard?: { tag: string; imgPath: string },
+  cardImg?: HTMLImageElement | null,
+  userName?: string
+){
+  const W=1200,H=630,dpr=2;
   const c=document.createElement("canvas");
   c.width=W*dpr;c.height=H*dpr;
   const ctx=c.getContext("2d");
@@ -444,12 +481,12 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>,
     }
     if (stroke) {
       ctx.strokeStyle = stroke;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.5;
       ctx.stroke();
     }
   };
 
-  // Helper: Wrap text for Korean/Chinese/Japanese characters
+  // Helper: Wrap text
   const wrapText = (text: string, x: number, y: number, maxWidth: number, lineHeight: number) => {
     let line = "";
     let currentY = y;
@@ -469,347 +506,317 @@ function downloadDetailedResultCard(season: any, scores: Record<string, number>,
     return currentY;
   };
 
-  // 1. BG base gradient
+  // Helper: Draw formatted fitting bullet text item
+  const drawFittedBullet = (label: string, value: string, x: number, y: number, maxWidth: number, baseFontSize: number, valueColor: string, isWorst = false) => {
+    let fontSize = baseFontSize;
+    ctx.font = `normal ${fontSize}px sans-serif`;
+    
+    const fullText = `• ${label} ${value}`;
+    let textWidth = ctx.measureText(fullText).width;
+    
+    // If it is too long, try to shrink font size first
+    while (textWidth > maxWidth && fontSize > 8.5) {
+      fontSize -= 0.5;
+      ctx.font = `normal ${fontSize}px sans-serif`;
+      textWidth = ctx.measureText(fullText).width;
+    }
+    
+    // If even with the minimal font size it overflows, wrap into two lines
+    if (textWidth > maxWidth) {
+      let line1 = `• ${label} `;
+      let line2 = "";
+      const words = value.split(", ");
+      let addedAny = false;
+      
+      for (let i = 0; i < words.length; i++) {
+        const item = words[i] + (i < words.length - 1 ? ", " : "");
+        const testLine = line1 + item;
+        ctx.font = `normal ${fontSize}px sans-serif`;
+        const testWidth = ctx.measureText(testLine).width;
+        if (testWidth <= maxWidth || !addedAny) {
+          line1 = testLine;
+          addedAny = true;
+        } else {
+          line2 += (line2 ? ", " : "") + words[i];
+        }
+      }
+      
+      if (!line2) {
+        line1 = "";
+        let isL1 = true;
+        for (let i = 0; i < fullText.length; i++) {
+          const char = fullText[i];
+          const testLine = (isL1 ? line1 : line2) + char;
+          ctx.font = `normal ${fontSize}px sans-serif`;
+          const testWidth = ctx.measureText(testLine).width;
+          if (isL1) {
+            if (testWidth > maxWidth) {
+              isL1 = false;
+              line2 = char;
+            } else {
+              line1 = testLine;
+            }
+          } else {
+            line2 = testLine;
+          }
+        }
+      }
+
+      ctx.fillStyle = isWorst ? "#A44E44" : "rgba(122,96,82,0.95)";
+      ctx.font = `bold ${fontSize}px sans-serif`;
+      const prefix = `• ${label} `;
+      ctx.fillText(prefix, x, y);
+      const prefixWidth = ctx.measureText(prefix).width;
+      
+      ctx.fillStyle = isWorst ? "#A44E44" : valueColor;
+      ctx.font = `normal ${fontSize}px sans-serif`;
+      const val1 = line1.replace(prefix, "");
+      ctx.fillText(val1, x + prefixWidth, y);
+      
+      const indent = ctx.measureText("• ").width;
+      ctx.fillText(line2, x + indent, y + fontSize + 3, maxWidth - indent);
+      return y + fontSize + 9;
+    } else {
+      ctx.fillStyle = isWorst ? "#A44E44" : "rgba(122,96,82,0.95)";
+      ctx.font = `bold ${fontSize}px sans-serif`;
+      const prefix = `• ${label} `;
+      ctx.fillText(prefix, x, y);
+      const prefixWidth = ctx.measureText(prefix).width;
+      
+      ctx.fillStyle = isWorst ? "#A44E44" : valueColor;
+      ctx.font = `normal ${fontSize}px sans-serif`;
+      const val = fullText.replace(prefix, "");
+      ctx.fillText(val, x + prefixWidth, y, maxWidth - prefixWidth);
+      return y + fontSize + 6;
+    }
+  };
+
+  // 1. BG Gradient
   const bg = ctx.createLinearGradient(0,0,W,H);
   bg.addColorStop(0,"#FDF8F2");
   bg.addColorStop(1,"#F5EBE0");
   ctx.fillStyle = bg;
   ctx.fillRect(0,0,W,H);
 
-  // 2. High Design Top wave band
-  const band = ctx.createLinearGradient(0,0,W,0);
-  band.addColorStop(0, season.gradStops[0]);
-  band.addColorStop(1, season.gradStops[1]);
-  ctx.fillStyle = band;
-  ctx.beginPath();
-  ctx.moveTo(0,0);
-  ctx.lineTo(W,0);
-  ctx.lineTo(W,210);
-  ctx.bezierCurveTo(W, 260, 0, 260, 0, 210);
-  ctx.closePath();
-  ctx.fill();
+  // Elegant border framing
+  ctx.strokeStyle = "rgba(196,149,106,0.18)";
+  ctx.lineWidth = 14;
+  ctx.strokeRect(7, 7, W - 14, H - 14);
 
-  // 3. Logo & Top Headers
-  ctx.fillStyle="rgba(255,255,255,0.9)";
-  ctx.font="bold 16px serif"; 
-  ctx.textAlign="left";
-  ctx.fillText("✦ InSelf Color", 48, 38);
+  // 2. Left Column: Representative Style Image Card (Y: 50, X: 50, W: 400, H: 530)
+  ctx.shadowColor = "rgba(62,40,20,0.08)";
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetY = 6;
+  drawRoundRect(50, 50, 400, 530, 24, "rgba(255,255,255,0.95)", "rgba(196,149,106,0.18)");
+  ctx.shadowBlur = 0; // Reset shadows
 
-  ctx.textAlign="center";
-  ctx.fillStyle="rgba(255,255,255,0.72)";
-  ctx.font="bold 11px sans-serif";
-  ctx.fillText("PERSONAL COLOR DIAGNOSTIC REPORT", W/2, 68);
-
-  ctx.fillStyle="#fff";
-  ctx.font="bold 35px serif";
-  const seasonName = lang === "ko" ? season.name : season.nameEn;
-  ctx.fillText(`${season.icon}  ${seasonName}`, W/2, 114);
-
-  ctx.font="italic 15px serif";
-  ctx.fillStyle="rgba(255,255,255,0.85)";
-  const seasonKeyword = lang === "ko" ? season.keyword : season.keywordEn;
-  ctx.fillText(`"${seasonKeyword}"`, W/2, 144);
-
-  // 4. Card 0: Bridge Description Card
-  ctx.shadowColor = "rgba(62,40,20,0.06)";
-  ctx.shadowBlur = 12;
-  ctx.shadowOffsetY = 4;
-  drawRoundRect(48, 178, 704, 100, 16, "rgba(255,255,255,0.92)", "rgba(196,149,106,0.18)");
-  ctx.shadowBlur = 0; // Turn off shadows
-
-  ctx.fillStyle = "rgba(61,43,26,0.88)";
-  ctx.font = "normal 13.5px sans-serif";
-  ctx.textAlign = "center";
-  const seasonDesc = lang === "ko" ? season.description : season.descriptionEn;
-  wrapText(seasonDesc, W/2, 212, 640, 21);
-
-  // 5. Card 1: Scores Card
-  ctx.shadowColor = "rgba(62,40,20,0.05)";
-  ctx.shadowBlur = 10;
-  drawRoundRect(48, 298, 704, 195, 16, "rgba(255,255,255,0.8)", "rgba(196,149,106,0.16)");
-  ctx.shadowBlur = 0;
-
-  // Score title
-  ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 13px sans-serif";
-  ctx.textAlign = "left";
-  const scoreTitle = lang === "ko" ? "📊  타입별 매칭 스코어 (Diagnostic Scores)" : "📊  Diagnostic Matching Scores";
-  ctx.fillText(scoreTitle, 72, 332);
-
-  // Soft divider
-  ctx.strokeStyle = "rgba(196,149,106,0.14)";
-  ctx.beginPath();
-  ctx.moveTo(72, 344);
-  ctx.lineTo(728, 344);
-  ctx.stroke();
-
-  // Draw 4 stacked season scores
-  const order = ["spring","summer","autumn","winter"];
-  order.forEach((key, i) => {
-    const y = 362 + i * 30;
-    const s = SEASONS[key];
-    const sName = lang === "ko" ? s.name : s.nameEn;
-    
-    // Icon & Name
-    ctx.fillStyle = "rgba(61,43,26,0.85)";
-    ctx.font = "bold 11.5px sans-serif";
-    ctx.fillText(`${s.icon}  ${sName}`, 74, y + 10);
-
-    // Progress bar BG
-    ctx.fillStyle = "rgba(196,149,106,0.1)";
-    ctx.fillRect(190, y + 3, 460, 8);
-
-    // Progress bar fill
-    ctx.fillStyle = s.scoreColor;
-    ctx.fillRect(190, y + 3, 460 * (scores[key] || 5) / 100, 8);
-
-    // Percentage text
-    ctx.fillStyle = "rgba(61,43,26,0.7)";
-    ctx.font = "bold 12px sans-serif";
-    ctx.textAlign = "right";
-    ctx.fillText(`${scores[key]}%`, 716, y + 10);
-    ctx.textAlign = "left";
-  });
-
-  // 6. Card 2: Palette SWATCHES Card
-  ctx.shadowColor = "rgba(62,40,20,0.05)";
-  ctx.shadowBlur = 10;
-  drawRoundRect(48, 513, 704, 150, 16, "rgba(255,255,255,0.8)", "rgba(196,149,106,0.16)");
-  ctx.shadowBlur = 0;
-
-  ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 13px sans-serif";
-  const paletteTitle = lang === "ko" ? "🎨  추천 베스트 컬러 팔레트" : "🎨  Recommended Best Palette";
-  ctx.fillText(paletteTitle, 72, 547);
-
-  ctx.beginPath();
-  ctx.moveTo(72, 559);
-  ctx.lineTo(728, 559);
-  ctx.stroke();
-
-  // Swatches (6 colors)
-  const sw = season.palette;
-  const startX = 48 + 352 - (sw.length - 1) * 98 / 2;
-  const py = 599;
-  sw.forEach(({hex, name, nameEn}: any, i: number) => {
-    const cx_sw = startX + i * 98;
-    // Circle color
+  // Draw the image clipped to be rounded
+  const imgX = 74, imgY = 74, imgW = 352, imgH = 414;
+  if (cardImg) {
+    ctx.save();
     ctx.beginPath();
-    ctx.arc(cx_sw, py, 21, 0, Math.PI * 2);
+    const r = 16;
+    ctx.moveTo(imgX + r, imgY);
+    ctx.lineTo(imgX + imgW - r, imgY);
+    ctx.quadraticCurveTo(imgX + imgW, imgY, imgX + imgW, imgY + r);
+    ctx.lineTo(imgX + imgW, imgY + imgH - r);
+    ctx.quadraticCurveTo(imgX + imgW, imgY + imgH, imgX + imgW - r, imgY + imgH);
+    ctx.lineTo(imgX + r, imgY + imgH);
+    ctx.quadraticCurveTo(imgX, imgY + imgH, imgX, imgY + imgH - r);
+    ctx.lineTo(imgX, imgY + r);
+    ctx.quadraticCurveTo(imgX, imgY, imgX + r, imgY);
+    ctx.closePath();
+    ctx.clip();
+    
+    try {
+      ctx.drawImage(cardImg, imgX, imgY, imgW, imgH);
+    } catch (e) {
+      console.warn("Could not draw representative image", e);
+    }
+    ctx.restore();
+  } else {
+    drawRoundRect(imgX, imgY, imgW, imgH, 16, "rgba(196,149,106,0.06)", "rgba(196,149,106,0.18)");
+    ctx.fillStyle = "rgba(61,43,26,0.4)";
+    ctx.font = "bold 14px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("[ Style Mood ]", imgX + imgW/2, imgY + imgH/2);
+  }
+
+  // Draw tag pill centered under the image inside the left card
+  const tagText = activeCard ? activeCard.tag : "#나의_스타일_무드";
+  ctx.font = "bold 17px sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillStyle = "rgba(196,149,106,0.08)";
+  const textW = ctx.measureText(tagText).width + 36;
+  drawRoundRect(50 + 200 - textW/2, 510, textW, 40, 20, "rgba(196,149,106,0.08)", "rgba(196,149,106,0.22)");
+  
+  ctx.fillStyle = "#3D2B1A";
+  ctx.fillText(tagText, 50 + 200, 535);
+
+  // 3. Right Column: Diagnostic & Palette Info (X: 500, W: 630)
+  // Top Headers
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 18px serif";
+  ctx.fillText("✦ InSelf Color", 500, 84);
+
+  ctx.fillStyle = "rgba(122,96,82,0.65)";
+  ctx.font = "bold 11px sans-serif";
+  ctx.fillText("PERSONAL COLOR DIAGNOSTIC REPORT", 650, 81);
+
+  // Metadata labels: Passenger Name and Save/Issue Date
+  const getFormattedDate = () => {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}.${mm}.${dd}`;
+  };
+
+  const passengerName = userName && userName.trim() ? userName.trim().toUpperCase() : "INSELF GUEST";
+  const issueDateStr = getFormattedDate();
+
+  ctx.textAlign = "right";
+  ctx.font = "bold 10px monospace";
+  ctx.fillStyle = "rgba(122,96,82,0.7)";
+  ctx.fillText(`PASSENGER: ${passengerName}   |   DATE: ${issueDateStr}`, 1130, 81);
+  ctx.textAlign = "left"; // Reset alignment
+
+  // Divider line
+  ctx.strokeStyle = "rgba(196,149,106,0.18)";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(500, 102);
+  ctx.lineTo(1130, 102);
+  ctx.stroke();
+
+  // Detected Season / Personal Color details
+  ctx.fillStyle = "#3D2B1A";
+  ctx.font = "bold 44px serif";
+  const seasonName = lang === "ko" ? season.name : season.nameEn;
+  ctx.fillText(`${season.icon}  ${seasonName}`, 500, 154);
+
+  // Season Keyword
+  ctx.font = "italic 21px serif";
+  ctx.fillStyle = "#C4956A";
+  const seasonKeyword = lang === "ko" ? season.keyword : season.keywordEn;
+  ctx.fillText(`"${seasonKeyword}"`, 500, 194);
+
+  // 4. Palette Section (Y: 215 ~ 350)
+  ctx.fillStyle = "rgba(61,43,26,0.85)";
+  ctx.font = "bold 14px sans-serif";
+  const paletteTitle = lang === "ko" ? "🎨  추천 베스트 컬러 팔레트" : "🎨  Recommended Best Palette";
+  ctx.fillText(paletteTitle, 500, 246);
+
+  const sw = season.palette;
+  const startX = 500 + 35; 
+  const py = 296;
+  sw.forEach(({hex, name, nameEn}: any, i: number) => {
+    if (i > 5) return; 
+    const cx_sw = startX + i * 94;
+    
+    // Circle Color
+    ctx.beginPath();
+    ctx.arc(cx_sw, py, 24, 0, Math.PI * 2);
     ctx.fillStyle = hex;
     ctx.fill();
     ctx.strokeStyle = "rgba(0,0,0,0.06)";
+    ctx.lineWidth = 1;
     ctx.stroke();
-
-    // Swatch name
-    ctx.fillStyle = "rgba(61,43,26,0.8)";
-    ctx.font = "10px sans-serif";
+    
+    ctx.fillStyle = "rgba(61,43,26,0.85)";
+    ctx.font = "bold 10px sans-serif";
     ctx.textAlign = "center";
     const swatchName = lang === "ko" ? name : nameEn;
-    ctx.fillText(swatchName, cx_sw, py + 36);
-
-    // Hex
-    ctx.fillStyle = "rgba(61,43,26,0.45)";
-    ctx.font = "9px sans-serif";
-    ctx.fillText(hex, cx_sw, py + 48);
+    ctx.fillText(swatchName, cx_sw, py + 42);
   });
+  ctx.textAlign = "left"; // Reset alignment
 
-  // 7. CARD Bento Grid Row 1 (Coordinates Y: 683, H: 360)
-  const bentoH1 = 360;
-  // Left Card: Makeup
-  ctx.shadowColor = "rgba(62,40,20,0.05)";
-  ctx.shadowBlur = 10;
-  drawRoundRect(48, 683, 338, bentoH1, 16, "#fff", "rgba(196,149,106,0.16)");
-  ctx.shadowBlur = 0;
+  // 5. Card Bento Box (Y: 368, H: 190, W: 630)
+  drawRoundRect(500, 368, 630, 190, 16, "rgba(255,255,255,0.7)", "rgba(196,149,106,0.16)");
 
-  ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 13px sans-serif";
-  ctx.textAlign = "left";
-  const makeupTitle = lang === "ko" ? "💄  퍼스널 메이크업 추천 가이드" : "💄  Personal Makeup Guide";
-  ctx.fillText(makeupTitle, 70, 717);
+  // Left Bento Column (X: 518 ~ 708): Scores
+  ctx.fillStyle = "rgba(122,96,82,0.85)";
+  ctx.font = "bold 12px sans-serif";
+  ctx.fillText(lang === "ko" ? "📊  진단 스코어" : "📊  Matching Scores", 518, 396);
 
-  ctx.strokeStyle = "rgba(196,149,106,0.14)";
-  ctx.beginPath();
-  ctx.moveTo(70, 729);
-  ctx.lineTo(354, 729);
-  ctx.stroke();
-
-  const makeupKeys = lang === "ko" ? [
-    { label: "파운데이션", val: season.makeup.foundation },
-    { label: "블러셔", val: season.makeup.blush },
-    { label: "립스틱/틴트", val: season.makeup.lip },
-    { label: "아이섀도", val: season.makeup.eye }
-  ] : [
-    { label: "Foundation", val: season.makeup.foundationEn },
-    { label: "Blusher", val: season.makeup.blushEn },
-    { label: "Lipstick/Tint", val: season.makeup.lipEn },
-    { label: "Eyeshadow", val: season.makeup.eyeEn }
-  ];
-
-  makeupKeys.forEach((item, idx) => {
-    const mY = 751 + idx * 56;
-    ctx.fillStyle = "rgba(196,149,106,0.9)";
-    ctx.font = "bold 10px sans-serif";
-    ctx.fillText(item.label, 70, mY);
-
+  const sortedKeys = Object.keys(scores).sort((a,b) => scores[b] - scores[a]);
+  sortedKeys.forEach((key, kIdx) => {
+    if (kIdx > 2) return; 
+    const yLine = 416 + kIdx * 34;
+    const s = SEASONS[key];
+    const sName = lang === "ko" ? s.name.replace(" 타입","") : s.nameEn;
+    
     ctx.fillStyle = "rgba(61,43,26,0.85)";
-    ctx.font = "normal 11.5px sans-serif";
-    wrapText(item.val, 70, mY + 18, 290, 16);
+    ctx.font = "normal 11px sans-serif";
+    ctx.fillText(`${s.icon} ${sName}`, 518, yLine + 10);
+    
+    ctx.fillStyle = "rgba(196,149,106,0.1)";
+    ctx.fillRect(595, yLine + 2, 80, 5);
+    ctx.fillStyle = s.scoreColor;
+    ctx.fillRect(595, yLine + 2, 80 * (scores[key] || 0) / 100, 5);
+    
+    ctx.font = "bold 10.5px sans-serif";
+    ctx.fillStyle = "rgba(61,43,26,0.7)";
+    ctx.fillText(`${scores[key]}%`, 682, yLine + 10);
   });
 
-  // Color chips dots
-  ctx.fillStyle = "rgba(196,149,106,0.9)";
-  ctx.font = "bold 10px sans-serif";
-  const colorChipsTitle = lang === "ko" ? "추천 메이크업 감성 칩" : "Sensory Makeup Chips";
-  ctx.fillText(colorChipsTitle, 70, 990);
-
-  const dots = season.makeup.dots;
-  dots.forEach((dotColor: string, dotIdx: number) => {
-    const dotX = 230 + dotIdx * 34;
-    const dotY = 986;
-    ctx.beginPath();
-    ctx.arc(dotX, dotY, 11, 0, Math.PI * 2);
-    ctx.fillStyle = dotColor;
-    ctx.fill();
-    ctx.strokeStyle = "rgba(255,255,255,0.8)";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-  });
-
-  // Right Card: Fashion
-  ctx.shadowColor = "rgba(62,40,20,0.05)";
-  ctx.shadowBlur = 10;
-  drawRoundRect(414, 683, 338, bentoH1, 16, "#fff", "rgba(196,149,106,0.16)");
-  ctx.shadowBlur = 0;
-
-  ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 13px sans-serif";
-  const fashionGuideTitle = lang === "ko" ? "👗  패션 스타일 가이드" : "👗  Fashion Style Guide";
-  ctx.fillText(fashionGuideTitle, 436, 717);
-
-  ctx.strokeStyle = "rgba(196,149,106,0.14)";
-  ctx.beginPath();
-  ctx.moveTo(436, 729);
-  ctx.lineTo(720, 729);
-  ctx.stroke();
-
-  ctx.fillStyle = season.primary;
-  ctx.font = "bold 12.5px sans-serif";
-  const fashionStyle = lang === "ko" ? season.fashion.style : season.fashion.styleEn;
-  ctx.fillText(fashionStyle, 436, 751);
-
-  ctx.fillStyle = "rgba(61,43,26,0.6)";
-  ctx.font = "bold 10.5px sans-serif";
-  const recoItemsTitle = lang === "ko" ? "✅  추천 아이템" : "✅  Recommended Items";
-  ctx.fillText(recoItemsTitle, 436, 781);
-
-  ctx.font = "normal 10.5px sans-serif";
-  ctx.fillStyle = "rgba(61,43,26,0.85)";
-  let curY = 799;
-  const itemsArr = lang === "ko" ? season.fashion.items : season.fashion.itemsEn;
-  itemsArr.forEach((it: string) => {
-    ctx.fillText(`• ${it}`, 436, curY);
-    curY += 16;
-  });
-
-  ctx.fillStyle = "rgba(61,43,26,0.6)";
-  ctx.font = "bold 10.5px sans-serif";
-  const fabricsTitle = lang === "ko" ? "🧵  어울리는 소재" : "🧵  Matching Fabrics";
-  ctx.fillText(fabricsTitle, 436, curY + 8);
-
-  ctx.font = "normal 10.5px sans-serif";
-  ctx.fillStyle = "rgba(61,43,26,0.85)";
-  curY = curY + 24;
-  const fabricsArr = lang === "ko" ? season.fashion.fabrics : season.fashion.fabricsEn;
-  fabricsArr.forEach((fb: string) => {
-    ctx.fillText(`• ${fb}`, 436, curY);
-    curY += 16;
-  });
-
-  ctx.fillStyle = "rgba(139,64,64,0.76)";
-  ctx.font = "bold 10.5px sans-serif";
-  const avoidTitle = lang === "ko" ? "❌  피하면 좋은 코디" : "❌  Colors / Outfits to Avoid";
-  ctx.fillText(avoidTitle, 436, curY + 8);
-
-  ctx.font = "normal 10.5px sans-serif";
-  ctx.fillStyle = "#8B4040";
-  curY = curY + 24;
-  const avoidArr = lang === "ko" ? season.fashion.avoid : season.fashion.avoidEn;
-  avoidArr.forEach((av: string) => {
-    ctx.fillText(`• ${av}`, 436, curY);
-    curY += 16;
-  });
-
-  // 8. CARD Bento Grid Row 2 (Coordinates Y: 1063, H: 260)
-  const bentoH2 = 250;
-  // Left: Styling Tips
-  ctx.shadowColor = "rgba(62,40,20,0.05)";
-  ctx.shadowBlur = 10;
-  drawRoundRect(48, 1063, 338, bentoH2, 16, "#fff", "rgba(196,149,106,0.16)");
-  ctx.shadowBlur = 0;
-
-  ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 13px sans-serif";
-  const stylingTipsTitle = lang === "ko" ? "💡  스타일링 팁 어드바이스" : "💡  Styling Tips & Advice";
-  ctx.fillText(stylingTipsTitle, 70, 1097);
-
-  ctx.strokeStyle = "rgba(196,149,106,0.14)";
-  ctx.beginPath();
-  ctx.moveTo(70, 1109);
-  ctx.lineTo(354, 1109);
-  ctx.stroke();
+  // Center Bento Column (X: 724 ~ 914): Makeup Color Guide
+  ctx.fillStyle = "rgba(122,96,82,0.85)";
+  ctx.font = "bold 12px sans-serif";
+  ctx.fillText(lang === "ko" ? "💄  추천 메이크업" : "💄  Makeup Accent", 724, 396);
 
   ctx.fillStyle = "rgba(61,43,26,0.85)";
-  ctx.font = "normal 12px sans-serif";
-  const tipVal = lang === "ko" ? season.tip : season.tipEn;
-  wrapText(tipVal, 70, 1137, 290, 21);
+  ctx.font = "normal 11px sans-serif";
+  
+  const mFnd = lang === "ko" ? `피부: ${season.makeup.foundation}` : `Base: ${season.makeup.foundationEn}`;
+  const mBlsh = lang === "ko" ? `블러셔: ${season.makeup.blush}` : `Blush: ${season.makeup.blushEn}`;
+  const mLip = lang === "ko" ? `립: ${season.makeup.lip}` : `Lip: ${season.makeup.lipEn}`;
+  
+  ctx.fillText(`• ${mFnd}`, 724, 424);
+  ctx.fillText(`• ${mBlsh}`, 724, 446);
+  
+  ctx.font = "bold 11px sans-serif";
+  ctx.fillText(lang === "ko" ? "• 립/틴트 포인트:" : "• Best Lip Point:", 724, 468);
+  ctx.font = "normal 11px sans-serif";
+  wrapText(mLip, 724 + 10, 486, 185, 14);
 
-  // Right Card: Celebs
-  ctx.shadowColor = "rgba(62,40,20,0.05)";
-  ctx.shadowBlur = 10;
-  drawRoundRect(414, 1063, 338, bentoH2, 16, "#fff", "rgba(196,149,106,0.16)");
-  ctx.shadowBlur = 0;
+  // Right Bento Column (X: 934 ~ 1124): Fashion Styling Guide & Color Guide
+  ctx.fillStyle = "rgba(122,96,82,0.85)";
+  ctx.font = "bold 12px sans-serif";
+  ctx.fillText(lang === "ko" ? "👔  추천 코디 & 패션" : "👔  Styling & Fashion", 934, 396);
 
-  ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 13px sans-serif";
-  const celebTitle = lang === "ko" ? "✦  같은 타입 유명인 메이트" : "✦  Celebrity Vibe Mates";
-  ctx.fillText(celebTitle, 436, 1097);
+  ctx.fillStyle = "rgba(61,43,26,0.85)";
+  ctx.font = "normal 11px sans-serif";
+  
+  const fashionStyleText = lang === "ko" ? `${season.fashion.style.substring(0, 36)}` : `${season.fashion.styleEn.substring(0, 40)}`;
+  const bestItemLabel = lang === "ko" ? "추천 연출:" : "Best Items:";
+  const bestItemValue = lang === "ko" ? season.fashion.items.slice(0, 2).join(", ") : season.fashion.itemsEn.slice(0, 2).join(", ");
+  const avoidLabel = lang === "ko" ? "워스트:" : "Worst:";
+  const avoidValue = lang === "ko" ? season.avoid.slice(0, 2).join(", ") : season.avoidEn.slice(0, 2).join(", ");
+  
+  ctx.fillStyle = "rgba(122,96,82,0.95)";
+  ctx.font = "bold 11px sans-serif";
+  ctx.fillText(lang === "ko" ? "• 추천 무드:" : "• Key Mood:", 934, 424);
+  ctx.font = "normal 11px sans-serif";
+  ctx.fillStyle = "rgba(61,43,26,0.85)";
+  const lastY = wrapText(fashionStyleText, 934 + 10, 440, 180, 14);
+  
+  const bestItemY = lastY + 22;
+  const nextY = drawFittedBullet(bestItemLabel, bestItemValue, 934, bestItemY, 180, 10.5, "rgba(61,43,26,0.85)", false);
+  
+  const avoidY = Math.max(nextY + 8, bestItemY + 24);
+  drawFittedBullet(avoidLabel, avoidValue, 934, avoidY, 180, 10.5, "#A44E44", true);
 
-  ctx.strokeStyle = "rgba(196,149,106,0.14)";
-  ctx.beginPath();
-  ctx.moveTo(436, 1109);
-  ctx.lineTo(720, 1109);
-  ctx.stroke();
+  // 6. Footer Branding
+  ctx.textAlign = "center";
+  ctx.fillStyle = "rgba(180,140,100,0.5)";
+  ctx.font = "normal 11px sans-serif";
+  ctx.fillText("InSelf Color   ·   Discover Your Personalized Vibe   ·   https://ais-dev-g7zxntbi75ba5k3uy7fnlf-335224396579.asia-northeast1.run.app", W/2, 594);
 
-  const celebs = lang === "ko" ? season.celebs : season.celebsEn;
-  celebs.forEach((clb: string, clbIdx: number) => {
-    const clbY = 1127 + clbIdx * 20;
-    ctx.fillStyle = "rgba(61,43,26,0.85)";
-    ctx.font = "normal 11.5px sans-serif";
-    ctx.fillText(`✦ ${clb}`, 436, clbY + 14);
-  });
-
-  // 9. COLOR ANALYSIS ACCENT WATERMARK/DIVIDER
-  ctx.strokeStyle = "rgba(196,149,106,0.18)";
-  ctx.beginPath();
-  ctx.moveTo(120, 1370);
-  ctx.lineTo(W - 120, 1370);
-  ctx.stroke();
-
-  // 10. Brand Footer
-  ctx.textAlign="center";
-  ctx.fillStyle="rgba(180,140,100,0.52)";
-  ctx.font="bold 12px serif";
-  const footerTitle = lang === "ko" ? "InSelf Color   ·   나만의 감각 발굴" : "InSelf Color   ·   Discover Your Vibe";
-  ctx.fillText(footerTitle, W/2, 1405);
-
-  ctx.fillStyle="rgba(180,140,100,0.36)";
-  ctx.font="9px sans-serif";
-  ctx.fillText("Copyright © InSelf Color. All Rights Reserved. Scan and Share your color vibe.", W/2, 1422);
-
-  // Trigger download
+  // Trigger Download
   const a=document.createElement("a");
-  a.download=`personal-color-detailed-${season.id}_${getFormattedTimestamp()}.png`;
+  a.download=`personal-color-card-${season.id}_${getFormattedTimestamp()}.png`;
   a.href=c.toDataURL("image/png");
   a.click();
 }
@@ -909,6 +916,14 @@ const CSS=`
   .btnan:active{transform:scale(.99);}
   .btnan:disabled{opacity:.44;cursor:not-allowed;}
 
+  /* GENDER SELECTOR */
+  .gsel-wrap{width:100%;max-width:520px;margin-top:20px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;}
+  .gsel-lbl{font-size:12px;color:var(--dark);font-family:var(--fs);font-weight:600;letter-spacing:0.04em;}
+  .gsel-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;}
+  .gsel-btn{border:1.5px solid var(--border);background:rgba(255,255,255,0.45);border-radius:100px;padding:12px 20px;font-size:13px;font-weight:500;font-family:var(--fs);color:var(--sub);cursor:pointer;transition:all 0.25s ease;display:flex;align-items:center;justify-content:center;gap:8px;outline:none;}
+  .gsel-btn:hover{border-color:var(--rg);color:var(--dark);background:#fff;}
+  .gsel-btn.active{background:var(--dark);border-color:var(--dark);color:#fff;box-shadow:0 4px 12px rgba(30, 20, 16, 0.15);}
+
   /* ANALYZING */
   .anpage{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 22px;position:relative;z-index:1;}
   .ringw{position:relative;width:112px;height:112px;margin-bottom:34px;}
@@ -998,8 +1013,221 @@ const CSS=`
   .ci{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text);}
   .cd{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
   .tbox{background:linear-gradient(135deg,rgba(196,149,106,0.06),rgba(232,170,128,0.03));border:1px solid rgba(196,149,106,0.2);border-radius:var(--r);padding:17px;font-size:13px;line-height:1.82;color:var(--text);}
-  .clist{display:flex;gap:9px;flex-wrap:wrap;}
+  .clist{display:none;gap:9px;flex-wrap:wrap;}
   .cchip{padding:7px 14px;background:rgba(196,149,106,0.07);border:1px solid rgba(196,149,106,0.17);border-radius:100px;font-size:12px;color:var(--text);}
+
+  /* Celeb Image Cards in Results Page */
+  .cgrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 10px;
+    width: 100%;
+  }
+  @media (min-width: 640px) {
+    .cgrid {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+  }
+  .ccard-item {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1.5px solid rgba(196,149,106,0.15);
+    border-radius: 14px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+  }
+  .ccard-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--rg);
+    box-shadow: var(--shadow);
+  }
+  .ccard-img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 10px;
+    background: rgba(196,149,106,0.06);
+    overflow: hidden;
+  }
+  .ccard-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .ccard-item:hover .ccard-img {
+    transform: scale(1.05);
+  }
+  .ccard-tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text);
+    text-align: center;
+    word-break: break-all;
+    line-height: 1.4;
+    padding: 2px 6px;
+    background: rgba(196,149,106,0.06);
+    border-radius: 100px;
+    border: 1px solid rgba(196,149,106,0.1);
+  }
+
+  /* Carousel Container */
+  .carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+    padding: 0 40px;
+  }
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1.5px solid rgba(196,149,106,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    z-index: 10;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--rg);
+    transition: all 0.22s ease;
+    user-select: none;
+  }
+  .carousel-btn:hover {
+    background: var(--dark);
+    color: #fff;
+    border-color: var(--dark);
+    transform: translateY(-50%) scale(1.08);
+  }
+  .carousel-btn.prev {
+    left: 0;
+  }
+  .carousel-btn.next {
+    right: 0;
+  }
+  @media (min-width: 640px) {
+    .carousel-wrapper {
+      padding: 0 60px;
+    }
+    .carousel-btn.prev {
+      left: 15px;
+    }
+    .carousel-btn.next {
+      right: 15px;
+    }
+  }
+  
+  /* Focus single card style */
+  .focus-card {
+    width: 100%;
+    max-width: 250px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1.5px solid rgba(196,149,106,0.2);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 24px rgba(196,149,106,0.08);
+    transition: all 0.3s ease;
+  }
+  .focus-card:hover {
+    background: #fff;
+    border-color: var(--rg);
+    box-shadow: 0 12px 32px rgba(196,149,106,0.15);
+  }
+  .focus-img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(196,149,106,0.04);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.03);
+    border: 1px solid rgba(196,149,106,0.1);
+  }
+  .focus-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .focus-card:hover .focus-img {
+    transform: scale(1.04);
+  }
+  .focus-tag {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.01em;
+    padding: 6px 16px;
+    background: rgba(196,149,106,0.08);
+    border: 1.5px solid rgba(196,149,106,0.18);
+    border-radius: 100px;
+    text-shadow: 0 1px 0px rgba(255,255,255,0.8);
+    display: inline-block;
+  }
+  
+  /* Indicators */
+  .carousel-indicators {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    justify-content: center;
+    width: 100%;
+  }
+  .indicator-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(196,149,106,0.25);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .indicator-dot.active {
+    background: var(--rg);
+    transform: scale(1.3);
+  }
+
+  .no-bubbles .carousel-btn,
+  .no-bubbles .carousel-indicators {
+    display: none !important;
+  }
+  .no-bubbles .focus-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    align-items: flex-start !important;
+  }
+  .no-bubbles .focus-tag {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    color: var(--dark) !important;
+  }
+  .no-bubbles .focus-tag::before {
+    content: "✦ " !important;
+    color: var(--rg) !important;
+  }
 
   /* Actions */
   .ract{display:flex;gap:9px;margin-top:22px;flex-wrap:wrap;}
@@ -1009,14 +1237,19 @@ const CSS=`
   .bdl-detailed:hover{background:rgba(196,149,106,.18);transform:translateY(-1px);}
   .bdl-sns{flex:1.2;min-width:140px;background:linear-gradient(135deg,#C4956A,#E8AA80);border:none;color:#fff;border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;box-shadow:0 6px 20px rgba(196,149,106,.26);font-weight:600;}
   .bdl-sns:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(196,149,106,0.36);}
+  .bdl-repr{flex:1.2;min-width:140px;background:linear-gradient(135deg,#5A483E,#7A6052);border:none;color:#fff;border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;box-shadow:0 6px 20px rgba(122,96,82,.2);font-weight:600;}
+  .bdl-repr:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(122,96,82,0.3);}
 
   /* During Image Save: Remove bubbles/boxes/borders, render as clean bullet text lists */
   .no-bubbles .ftags, .no-bubbles .rtags, .no-bubbles .clist {
-    display: flex;
+    display: flex !important;
     flex-direction: column !important;
     gap: 6px !important;
     align-items: flex-start !important;
     padding-left: 4px;
+  }
+  .no-bubbles .cgrid {
+    display: none !important;
   }
   .no-bubbles .ftag, .no-bubbles .rtag, .no-bubbles .cchip {
     background: transparent !important;
@@ -1154,10 +1387,14 @@ const T: Record<string, Record<string, any>> = {
     colorGuideTitle: "컬러 가이드",
     colorGuideLabels: ["잘 어울리는 색", "피하면 좋은 색"],
     stylingTipsTitle: "스타일링 팁",
-    famousCelebsTitle: "같은 타입 유명인",
+    famousCelebsTitle: "대표 키워드 & 무드 태그",
+    genderTitle: "스타일 분위기 성별 필터",
+    genderFemale: "여성 스타일 무드 ✦",
+    genderMale: "남성 스타일 무드 ✦",
     retryBtn: "← 다시 테스트",
     saveAllBtn: "📋 전체내용 이미지 저장",
     saveSnsBtn: "📸 SNS용 이미지 저장",
+    saveReprBtn: "📸 대표 이미지 단독 저장",
     guidebookBtn: "📖 색채 가이드북",
     toastCopied: "클립보드에 복사되었습니다 ✓",
     toastColorCopied: "{hex} 복사됨",
@@ -1208,10 +1445,14 @@ const T: Record<string, Record<string, any>> = {
     colorGuideTitle: "Color Guide",
     colorGuideLabels: ["Best Colors", "Colors to Avoid"],
     stylingTipsTitle: "Styling Tips",
-    famousCelebsTitle: "Celebrities with Same Type",
+    famousCelebsTitle: "Representative Mood & Style Tags",
+    genderTitle: "Preferred Style Gender Filter",
+    genderFemale: "Female Style Mood ✦",
+    genderMale: "Male Style Mood ✦",
     retryBtn: "← Retest",
     saveAllBtn: "📋 Save Full Content",
     saveSnsBtn: "📸 Save Card for SNS",
+    saveReprBtn: "📸 Save Representative Image",
     guidebookBtn: "📖 Color Guidebook",
     toastCopied: "Copied to clipboard ✓",
     toastColorCopied: "{hex} copied",
@@ -1339,16 +1580,50 @@ function DiamondChart({scores,winner,lang}: DiamondChartProps){
 }
 
 // ═══════════════════════════════════════════════════════════
+// SEASON ICON WITH IMAGE OR EMOJI FALLBACK
+// ═══════════════════════════════════════════════════════════
+const SeasonIcon = ({ seasonId, emoji, className, style }: { seasonId: string; emoji: string; className?: string; style?: React.CSSProperties }) => {
+  const [hasError, setHasError] = useState(false);
+  
+  useEffect(() => {
+    setHasError(false);
+  }, [seasonId]);
+
+  if (hasError) {
+    return <span className={className} style={style}>{emoji}</span>;
+  }
+  
+  const capitalizedId = seasonId ? (seasonId.charAt(0).toUpperCase() + seasonId.slice(1)) : "";
+  
+  return (
+    <img 
+      src={`/images/seasons/${capitalizedId}.png`} 
+      onError={() => setHasError(true)} 
+      className={className} 
+      style={{ 
+        display: "inline-block", 
+        verticalAlign: "middle", 
+        objectFit: "contain", 
+        ...style 
+      }} 
+      alt={seasonId}
+      referrerPolicy="no-referrer"
+    />
+  );
+};
+
+// ═══════════════════════════════════════════════════════════
 // LANDING
 // ═══════════════════════════════════════════════════════════
 interface LandingScreenProps {
   onStart: () => void;
   onGoToGuide: () => void;
+  onGoToDashboard: () => void;
   lang: "ko" | "en";
   setLang: (lang: "ko" | "en") => void;
 }
 
-function LandingScreen({onStart, onGoToGuide, lang, setLang}: LandingScreenProps){
+function LandingScreen({onStart, onGoToGuide, onGoToDashboard, lang, setLang}: LandingScreenProps){
   const[openFaq,setOpenFaq]=useState<number | null>(null);
   return(
     <div className="w"><FontLoader/><style>{CSS}</style><Nav onGoToGuide={onGoToGuide} lang={lang} setLang={setLang}/>
@@ -1360,35 +1635,66 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang}: LandingScreenProps
         <div className="ldiv"/>
         <div className="chips">
           {lang === "ko" ? (
-            [["csp","🌸 봄 웜"],["csu","🌊 여름 쿨"],["cau","🍂 가을 웜"],["cwi","❄️ 겨울 쿨"]].map(([c,l])=>(
-              <span key={c} className={`chip ${c}`}>{l}</span>
+            [["spring","🌸","봄 웜"],["summer","🌊","여름 쿨"],["autumn","🍂","가을 웜"],["winter","❄️","겨울 쿨"]].map(([id,emoji,l])=>(
+              <span key={id} className={`chip ${id === "spring" ? "csp" : id === "summer" ? "csu" : id === "autumn" ? "cau" : "cwi"}`} style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                <SeasonIcon seasonId={id} emoji={emoji} style={{ width: "16px", height: "16px" }} />
+                {l}
+              </span>
             ))
           ) : (
-            [["csp","🌸 Spring Warm"],["csu","🌊 Summer Cool"],["cau","🍂 Autumn Warm"],["cwi","❄️ Winter Cool"]].map(([c,l])=>(
-              <span key={c} className={`chip ${c}`}>{l}</span>
+            [["spring","🌸","Spring Warm"],["summer","🌊","Summer Cool"],["autumn","🍂","Autumn Warm"],["winter","❄️","Winter Cool"]].map(([id,emoji,l])=>(
+              <span key={id} className={`chip ${id === "spring" ? "csp" : id === "summer" ? "csu" : id === "autumn" ? "cau" : "cwi"}`} style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                <SeasonIcon seasonId={id} emoji={emoji} style={{ width: "16px", height: "16px" }} />
+                {l}
+              </span>
             ))
           )}
         </div>
         <div style={{ display: "flex", gap: "12px", flexDirection: "column", alignItems: "center" }}>
           <button className="btnst" onClick={onStart}><span>{T[lang].startBtn}</span><span>→</span></button>
-          <button 
-            type="button"
-            onClick={onGoToGuide} 
-            style={{ 
-              marginTop: "12px", 
-              background: "rgba(196,149,106,0.06)", 
-              color: "var(--rg)", 
-              border: "1px solid rgba(196,149,106,0.3)", 
-              padding: "9px 24px", 
-              borderRadius: "100px", 
-              fontSize: "13px", 
-              cursor: "pointer", 
-              fontWeight: 500,
-              fontFamily: "var(--fs)"
-            }}
-          >
-            {T[lang].guidebookBtn}
-          </button>
+          
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "center" }}>
+            <button 
+              type="button"
+              onClick={onGoToGuide} 
+              style={{ 
+                marginTop: "12px", 
+                background: "rgba(196,149,106,0.06)", 
+                color: "var(--rg)", 
+                border: "1px solid rgba(196,149,106,0.3)", 
+                padding: "9px 24px", 
+                borderRadius: "100px", 
+                fontSize: "13px", 
+                cursor: "pointer", 
+                fontWeight: 500,
+                fontFamily: "var(--fs)"
+              }}
+            >
+              {T[lang].guidebookBtn}
+            </button>
+
+            <button 
+              type="button"
+              onClick={onGoToDashboard} 
+              style={{ 
+                marginTop: "12px", 
+                background: "rgba(126,92,141,0.06)", 
+                color: "#7E5C8D", 
+                border: "1px solid rgba(126,92,141,0.3)", 
+                padding: "9px 24px", 
+                borderRadius: "100px", 
+                fontSize: "13px", 
+                cursor: "pointer", 
+                fontWeight: 500,
+                fontFamily: "var(--fs)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px"
+              }}
+            >
+              📊 {lang === "ko" ? "서비스 분석 통계" : "Analytics & Stats"}
+            </button>
+          </div>
         </div>
         <div className="lsteps">
           {lang === "ko" ? (
@@ -1451,9 +1757,11 @@ interface UploadScreenProps {
   onImageSet: (img: string | null) => void;
   lang: "ko" | "en";
   setLang: (lang: "ko" | "en") => void;
+  gender: "female" | "male";
+  setGender: (g: "female" | "male") => void;
 }
 
-function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang}: UploadScreenProps){
+function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang,gender,setGender}: UploadScreenProps){
   const[isDrag,setIsDrag]=useState(false);
   const handleFile=useCallback((file: File)=>{
     if(!file||!file.type.startsWith("image/"))return;
@@ -1534,6 +1842,28 @@ function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang}: 
             </label>
           )}
         </div>
+
+        {/* Gender Selection */}
+        <div className="gsel-wrap">
+          <span className="gsel-lbl">🧬 {T[lang].genderTitle}</span>
+          <div className="gsel-options">
+            <button
+              type="button"
+              className={`gsel-btn${gender === "female" ? " active" : ""}`}
+              onClick={() => setGender("female")}
+            >
+              👩 {T[lang].genderFemale}
+            </button>
+            <button
+              type="button"
+              className={`gsel-btn${gender === "male" ? " active" : ""}`}
+              onClick={() => setGender("male")}
+            >
+              👨 {T[lang].genderMale}
+            </button>
+          </div>
+        </div>
+
         <div className="tips">
           <span style={{fontSize:15,flexShrink:0}}>💡</span>
           <p className="tiptxt" style={{ whiteSpace: "pre-line" }}>{T[lang].uploadTips}</p>
@@ -1590,12 +1920,66 @@ interface ResultsScreenProps {
   onToast: (msg: string) => void;
   lang: "ko" | "en";
   setLang: (lang: "ko" | "en") => void;
+  gender: "female" | "male";
+  setGender: (g: "female" | "male") => void;
 }
 
-function ResultsScreen({result,onRetry,onToast,lang,setLang}: ResultsScreenProps){
+function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: ResultsScreenProps){
   const[bars,setBars] = useState<Record<string, number>>({spring:0,summer:0,autumn:0,winter:0});
+  const [userName, setUserName] = useState<string>("");
   const season=SEASONS[result.season];
   const{scores}=result;
+
+  // Stable random selections for both genders
+  const selectedFemaleIndices = useMemo(() => {
+    const total = season.celebs.female.length;
+    const indices = Array.from({ length: total }, (_, i) => i);
+    return indices.sort(() => 0.5 - Math.random()).slice(0, 5);
+  }, [result.season, season.celebs.female.length]);
+
+  const selectedMaleIndices = useMemo(() => {
+    const total = season.celebs.male.length;
+    const indices = Array.from({ length: total }, (_, i) => i);
+    return indices.sort(() => 0.5 - Math.random()).slice(0, 5);
+  }, [result.season, season.celebs.male.length]);
+
+  const selectedCelebs = useMemo(() => {
+    const list = season.celebs[gender];
+    const indices = gender === "female" ? selectedFemaleIndices : selectedMaleIndices;
+    return indices.map((idx: number) => list[idx]);
+  }, [gender, selectedFemaleIndices, selectedMaleIndices, season.celebs]);
+
+  const selectedCelebsEn = useMemo(() => {
+    const list = season.celebsEn[gender];
+    const indices = gender === "female" ? selectedFemaleIndices : selectedMaleIndices;
+    return indices.map((idx: number) => list[idx]);
+  }, [gender, selectedFemaleIndices, selectedMaleIndices, season.celebsEn]);
+
+  const celebCards = useMemo(() => {
+    const listKo = season.celebs[gender];
+    const listEn = season.celebsEn[gender];
+    const indices = gender === "female" ? selectedFemaleIndices : selectedMaleIndices;
+    
+    return indices.map((idx: number) => {
+      const tagKo = listKo[idx];
+      const tagEn = listEn[idx];
+      const tag = lang === "ko" ? tagKo : tagEn;
+      
+      const capSeason = result.season.charAt(0).toUpperCase() + result.season.slice(1);
+      const prefix = gender === 'female' ? 'w' : 'm';
+      const imgNum = idx % 5;
+      
+      let imgPath = "";
+      if (result.season === 'autumn') {
+        imgPath = `/images/autumn/${prefix}_Autumn${imgNum + 1}.png`;
+      } else {
+        const suffix = imgNum === 0 ? '' : imgNum;
+        imgPath = `/images/${result.season}/${prefix}_${capSeason}${suffix}.png`;
+      }
+      
+      return { tag, imgPath };
+    });
+  }, [gender, selectedFemaleIndices, selectedMaleIndices, season.celebs, season.celebsEn, lang, result.season]);
   const order=[result.season,...["spring","summer","autumn","winter"].filter(s=>s!==result.season)];
 
   useEffect(()=>{
@@ -1639,6 +2023,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang}: ResultsScreenProps
       a.href=canvas.toDataURL("image/png");
       a.click();
       onToast(T[lang].toastSaveSuccess);
+      trackEvent("full_save", { season: season.id, gender });
     }catch(e){
       console.error(e);
       el.classList.remove("no-bubbles");
@@ -1646,8 +2031,328 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang}: ResultsScreenProps
     }
   };
   const handleDlSns=()=>{
-    try{downloadDetailedResultCard(season,scores,lang);onToast(T[lang].toastSavingCard);}
-    catch{onToast(T[lang].toastError);}
+    const activeCard = celebCards[0];
+    const customCelebs = lang === "ko" ? selectedCelebs : selectedCelebsEn;
+    
+    if (!activeCard) {
+      try{
+        downloadDetailedResultCard(season,scores,lang,customCelebs, undefined, null, userName);
+        onToast(T[lang].toastSavingCard);
+        trackEvent("sns_save", { season: season.id, gender });
+      }
+      catch{onToast(T[lang].toastError);}
+      return;
+    }
+
+    onToast(lang === "ko" ? "✨ SNS 카드 이미지를 생성 중입니다..." : "✨ Creating SNS card image...");
+    
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      try{
+        downloadDetailedResultCard(season, scores, lang, customCelebs, activeCard, img, userName);
+        onToast(T[lang].toastSavingCard);
+        trackEvent("sns_save", { season: season.id, gender });
+      } catch (e) {
+        console.error(e);
+        onToast(T[lang].toastError);
+      }
+    };
+    img.onerror = () => {
+      console.warn("Failed to load representative style image, drawing text fallback.");
+      try{
+        downloadDetailedResultCard(season, scores, lang, customCelebs, activeCard, null, userName);
+        onToast(T[lang].toastSavingCard);
+        trackEvent("sns_save", { season: season.id, gender });
+      } catch (e) {
+        console.error(e);
+        onToast(T[lang].toastError);
+      }
+    };
+    img.src = activeCard.imgPath;
+  };
+
+  const handleDlRepr = () => {
+    const activeCard = celebCards[0];
+    if (!activeCard) {
+      onToast(T[lang].toastError);
+      return;
+    }
+    onToast(lang === "ko" ? "✨ 스타일 ID 출입증 카드를 발급하는 중입니다..." : "✨ Issuing style ID Pass card...");
+    
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      try {
+        const W = 600, H = 900, dpr = 2;
+        const c = document.createElement("canvas");
+        c.width = W * dpr; c.height = H * dpr;
+        const ctx = c.getContext("2d");
+        if (!ctx) return;
+        ctx.scale(dpr, dpr);
+
+        // Define premium seasonal palettes for the collectible Digital Pass
+        const themeDef: Record<string, {
+          bgStart: string;
+          bgEnd: string;
+          textColor: string;
+          labelColor: string;
+          accentColor: string;
+          innerCardBg: string;
+          borderStroke: string;
+          barcodeColor: string;
+          badgeBg: string;
+          badgeTxt: string;
+          typeEn: string;
+          typeKo: string;
+        }> = {
+          spring: {
+            bgStart: "#FAF5EE", bgEnd: "#FDF1E6",
+            textColor: "#4D3A2C", labelColor: "rgba(77, 58, 44, 0.55)",
+            accentColor: "#C4956A", innerCardBg: "rgba(255,255,255,0.7)",
+            borderStroke: "rgba(196,149,106,0.22)", barcodeColor: "#4D3A2C",
+            badgeBg: "#FDEDE2", badgeTxt: "#C45A3E",
+            typeEn: "SPRING WARM", typeKo: "봄 웜톤"
+          },
+          summer: {
+            bgStart: "#F2F6FA", bgEnd: "#E3ECF5",
+            textColor: "#1F2E3B", labelColor: "rgba(31, 46, 59, 0.55)",
+            accentColor: "#668AA4", innerCardBg: "rgba(255,255,255,0.75)",
+            borderStroke: "rgba(102,138,164,0.25)", barcodeColor: "#1D2D3B",
+            badgeBg: "#E6EEF5", badgeTxt: "#3E617E",
+            typeEn: "SUMMER COOL", typeKo: "여름 쿨톤"
+          },
+          autumn: {
+            bgStart: "#F6ECE2", bgEnd: "#EADBCB",
+            textColor: "#3D291C", labelColor: "rgba(61, 41, 28, 0.55)",
+            accentColor: "#9A6A47", innerCardBg: "rgba(255,255,255,0.7)",
+            borderStroke: "rgba(154,106,71,0.24)", barcodeColor: "#3D291C",
+            badgeBg: "#F3E6D9", badgeTxt: "#8E4F28",
+            typeEn: "AUTUMN WARM", typeKo: "가을 웜톤"
+          },
+          winter: {
+            bgStart: "#1F2126", bgEnd: "#121316",
+            textColor: "#F2F4F7", labelColor: "rgba(242, 244, 247, 0.5)",
+            accentColor: "#98A2B3", innerCardBg: "rgba(255,255,255,0.06)",
+            borderStroke: "rgba(255,255,255,0.12)", barcodeColor: "#F2F4F7",
+            badgeBg: "rgba(255,255,255,0.12)", badgeTxt: "#F8F9FA",
+            typeEn: "WINTER COOL", typeKo: "겨울 쿨톤"
+          }
+        };
+
+        const theme = themeDef[result.season] || themeDef.summer;
+
+        // Helper rounded rect drawer
+        const rrect = (x: number, y: number, w: number, h: number, r: number, fillColor?: string, strokeColor?: string, strokeWidth = 1) => {
+          ctx.beginPath();
+          ctx.moveTo(x + r, y);
+          ctx.lineTo(x + w - r, y);
+          ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+          ctx.lineTo(x + w, y + h - r);
+          ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+          ctx.lineTo(x + r, y + h);
+          ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+          ctx.lineTo(x, y + r);
+          ctx.quadraticCurveTo(x, y, x + r, y);
+          ctx.closePath();
+          if (fillColor) {
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+          }
+          if (strokeColor) {
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = strokeWidth;
+            ctx.stroke();
+          }
+        };
+
+        // Draw Card base background
+        const bg = ctx.createLinearGradient(0, 0, W, H);
+        bg.addColorStop(0, theme.bgStart);
+        bg.addColorStop(1, theme.bgEnd);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, W, H);
+
+        // Card Border Frame
+        rrect(15, 15, W - 30, H - 30, 24, undefined, theme.borderStroke, 2);
+
+        // Card Hanger Strap Slot (Punch Hole look)
+        rrect(W / 2 - 35, 32, 70, 14, 7, theme.borderStroke);
+        rrect(W / 2 - 30, 34, 60, 10, 5, theme.textColor === "#F2F4F7" ? "#1F2126" : "#EDE1D4");
+
+        // Top Brand Title & Pass type Headers
+        ctx.fillStyle = theme.textColor;
+        ctx.font = "bold 11px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("✦  I N S E L F   C O L O R  ✦", W / 2, 72);
+        
+        ctx.font = "bold italic 18px serif";
+        ctx.fillText("STYLE IDENTIFICATION PASS / CREDENTIAL", W / 2, 98);
+
+        // Portrait frame size & placement
+        const imgX = 110, imgY = 125, imgW = 380, imgH = 430;
+
+        // Card shadow for realism
+        ctx.shadowColor = theme.textColor === "#F2F4F7" ? "rgba(0,0,0,0.4)" : "rgba(62,40,20,0.06)";
+        ctx.shadowBlur = 18;
+        ctx.shadowOffsetY = 6;
+        rrect(imgX, imgY, imgW, imgH, 20, theme.textColor === "#F2F4F7" ? "#23252E" : "#FFFFFF");
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetY = 0;
+
+        // Clip-draw the style representative image
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(imgX + 20, imgY);
+        ctx.lineTo(imgX + imgW - 20, imgY);
+        ctx.quadraticCurveTo(imgX + imgW, imgY, imgX + imgW, imgY + 20);
+        ctx.lineTo(imgX + imgW, imgY + imgH - 20);
+        ctx.quadraticCurveTo(imgX + imgW, imgY + imgH, imgX + imgW - 20, imgY + imgH);
+        ctx.lineTo(imgX + 20, imgY + imgH);
+        ctx.quadraticCurveTo(imgX, imgY + imgH, imgX, imgY + imgH - 20);
+        ctx.lineTo(imgX, imgY + 20);
+        ctx.quadraticCurveTo(imgX, imgY, imgX + 20, imgY);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(img, imgX, imgY, imgW, imgH);
+        ctx.restore();
+
+        // Outline Border around picture frame
+        rrect(imgX, imgY, imgW, imgH, 20, undefined, theme.borderStroke, 1.5);
+
+        // Active Style tag badge float overlapping picture bottom-center
+        const tagText = activeCard.tag;
+        ctx.font = "bold 13px sans-serif";
+        const tagTextWidth = ctx.measureText(tagText).width + 30;
+        const tagPillX = W / 2 - tagTextWidth / 2;
+        const tagPillY = 538;
+
+        // Floating Badge
+        rrect(tagPillX, tagPillY, tagTextWidth, 32, 16, theme.badgeBg, theme.accentColor, 1);
+        ctx.fillStyle = theme.badgeTxt;
+        ctx.textAlign = "center";
+        ctx.font = "bold 13px sans-serif";
+        ctx.fillText(tagText, W / 2, tagPillY + 20);
+
+        // Information Grid Section
+        const infoY = 592;
+        ctx.strokeStyle = theme.borderStroke;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(60, infoY);
+        ctx.lineTo(W - 60, infoY);
+        ctx.stroke();
+
+        const labelX = 80;
+        const valX = 205;
+
+        const getFormattedDate = () => {
+          const d = new Date();
+          const yyyy = d.getFullYear();
+          const mm = String(d.getMonth() + 1).padStart(2, '0');
+          const dd = String(d.getDate()).padStart(2, '0');
+          return `${yyyy}.${mm}.${dd}`;
+        };
+
+        const passengerName = userName && userName.trim() ? userName.trim().toUpperCase() : "INSELF GUEST";
+
+        const fields = [
+          { label: "PASSENGER", value: passengerName },
+          { label: "COLOR TYPE", value: `${theme.typeKo} / ${theme.typeEn}` },
+          { label: "ISSUE DATE", value: getFormattedDate() },
+          { label: "STATUS CODE", value: `INSELF-${result.season.toUpperCase()}-STYLE-VERIFIED` }
+        ];
+
+        fields.forEach((f, i) => {
+          const itemY = infoY + 20 + i * 35;
+          
+          // Technical identifier label
+          ctx.fillStyle = theme.labelColor;
+          ctx.font = "bold 10.5px monospace";
+          ctx.textAlign = "left";
+          ctx.fillText(f.label, labelX, itemY + 14);
+          
+          // Credential Value
+          ctx.fillStyle = theme.textColor;
+          let fontSize = 13.5;
+          ctx.font = `bold ${fontSize}px sans-serif`;
+          
+          // Shrink text dynamically if it's too long
+          let textWidth = ctx.measureText(f.value).width;
+          const maxValWidth = W - valX - 70;
+          while (textWidth > maxValWidth && fontSize > 9) {
+            fontSize -= 0.5;
+            ctx.font = `bold ${fontSize}px sans-serif`;
+            textWidth = ctx.measureText(f.value).width;
+          }
+          
+          ctx.fillText(f.value, valX, itemY + 14);
+          
+          // Dotted line separation
+          if (i < fields.length - 1) {
+            ctx.strokeStyle = theme.borderStroke;
+            ctx.setLineDash([3, 4]);
+            ctx.beginPath();
+            ctx.moveTo(60, itemY + 26);
+            ctx.lineTo(W - 60, itemY + 26);
+            ctx.stroke();
+            ctx.setLineDash([]); // Restore solid stroke dash state
+          }
+        });
+
+        // Centered Mock Barcode Graphic at Bottom Section
+        const pattern = [2, 1, 4, 1, 2, 3, 1, 1, 2, 2, 1, 4, 1, 1, 3, 2, 2, 1, 2, 1, 4, 1, 3, 1, 2, 3, 1, 1, 4, 2];
+        const barScaler = 2.4;
+        const gap = 2;
+        
+        let totalBarcodeWidth = 0;
+        pattern.forEach((val, idx) => {
+          totalBarcodeWidth += val * barScaler;
+          if (idx < pattern.length - 1) {
+            totalBarcodeWidth += gap;
+          }
+        });
+
+        const barX = (W - totalBarcodeWidth) / 2;
+        const barY = 772;
+        const barH = 34;
+        const barcodeText = `INSELF-PASS-${result.season.toUpperCase()}-2026`;
+        
+        ctx.fillStyle = theme.textColor;
+        let currentBarX = barX;
+        for (let idx = 0; idx < pattern.length; idx++) {
+          const bW = pattern[idx] * barScaler;
+          const isBlack = idx % 2 === 0;
+          if (isBlack) {
+            ctx.fillRect(currentBarX, barY, bW, barH);
+          }
+          currentBarX += bW + gap;
+        }
+
+        // Under-barcode readable character label inside center alignment
+        ctx.fillStyle = theme.labelColor;
+        ctx.font = "bold 10px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(barcodeText, W / 2, barY + barH + 13);
+
+
+
+        const a = document.createElement("a");
+        a.download = `inself-style-pass-${season.id}_${getFormattedTimestamp()}.png`;
+        a.href = c.toDataURL("image/png");
+        a.click();
+        
+        onToast(lang === "ko" ? "성공적으로 발급 및 저장되었습니다! 🪪" : "Issued and saved successfully! 🪪");
+        trackEvent("repr_save", { season: season.id, gender });
+      } catch (err) {
+        console.error(err);
+        onToast(T[lang].toastError);
+      }
+    };
+    img.onerror = () => {
+      onToast(T[lang].toastError);
+    };
+    img.src = activeCard.imgPath;
   };
 
   const seasonName = lang === "ko" ? season.name : season.nameEn;
@@ -1670,7 +2375,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang}: ResultsScreenProps
   const avoidColors = lang === "ko" ? season.avoid : season.avoidEn;
 
   const rTip = lang === "ko" ? season.tip : season.tipEn;
-  const rCelebs = lang === "ko" ? season.celebs : season.celebsEn;
+  const rCelebs = lang === "ko" ? selectedCelebs : selectedCelebsEn;
 
   return(
     <div className="w"><FontLoader/><style>{CSS}</style><Nav lang={lang} setLang={setLang}/>
@@ -1678,7 +2383,9 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang}: ResultsScreenProps
         {/* HERO */}
         <div className="rhero" style={{background:season.heroBg,color:season.textOnBg}}>
           <div className="rb" style={{color:season.primary}}>{T[lang].resultHeader}</div>
-          <div className="ri">{season.icon}</div>
+          <div className="ri" style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "10px auto 16px" }}>
+            <SeasonIcon seasonId={result.season} emoji={season.icon} style={{ width: "140px", height: "140px" }} />
+          </div>
           <h2 className="rn">{seasonName}</h2>
           <p className="rkw">"{seasonKeyword}"</p>
           <p className="rdesc" style={{ whiteSpace: "pre-line" }}>{seasonDesc}</p>
@@ -1694,7 +2401,10 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang}: ResultsScreenProps
               <div className="scl">
                 {order.map(k=>(
                   <div className="scr" key={k}>
-                    <span className="sclbl">{SEASONS[k].icon} {lang === "ko" ? SEASONS[k].name.replace(" 타입","") : SEASONS[k].nameEn}</span>
+                    <span className="sclbl" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                      <SeasonIcon seasonId={k} emoji={SEASONS[k].icon} style={{ width: "16px", height: "16px", flexShrink: 0 }} />
+                      <span>{lang === "ko" ? SEASONS[k].name.replace(" 타입","") : SEASONS[k].nameEn}</span>
+                    </span>
                     <div className="scbg"><div className="scfill" style={{width:`${bars[k]||0}%`,background:SEASONS[k].scoreColor}}/></div>
                     <span className="scpct">{scores[k]}%</span>
                   </div>
@@ -1794,8 +2504,109 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang}: ResultsScreenProps
 
           {/* CELEB */}
           <div className="rcard">
-            <div className="rlbl">{T[lang].famousCelebsTitle}</div>
+            <div className="rlbl" style={{ marginBottom: "16px" }}>{T[lang].famousCelebsTitle}</div>
+            
+            <div className="carousel-wrapper" style={{ padding: 0 }}>
+              {celebCards[0] && (
+                <div className="focus-card">
+                  <div className="focus-img-wrapper" style={{ cursor: "default" }}>
+                    <img 
+                      src={celebCards[0].imgPath} 
+                      className="focus-img" 
+                      alt={celebCards[0].tag} 
+                      referrerPolicy="no-referrer" 
+                    />
+                  </div>
+                  <span className="focus-tag">{celebCards[0].tag}</span>
+                </div>
+              )}
+            </div>
+            
             <div className="clist">{rCelebs.map((c: string)=><span key={c} className="cchip">✦ {c}</span>)}</div>
+          </div>
+
+          {/* NAME INPUT CARD FOR PERSONALIZATION */}
+          <div className="rcard user-name-pass-card" style={{
+            background: "rgba(255, 255, 255, 0.45)",
+            backdropFilter: "blur(12px)",
+            border: "1px dashed rgba(196, 149, 106, 0.35)",
+            borderRadius: "16px",
+            padding: "24px",
+            marginBottom: "20px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+            boxShadow: "0 4px 20px rgba(62,40,20,0.02)"
+          }} data-html2canvas-ignore="true">
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              fontSize: "14.5px",
+              fontWeight: 600,
+              color: "#3D2B1A",
+              fontFamily: "var(--fs)"
+            }}>
+              🪪 {lang === "ko" ? "나만의 퍼스널 출입증(Style ID Pass) 발급받기" : "Issue My Custom Style ID Pass"}
+            </div>
+            
+            <p style={{
+              fontSize: "12.5px",
+              lineHeight: "1.6",
+              color: "rgba(122,96,82,0.85)",
+              margin: 0
+            }}>
+              {lang === "ko" 
+                ? "이름이나 닉네임을 입력하시면 '스타일 ID 출입증' 및 'SNS 결과 리포트' 카드에 당신의 이름이 실시간으로 새겨집니다. 미입력 시 'INSELF GUEST'로 자동 인쇄됩니다."
+                : "Enter your name or nickname to personalize your digital ID Pass and shareable SNS report card. If empty, 'INSELF GUEST' is used."}
+            </p>
+
+            <div style={{
+              display: "flex",
+              gap: "10px",
+              marginTop: "4px",
+              width: "100%",
+              maxWidth: "420px"
+            }}>
+              <input 
+                type="text"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                maxLength={22}
+                placeholder={lang === "ko" ? "닉네임 또는 실명 입력 (예: 홍길동)" : "Enter name or nickname (e.g., Alex)"}
+                style={{
+                  flex: 1,
+                  padding: "11px 18px",
+                  borderRadius: "100px",
+                  border: "1.5px solid rgba(196,149,106,0.25)",
+                  background: "#FFFFFF",
+                  fontSize: "13.5px",
+                  outline: "none",
+                  fontFamily: "var(--fs)",
+                  color: "#3D2B1A",
+                  boxShadow: "inset 0 1px 3px rgba(0,0,0,0.02)",
+                  transition: "all 0.2s ease"
+                }}
+              />
+              {userName.trim() && (
+                <button 
+                  type="button"
+                  onClick={() => setUserName("")}
+                  style={{
+                    background: "rgba(122,96,82,0.1)",
+                    border: "none",
+                    color: "rgba(122,96,82,0.7)",
+                    borderRadius: "100px",
+                    padding: "0 16px",
+                    cursor: "pointer",
+                    fontSize: "12.5px",
+                    fontWeight: 500
+                  }}
+                >
+                  {lang === "ko" ? "초기화" : "Reset"}
+                </button>
+              )}
+            </div>
           </div>
 
           {/* ACTIONS */}
@@ -1803,6 +2614,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang}: ResultsScreenProps
             <button className="btr" onClick={onRetry}>{T[lang].retryBtn}</button>
             <button className="bdl-detailed" onClick={handleDlDetailed}>{T[lang].saveAllBtn}</button>
             <button className="bdl-sns" onClick={handleDlSns}>{T[lang].saveSnsBtn}</button>
+            <button className="bdl-repr" onClick={handleDlRepr}>{T[lang].saveReprBtn}</button>
           </div>
 
           <div className="res-disclaimer" style={{
@@ -1830,13 +2642,15 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang}: ResultsScreenProps
 // ═══════════════════════════════════════════════════════════
 interface PersonalColorTestProps {
   onGoToGuide: () => void;
+  onGoToDashboard: () => void;
   lang: "ko" | "en";
   setLang: (lang: "ko" | "en") => void;
 }
 
-export default function PersonalColorTest({ onGoToGuide, lang, setLang }: PersonalColorTestProps){
+export default function PersonalColorTest({ onGoToGuide, onGoToDashboard, lang, setLang }: PersonalColorTestProps){
   const[page,setPage]=useState("landing");
   const[image,setImage]=useState<string | null>(null);
+  const[gender,setGender]=useState<"female" | "male">("female");
   const[result,setResult]=useState<any>(null);
   const[progress,setProgress]=useState(0);
   const[toast,setToast]=useState("");
@@ -1848,6 +2662,10 @@ export default function PersonalColorTest({ onGoToGuide, lang, setLang }: Person
   },[]);
 
   useEffect(()=>{window.scrollTo(0,0);},[page]);
+
+  useEffect(() => {
+    trackSessionVisit();
+  }, []);
 
   const handleAnalyze=useCallback(()=>{
     if(!image)return;
@@ -1864,25 +2682,31 @@ export default function PersonalColorTest({ onGoToGuide, lang, setLang }: Person
       const res=analyzePersonalColor(img);
       setTimeout(()=>{
         clearInterval(iv);setProgress(100);
-        setTimeout(()=>{setResult(res);setPage("results");},530);
+        setTimeout(()=>{
+          setResult(res);
+          setPage("results");
+          trackEvent("test_complete", { season: res.season as "spring" | "summer" | "autumn" | "winter", gender, lang });
+        },530);
       },1700);
     };
     img.onerror=()=>{
       clearInterval(iv);
       setResult({season:"spring",scores:{spring:40,summer:27,autumn:21,winter:12},error:true});
       setPage("results");
+      trackEvent("test_complete", { season: "spring", gender, lang });
     };
     img.src=image;
-  },[image]);
+  },[image, gender, lang]);
 
   const handleRetry=()=>{setPage("landing");setImage(null);setResult(null);setProgress(0);};
 
   return(
     <>
-      {page==="landing"&&<LandingScreen onStart={()=>setPage("upload")} onGoToGuide={onGoToGuide} lang={lang} setLang={setLang}/>}
-      {page==="upload"&&<UploadScreen onBack={()=>setPage("landing")} onAnalyze={handleAnalyze} uploadedImage={image} onImageSet={setImage} lang={lang} setLang={setLang}/>}
+      {page==="navigate_guide" && <Nav lang={lang} setLang={setLang}/>}
+      {page==="landing"&&<LandingScreen onStart={()=>setPage("upload")} onGoToGuide={onGoToGuide} onGoToDashboard={onGoToDashboard} lang={lang} setLang={setLang}/>}
+      {page==="upload"&&<UploadScreen onBack={()=>setPage("landing")} onAnalyze={handleAnalyze} uploadedImage={image} onImageSet={setImage} lang={lang} setLang={setLang} gender={gender} setGender={setGender}/>}
       {page==="analyzing"&&<AnalyzingScreen progress={progress} lang={lang} setLang={setLang}/>}
-      {page==="results"&&result&&<ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang}/>}
+      {page==="results"&&result&&<ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang} gender={gender} setGender={setGender}/>}
       <Toast msg={toast}/>
     </>
   );
