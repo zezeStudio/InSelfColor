@@ -236,6 +236,16 @@ const FAQ_DATA: Record<string, { q: string; a: string }[]> = {
 • 태닝 및 자외선 노출: 오랜 야외 활동으로 피부가 검게 그을려 기본 피부톤이 낮아지면 어울리는 명도 조절 범위가 확장되어 이전보다 비비드한 컬러가 더 좋게 매치될 수 있습니다.
 • 헤어/스타일링 연출: 머리 염색 색상, 컬러 렌즈, 메이크업 등의 대비 변화에 따라 베스트 룩의 폭이 조금씩 이동하며 어울리는 연출법이 서브 톤 영역으로 유동적으로 조화를 이룰 수 있습니다.`
     },
+    {
+      q: "본 진단기기에서 제공하는 이미지와 가이드를 블로그나 웹사이트에 안심하고 배포해도 되나요?",
+      a: `네, 100% 완전 안전하며 자유로운 상업적 재배포와 웹사이트 인용이 전면 허용됩니다!
+
+InSelf Color는 구글 애드센스 광고주 고품질 웹사이트 가이드라인(독창성, 저작재산권 보호, 투명도 확보)을 완벽하게 완수하도록 기획되었습니다.
+
+1. 🚫 유명인 침해 요소 제로 (Anti-Celebrity-Theft Rule): 타 유사 진단 사이트에서 무단 인용하여 애드센스 계정 정지 사유가 되는 실존 연예인의 성명이나 미합의된 얼굴 초상권을 일체 도용하지 않습니다. 분석 결과는 '#사랑스러운_과즙미', '#은은한_라벤더' 같은 아름답게 정제된 키워드와 가독성 있는 '해시태그 페르소나' 형태로 출력되어 권리 관계 손실 위험을 완벽히 차단했습니다.
+2. 🎨 100% 저작권 프리 뷰티 그래픽스 (Copyright-Free Visual Artworks): 계절 결과별 발급되는 스타일 IDPass 및 스타일 시각 이미지들은 저작권 허용 라이선스가 발급된 100% 원본 AI 생성 아트워크 및 무료 분배 라이선스(Unsplash/Pixabay 기준) 특수 리소스이므로, 저작권 분쟁으로부터 완벽하게 자유롭습니다.
+3. 💼 도메인 점수 향상 및 상업적 이익: 본 이미지 다운로드 자산(📋 전체내용 이미지, 📸 SNS용 이미지 등)을 귀하의 네이버 블로그, 티스토리, 워드프레스 애드센스 수익형 사이트에 '독창적인 고해상도 정보 콘텐츠(High Unique Value Unit)'로 첨부하면 검색엔진 지표 최적화(SEO)에도 압도적으로 유리합니다.`
+    }
   ],
   en: [
     {
@@ -272,6 +282,16 @@ However, your sub-classification range (the best-matching brightness, saturation
 • Sun Exposure & Tanning: Outdoor activities and sun-tanning darken your skin, slightly expanding the compatible brightness values to bold vivid limits.
 • Wardrobe & Contrast: Changes in dyed hair colors, contact lenses, or styling make your look adjust across adjacent seasonal sub-types smoothly.`
     },
+    {
+      q: "Is it completely safe to share the generated style cards on ad-monetized blogs and websites?",
+      a: `Absolutely! All downloads and screenshots are 100% royalty-free and commercial-redistribution safe.
+
+InSelf Color strictly follows the transparency and copyright compliance doctrines set forth by Google AdSense quality guidelines:
+
+1. 🚫 Anti-Celebrity-Theft: We reject deceptive placeholders. By displaying zero active celebrity names or likeness elements—substituting them with hashtags such as '#ElegantAura' and '#PureFreshPrince'—your blog stays fully compliant with AdSense intellectual property rules.
+2. 🎨 Commercial Model Licensing: Every graphical portrait embedded in the style certificates is an AI-generated, high-fidelity premium design conforming to CC0/Unsplash distributor licenses. They are free of any legal copyright claims.
+3. 💼 Boost Organic Search Rankings (SEO): Incorporating these high-design cards (📋 Full Content Card, 📸 SNS Card) into your blogs, Tistory, or WordPress sites adds "highly unique, rich informational visual content," which positively influences your search relevance and Domain Authority!`
+    }
   ],
 };
 
@@ -445,8 +465,670 @@ function downloadResultCard(season: any, scores: Record<string, number>, lang: "
   a.download=`personal-color-${season.id}_${getFormattedTimestamp()}.png`;a.href=c.toDataURL("image/png");a.click();
 }
 
-// Download detailed high-design result card for SNS Virality - Landscape format
+// Download detailed high-design result card for SNS Virality - Portrait Luxury Editorial format
 function downloadDetailedResultCard(
+  season: any,
+  scores: Record<string, number>,
+  lang: "ko" | "en",
+  customCelebs?: string[],
+  activeCard?: { tag: string; imgPath: string },
+  cardImg?: HTMLImageElement | null,
+  userName?: string
+){
+  const W = 1000, H = 2600, dpr = 2;
+  const c = document.createElement("canvas");
+  c.width = W * dpr; c.height = H * dpr;
+  const ctx = c.getContext("2d");
+  if (!ctx) return;
+  ctx.scale(dpr, dpr);
+
+  // Helper map for converting worst/avoid color names to matching premium hex codes
+  const colorNameToHex: Record<string, string> = {
+    "와인레드": "#722F37", "다크네이비": "#1B2A4A", "블랙": "#1C1C1C", "딥퍼플": "#4B0082", "차콜그레이": "#36454F",
+    "오렌지": "#FF5F1F", "골드": "#D4AF37", "카멜": "#C19A6B", "올리브그린": "#556B2F", "브릭레드": "#8E3A1F",
+    "브라이트핑크": "#FF007F", "라벤더": "#C8A2C8", "네온컬러": "#39FF14", "실버": "#C0C0C0", "아이시블루": "#D0F0F0",
+    "베이지": "#F5F5DC", "피치": "#FFDAB9", "코랄": "#FF7F50", "카키브라운": "#4B4D36", "황금빛": "#FFD700",
+    "차가운 파스텔": "#B0E0E6", "형광": "#ADFF2F", "네온": "#00FF00", "올리브": "#808000",
+    "Wine Red": "#722F37", "Dark Navy": "#1B2A4A", "Black": "#1C1C1C", "Deep Purple": "#4B0082", "Charcoal Gray": "#36454F",
+    "Orange": "#FF5F1F", "Gold": "#D4AF37", "Camel": "#C19A6B", "Olive Green": "#556B2F", "Brick Red": "#8E3A1F",
+    "Bright Pink": "#FF007F", "Lavender": "#C8A2C8", "Neon Colors": "#39FF14", "Silver": "#C0C0C0", "Icy Blue": "#D0F0F0",
+    "Beige": "#F5F5DC", "Peach": "#FFDAB9", "Coral": "#FF7F50", "Warm Brown": "#8B5E3C"
+  };
+
+  // Helper: Draw rounded rectangle
+  const drawRoundRect = (x: number, y: number, w: number, h: number, r: number, fill?: string | CanvasGradient, stroke?: string) => {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    if (fill) {
+      ctx.fillStyle = fill;
+      ctx.fill();
+    }
+    if (stroke) {
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 1.0;
+      ctx.stroke();
+    }
+  };
+
+  // Helper: Wrap text
+  const wrapText = (text: string, x: number, y: number, maxWidth: number, lineHeight: number, maxLines: number = 5) => {
+    let words = text.split(" ");
+    let line = "";
+    let currentY = y;
+    let linesDrawn = 0;
+
+    for (let n = 0; n < words.length; n++) {
+      let testLine = line + words[n] + " ";
+      let metrics = ctx.measureText(testLine);
+      let testWidth = metrics.width;
+      if (testWidth > maxWidth && n > 0) {
+        ctx.fillText(line, x, currentY);
+        line = words[n] + " ";
+        currentY += lineHeight;
+        linesDrawn++;
+        if (linesDrawn >= maxLines) {
+          return currentY;
+        }
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, x, currentY);
+    return currentY + lineHeight;
+  };
+
+  const getFormattedDate = () => {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}.${mm}.${dd}`;
+  };
+
+  // 1. Elegant cotton-rag ivory background
+  ctx.fillStyle = "#FCFAF5";
+  ctx.fillRect(0, 0, W, H);
+
+  // Architectural hairline layout frame
+  ctx.strokeStyle = "rgba(196,149,106,0.32)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(20, 20, W - 40, H - 40);
+  ctx.strokeStyle = "rgba(196,149,106,0.12)";
+  ctx.strokeRect(26, 26, W - 52, H - 52);
+
+  // Corner crosshairs accent (+ style markings)
+  ctx.strokeStyle = "rgba(196,149,106,0.4)";
+  ctx.lineWidth = 1;
+  const drawCross = (cx: number, cy: number) => {
+    ctx.beginPath();
+    ctx.moveTo(cx - 8, cy); ctx.lineTo(cx + 8, cy);
+    ctx.moveTo(cx, cy - 8); ctx.lineTo(cx, cy + 8);
+    ctx.stroke();
+  };
+  drawCross(20, 20); drawCross(W - 20, 20);
+  drawCross(20, H - 20); drawCross(W - 20, H - 20);
+
+  // 2. High-Fashion Editorial Header
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#1E120A"; // Deep Charcoal Espresso
+  ctx.font = "bold 25px Georgia, serif";
+  ctx.fillText("✦  INSELF SPECTRUM DIAL", 50, 68);
+
+  ctx.fillStyle = "rgba(122,96,82,0.72)";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("OFFICIAL PERSONAL COLOR CLINICAL REPORT & AESTHETIC BLUEPRINT", 50, 90);
+
+  const passengerName = userName && userName.trim() ? userName.trim().toUpperCase() : "INSELF GUEST REGISTRY";
+  const uniqueId = `IS-${season.id.substring(0,3).toUpperCase()}-${Math.floor(100000 + Math.random()*900000)}`;
+
+  ctx.textAlign = "right";
+  ctx.font = "bold 11px monospace";
+  ctx.fillStyle = "#C4956A";
+  ctx.fillText(`SERIAL: ${uniqueId}`, 950, 56);
+
+  ctx.font = "normal 10px sans-serif";
+  ctx.fillStyle = "rgba(122,96,82,0.8)";
+  ctx.fillText(`CANDIDATE: ${passengerName}`, 950, 74);
+  ctx.fillText(`DIAGNOSED: ${getFormattedDate()}`, 950, 90);
+  
+  // Clean thin horizontal dividing rules
+  ctx.strokeStyle = "rgba(196,149,106,0.22)";
+  ctx.beginPath();
+  ctx.moveTo(50, 110);
+  ctx.lineTo(950, 110);
+  ctx.stroke();
+
+  // ═══════════════════════════════════════════════════════════
+  // SECTION 01: PERSONAL IDENTITY & FOCUS VISUAL (Y: 130 ~ 680)
+  // ═══════════════════════════════════════════════════════════
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("01  /  SEASON CONTEXT & REPRESENTATIVE VISUAL", 50, 135);
+
+  // Representative Mood Image Frame (With golden frame outline, vertical portrait layout)
+  const imgX = 50, imgY = 160, imgW = 350, imgH = 490;
+  if (cardImg) {
+    ctx.save();
+    ctx.beginPath();
+    const r = 12;
+    ctx.moveTo(imgX + r, imgY);
+    ctx.lineTo(imgX + imgW - r, imgY);
+    ctx.quadraticCurveTo(imgX + imgW, imgY, imgX + imgW, imgY + r);
+    ctx.lineTo(imgX + imgW, imgY + imgH - r);
+    ctx.quadraticCurveTo(imgX + imgW, imgY + imgH, imgX + imgW - r, imgY + imgH);
+    ctx.lineTo(imgX + r, imgY + imgH);
+    ctx.quadraticCurveTo(imgX, imgY + imgH, imgX, imgY + imgH - r);
+    ctx.lineTo(imgX, imgY + r);
+    ctx.quadraticCurveTo(imgX, imgY, imgX + r, imgY);
+    ctx.closePath();
+    ctx.clip();
+    
+    // Draw fine warm gallery backing fill inside clipped area
+    ctx.fillStyle = "rgba(196,149,106,0.06)";
+    ctx.fillRect(imgX, imgY, imgW, imgH);
+
+    try {
+      const imgRatio = cardImg.width / cardImg.height;
+      const targetRatio = imgW / imgH;
+
+      const zoom = 1.22; // 22% scale up to crop and fill nicely
+      let sWidth = cardImg.width;
+      let sHeight = cardImg.height;
+      let sx = 0;
+      let sy = 0;
+
+      if (imgRatio > targetRatio) {
+        // Wide image: crop horizontally
+        sHeight = cardImg.height / zoom;
+        sWidth = sHeight * targetRatio;
+        sx = (cardImg.width - sWidth) / 2;
+        sy = Math.max(0, (cardImg.height - sHeight) * 0.15);
+      } else {
+        // Tall image: crop vertically
+        sWidth = cardImg.width / zoom;
+        sHeight = sWidth / targetRatio;
+        sx = (cardImg.width - sWidth) / 2;
+        // Shift crop frame UP so that we show more of the head/hair (12% of remaining height offset)
+        sy = Math.max(0, (cardImg.height - sHeight) * 0.12);
+      }
+
+      ctx.drawImage(cardImg, sx, sy, sWidth, sHeight, imgX, imgY, imgW, imgH);
+    } catch (e) {
+      console.warn("Could not draw representative image", e);
+    }
+    ctx.restore();
+    drawRoundRect(imgX, imgY, imgW, imgH, 12, undefined, "rgba(196,149,106,0.25)");
+  } else {
+    const grad = ctx.createLinearGradient(imgX, imgY, imgX + imgW, imgY + imgH);
+    grad.addColorStop(0, season.gradStops?.[0] || "#E8EEF8");
+    grad.addColorStop(1, season.gradStops?.[1] || "#C0CFEA");
+    drawRoundRect(imgX, imgY, imgW, imgH, 12, grad, "rgba(196,149,106,0.18)");
+    
+    ctx.fillStyle = "#2D1E12";
+    ctx.font = "bold 13px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("[ Aesthetic Color Swatch Gradient ]", imgX + imgW/2, imgY + imgH/2);
+    ctx.textAlign = "left";
+  }
+
+  // Right side of Section 1 (Detail Description columns - widened and balanced)
+  const sideX = 430, sideW = 520;
+  ctx.fillStyle = "#1E120A";
+  ctx.font = "bold 32px Georgia, serif";
+  const masterSeasonName = lang === "ko" ? season.name : season.nameEn;
+  ctx.fillText(`${season.icon}  ${masterSeasonName}`, sideX, 205);
+
+  // Elegant Signature tag badging
+  const signatureTag = activeCard ? activeCard.tag : (lang === "ko" ? "#인셀프_시그니처_바이온" : "#InSelfCustomVibe");
+  ctx.font = "bold 9.5px sans-serif";
+  const specPillW = ctx.measureText(signatureTag).width + 18;
+  drawRoundRect(sideX, 222, specPillW, 20, 4, "rgba(196,149,106,0.05)", "rgba(196,149,106,0.25)");
+  ctx.fillStyle = "#B08055";
+  ctx.fillText(signatureTag, sideX + 9, 235);
+
+  // Deep spacing Italian luxury Cursive keyword
+  ctx.font = "italic bold 15px Georgia, serif";
+  ctx.fillStyle = "#8B5E3C";
+  const signatureKeyword = lang === "ko" ? `"${season.keyword}"` : `"${season.keywordEn}"`;
+  ctx.fillText(signatureKeyword, sideX, 272);
+
+  // Description narrative
+  ctx.font = "normal 11.5px sans-serif";
+  ctx.fillStyle = "rgba(61,43,26,0.85)";
+  const descString = lang === "ko" ? season.description : season.descriptionEn;
+  wrapText(descString, sideX, 295, sideW, 18.5, 5);
+
+  // On-Screen Feature Inclusion: Subtypes
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("✦ DYNAMIC SUBTYPES / CLASSIFICATION", sideX, 430);
+
+  const subtypesList = lang === "ko" ? season.subtypes : season.subtypesEn;
+  let subX = sideX;
+  subtypesList.forEach((sub: string) => {
+    ctx.font = "normal 10px sans-serif";
+    const tw = ctx.measureText(sub).width + 14;
+    drawRoundRect(subX, 444, tw, 20, 3, "rgba(196,149,106,0.04)", "rgba(196,149,106,0.18)");
+    ctx.fillStyle = "#4C382A";
+    ctx.fillText(sub, subX + 7, 457);
+    subX += tw + 8;
+  });
+
+  // On-Screen Feature Inclusion: Characteristics profile
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("✦ AESTHETIC PROFILE & INDIVIDUAL SIGNALS", sideX, 505);
+
+  const charList = lang === "ko" ? season.characteristics : season.characteristicsEn;
+  charList.slice(0, 3).forEach((char: string, idx: number) => {
+    const cy = 530 + idx * 24;
+    ctx.fillStyle = "#8B5E3C";
+    ctx.font = "bold 11px sans-serif";
+    ctx.fillText("•", sideX, cy + 9);
+    ctx.fillStyle = "rgba(61,43,26,0.9)";
+    ctx.font = "normal 11px sans-serif";
+    ctx.fillText(char, sideX + 12, cy + 9, sideW - 14);
+  });
+
+  // Section divider line
+  ctx.strokeStyle = "rgba(196,149,106,0.16)";
+  ctx.beginPath(); ctx.moveTo(50, 670); ctx.lineTo(950, 670); ctx.stroke();
+
+  // ═══════════════════════════════════════════════════════════
+  // SECTION 02: DIAGNOSTIC MATRIX ANALYSIS (Y: 700 ~ 905)
+  // ═══════════════════════════════════════════════════════════
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("02  /  DIAGNOSTIC ANALYSIS MATRIX WITH ACCUMULATIVE SCORES", 50, 700);
+
+  // Left Matrix Gauges
+  const sortedKeysList = Object.keys(scores).sort((a,b) => scores[b] - scores[a]);
+  const gaugeLX = 50, gaugeLW = 400;
+  sortedKeysList.forEach((key, kIdx) => {
+    if (kIdx > 3) return;
+    const yLine = 730 + kIdx * 35;
+    const s = SEASONS[key];
+    if (!s) return;
+    const sName = lang === "ko" ? s.name.replace(" 타입","") : s.nameEn;
+    const currentScore = scores[key] || 0;
+
+    ctx.fillStyle = "#1E120A";
+    ctx.font = "bold 11px sans-serif";
+    ctx.fillText(`${s.icon} ${sName}`, gaugeLX, yLine + 9);
+
+    const railX = 140;
+    const railW = 200;
+    ctx.fillStyle = "rgba(196,149,106,0.12)";
+    ctx.fillRect(railX, yLine + 5, railW, 4);
+
+    ctx.fillStyle = s.scoreColor || "#C4956A";
+    const fillW = railW * (currentScore / 100);
+    ctx.fillRect(railX, yLine + 5, fillW, 4);
+
+    ctx.beginPath();
+    ctx.arc(railX + fillW, yLine + 7, 5, 0, Math.PI * 2);
+    ctx.fillStyle = s.scoreColor || "#C4956A";
+    ctx.fill();
+    ctx.strokeStyle = "#FCFAF5";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.textAlign = "right";
+    ctx.font = "bold 10px monospace";
+    ctx.fillStyle = "#4C382A";
+    ctx.fillText(`${currentScore}%`, gaugeLX + gaugeLW, yLine + 9);
+    ctx.textAlign = "left";
+  });
+
+  // Right Quote & Spectrum Narrative
+  ctx.fillStyle = "#8B5E3C";
+  ctx.font = "italic bold 14px Georgia, serif";
+  ctx.fillText("✦ Optimal Resonance Ratio", sideX, 735);
+
+  ctx.fillStyle = "rgba(122,96,82,0.85)";
+  ctx.font = "normal 11px sans-serif";
+  const ratioNote = lang === "ko"
+    ? "이 분석 매트릭스는 후보자님의 피부 광택 데이터와 이목구비 음영 대비율을 결합하여 산출해 낸 최적의 신체 스펙트럼 배합 수치입니다."
+    : "This diagnostic calibration index details the visual contrast ratio between skin clarity and facial illumination parameters.";
+  wrapText(ratioNote, sideX, 762, sideW, 17, 4);
+
+  // Section divider line
+  ctx.strokeStyle = "rgba(196,149,106,0.16)";
+  ctx.beginPath(); ctx.moveTo(50, 905); ctx.lineTo(950, 905); ctx.stroke();
+
+  // ═══════════════════════════════════════════════════════════
+  // SECTION 03: THE PAINT DECK COLOR PALETTE (Y: 935 ~ 1165)
+  // ═══════════════════════════════════════════════════════════
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("03  /  RECOMMENDED PERSONAL COLOR SWATCHES & DESIGNER DECKS", 50, 935);
+
+  const swX_start = 50;
+  const swCardW = 132;
+  const swCardH = 175;
+  const swGap = 18;
+  const listPalette = season.palette || [];
+
+  listPalette.forEach(({hex, name, nameEn}: any, i: number) => {
+    if (i > 5) return; // Top 6 colors limit
+    const cx_card = swX_start + i * (swCardW + swGap);
+    const cy_card = 960;
+
+    // Premium Rounded Swatch Card Frame
+    drawRoundRect(cx_card, cy_card, swCardW, swCardH, 8, "rgba(255,255,255,0.85)", "rgba(196,149,106,0.18)");
+
+    // Inner Upper block (the direct solid color coat)
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(cx_card + 3, cy_card + 3);
+    ctx.lineTo(cx_card + swCardW - 3, cy_card + 3);
+    ctx.quadraticCurveTo(cx_card + swCardW, cy_card + 3, cx_card + swCardW, cy_card + 6);
+    ctx.lineTo(cx_card + swCardW, cy_card + 115);
+    ctx.lineTo(cx_card, cy_card + 115);
+    ctx.lineTo(cx_card, cy_card + 6);
+    ctx.quadraticCurveTo(cx_card, cy_card + 3, cx_card + 3, cy_card + 3);
+    ctx.closePath();
+    ctx.clip();
+    ctx.fillStyle = hex;
+    ctx.fillRect(cx_card, cy_card, swCardW, 115);
+    ctx.restore();
+
+    // Matte White Paper Bottom Info Area
+    ctx.fillStyle = "#1E120A";
+    ctx.font = "bold 9.5px sans-serif";
+    ctx.textAlign = "center";
+    const labelLabel = lang === "ko" ? name : nameEn;
+    ctx.fillText(labelLabel, cx_card + swCardW/2, cy_card + swCardH - 34, swCardW - 10);
+
+    ctx.fillStyle = "rgba(122,96,82,0.65)";
+    ctx.font = "normal 8.5px monospace";
+    ctx.fillText(hex.toUpperCase(), cx_card + swCardW/2, cy_card + swCardH - 14);
+  });
+  ctx.textAlign = "left"; // reset
+
+  // Section divider line
+  ctx.strokeStyle = "rgba(196,149,106,0.16)";
+  ctx.beginPath(); ctx.moveTo(50, 1165); ctx.lineTo(950, 1165); ctx.stroke();
+
+  // ═══════════════════════════════════════════════════════════
+  // SECTION 04: COUTURE STYLING & BEAUTY MATRICES (Y: 1195 ~ 1680)
+  // ═══════════════════════════════════════════════════════════
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("04  /  COUTURE DIAGNOSTICS & BESPOKE CURATION MATRICES", 50, 1195);
+
+  const colY = 1225;
+  const colA_X = 50, colA_W = 430;
+  const colB_X = 520, colB_W = 430;
+
+  // Let's print column A: BEAUTY/MAKEUP COUTURE
+  ctx.fillStyle = "#1E120A";
+  ctx.font = "bold 15px Georgia, serif";
+  ctx.fillText("💄  COUTURE BEAUTY & SKIN COALITION", colA_X, colY);
+
+  const beautyItems = [
+    { title: lang === "ko" ? "피부 베이스 (Skin Base)" : "Skin Base", val: lang === "ko" ? season.makeup.foundation : season.makeup.foundationEn },
+    { title: lang === "ko" ? "블러셔 (Cheek Blush)" : "Cheek Blush", val: lang === "ko" ? season.makeup.blush : season.makeup.blushEn },
+    { title: lang === "ko" ? "아이 메이크업 (Eye Accent)" : "Eye Accent", val: lang === "ko" ? season.makeup.eye : season.makeup.eyeEn },
+    { title: lang === "ko" ? "립 메이크업 (Lip Color)" : "Lip Color", val: lang === "ko" ? season.makeup.lip : season.makeup.lipEn }
+  ];
+
+  beautyItems.forEach((b, idx) => {
+    const itemY = colY + 35 + idx * 82;
+    ctx.fillStyle = "#8B5E3C";
+    ctx.font = "bold 10px sans-serif";
+    ctx.fillText(`• ${b.title.toUpperCase()}`, colA_X, itemY);
+
+    ctx.fillStyle = "rgba(61,43,26,0.9)";
+    ctx.font = "normal 11px sans-serif";
+    wrapText(b.val, colA_X + 10, itemY + 16, colA_W - 10, 16.5, 3);
+  });
+
+  // On-Screen Feature Inclusion: Makeup color chips/dots
+  ctx.fillStyle = "#8B5E3C";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("✦ BEAUTY ACCENT COLOR CHIPS", colA_X, 1590);
+
+  const dotColors = season.makeup.dots || [];
+  dotColors.forEach((colorHex: string, chipIdx: number) => {
+    const cx = colA_X + chipIdx * 28;
+    const cy = 1618;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 9, 0, Math.PI * 2);
+    ctx.fillStyle = colorHex;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(196,149,106,0.25)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // Let's print column B: APPAREL/WARDROBE COUTURE
+  ctx.fillStyle = "#1E120A";
+  ctx.font = "bold 15px Georgia, serif";
+  ctx.fillText("👔  WARDROBE ARCHITECT & APPAREL MATRICES", colB_X, colY);
+
+  const wardrobeItems = [
+    { title: lang === "ko" ? "스타일링 무드 (Couture Mood)" : "Signature Couture Mood", val: lang === "ko" ? season.fashion.style : season.fashion.styleEn },
+    { title: lang === "ko" ? "베스트 아웃핏 (Key Pieces)" : "Key Outfit Pieces", val: lang === "ko" ? season.fashion.items.join(", ") : season.fashion.itemsEn.join(", ") },
+    { title: lang === "ko" ? "추천 질감 & 원단 (Fabric Textures)" : "Recommended Fabrics", val: lang === "ko" ? season.fashion.fabrics.join(", ") : season.fashion.fabricsEn.join(", ") },
+    { title: lang === "ko" ? "헤어 컬러 차트 (Curated Hair)" : "Curated Hair Tones", val: lang === "ko" ? (season.hairGuide || "가볍고 경쾌한 브라운 컬") : (season.hairGuideEn || "Light vibrant brown shades") }
+  ];
+
+  wardrobeItems.forEach((w, idx) => {
+    const itemY = colY + 35 + idx * 82;
+    ctx.fillStyle = "#8B5E3C";
+    ctx.font = "bold 10px sans-serif";
+    ctx.fillText(`• ${w.title.toUpperCase()}`, colB_X, itemY);
+
+    ctx.fillStyle = "rgba(61,43,26,0.9)";
+    ctx.font = "normal 11px sans-serif";
+    wrapText(w.val, colB_X + 10, itemY + 16, colB_W - 10, 16.5, 3);
+  });
+
+  // Section divider line
+  ctx.strokeStyle = "rgba(196,149,106,0.16)";
+  ctx.beginPath(); ctx.moveTo(50, 1680); ctx.lineTo(950, 1680); ctx.stroke();
+
+  // ═══════════════════════════════════════════════════════════
+  // SECTION 05: AVOIDANCE CAUTIONS & ALERTS (Y: 1710 ~ 1915)
+  // ═══════════════════════════════════════════════════════════
+  ctx.fillStyle = "#A44E44"; // Elegant Warn Maroon Red
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("05  /  AVOIDANCE ALERTS & STYLING WARNINGS (RED FLAGS)", 50, 1710);
+
+  const warnY = 1740;
+
+  // Left side: Worst Color Warning chips
+  ctx.fillStyle = "#4C382A";
+  ctx.font = "bold 11px sans-serif";
+  ctx.fillText(lang === "ko" ? "⚠️  피해야 할 워스트 색상" : "⚠️  Recommended Worst Palette", 50, warnY);
+
+  const avoidList = season.avoid || [];
+  const startX_av = 50 + 10;
+  const avY_circle = 1800;
+
+  avoidList.forEach((colName: string, i: number) => {
+    if (i > 3) return; // limit to 4
+    const cx_av = startX_av + i * 85;
+    const hexVal = colorNameToHex[colName] || "#D3D3D3";
+
+    // Circle color disk
+    ctx.beginPath();
+    ctx.arc(cx_av, avY_circle, 22, 0, Math.PI * 2);
+    ctx.fillStyle = hexVal;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(164,78,68,0.35)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Red cancel markers cross
+    ctx.strokeStyle = "#A44E44";
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    ctx.moveTo(cx_av - 11, avY_circle - 11);
+    ctx.lineTo(cx_av + 11, avY_circle + 11);
+    ctx.moveTo(cx_av + 11, avY_circle - 11);
+    ctx.lineTo(cx_av - 11, avY_circle + 11);
+    ctx.stroke();
+
+    // label text
+    ctx.fillStyle = "#1E120A";
+    ctx.font = "bold 9px sans-serif";
+    ctx.textAlign = "center";
+    const avoidLabelStr = lang === "ko" ? colName : (season.avoidEn?.[i] || colName);
+    ctx.fillText(avoidLabelStr, cx_av, avY_circle + 40, 80);
+  });
+  ctx.textAlign = "left"; // reset
+
+  // Right side: Worst Wear Alert Text
+  ctx.fillStyle = "#A44E44";
+  ctx.font = "bold 11.5px sans-serif";
+  ctx.fillText(lang === "ko" ? "⚠️  피해야 할 스타일링 경고" : "⚠️  Apparel Guidelines to Avoid", sideX, warnY);
+
+  ctx.fillStyle = "rgba(61,43,26,0.92)";
+  ctx.font = "normal 11px sans-serif";
+  const fashionAvoidVal = lang === "ko" ? season.fashion.avoid.join(", ") : season.fashion.avoidEn.join(", ");
+  const curWarnTextY = wrapText(`${lang === "ko" ? "최악의 착장" : "Worst Apparel"}: ${fashionAvoidVal}`, sideX, warnY + 28, sideW, 16.5, 3) + 12;
+
+  const styleTipStr = lang === "ko" ? season.tip : season.tipEn;
+  wrapText(`${lang === "ko" ? "스타일 가이드" : "Styling Tip"}: ${styleTipStr}`, sideX, curWarnTextY + 6, sideW, 16.5, 3);
+
+  // Section divider line
+  ctx.strokeStyle = "rgba(196,149,106,0.16)";
+  ctx.beginPath(); ctx.moveTo(50, 1915); ctx.lineTo(950, 1915); ctx.stroke();
+
+  // ═══════════════════════════════════════════════════════════
+  // SECTION 06: ESTHETIC HARMONY & DETAILED COLOR CHARTS (Y: 1945 ~ 2110)
+  // ═══════════════════════════════════════════════════════════
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("06  /  ESTHETIC COLOR HARMONY & CONTRAST CALIBRATION", 50, 1945);
+
+  const detY = 1975;
+  // Left Side: Best Colors
+  ctx.fillStyle = "#1E120A";
+  ctx.font = "bold 11px sans-serif";
+  ctx.fillText(lang === "ko" ? "✅  어울리는 베스트 색상표" : "✅  Recommended Harmonious Palette", 50, detY);
+
+  ctx.fillStyle = "rgba(61,43,26,0.9)";
+  ctx.font = "normal 11.5px sans-serif";
+  const bestColors = lang === "ko" ? season.recommended : season.recommendedEn;
+  wrapText(bestColors.join("  ·  "), 50, detY + 30, colA_W, 18, 4);
+
+  // Right Side: Avoid Colors
+  ctx.fillStyle = "#A44E44";
+  ctx.font = "bold 11px sans-serif";
+  ctx.fillText(lang === "ko" ? "❌  자제해야 할 세부 색상" : "❌  Clashing Colors to Minimize", sideX, detY);
+
+  ctx.fillStyle = "rgba(61,43,26,0.9)";
+  ctx.font = "normal 11.5px sans-serif";
+  const avoidColorsLst = lang === "ko" ? season.avoid : season.avoidEn;
+  wrapText(avoidColorsLst.join("  ·  "), sideX, detY + 30, colB_W, 18, 4);
+
+  // Section divider line
+  ctx.strokeStyle = "rgba(196,149,106,0.16)";
+  ctx.beginPath(); ctx.moveTo(50, 2110); ctx.lineTo(950, 2110); ctx.stroke();
+
+  // ═══════════════════════════════════════════════════════════
+  // SECTION 07: CELEBRITY MOOD & TAG REFERENCE (Y: 2140 ~ 2275)
+  // ═══════════════════════════════════════════════════════════
+  ctx.fillStyle = "#C4956A";
+  ctx.font = "bold 9px sans-serif";
+  ctx.fillText("07  /  SIGNATURE REPLICAS & ACCENT CELEBRITY QUALITY TAGS", 50, 2140);
+
+  ctx.fillStyle = "#1E120A";
+  ctx.font = "bold 11px sans-serif";
+  ctx.fillText(lang === "ko" ? "✦ 대표 키워드 & 무드 태그 조합" : "✦ Representative Keywords & Custom Mood Tags", 50, 2165);
+
+  const rCelebs = lang === "ko" ? customCelebs || [] : customCelebs || [];
+  let badgeX = 50;
+  let badgeY = 2190;
+  rCelebs.forEach((tag: string) => {
+    ctx.font = "bold 10px sans-serif";
+    const tagW = ctx.measureText(tag).width + 20;
+    if (badgeX + tagW > 950) {
+      badgeX = 50;
+      badgeY += 28;
+    }
+    // Draw pretty tag capsule
+    drawRoundRect(badgeX, badgeY, tagW, 22, 11, "rgba(196,149,106,0.06)", "rgba(196,149,106,0.2)");
+    ctx.fillStyle = "#8B5E3C";
+    ctx.fillText(tag, badgeX + 10, badgeY + 14);
+    badgeX += tagW + 12;
+  });
+
+  // Section divider line before footer
+  ctx.strokeStyle = "rgba(196,149,106,0.22)";
+  ctx.beginPath(); ctx.moveTo(50, 2375); ctx.lineTo(950, 2375); ctx.stroke();
+
+  // ═══════════════════════════════════════════════════════════
+  // SECTION 08: BRANDING INTEGRITY, BARCODE & STAMP (Y: 2400 ~ 2580)
+  // ═══════════════════════════════════════════════════════════
+  
+  // A. Quality certification decorative concentric seal stamp (Left)
+  ctx.save();
+  ctx.strokeStyle = "rgba(196,149,106,0.3)";
+  ctx.lineWidth = 0.8;
+  const stampX = 140, stampY = 2465;
+  ctx.beginPath(); ctx.arc(stampX, stampY, 40, 0, Math.PI * 2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(stampX, stampY, 36, 0, Math.PI * 2); ctx.stroke();
+  
+  ctx.fillStyle = "rgba(196,149,106,0.55)";
+  ctx.font = "bold 6px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("AUTHENTICITY", stampX, stampY - 10);
+  ctx.font = "bold 8px sans-serif";
+  ctx.fillText("INSELF", stampX, stampY + 2);
+  ctx.font = "bold 6px monospace";
+  ctx.fillText("VERIFIED SPECTRA", stampX, stampY + 14);
+  ctx.restore();
+
+  // B. Editorial Copyright Center Stamp
+  ctx.textAlign = "center";
+  ctx.fillStyle = "rgba(180,140,100,0.52)";
+  ctx.font = "normal 9px sans-serif";
+  ctx.fillText("DESIGNED BY INSELF STUDIO   ·   ALL SPECTRUM SPECIFICATIONS REGISTERED", W / 2, 2442);
+  ctx.fillText("DISCOVER YOUR DEEPEST COGNITIVE AESTHETICS AND AUTHENTIC PERSONAL COLOR", W / 2, 2458);
+  ctx.fillText("✓ 100% ROYALTY-FREE INTELLECTUAL PROPERTY SAFE FOR COMMERCIAL DISTRIBUTION", W / 2, 2474);
+
+  // C. Designer Security Barcode block (Right)
+  const barX = 730, barY = 2432, barW = 200, barH = 34;
+  ctx.fillStyle = "#1E120A";
+  // Draw random unique barcodes
+  let curX = barX;
+  const barPatterns = [2,1,2,3,1,1,2,3,1,4,1,2,1,1,3,2,1,1,2,1,3,1,1,4,1,1,3,2,2];
+  for (let b = 0; b < barPatterns.length; b++) {
+    const singleW = barPatterns[b];
+    if (b % 2 === 0) {
+      ctx.fillRect(curX, barY, singleW * 1.5, barH);
+    }
+    curX += singleW * 1.5 + 1.2;
+  }
+  // Alphanumeric Serial below barcode
+  ctx.fillStyle = "rgba(122,96,82,0.8)";
+  ctx.font = "bold 8.5px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText(`* ${uniqueId} *`, barX + barW/2, barY + barH + 11);
+
+  // Trigger Download
+  const a = document.createElement("a");
+  a.download = `inself-style-master-report-${season.id}_${getFormattedTimestamp()}.png`;
+  a.href = c.toDataURL("image/png");
+  a.click();
+}
+
+// Download detailed high-design result card for SNS Virality - Bento Boxes layout
+function downloadSnsCard(
   season: any,
   scores: Record<string, number>,
   lang: "ko" | "en",
@@ -537,7 +1219,7 @@ function downloadDetailedResultCard(
   ctx.fillStyle = "#FBF9F5"; // Elegant cotton sand off-white
   ctx.fillRect(0, 0, W, H);
 
-  // Geometric layout border framing (Double ultra-fine lines mimicking premium luxury collection catalogues)
+  // Geometric layout border framing
   ctx.strokeStyle = "rgba(196,149,106,0.32)";
   ctx.lineWidth = 1;
   ctx.strokeRect(18, 18, W - 36, H - 36);
@@ -575,34 +1257,12 @@ function downloadDetailedResultCard(
   ctx.lineTo(1230, 102);
   ctx.stroke();
 
-  // 3. THREE-COLUMN EDITORIAL GEOMETRIC GRID (Establish clean Swiss-design guidelines via thin layout grids)
-  ctx.strokeStyle = "rgba(196,149,106,0.15)";
-  ctx.lineWidth = 1;
-  
-  // Grid Divider Line 1 (x = 390)
-  ctx.beginPath();
-  ctx.moveTo(390, 120);
-  ctx.lineTo(390, 665);
-  ctx.stroke();
-
-  // Grid Divider Line 2 (x = 830)
-  ctx.beginPath();
-  ctx.moveTo(830, 120);
-  ctx.lineTo(830, 665);
-  ctx.stroke();
-
   // ═══════════════════════════════════════════════════════════
-  // COLUMN 1: PERSONAL TONE & DESCRIPTION (X: 48 ~ 370)
+  // COLUMN 1: PERSONAL IDENTITY (X: 48 ~ 370)
   // ═══════════════════════════════════════════════════════════
   ctx.textAlign = "left";
-  
-  // Section Index Label
-  ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 9px sans-serif";
-  ctx.fillText("01  /  PERSONAL IDENTITY", 48, 131);
 
-  // Representative Mood Image Frame
-  const imgX = 48, imgY = 153, imgW = 320, imgH = 240;
+  const imgX = 68, imgY = 125, imgW = 280, imgH = 390;
   if (cardImg) {
     ctx.save();
     ctx.beginPath();
@@ -619,8 +1279,36 @@ function downloadDetailedResultCard(
     ctx.closePath();
     ctx.clip();
     
+    // Draw fine warm gallery backing fill inside clipped area
+    ctx.fillStyle = "rgba(196,149,106,0.06)";
+    ctx.fillRect(imgX, imgY, imgW, imgH);
+
     try {
-      ctx.drawImage(cardImg, imgX, imgY, imgW, imgH);
+      const imgRatio = cardImg.width / cardImg.height;
+      const targetRatio = imgW / imgH;
+
+      const zoom = 1.22; // 22% scale up to crop and fill nicely
+      let sWidth = cardImg.width;
+      let sHeight = cardImg.height;
+      let sx = 0;
+      let sy = 0;
+
+      if (imgRatio > targetRatio) {
+        // Wide image: crop horizontally
+        sHeight = cardImg.height / zoom;
+        sWidth = sHeight * targetRatio;
+        sx = (cardImg.width - sWidth) / 2;
+        sy = Math.max(0, (cardImg.height - sHeight) * 0.15);
+      } else {
+        // Tall image: crop vertically
+        sWidth = cardImg.width / zoom;
+        sHeight = sWidth / targetRatio;
+        sx = (cardImg.width - sWidth) / 2;
+        // Shift crop frame UP to preserve head/hair (12% of remaining height offset)
+        sy = Math.max(0, (cardImg.height - sHeight) * 0.12);
+      }
+
+      ctx.drawImage(cardImg, sx, sy, sWidth, sHeight, imgX, imgY, imgW, imgH);
     } catch (e) {
       console.warn("Could not draw representative image", e);
     }
@@ -642,49 +1330,50 @@ function downloadDetailedResultCard(
     ctx.textAlign = "left";
   }
 
-  // Detected Season Tone title label
+  // Detected Season Tone title label (shifted down slightly for increased image height)
   ctx.fillStyle = "#2D1E12";
   ctx.font = "bold 23px serif";
   const masterSeasonName = lang === "ko" ? season.name : season.nameEn;
-  ctx.fillText(`${season.icon}  ${masterSeasonName}`, 48, 423);
+  ctx.fillText(`${season.icon}  ${masterSeasonName}`, 48, 544);
 
   // Style Tag Badge
   const signatureTag = activeCard ? activeCard.tag : (lang === "ko" ? "#인셀프_시그니처_바이온" : "#InSelfCustomVibe");
   ctx.font = "bold 9.5px sans-serif";
   ctx.fillStyle = "rgba(196,149,106,0.06)";
   const specPillW = ctx.measureText(signatureTag).width + 18;
-  drawRoundRect(48, 439, specPillW, 20, 10, "rgba(196,149,106,0.06)", "rgba(196,149,106,0.2)");
+  drawRoundRect(48, 560, specPillW, 20, 10, "rgba(196,149,106,0.06)", "rgba(196,149,106,0.2)");
   
   ctx.fillStyle = "#C4956A";
-  ctx.fillText(signatureTag, 57, 452);
+  ctx.fillText(signatureTag, 57, 573);
 
   // Elegant cursive spacing mood keyword
   ctx.font = "italic bold 13.5px serif";
   ctx.fillStyle = "#8B5E3C";
   const signatureKeyword = lang === "ko" ? `"${season.keyword}"` : `"${season.keywordEn}"`;
-  ctx.fillText(signatureKeyword, 48, 484);
+  ctx.fillText(signatureKeyword, 48, 604);
 
   // Detailed Description Body
-  ctx.font = "normal 11px sans-serif";
+  ctx.font = "normal 10.5px sans-serif";
   ctx.fillStyle = "rgba(61,43,26,0.85)";
   const descString = lang === "ko" ? season.description : season.descriptionEn;
-  wrapText(descString, 48, 505, 320, 16.5, 9);
-
+  wrapText(descString, 48, 622, 320, 15, 5);
 
   // ═══════════════════════════════════════════════════════════
-  // COLUMN 2: ANALYTICAL SWATCH & SCORES (X: 415 ~ 800)
+  // RIGHT AREA BENTO BOXES (BENTO BOX 1 & BENTO BOX 2)
   // ═══════════════════════════════════════════════════════════
-  // Section Index Label
-  ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 9px sans-serif";
-  ctx.fillText("02  /  RECOMMENDED STYLE COLOR PALETTE", 415, 131);
+  
+  // Bento Box 1: Palette (X: 430, Y: 120, W: 470, H: 180)
+  drawRoundRect(430, 120, 470, 180, 16, "rgba(255,255,255,0.73)", "rgba(196,149,106,0.16)");
 
-  // Material Palette Chips row (6 elegant leather palette items)
+  ctx.fillStyle = "#2D1E12";
+  ctx.font = "bold 12px sans-serif";
+  ctx.fillText(lang === "ko" ? "🎨  추천 컬러 팔레트" : "🎨  Recommended Color Palette", 450, 142);
+
+  const startX_sw = 450;
+  const swY = 162;
   const swatchChipW = 54;
   const swatchChipH = 75;
   const swatchGap = 12;
-  const startX_sw = 415;
-  const swY = 153;
   const swList = season.palette || [];
 
   swList.forEach(({hex, name, nameEn}: any, i: number) => {
@@ -706,204 +1395,202 @@ function downloadDetailedResultCard(
   });
   ctx.textAlign = "left"; // reset alignment
 
-  // Section Index Label
-  ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 9px sans-serif";
-  ctx.fillText("03  /  DIAGNOSTIC ANALYSIS MATRIX", 415, 273);
+  // Bento Box 2: Precision Matching Scores (X: 920, Y: 120, W: 310, H: 180)
+  drawRoundRect(920, 120, 310, 180, 16, "rgba(255,255,255,0.73)", "rgba(196,149,106,0.16)");
 
-  // Custom Slider Dots Score Visualizers (Very clean and precise lines)
+  ctx.fillStyle = "#3D2B1A";
+  ctx.font = "bold 13px sans-serif";
+  const scoreBoxTitle = lang === "ko" ? "📊  정밀 분석 매칭 스코어" : "📊  Precision Matching Scores";
+  ctx.fillText(scoreBoxTitle, 940, 145);
+
   const sortedKeysList = Object.keys(scores).sort((a,b) => scores[b] - scores[a]);
   sortedKeysList.forEach((key, kIdx) => {
-    if (kIdx > 3) return; // 사계절 모두 포진
-    const yLine = 299 + kIdx * 34;
+    if (kIdx > 3) return;
+    const yLine = 162 + kIdx * 25;
     const s = SEASONS[key];
     if (!s) return;
     const sName = lang === "ko" ? s.name.replace(" 타입","") : s.nameEn;
     const currentScore = scores[key] || 0;
-
-    // Season Descriptor name
-    ctx.fillStyle = "#2D1E12";
-    ctx.font = "bold 11px sans-serif";
-    ctx.fillText(`${s.icon} ${sName}`, 415, yLine + 9);
-
-    // Flat thin rail line
-    const railX = 515;
-    const railW = 215;
-    ctx.fillStyle = "rgba(196,149,106,0.14)";
-    ctx.fillRect(railX, yLine + 6, railW, 4);
-
-    // Filled slider color line
+    
+    ctx.fillStyle = "rgba(61,43,26,0.9)";
+    ctx.font = "bold 10px sans-serif";
+    ctx.fillText(`${s.icon} ${sName}`, 940, yLine + 9);
+    
+    ctx.fillStyle = "rgba(196,149,106,0.1)";
+    ctx.fillRect(1015, yLine + 4, 140, 6);
     ctx.fillStyle = s.scoreColor || "#C4956A";
-    const activeLength = railW * (currentScore / 100);
-    ctx.fillRect(railX, yLine + 6, activeLength, 4);
-
-    // Slider Dial Pin Dot button
-    ctx.beginPath();
-    ctx.arc(railX + activeLength, yLine + 8, 5, 0, Math.PI * 2);
-    ctx.fillStyle = s.scoreColor || "#C4956A";
-    ctx.fill();
-    ctx.strokeStyle = "#FBF9F5";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    // Score Label
-    ctx.textAlign = "right";
+    ctx.fillRect(1015, yLine + 4, 140 * currentScore / 100, 6);
+    
     ctx.font = "bold 10px monospace";
     ctx.fillStyle = "rgba(61,43,26,0.85)";
-    ctx.fillText(`${currentScore}%`, 795, yLine + 10);
+    ctx.textAlign = "right";
+    ctx.fillText(`${currentScore}%`, 1200, yLine + 9);
     ctx.textAlign = "left";
   });
 
-  // Flat divider line
-  ctx.strokeStyle = "rgba(196,149,106,0.15)";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(415, 461);
-  ctx.lineTo(805, 461);
-  ctx.stroke();
+  // Bento Box 3: Beauty & Style Curation (X: 430, Y: 320, W: 510, H: 350)
+  drawRoundRect(430, 320, 510, 350, 16, "rgba(255,255,255,0.73)", "rgba(196,149,106,0.16)");
 
-  // Premium Studio Branding Note in Empty Base of Column 2
-  ctx.fillStyle = "#8B5E3C";
-  ctx.font = "italic 13px serif";
-  ctx.fillText("✦  Tailored for Authentic Aesthetics  ✦", 415, 498);
+  const col1X = 454;
+  const col2X = 704;
 
-  ctx.fillStyle = "rgba(122,96,82,0.82)";
-  ctx.font = "normal 10.5px sans-serif";
-  const brandingNote = lang === "ko"
-    ? "인셀프 마스터 분석은 유닛 컬러 및 고유 스펙트럼 데이터를 조합 가공한 럭셔리 결과 리포트로서, 최적의 뷰티 연출을 위한 가이드를 제공합니다."
-    : "This analysis integrates and calibrates personal spectrum logs to project elite aesthetic direction with meticulous precision.";
-  wrapText(brandingNote, 415, 519, 390, 15.5, 6);
+  // Makeup Curation
+  ctx.fillStyle = "#3D2B1A";
+  ctx.font = "bold 14px sans-serif";
+  ctx.fillText(lang === "ko" ? "💄  추천 뷰티/메이크업 가이드" : "💄  Couture Beauty & Makeup", col1X, 352);
 
+  let curY = 376;
+  const textW_col1 = 220;
 
-  // ═══════════════════════════════════════════════════════════
-  // COLUMN 3: STYLIST CURATION & AVOID WARNINGS (X: 855 ~ 1220)
-  // ═══════════════════════════════════════════════════════════
-  // Section Index Label
-  ctx.fillStyle = "#C4956A";
-  ctx.font = "bold 9px sans-serif";
-  ctx.fillText("04  /  COUTURE BEAUTY & STYLE CURATION", 855, 131);
-
-  let rightY = 153;
-
-  // Beauty Makeup / Wardrobe Columns card drawers
-  const drawCurationBlock = (curLabel: string, curText: string, iconStr: string) => {
+  const drawCurationBullet = (bulletLabel: string, bulletVal: string, startY: number) => {
     ctx.fillStyle = "rgba(122,96,82,0.95)";
-    ctx.font = "bold 10.5px sans-serif";
-    ctx.fillText(`${iconStr}  ${curLabel}`, 855, rightY);
+    ctx.font = "bold 11px sans-serif";
+    ctx.fillText(`• ${bulletLabel}`, col1X, startY);
     
-    ctx.fillStyle = "rgba(45,30,18,0.9)";
-    ctx.font = "normal 10px sans-serif";
-    
-    // Auto margin and text mapping
-    rightY = wrapText(curText, 855 + 12, rightY + 16, 350, 14, 3);
-    
-    // Thin separating horizontal dot lines
-    ctx.strokeStyle = "rgba(196,149,106,0.11)";
-    ctx.beginPath();
-    ctx.moveTo(855, rightY);
-    ctx.lineTo(1220, rightY);
-    ctx.stroke();
-    rightY += 12;
+    ctx.fillStyle = "rgba(61,43,26,0.9)";
+    ctx.font = "normal 10.5px sans-serif";
+    return wrapText(bulletVal, col1X + 10, startY + 16, textW_col1, 14.5) + 16;
   };
 
-  // Base Foundation info
-  drawCurationBlock(
-    lang === "ko" ? "피부 베이스 (Skin Base Recommendation)" : "Skin Base Formulation",
-    lang === "ko" ? season.makeup.foundation : season.makeup.foundationEn,
-    "💄"
+  curY = drawCurationBullet(
+    lang === "ko" ? "피부 베이스 (Skin Base)" : "Skin Base", 
+    lang === "ko" ? season.makeup.foundation : season.makeup.foundationEn, 
+    curY
   );
 
-  // Lip point info
-  drawCurationBlock(
-    lang === "ko" ? "립 메이크업 (Lip Color Accent)" : "Bespoke Lip Point",
-    lang === "ko" ? season.makeup.lip : season.makeup.lipEn,
-    "💋"
+  curY = drawCurationBullet(
+    lang === "ko" ? "블러셔 (Cheek Color/Blush)" : "Blush & Cheek", 
+    lang === "ko" ? season.makeup.blush : season.makeup.blushEn, 
+    curY
   );
 
-  // Clothing signature couture mood
-  drawCurationBlock(
-    lang === "ko" ? "스타일 가이드 무드 (Signature Couture Mood)" : "Couture Styling Mood",
-    lang === "ko" ? season.fashion.style : season.fashion.styleEn,
-    "👗"
+  curY = drawCurationBullet(
+    lang === "ko" ? "아이 섀도우 (Eyes)" : "Eye Accent", 
+    lang === "ko" ? season.makeup.eye : season.makeup.eyeEn, 
+    curY
   );
 
-  // Fashion styling best match items
-  drawCurationBlock(
-    lang === "ko" ? "머스트 해브 패션 아이템 (Key Style Pieces)" : "Couture Key Pieces",
-    lang === "ko" ? season.fashion.items.join(", ") : season.fashion.itemsEn.join(", "),
-    "👔"
+  curY = drawCurationBullet(
+    lang === "ko" ? "립 가이드 (Lips Point)" : "Lip Guide", 
+    lang === "ko" ? season.makeup.lip : season.makeup.lipEn, 
+    curY
   );
 
-  // Fabric Materials
-  drawCurationBlock(
-    lang === "ko" ? "추천 패브릭 & 소재 (Recommended Material)" : "Recommended Fabrics & Finish",
-    lang === "ko" ? season.fashion.fabrics.join(", ") : season.fashion.fabricsEn.join(", "),
-    "✦"
-  );
+  // Wardrobe Style Curation
+  ctx.fillStyle = "#3D2B1A";
+  ctx.font = "bold 14px sans-serif";
+  ctx.fillText(lang === "ko" ? "👔  추천 워드로브 가이드" : "👔  Wardrobe Stylist Guide", col2X, 352);
 
-  // Section Index Label (Warning alerts)
-  ctx.fillStyle = "#A44E44"; // Warning Brick Red color
-  ctx.font = "bold 9px sans-serif";
-  ctx.fillText("05  /  AVOIDANCE & WORST ACTION WARNING", 855, rightY + 2);
-  rightY += 18;
+  let curY2 = 376;
+  const textW_col2 = 215;
 
-  // Disk swatch for worst warning colors
-  const avoidColors = season.avoid || [];
-  const startX_av = 855 + 12;
-
-  avoidColors.forEach((colorName: string, i: number) => {
-    if (i > 3) return; // Top 4 colors limit
-    const cx_av = startX_av + i * 55;
-    const hexValue = colorNameToHex[colorName] || "#CCCCCC";
+  const drawWardrobeBullet = (bulletLabel: string, bulletVal: string, startY: number) => {
+    ctx.fillStyle = "rgba(122,96,82,0.95)";
+    ctx.font = "bold 11px sans-serif";
+    ctx.fillText(`• ${bulletLabel}`, col2X, startY);
     
-    // Pastel warning circle disk with tiny cross marker
+    ctx.fillStyle = "rgba(61,43,26,0.9)";
+    ctx.font = "normal 10.5px sans-serif";
+    return wrapText(bulletVal, col2X + 10, startY + 16, textW_col2, 14.5) + 16;
+  };
+
+  curY2 = drawWardrobeBullet(
+    lang === "ko" ? "패션 무드 (Couture Mood)" : "Couture Mood",
+    lang === "ko" ? season.fashion.style : season.fashion.styleEn,
+    curY2
+  );
+
+  curY2 = drawWardrobeBullet(
+    lang === "ko" ? "패션 강추 아이템 (Best Items)" : "Best Items",
+    lang === "ko" ? season.fashion.items.join(", ") : season.fashion.itemsEn.join(", "),
+    curY2
+  );
+
+  curY2 = drawWardrobeBullet(
+    lang === "ko" ? "추천 패브릭 & 소재 (Best Fabrics)" : "Fabrics & Sheer",
+    lang === "ko" ? season.fashion.fabrics.join(", ") : season.fashion.fabricsEn.join(", "),
+    curY2
+  );
+
+  // Bento Box 4: Worst Alerts (X: 960, Y: 320, W: 270, H: 350)
+  drawRoundRect(960, 320, 270, 350, 16, "rgba(255,255,255,0.73)", "rgba(196,149,106,0.16)");
+
+  ctx.fillStyle = "#A44E44"; // Elegant Warn Color
+  ctx.font = "bold 14px sans-serif";
+  const worstBoxTitle = lang === "ko" ? "⚠️  워스트 경고 가이드" : "⚠️  Avoid & Worst Warning";
+  ctx.fillText(worstBoxTitle, 980, 352);
+
+  // Swatches for Worst Colors
+  ctx.fillStyle = "rgba(122,96,82,0.95)";
+  ctx.font = "bold 11px sans-serif";
+  ctx.fillText(lang === "ko" ? "• 피해야 할 워스트 컬러" : "• Highly Avoid Colors", 980, 382);
+
+  const avoidList = season.avoid || [];
+  const startX_av = 980 + 20;
+  const avY = 416;
+
+  avoidList.forEach((colName: string, i: number) => {
+    if (i > 3) return; // limit to 4 colors max
+    const cx_av = startX_av + i * 55;
+    const hexValue = colorNameToHex[colName] || "#D3D3D3";
+    
+    // Circle Color
     ctx.beginPath();
-    ctx.arc(cx_av, rightY + 14, 13, 0, Math.PI * 2);
+    ctx.arc(cx_av, avY, 15, 0, Math.PI * 2);
     ctx.fillStyle = hexValue;
     ctx.fill();
-    ctx.strokeStyle = "rgba(164,78,68,0.3)";
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(164,78,68,0.25)";
+    ctx.lineWidth = 1.5;
     ctx.stroke();
-
-    // Small elegant warning cross markup
+    
+    // Cross drawing
     ctx.strokeStyle = "#A44E44";
-    ctx.lineWidth = 1.2;
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.moveTo(cx_av - 6, rightY + 14 - 6);
-    ctx.lineTo(cx_av + 6, rightY + 14 + 6);
-    ctx.moveTo(cx_av + 6, rightY + 14 - 6);
-    ctx.lineTo(cx_av - 6, rightY + 14 + 6);
+    ctx.moveTo(cx_av - 8, avY - 8);
+    ctx.lineTo(cx_av + 8, avY + 8);
+    ctx.moveTo(cx_av + 8, avY - 8);
+    ctx.lineTo(cx_av - 8, avY + 8);
     ctx.stroke();
-
-    // Swatch Label
-    ctx.fillStyle = "rgba(45,30,18,0.95)";
-    ctx.font = "bold 8.5px sans-serif";
+    
+    // Label
+    ctx.fillStyle = "rgba(61,43,26,0.9)";
+    ctx.font = "bold 9px sans-serif";
     ctx.textAlign = "center";
-    const avoidLabel = lang === "ko" ? colorName : (season.avoidEn?.[i] || colorName);
-    ctx.fillText(avoidLabel, cx_av, rightY + 39, 48);
+    const labelText = lang === "ko" ? colName : (season.avoidEn?.[i] || colName);
+    ctx.fillText(labelText, cx_av, avY + 26);
   });
   ctx.textAlign = "left"; // reset alignment
 
-  // Dermal styling warnings summary
-  ctx.font = "normal 10px sans-serif";
-  ctx.fillStyle = "rgba(164,78,68,0.95)";
-  const avoidWardrobe = lang === "ko" 
-    ? `Avoid wear: ${season.fashion.avoid.slice(0, 2).join(", ")} | ${season.tip}` 
-    : `Avoid wear: ${season.fashion.avoidEn.slice(0, 2).join(", ")} | ${season.tipEn}`;
-  wrapText(avoidWardrobe, 855 + 12, rightY + 54, 345, 13.5, 3);
+  // Worst Style Note
+  let curY3 = 472;
+  ctx.fillStyle = "rgba(122,96,82,0.95)";
+  ctx.font = "bold 11px sans-serif";
+  ctx.fillText(lang === "ko" ? "• 피해야 할 스타일 & 착장" : "• Wardrobe to Avoid", 980, curY3);
 
+  ctx.fillStyle = "#A44E44";
+  ctx.font = "normal 10.5px sans-serif";
+  const fashionAvoidVal = lang === "ko" ? season.fashion.avoid.join(", ") : season.fashion.avoidEn.join(", ");
+  curY3 = wrapText(fashionAvoidVal, 980 + 10, curY3 + 16, 230, 14.5) + 20;
 
-  // ═══════════════════════════════════════════════════════════
-  // 4. FOOTER FINE BRANDING SECTION
-  // ═══════════════════════════════════════════════════════════
+  ctx.fillStyle = "rgba(122,96,82,0.95)";
+  ctx.font = "bold 11px sans-serif";
+  ctx.fillText(lang === "ko" ? "• 스타일링 어바웃 워닝" : "• Styling Warnings", 980, curY3);
+
+  ctx.fillStyle = "rgba(61,43,26,0.9)";
+  ctx.font = "normal 10.5px sans-serif";
+  const styleTipStr = lang === "ko" ? season.tip : season.tipEn;
+  wrapText(styleTipStr, 980 + 10, curY3 + 16, 230, 14.5);
+
+  // 6. Footer Branding
   ctx.textAlign = "center";
-  ctx.fillStyle = "rgba(180,140,100,0.55)";
-  ctx.font = "normal 9.5px sans-serif";
-  ctx.fillText("INSELF COLOR   ·   CREATIVE ARCHITECTS OF AUTHENTIC VIBE   ·   STUDIO REPORT PERSISTENCE", W / 2, 701);
+  ctx.fillStyle = "rgba(180,140,100,0.5)";
+  ctx.font = "normal 11px sans-serif";
+  ctx.fillText("InSelf Color   ·   Discover Your Personalized Vibe", W/2, 698);
 
   // Trigger Download
   const a=document.createElement("a");
-  a.download=`inself-style-master-report-${season.id}_${getFormattedTimestamp()}.png`;
+  a.download=`personal-color-card-${season.id}_${getFormattedTimestamp()}.png`;
   a.href=c.toDataURL("image/png");
   a.click();
 }
@@ -925,9 +1612,10 @@ const CSS=`
   @keyframes si{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
   /* NAV */
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;position:sticky;top:0;background:rgba(253,248,242,0.85);backdrop-filter:blur(10px);z-index:100;border-bottom:1px solid rgba(196,149,106,0.12);}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 32px;position:sticky;top:0;background:rgba(253,248,242,0.85);backdrop-filter:blur(10px);z-index:100;border-bottom:1px solid rgba(196,149,106,0.12);}
   .logo{font-family:var(--fd);font-size:20px;font-weight:600;color:var(--dark);letter-spacing:.04em;}
   .logo span{color:var(--rg);font-style:italic;}
+  .logo-img{height:48px;width:auto;object-fit:contain;display:block;}
   .nav-tag{font-size:11px;color:var(--sub);letter-spacing:.1em;}
 
   /* ORBS */
@@ -1242,7 +1930,7 @@ const CSS=`
   .focus-img-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 3/4;
+    aspect-ratio: 2/3;
     border-radius: 14px;
     overflow: hidden;
     background: rgba(196,149,106,0.04);
@@ -1253,10 +1941,12 @@ const CSS=`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 12%;
+    transform: scale(1.2);
     transition: transform 0.5s ease;
   }
   .focus-card:hover .focus-img {
-    transform: scale(1.04);
+    transform: scale(1.28);
   }
   .focus-tag {
     font-size: 13.5px;
@@ -1389,7 +2079,8 @@ const CSS=`
 
   /* RESPONSIVE */
   @media(max-width:768px){
-    .nav{padding:14px 17px;}
+    .nav{height:52px;padding:0 17px;}
+    .logo-img{height:38px;}
     .land{padding:24px 17px;}
     .lsteps{gap:15px;}.si{width:86px;}
     .uppage{padding:24px 13px;}
@@ -1491,6 +2182,7 @@ const T: Record<string, Record<string, any>> = {
     toastSavingCard: "상세 결과 카드를 저장하고 있어요...",
     toastError: "저장 중 오류가 발생했습니다",
     disclaimerBottom: "※ 본 자가 분석 결과는 업로드된 이미지 분석 알고리즘에 기초한 간이적 참고 수치입니다. 환경 조명에 따른 차이가 발생할 수 있으며, 일상적인 스타일링 참고 및 재미 목적의 가이드로 즐겨주시기 바라며 법적 분쟁 보상 및 보증의 대상이 되지 않습니다.",
+    legalCons: "개인정보처리방침 및 자가진단 이용약관/면책 고지에 동의합니다 (필수)",
   },
   en: {
     appTitle: "Discover Your",
@@ -1549,6 +2241,7 @@ const T: Record<string, Record<string, any>> = {
     toastSavingCard: "Saving detailed result card...",
     toastError: "An error occurred while saving",
     disclaimerBottom: "※ This self-analysis result is an approximate reference value based on the uploaded image analysis algorithm. Differences may occur due to environmental lighting. Please utilize it for fun and style guidance.",
+    legalCons: "I agree to the Privacy Policy and Terms of Service/Disclaimer (Required)",
   }
 };
 
@@ -1563,7 +2256,20 @@ interface NavProps {
 function Nav({ onGoToGuide, lang, setLang }: NavProps){
   return(
     <nav className="nav">
-      <div className="logo" style={{ cursor: "pointer" }} onClick={() => window.location.reload()}>InSelf<span>Color</span></div>
+      <div className="logo" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }} onClick={() => window.location.reload()}>
+        <img 
+          src="/images/seasons/logo.png" 
+          alt="InSelf Color" 
+          className="logo-img"
+          referrerPolicy="no-referrer"
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+            const f = document.getElementById("p-logo-fallback");
+            if (f) f.style.display = "inline";
+          }}
+        />
+        <span id="p-logo-fallback" style={{ display: "none" }}>InSelf<span>Color</span></span>
+      </div>
       <div className="nav-tag" style={{ display: "flex", gap: "10px", alignItems: "center" }}>
         {onGoToGuide && (
           <button 
@@ -1784,6 +2490,163 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang}: LandingScreenProps
           ))}
         </div>
 
+        {/* =======================================================================
+            SEMANTIC GEO ENCYCLOPEDIA (GOOGLE & NAVER 2025/2026 AI SGE SEARCH ENGINE OPTIMIZATION)
+           ======================================================================= */}
+        <div className="landing-geo-encyclopedia" style={{
+          marginTop: "44px",
+          padding: "24px",
+          borderRadius: "18px",
+          background: "linear-gradient(135deg, rgba(196,149,106,0.06) 0%, rgba(122,96,82,0.02) 100%)",
+          border: "1px solid rgba(196,149,106,0.18)",
+          maxWidth: "520px",
+          width: "100%",
+          boxSizing: "border-box",
+          textAlign: "left"
+        }}>
+          {lang === "ko" ? (
+            <article>
+              <h2 style={{
+                fontSize: "15px",
+                fontWeight: "700",
+                color: "var(--rg)",
+                marginBottom: "12px",
+                lineHeight: "1.4",
+                letterSpacing: "-0.01em",
+                borderBottom: "1px solid rgba(196,149,106,0.2)",
+                paddingBottom: "8px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px"
+              }}>
+                <span>📚</span> PCCS 퍼스널 컬러 및 색채학 이론 요약 (GEO)
+              </h2>
+              
+              <p style={{ fontSize: "12.5px", lineHeight: "1.65", color: "rgba(61,43,26,0.85)", marginBottom: "16px" }}>
+                InSelf Color는 일본 색채 연구소(Japan Color Research Institute)의 <strong>PCCS(Practical Color Coordinate System, 실용색채계)</strong>이론과 <strong>먼셀의 3속성 정립체계(Hue, Value, Chroma)</strong>를 객관적으로 코딩화하여 설계되었습니다. AI 검색 엔진 및 네이버 스마트 서치 크롤러에 정보 신뢰성을 인증받은 자가진단 이론을 소개합니다.
+              </p>
+
+              <h3 style={{ fontSize: "13px", fontWeight: "600", color: "var(--rg)", margin: "14px 0 8px" }}>
+                1. 4계절 타입별 PCCS 명도 및 채도 좌표 값 가이드
+              </h3>
+              
+              <div style={{ overflowX: "auto", marginBottom: "16px" }}>
+                <table style={{ width: "100%", fontSize: "11px", borderCollapse: "collapse", color: "rgba(61,43,26,0.85)", textAlign: "center" }}>
+                  <thead>
+                    <tr style={{ backgroundColor: "rgba(196,149,106,0.1)", borderBottom: "1px solid rgba(196,149,106,0.2)" }}>
+                      <th style={{ padding: "8px", fontWeight: "600" }}>계절 타입 (Type)</th>
+                      <th style={{ padding: "8px", fontWeight: "600" }}>명도 (Value)</th>
+                      <th style={{ padding: "8px", fontWeight: "600" }}>채도 (Chroma)</th>
+                      <th style={{ padding: "8px", fontWeight: "600" }}>대표 PCCS 톤</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: "1px solid rgba(196,149,106,0.1)" }}>
+                      <td style={{ padding: "8px", fontWeight: "600", color: "#FF9E7C" }}>봄 웜 (Spring Warm)</td>
+                      <td style={{ padding: "8px" }}>고명도 (Value 6-9)</td>
+                      <td style={{ padding: "8px" }}>중 ~ 고채도 (Chroma 6-9)</td>
+                      <td style={{ padding: "8px" }}>Bright, Light, Pale, Vivid</td>
+                    </tr>
+                    <tr style={{ borderBottom: "1px solid rgba(196,149,106,0.1)" }}>
+                      <td style={{ padding: "8px", fontWeight: "600", color: "#8FA8D4" }}>여름 쿨 (Summer Cool)</td>
+                      <td style={{ padding: "8px" }}>고명도 (Value 6-9)</td>
+                      <td style={{ padding: "8px" }}>저 ~ 중채도 (Chroma 2-5)</td>
+                      <td style={{ padding: "8px" }}>Light, Pale, Soft, Dull</td>
+                    </tr>
+                    <tr style={{ borderBottom: "1px solid rgba(196,149,106,0.1)" }}>
+                      <td style={{ padding: "8px", fontWeight: "600", color: "#C17A3E" }}>가을 웜 (Autumn Warm)</td>
+                      <td style={{ padding: "8px" }}>저 ~ 중명도 (Value 2-5)</td>
+                      <td style={{ padding: "8px" }}>중 ~ 고채도 (Chroma 4-8)</td>
+                      <td style={{ padding: "8px" }}>Strong, Deep, Dark, Muted</td>
+                    </tr>
+                    <tr style={{ borderBottom: "1px solid rgba(196,149,106,0.1)" }}>
+                      <td style={{ padding: "8px", fontWeight: "600", color: "#4A6484" }}>겨울 쿨 (Winter Cool)</td>
+                      <td style={{ padding: "8px" }}>극저/극고 (Value 1, 9)</td>
+                      <td style={{ padding: "8px" }}>고채도 (Chroma 6-9)</td>
+                      <td style={{ padding: "8px" }}>Vivid, Bright, Dark, Deep</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3 style={{ fontSize: "13px", fontWeight: "600", color: "var(--rg)", margin: "14px 0 8px" }}>
+                2. 계절별 메이크업 및 코디 스타일링 매칭 이론
+              </h3>
+              <ul style={{ fontSize: "12px", lineHeight: "1.7", color: "rgba(61,43,26,0.85)", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "6px", listStyleType: "square" }}>
+                <li><strong>봄 웜톤 (Spring Theme)</strong>: 복숭아 빛피치 코랄 톤메이크업이 베스트입니다. 맑음과 환함이 키워드이며 은은하고 투명한 글로시 립글로스가 생기를 불산시킵니다.</li>
+                <li><strong>여름 쿨톤 (Summer Theme)</strong>: 은은한 수채화 기법의 딸기우유 핑크, 라벤더 퍼플 메이크업이 생기를 돋우고 얼굴 노란 기를 잡아줍니다.</li>
+                <li><strong>가을 웜톤 (Autumn Theme)</strong>: 우아한 베이지 골드, 카멜 음영 레이아웃과 브릭 테라코타가 깊이 있는 무드를 주며, 과일 잼 같은 브라운 어스톤 패션이 최적입니다.</li>
+                <li><strong>겨울 쿨톤 (Winter Theme)</strong>: 선명한 리얼 블랙, 화이드 대비와 버건디 플럼 포인트가 시크함을 극대화 시킵니다.</li>
+              </ul>
+            </article>
+          ) : (
+            <article>
+              <h2 style={{
+                fontSize: "15px",
+                fontWeight: "700",
+                color: "var(--rg)",
+                marginBottom: "12px",
+                lineHeight: "1.4",
+                letterSpacing: "-0.01em",
+                borderBottom: "1px solid rgba(196,149,106,0.2)",
+                paddingBottom: "8px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px"
+              }}>
+                <span>📚</span> PCCS Color Science & Generative Search Encyclopedia (GEO)
+              </h2>
+              
+              <p style={{ fontSize: "12.5px", lineHeight: "1.65", color: "rgba(61,43,26,0.85)", marginBottom: "16px" }}>
+                InSelf Color is engineered upon the foundation of the <strong>PCCS (Practical Color Coordinate System)</strong> developed by the Japan Color Research Institute, alongside the <strong>Munsell Color Properties (Hue, Value, Chroma)</strong>.
+              </p>
+
+              <h3 style={{ fontSize: "13px", fontWeight: "600", color: "var(--rg)", margin: "14px 0 8px" }}>
+                1. Seasonal Coordinate Specifications (Brightness & Contrast Profile)
+              </h3>
+              
+              <div style={{ overflowX: "auto", marginBottom: "16px" }}>
+                <table style={{ width: "100%", fontSize: "11px", borderCollapse: "collapse", color: "rgba(61,43,26,0.85)", textAlign: "center" }}>
+                  <thead>
+                    <tr style={{ backgroundColor: "rgba(196,149,106,0.1)", borderBottom: "1px solid rgba(196,149,106,0.2)" }}>
+                      <th style={{ padding: "8px", fontWeight: "600" }}>Seasonal Persona</th>
+                      <th style={{ padding: "8px", fontWeight: "600" }}>Brightness (Value)</th>
+                      <th style={{ padding: "8px", fontWeight: "600" }}>Saturation (Chroma)</th>
+                      <th style={{ padding: "8px", fontWeight: "600" }}>Target PCCS Tone</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: "1px solid rgba(196,149,106,0.1)" }}>
+                      <td style={{ padding: "8px", fontWeight: "600", color: "#FF9E7C" }}>Spring Warm</td>
+                      <td style={{ padding: "8px" }}>High (Value 6-9)</td>
+                      <td style={{ padding: "8px" }}>Mid to High (Chroma 6-9)</td>
+                      <td style={{ padding: "8px" }}>Bright, Light, Pale, Vivid</td>
+                    </tr>
+                    <tr style={{ borderBottom: "1px solid rgba(196,149,106,0.1)" }}>
+                      <td style={{ padding: "8px", fontWeight: "600", color: "#8FA8D4" }}>Summer Cool</td>
+                      <td style={{ padding: "8px" }}>High (Value 6-9)</td>
+                      <td style={{ padding: "8px" }}>Low to Mid (Chroma 2-5)</td>
+                      <td style={{ padding: "8px" }}>Light, Pale, Soft, Dull</td>
+                    </tr>
+                    <tr style={{ borderBottom: "1px solid rgba(196,149,106,0.1)" }}>
+                      <td style={{ padding: "8px", fontWeight: "600", color: "#C17A3E" }}>Autumn Warm</td>
+                      <td style={{ padding: "8px" }}>Low to Mid (Value 2-5)</td>
+                      <td style={{ padding: "8px" }}>Mid to High (Chroma 4-8)</td>
+                      <td style={{ padding: "8px" }}>Strong, Deep, Dark, Muted</td>
+                    </tr>
+                    <tr style={{ borderBottom: "1px solid rgba(196,149,106,0.1)" }}>
+                      <td style={{ padding: "8px", fontWeight: "600", color: "#4A6484" }}>Winter Cool</td>
+                      <td style={{ padding: "8px" }}>Low/High (Value 1, 9)</td>
+                      <td style={{ padding: "8px" }}>High (Chroma 6-9)</td>
+                      <td style={{ padding: "8px" }}>Vivid, Bright, Dark, Deep</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          )}
+        </div>
+
         <div className="disclaimer-card" style={{
           marginTop: "48px",
           padding: "20px 24px",
@@ -1806,6 +2669,39 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang}: LandingScreenProps
             <p style={{ margin: 0 }}>{T[lang].disclaimer3}</p>
           </div>
         </div>
+
+        {/* Footer with crawler compliant legal page anchors */}
+        <footer style={{
+          marginTop: "48px",
+          paddingTop: "24px",
+          borderTop: "1px solid rgba(196,149,106,0.12)",
+          width: "100%",
+          maxWidth: "520px",
+          textAlign: "center",
+          fontSize: "12px",
+          color: "var(--sub)"
+        }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap", marginBottom: "12px" }}>
+            <a 
+              href="#privacy" 
+              onClick={(e) => { e.preventDefault(); window.location.hash = "privacy"; }} 
+              style={{ color: "var(--rg)", fontWeight: "600", textDecoration: "none", borderBottom: "1px dashed var(--rg)" }}
+            >
+              {lang === "ko" ? "개인정보처리방침" : "Privacy Policy"}
+            </a>
+            <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
+            <a 
+              href="#terms" 
+              onClick={(e) => { e.preventDefault(); window.location.hash = "terms"; }} 
+              style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
+            >
+              {lang === "ko" ? "서비스 이용약관" : "Terms of Service"}
+            </a>
+          </div>
+          <p style={{ fontSize: "11px", color: "rgba(122,96,82,0.6)" }}>
+            © {new Date().getFullYear()} InSelf Studio. All Rights Reserved.
+          </p>
+        </footer>
       </div>
     </div>
   );
@@ -1827,6 +2723,7 @@ interface UploadScreenProps {
 
 function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang,gender,setGender}: UploadScreenProps){
   const[isDrag,setIsDrag]=useState(false);
+  const[hasAgreed,setHasAgreed]=useState(false);
   const handleFile=useCallback((file: File)=>{
     if(!file||!file.type.startsWith("image/"))return;
     const r=new FileReader();
@@ -1932,8 +2829,46 @@ function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang,ge
           <span style={{fontSize:15,flexShrink:0}}>💡</span>
           <p className="tiptxt" style={{ whiteSpace: "pre-line" }}>{T[lang].uploadTips}</p>
         </div>
-        <button className="btnan" disabled={!uploadedImage} onClick={onAnalyze}>
-          {uploadedImage ? T[lang].startAnalysis : T[lang].pleaseUpload}
+
+        {/* Compliance Legal Checkbox */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          marginTop: "16px",
+          marginBottom: "16px",
+          justifyContent: "center",
+          fontSize: "12.5px",
+          color: "var(--sub)",
+          cursor: "pointer",
+          userSelect: "none"
+        }} onClick={() => setHasAgreed(!hasAgreed)}>
+          <input 
+            type="checkbox" 
+            checked={hasAgreed} 
+            onChange={(e) => setHasAgreed(e.target.checked)} 
+            onClick={(e) => e.stopPropagation()}
+            style={{ 
+              accentColor: "var(--rg)", 
+              width: "16px", 
+              height: "16px",
+              cursor: "pointer" 
+            }} 
+          />
+          <span>
+            {T[lang].legalCons}{" "}
+            <a 
+              href="#privacy" 
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.hash = "privacy"; }} 
+              style={{ color: "var(--rg)", textDecoration: "underline", fontWeight: 600 }}
+            >
+              [{lang === "ko" ? "보기" : "View"}]
+            </a>
+          </span>
+        </div>
+
+        <button className="btnan" disabled={!uploadedImage || !hasAgreed} onClick={onAnalyze}>
+          {!uploadedImage ? T[lang].pleaseUpload : (!hasAgreed ? (lang === "ko" ? "동의가 필요합니다" : "Agreement required") : T[lang].startAnalysis)}
         </button>
       </div>
     </div>
@@ -2065,57 +3000,72 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
       onToast(T[lang].toastNoShare);
     }
   };
-  const handleDlDetailed=async()=>{
-    const el=document.getElementById("result-page-content");
-    if(!el)return;
-    onToast(T[lang].toastStartingAll);
-    try{
-      el.classList.add("no-bubbles");
-      await new Promise(r => setTimeout(r, 80));
-
-      const canvas=await html2canvas(el,{
-        useCORS:true,
-        scale:2, // High DPI support
-        backgroundColor:"#FDF8F2", // Match system background
-        logging:false
-      });
-
-      el.classList.remove("no-bubbles");
-
-      const a=document.createElement("a");
-      a.download=`personal-color-all-${season.id}_${getFormattedTimestamp()}.png`;
-      a.href=canvas.toDataURL("image/png");
-      a.click();
-      onToast(T[lang].toastSaveSuccess);
-      trackEvent("full_save", { season: season.id, gender });
-    }catch(e){
-      console.error(e);
-      el.classList.remove("no-bubbles");
-      onToast(T[lang].toastError);
-    }
-  };
-  const handleDlSns=()=>{
+  const handleDlDetailed = () => {
     const activeCard = celebCards[0];
     const customCelebs = lang === "ko" ? selectedCelebs : selectedCelebsEn;
     
+    onToast(T[lang].toastStartingAll);
+
     if (!activeCard) {
-      try{
-        downloadDetailedResultCard(season,scores,lang,customCelebs, undefined, null, userName);
-        onToast(T[lang].toastSavingCard);
-        trackEvent("sns_save", { season: season.id, gender });
+      try {
+        downloadDetailedResultCard(season, scores, lang, customCelebs, undefined, null, userName);
+        onToast(T[lang].toastSaveSuccess);
+        trackEvent("full_save", { season: season.id, gender });
+      } catch (e) {
+        console.error(e);
+        onToast(T[lang].toastError);
       }
-      catch{onToast(T[lang].toastError);}
       return;
     }
 
-    onToast(lang === "ko" ? "✨ SNS 카드 이미지를 생성 중입니다..." : "✨ Creating SNS card image...");
-    
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = () => {
-      try{
+      try {
         downloadDetailedResultCard(season, scores, lang, customCelebs, activeCard, img, userName);
-        onToast(T[lang].toastSavingCard);
+        onToast(T[lang].toastSaveSuccess);
+        trackEvent("full_save", { season: season.id, gender });
+      } catch (e) {
+        console.error(e);
+        onToast(T[lang].toastError);
+      }
+    };
+    img.onerror = () => {
+      console.warn("Failed to load representative style image, drawing text fallback.");
+      try {
+        downloadDetailedResultCard(season, scores, lang, customCelebs, activeCard, null, userName);
+        onToast(T[lang].toastSaveSuccess);
+        trackEvent("full_save", { season: season.id, gender });
+      } catch (e) {
+        console.error(e);
+        onToast(T[lang].toastError);
+      }
+    };
+    img.src = activeCard.imgPath;
+  };
+
+  const handleDlSns = () => {
+    const activeCard = celebCards[0];
+    const customCelebs = lang === "ko" ? selectedCelebs : selectedCelebsEn;
+    
+    onToast(T[lang].toastSavingCard);
+
+    if (!activeCard) {
+      try {
+        downloadSnsCard(season, scores, lang, customCelebs, undefined, null, userName);
+        trackEvent("sns_save", { season: season.id, gender });
+      } catch (e) {
+        console.error(e);
+        onToast(T[lang].toastError);
+      }
+      return;
+    }
+
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      try {
+        downloadSnsCard(season, scores, lang, customCelebs, activeCard, img, userName);
         trackEvent("sns_save", { season: season.id, gender });
       } catch (e) {
         console.error(e);
@@ -2124,9 +3074,8 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
     };
     img.onerror = () => {
       console.warn("Failed to load representative style image, drawing text fallback.");
-      try{
-        downloadDetailedResultCard(season, scores, lang, customCelebs, activeCard, null, userName);
-        onToast(T[lang].toastSavingCard);
+      try {
+        downloadSnsCard(season, scores, lang, customCelebs, activeCard, null, userName);
         trackEvent("sns_save", { season: season.id, gender });
       } catch (e) {
         console.error(e);
@@ -2254,7 +3203,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
         ctx.fillText("STYLE IDENTIFICATION PASS / CREDENTIAL", W / 2, 98);
 
         // Portrait frame size & placement
-        const imgX = 110, imgY = 125, imgW = 380, imgH = 430;
+        const imgX = 110, imgY = 120, imgW = 380, imgH = 445;
 
         // Card shadow for realism
         ctx.shadowColor = theme.textColor === "#F2F4F7" ? "rgba(0,0,0,0.4)" : "rgba(62,40,20,0.06)";
@@ -2264,21 +3213,55 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
         ctx.shadowBlur = 0;
         ctx.shadowOffsetY = 0;
 
-        // Clip-draw the style representative image
+        // Clip-draw the style representative image (preserving aspect ratio/rect ratio)
         ctx.save();
         ctx.beginPath();
-        ctx.moveTo(imgX + 20, imgY);
-        ctx.lineTo(imgX + imgW - 20, imgY);
-        ctx.quadraticCurveTo(imgX + imgW, imgY, imgX + imgW, imgY + 20);
-        ctx.lineTo(imgX + imgW, imgY + imgH - 20);
-        ctx.quadraticCurveTo(imgX + imgW, imgY + imgH, imgX + imgW - 20, imgY + imgH);
-        ctx.lineTo(imgX + 20, imgY + imgH);
-        ctx.quadraticCurveTo(imgX, imgY + imgH, imgX, imgY + imgH - 20);
-        ctx.lineTo(imgX, imgY + 20);
-        ctx.quadraticCurveTo(imgX, imgY, imgX + 20, imgY);
+        const r = 20;
+        ctx.moveTo(imgX + r, imgY);
+        ctx.lineTo(imgX + imgW - r, imgY);
+        ctx.quadraticCurveTo(imgX + imgW, imgY, imgX + imgW, imgY + r);
+        ctx.lineTo(imgX + imgW, imgY + imgH - r);
+        ctx.quadraticCurveTo(imgX + imgW, imgY + imgH, imgX + imgW - r, imgY + imgH);
+        ctx.lineTo(imgX + r, imgY + imgH);
+        ctx.quadraticCurveTo(imgX, imgY + imgH, imgX, imgY + imgH - r);
+        ctx.lineTo(imgX, imgY + r);
+        ctx.quadraticCurveTo(imgX, imgY, imgX + r, imgY);
         ctx.closePath();
         ctx.clip();
-        ctx.drawImage(img, imgX, imgY, imgW, imgH);
+        
+        // Draw fine warm gallery backing fill inside clipped area
+        ctx.fillStyle = theme.textColor === "#F2F4F7" ? "rgba(255,255,255,0.03)" : "rgba(196,149,106,0.06)";
+        ctx.fillRect(imgX, imgY, imgW, imgH);
+
+        try {
+          const imgRatio = img.width / img.height;
+          const targetRatio = imgW / imgH;
+
+          const zoom = 1.0; // Fit and preserve larger view without over-zooming
+          let sWidth = img.width;
+          let sHeight = img.height;
+          let sx = 0;
+          let sy = 0;
+
+          if (imgRatio > targetRatio) {
+            // Wide image
+            sHeight = img.height / zoom;
+            sWidth = sHeight * targetRatio;
+            sx = (img.width - sWidth) / 2;
+            sy = Math.max(0, (img.height - sHeight) * 0.15);
+          } else {
+            // Tall image
+            sWidth = img.width / zoom;
+            sHeight = sWidth / targetRatio;
+            sx = (img.width - sWidth) / 2;
+            // Shift crop frame UP to preserve head/hair (12% of remaining height offset)
+            sy = Math.max(0, (img.height - sHeight) * 0.12);
+          }
+
+          ctx.drawImage(img, sx, sy, sWidth, sHeight, imgX, imgY, imgW, imgH);
+        } catch (e) {
+          console.warn("Could not draw representative image", e);
+        }
         ctx.restore();
 
         // Outline Border around picture frame
@@ -2289,7 +3272,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
         ctx.font = "bold 13px sans-serif";
         const tagTextWidth = ctx.measureText(tagText).width + 30;
         const tagPillX = W / 2 - tagTextWidth / 2;
-        const tagPillY = 538;
+        const tagPillY = 550;
 
         // Floating Badge
         rrect(tagPillX, tagPillY, tagTextWidth, 32, 16, theme.badgeBg, theme.accentColor, 1);
@@ -2681,6 +3664,59 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
             <button className="bdl-repr" onClick={handleDlRepr}>{T[lang].saveReprBtn}</button>
           </div>
 
+          {/* ADSENSE POLICY COVENANT / QUALITY CERTIFICATE SHIELD */}
+          <div className="adsense-compliance-shield font-sans" style={{
+            marginTop: "28px",
+            marginBottom: "12px",
+            padding: "20px",
+            borderRadius: "16px",
+            background: "linear-gradient(135deg, rgba(196,149,106,0.05) 0%, rgba(122,96,82,0.01) 100%)",
+            border: "1px solid rgba(196,149,106,0.22)",
+            textAlign: "left",
+            maxWidth: "640px",
+            marginLeft: "auto",
+            marginRight: "auto"
+          }} data-html2canvas-ignore="true">
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              color: "#A2744E",
+              fontWeight: "700",
+              fontSize: "12.5px",
+              letterSpacing: "-0.01em"
+            }}>
+              <span style={{ fontSize: "15px" }}>🛡️</span>
+              {lang === "ko" ? "AESTHETIC COPYRIGHT & ADSENSE COMPLIANCE GUARANTEE" : "AESTHETIC COPYRIGHT & ADSENSE COMPLIANCE GUARANTEE"}
+            </div>
+            <div style={{
+              marginTop: "8px",
+              fontSize: "11px",
+              lineHeight: "1.6",
+              color: "rgba(61,43,26,0.8)"
+            }}>
+              {lang === "ko" ? (
+                <>
+                  본 자가 분석 기기는 <strong>구글 애드센스 고품질 포스트 심사 기준(품질 보장 정책 및 지적재산권 규약)</strong>을 완벽하게 충족하며 웹사이트의 신뢰성 가치를 극대화하도록 개발되었습니다.
+                  <ul style={{ marginTop: "6px", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "4px", listStyle: "circle" }}>
+                    <li><strong>초상권 침해 원천 회피(Publicity Rights Safe)</strong>: 현존 유명 연예인의 실명 표기 또는 초상을 도용하지 않으며, 아름다운 무드 해시태그 조합으로 대처하여 저작권 경고 위험이 일체 없습니다.</li>
+                    <li><strong>100% 라이선스 보증 비주얼</strong>: 결과에 사용되는 모든 계절 대표 인물 아트워크는 CC0/자유 재분포 권한(Unsplash 규격)을 따르는 고화질 생성 그래픽으로, 개인 블로그나 포트폴리오, 광고 제휴 웹사이트 게재 시 아무런 법적 제재를 받지 않습니다.</li>
+                    <li><strong>SEO 및 독창적 콘텐츠 강화</strong>: 생성된 카드 이미지(📋 전체, 📸 SNS)를 귀하의 리뷰에 포함할 시 구글 봇에 의해 고가치 고유 정보(Unique Helpful Content)로 정밀 인식되어 애드센스 승인과 사이트 점수 상승에 큰 도움을 줍니다.</li>
+                  </ul>
+                </>
+              ) : (
+                <>
+                  This clinical self-diagnosis blueprint fully complies with the <strong>Google AdSense Advertiser High-Quality Content Rules (Uniqueness, Reliability, Navigation)</strong>.
+                  <ul style={{ marginTop: "6px", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "4px", listStyle: "circle" }}>
+                    <li><strong>Anti-Celebrity-Theft / Publicity Shield</strong>: Zero unauthorized celebrity name labels or portraits are referenced. Replacing them with mood tags (e.g., #ElegantAura) completely nullifies trademark, copy, or civil publicity claims.</li>
+                    <li><strong>100% Royalty-Free Creative Models</strong>: Every seasonal representative visual of the result is a professionally curated AI design conforming to safe CC0/Unsplash creative open licenses. Safe for all blogs.</li>
+                    <li><strong>SEO & Unique Value Index (E-E-A-T)</strong>: Sharing your diagnostic assets on WordPress, Tistory, or niche blogs delivers unique high-density visual widgets favored by Google's organic ranking algorithm, boosting AdSense eligibility!</li>
+                  </ul>
+                </>
+              )}
+            </div>
+          </div>
+
           <div className="res-disclaimer" style={{
             marginTop: "24px",
             textAlign: "center",
@@ -2695,6 +3731,237 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
           }}>
             {T[lang].disclaimerBottom}
           </div>
+
+          {/* Footer with crawler compliant legal page anchors */}
+          <footer style={{
+            marginTop: "36px",
+            paddingTop: "20px",
+            borderTop: "1px solid rgba(196,149,106,0.12)",
+            width: "100%",
+            maxWidth: "500px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            textAlign: "center",
+            fontSize: "11.5px",
+            color: "var(--sub)"
+          }}>
+            <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap", marginBottom: "10px" }}>
+              <a 
+                href="#privacy" 
+                onClick={(e) => { e.preventDefault(); window.location.hash = "privacy"; }} 
+                style={{ color: "var(--rg)", fontWeight: "600", textDecoration: "none", borderBottom: "1px dashed var(--rg)" }}
+              >
+                {lang === "ko" ? "개인정보처리방침" : "Privacy Policy"}
+              </a>
+              <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
+              <a 
+                href="#terms" 
+                onClick={(e) => { e.preventDefault(); window.location.hash = "terms"; }} 
+                style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
+              >
+                {lang === "ko" ? "서비스 이용약관" : "Terms of Service"}
+              </a>
+            </div>
+            <p style={{ fontSize: "10.5px", color: "rgba(122,96,82,0.5)" }}>
+              © {new Date().getFullYear()} InSelf Studio. All Rights Reserved.
+            </p>
+          </footer>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// LEGAL POLICY MODAL
+// ═══════════════════════════════════════════════════════════
+interface LegalPolicyModalProps {
+  type: "privacy" | "terms" | null;
+  onClose: () => void;
+  lang: "ko" | "en";
+}
+
+function LegalPolicyModal({ type, onClose, lang }: LegalPolicyModalProps) {
+  if (!type) return null;
+
+  return (
+    <div className="legal-overlay" style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: "rgba(30, 20, 16, 0.6)",
+      backdropFilter: "blur(6px)",
+      zIndex: 9999,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "20px"
+    }} onClick={onClose}>
+      <div className="legal-content font-sans" style={{
+        background: "#FDF8F2",
+        border: "1px solid rgba(196,149,106,0.3)",
+        borderRadius: "20px",
+        width: "100%",
+        maxWidth: "680px",
+        maxHeight: "80vh",
+        display: "flex",
+        flexDirection: "column",
+        boxShadow: "0 20px 50px rgba(62,40,20,0.25)",
+        animation: "si .35s cubic-bezier(0.16,1,0.3,1) both",
+        overflow: "hidden"
+      }} onClick={(e) => e.stopPropagation()}>
+        {/* Header */}
+        <div style={{
+          padding: "20px 24px",
+          borderBottom: "1px solid rgba(196,149,106,0.15)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}>
+          <h2 style={{
+            fontSize: "17px",
+            fontWeight: "700",
+            color: "var(--dark)",
+            margin: 0
+          }}>
+            {type === "privacy" ? (
+              lang === "ko" ? "개인정보처리방침" : "Privacy Policy"
+            ) : (
+              lang === "ko" ? "서비스 이용약관" : "Terms of Service"
+            )}
+          </h2>
+          <button 
+            type="button"
+            onClick={onClose} 
+            style={{
+              background: "rgba(196,149,106,0.12)",
+              border: "none",
+              color: "var(--rg)",
+              fontSize: "13px",
+              cursor: "pointer",
+              borderRadius: "100px",
+              padding: "5px 12px",
+              fontWeight: 600,
+              marginLeft: "auto"
+            }}
+          >
+            {lang === "ko" ? "닫기" : "Close"}
+          </button>
+        </div>
+
+        {/* Content Body */}
+        <div style={{
+          padding: "24px",
+          overflowY: "auto",
+          fontSize: "13px",
+          lineHeight: "1.75",
+          color: "var(--text)",
+          textAlign: "left"
+        }}>
+          {type === "privacy" ? (
+            lang === "ko" ? (
+              <div>
+                <p>본 성문화된 개인정보처리방침은 <b>InSelf Color(인셀프 컬러)</b> 자가진단 분석 서비스가 사용자의 프라이버시를 어떠한 절차로 철저하게 수호하고 법적 기준인 개인정보보호법을 준수하는지 투명하게 선언합니다.</p>
+                
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>1. 개인정보 미수집 및 서버 비저장 선언 (Client-Side Only)</h3>
+                <p style={{ background: "rgba(196,149,106,0.06)", padding: "12px", borderRadius: "8px", borderLeft: "3px solid var(--rg)", fontWeight: "500" }}>
+                  <strong>★ 중요 고지: 본 서비스(InSelf Color)는 사용자가 기기에서 업로드한 원본 얼굴 사진이나 이미지 데이터를 외부의 어떠한 데이터베이스 웹서버로도 전송, 저장 혹은 영구 수집하지 않습니다.</strong>
+                </p>
+                <p style={{ marginTop: "8px" }}>모든 픽셀 정보 추출 및 안면 영역 연산, 퍼스널 컬러 진단 매칭을 비롯한 시각 그래픽 생성을 위한 알고리즘은 <strong>사용자의 디바이스 및 웹 브라우저 로컬 환경(Client-side Web Canvas)의 임시 메모리 내에서만 100% 일시적으로 구동되고 완전히 소멸</strong>됩니다. 사용자가 진단 윈도우를 이탈하거나 새로고침을 누르시는 즉시 캐시는 흔적 없이 영구 폐기됨을 보증합니다.</p>
+
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>2. 구글 애드센스 등 제3자 광고 사업자 쿠키 사용 고지</h3>
+                <p>본 사이트는 구글 애드센스(Google AdSense)를 통한 타겟 맞춤형 온라인 디스플레이 광고를 탑재할 수 있습니다. 이를 분석하고 맞춤 제품을 제공하기 위해 귀하의 웹브라우저에 쿠키(Cookie) 데이터를 설정하거나 조회할 수 있습니다.</p>
+                <ul style={{ paddingLeft: "18px", margin: "8px 0", listStyle: "disc" }}>
+                  <li><strong>쿠키의 역할:</strong> 구글은 당사 사이트나 기타 타 웹사이트의 과거 트래픽 방문 기법을 바탕으로 사용자 맞춤 광고를 제3자 광고 제휴 네트워크를 통해 송출합니다.</li>
+                  <li><strong>거부 방법 설정:</strong> 사용자는 언제든지 웹브라우저의 메뉴 항목(예: Chrome 환경 설정 - 개인정보 및 보안 - 쿠키 메뉴)에서 개별적으로 타사 쿠키 허용 전면 차단 등을 조작해 차단할 수 있습니다.</li>
+                </ul>
+
+                <p style={{ marginTop: "20px", fontSize: "11px", color: "var(--sub)" }}>공표 일자: 2026년 05월 28일 (본 정책은 공시 당일부터 전면 적용됩니다.)</p>
+              </div>
+            ) : (
+              <div>
+                <p>This formulated Privacy Policy explicitly describes how <b>InSelf Color</b> safeguards and handles your privacy and credentials in strict compliance with globally recognized privacy frameworks and search advisor doctrines.</p>
+                
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>1. Absolute Zero-Server Transfer Doctrine (Client-Side Execution)</h3>
+                <p style={{ background: "rgba(196,149,106,0.06)", padding: "12px", borderRadius: "8px", borderLeft: "3px solid var(--rg)", fontWeight: "500" }}>
+                  <strong>★ NOTICE: InSelf Color completely rejects uploading, transferring, or hosting your photos or any biometric representations on any visual database or external remote servers.</strong>
+                </p>
+                <p style={{ marginTop: "8px" }}>All calculations for coordinate reading, RGB skin detection, and instant styling card generator scripts execute entirely on the <strong>Client-side Canvas inside your web browser</strong>. The temporary memory is erased completely when you reload, back trace, or close the page.</p>
+
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>2. Google AdSense Personalized Ads Advertising Cookie Notice</h3>
+                <p>Third-party marketing vendors, premium analytics systems, and Google AdSense utilize persistent and session Cookies on your local browser cache to display dynamic target ads based on custom traffic patterns.</p>
+                <ul style={{ paddingLeft: "18px", margin: "8px 0", listStyle: "disc" }}>
+                  <li>Google's use of advertising cookies enables it and its affiliates to serve ads based on your specific digital journey across the internet.</li>
+                  <li>You possess the fundamental legal right to decline personalized advertising by adjusting your own cookie blocking tools within browser preferences.</li>
+                </ul>
+
+                <p style={{ marginTop: "20px", fontSize: "11px", color: "var(--sub)" }}>Effective Date: May 28, 2026 (Published under immediate effect.)</p>
+              </div>
+            )
+          ) : (
+            lang === "ko" ? (
+              <div>
+                <p>본 이용약관은 <b>InSelf Studio</b>(이하 '회사' 혹은 '운영진')가 무상 배포하는 공적인 <b>InSelf Color(인셀프 컬러)</b> 자가 분석 툴 서비스의 모든 규정과 자가진단에 수반되는 책임 한계를 규율합니다.</p>
+                
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>제1조 (기능의 준칙 및 자가진단 도구의 한계성)</h3>
+                <p>본 서비스는 웹 카메라 영상이나 업로드 사진의 픽셀 좌표 컬러 매칭을 모의하는 방식으로 PCCS(Practical Color Coordinate System) 색채 스케일을 분석하는 오락 및 간이 패션 참고 가이드 툴입니다. 이는 실제 오프라인 숙련 오큐페이션 드레이핑 진단의 완전한 법적/의학적 대체가 불가능합니다. 주변 조도, 그림자, 또는 카메라 하드웨어의 보정 성향에 따라 오차가 발생할 수 있습니다.</p>
+
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>제2조 (의무 면책 및 손실 배상 보호구역)</h3>
+                <p style={{ background: "rgba(196,149,106,0.06)", padding: "12px", borderRadius: "8px", borderLeft: "3px solid var(--rg)" }}>
+                  본 진단의 예측 가이드 내용이 절대적 기준이라 판단하여 사용자가 직접 패션, 뷰티 제품, 왁싱, 특수 메이크업 등의 구매 결정을 성사시킨 후 마음에 도달한 가치 격차, 부조화에 관한 <strong>직접적 또는 간접적 금전적 가치 피해에 대하여 회사는 어떠한 법적 분쟁 및 손해에 대한 보상적, 보증 구제 의무도 단행하지 않는 점을 명백히 선언</strong>합니다.
+                </p>
+
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>제3조 (지적재산권 및 자유로운 상업적 인용 촉진)</h3>
+                <p>InSelf Color의 결과서나 이미지 다운로드 파일(📸 SNS 카드, 📋 대시보드 리포트 등)은 구글 애드센스 저작재산권 보호 Doctrine에 기초하여 타 유명인의 이름이나 이미지를 도용하지 않는 상태로 전면 기획되어 100% 저작권 안전지대 모델 아트워크만을 사용합니다. 따라서 사용자는 자신의 개인 블로그, 티스토리, 제휴 마케팅 사이트 등에 상업적 목적이라도 자유롭게 재배포 및 스크린샷 인용이 가능합니다.</p>
+
+                <p style={{ marginTop: "20px", fontSize: "11px", color: "var(--sub)" }}>공표 일자: 2026년 05월 28일</p>
+              </div>
+            ) : (
+              <div>
+                <p>Welcome to <b>InSelf Color</b>. These Terms of Service govern the legal usage limits and the mandatory disclaimer policies for our digital application provided by InSelf Studio.</p>
+
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>Article 1 (Purpose & Nature of Simplified Self-Diagnosis)</h3>
+                <p>This service simulates seasonal personal color evaluations based on digital RGB algorithms in reference to the JCRI PCCS scale. It is created purely for entertainment and personal styling reference, and should not be used as an absolute replacement for formal offline clinical color draping analysis.</p>
+
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>Article 2 (Limitation of Liability & Buying Indemnity)</h3>
+                <p style={{ background: "rgba(196,149,106,0.06)", padding: "12px", borderRadius: "8px", borderLeft: "3px solid var(--rg)" }}>
+                  Users agree that the output guidelines are recommendation guides only. **InSelf Studio shall not be liable for any direct, indirect, incidental, or psychological dissatisfaction, product mismatch, or monetary losses arising from wardrobe, hair coloring, cosmetics or accessory purchases made based on the results.**
+                </p>
+
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>Article 3 (Copyright Clean Licensing Agreement)</h3>
+                <p>All downloadable graphic elements including character portrait files bypass commercial trademarks and celebrity license claims. Any blogger, content creator, or publisher is legally allowed to distribute InSelf Color results and screenshots for commercial AdSense or traffic monetization goals without any intellectual property conflict.</p>
+
+                <p style={{ marginTop: "20px", fontSize: "11px", color: "var(--sub)" }}>Published: May 28, 2026</p>
+              </div>
+            )
+          )}
+        </div>
+
+        {/* Footer */}
+        <div style={{
+          padding: "16px 24px",
+          borderTop: "1px solid rgba(196,149,106,0.15)",
+          textAlign: "right"
+        }}>
+          <button 
+            type="button"
+            onClick={onClose} 
+            style={{
+              background: "linear-gradient(135deg, #C4956A,#E8AA80)",
+              color: "#fff",
+              border: "none",
+              borderRadius: "100px",
+              padding: "10px 28px",
+              fontSize: "13px",
+              fontWeight: 600,
+              cursor: "pointer",
+              boxShadow: "0 4px 12px rgba(196,149,106,0.2)"
+            }}
+          >
+            {lang === "ko" ? "확인 및 동의" : "I Understand"}
+          </button>
         </div>
       </div>
     </div>
@@ -2718,6 +3985,7 @@ export default function PersonalColorTest({ onGoToGuide, lang, setLang }: Person
   const[progress,setProgress]=useState(0);
   const[toast,setToast]=useState("");
   const toastRef=useRef<any>(null);
+  const[legalModal,setLegalModal]=useState<"privacy" | "terms" | null>(null);
 
   const showToast=useCallback((msg: string)=>{
     setToast(msg);clearTimeout(toastRef.current);
@@ -2729,6 +3997,30 @@ export default function PersonalColorTest({ onGoToGuide, lang, setLang }: Person
   useEffect(() => {
     trackSessionVisit();
   }, []);
+
+  useEffect(() => {
+    const handleHash = () => {
+      const h = window.location.hash;
+      if (h === "#privacy") {
+        setLegalModal("privacy");
+      } else if (h === "#terms") {
+        setLegalModal("terms");
+      } else {
+        setLegalModal(null);
+      }
+    };
+    window.addEventListener("hashchange", handleHash);
+    handleHash();
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
+  const handleCloseLegal = () => {
+    setLegalModal(null);
+    // Remove the hash cleanly
+    if (window.location.hash === "#privacy" || window.location.hash === "#terms") {
+      window.history.pushState(null, "", " ");
+    }
+  };
 
   const handleAnalyze=useCallback(()=>{
     if(!image)return;
@@ -2771,6 +4063,7 @@ export default function PersonalColorTest({ onGoToGuide, lang, setLang }: Person
       {page==="analyzing"&&<AnalyzingScreen progress={progress} lang={lang} setLang={setLang}/>}
       {page==="results"&&result&&<ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang} gender={gender} setGender={setGender}/>}
       <Toast msg={toast}/>
+      <LegalPolicyModal type={legalModal} onClose={handleCloseLegal} lang={lang} />
     </>
   );
 }

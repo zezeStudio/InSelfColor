@@ -179,9 +179,10 @@ const CSS = `
   .gw{min-height:100vh;background:var(--cream);position:relative;}
 
   /* ── NAV ── */
-  .gnav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;position:sticky;top:0;background:rgba(253,248,242,0.88);backdrop-filter:blur(12px);z-index:100;border-bottom:1px solid var(--border);}
+  .gnav{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 32px;position:sticky;top:0;background:rgba(253,248,242,0.88);backdrop-filter:blur(12px);z-index:100;border-bottom:1px solid var(--border);}
   .glogo{font-family:var(--fd);font-size:19px;font-weight:600;color:var(--dark);letter-spacing:.04em;}
   .glogo span{color:var(--rg);font-style:italic;}
+  .glogo-img{height:48px;width:auto;object-fit:contain;display:block;}
   .gnav-links{display:flex;gap:6px;}
   .gnl{padding:7px 14px;border-radius:100px;font-size:12px;cursor:pointer;border:1px solid transparent;color:var(--sub);background:none;font-family:var(--fs);transition:all .2s;white-space:nowrap;}
   .gnl:hover{color:var(--rg);border-color:rgba(196,149,106,.25);background:rgba(196,149,106,.06);}
@@ -375,7 +376,8 @@ const CSS = `
     .gnav-links{gap:4px;}.gnl{padding:6px 11px;font-size:11px;}
   }
   @media(max-width:640px){
-    .gnav{padding:14px 16px;}
+    .gnav{height:52px;padding:0 16px;}
+    .glogo-img{height:38px;}
     .gnav-links{display:none;}
     .gsec,.gsec-sm{padding:52px 16px;}
     .ghero{padding:52px 16px 44px;}
@@ -1018,8 +1020,20 @@ export default function PersonalColorGuide({ onBack, lang = "ko", setLang }: Per
 
       {/* ── NAV ── */}
       <nav className="gnav">
-        <div className="glogo" style={{ cursor: "pointer" }} onClick={onBack}>
-          InSelf<span>Color</span> <span style={{fontSize:14,fontWeight:300,color:"var(--sub)",fontStyle:"normal"}}>{T.guideHeader}</span>
+        <div className="glogo" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }} onClick={onBack}>
+          <img 
+            src="/images/seasons/logo.png" 
+            alt="InSelf Color" 
+            className="glogo-img"
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+              const f = document.getElementById("g-logo-fallback");
+              if (f) f.style.display = "inline";
+            }}
+          />
+          <span id="g-logo-fallback" style={{ display: "none" }}>InSelf<span>Color</span></span>
+          <span style={{fontSize:14,fontWeight:300,color:"var(--sub)",fontStyle:"normal",marginLeft:"4px"}}>{T.guideHeader}</span>
         </div>
 
         {/* Language selector & menu tabs */}
