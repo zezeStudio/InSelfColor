@@ -3,21 +3,14 @@ import PersonalColorTest from "./components/PersonalColorTest";
 import PersonalColorGuide from "./components/PersonalColorGuide";
 
 export default function App() {
-  const [view, setView] = useState<"test" | "guide">(
-    typeof window !== "undefined" && window.location.hash === "#guide"
-      ? "guide"
-      : "test"
-  );
+  const [path, setPath] = useState<string>(() => {
+    return typeof window !== "undefined" ? window.location.pathname : "/";
+  });
   const [lang, setLang] = useState<"ko" | "en">("ko");
 
   useEffect(() => {
     const handlePopState = () => {
-      const hash = window.location.hash;
-      if (hash === "#guide") {
-        setView("guide");
-      } else {
-        setView("test");
-      }
+      setPath(window.location.pathname);
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -26,27 +19,37 @@ export default function App() {
     };
   }, []);
 
+  const handleNavigate = (newPath: string) => {
+    if (typeof window !== "undefined") {
+      window.history.pushState(null, "", newPath);
+      setPath(newPath);
+    }
+  };
+
   const handleGoToGuide = () => {
-    window.history.pushState({ view: "guide" }, "", "#guide");
-    setView("guide");
+    handleNavigate("/guide");
   };
 
   const handleBackToTest = () => {
-    const hash = window.location.hash;
-    if (hash === "#guide") {
+    if (typeof window !== "undefined" && window.history.length > 1) {
       window.history.back();
     } else {
-      setView("test");
+      handleNavigate("/");
     }
   };
 
   return (
     <>
-      {view === "test" && (
-        <PersonalColorTest onGoToGuide={handleGoToGuide} lang={lang} setLang={setLang} />
-      )}
-      {view === "guide" && (
+      {path === "/guide" ? (
         <PersonalColorGuide onBack={handleBackToTest} lang={lang} setLang={setLang} />
+      ) : (
+        <PersonalColorTest
+          currentPath={path}
+          onNavigate={handleNavigate}
+          onGoToGuide={handleGoToGuide}
+          lang={lang}
+          setLang={setLang}
+        />
       )}
     </>
   );

@@ -397,7 +397,7 @@ function FontLoader(){
     if(document.getElementById("pcg-gf"))return;
     const l=document.createElement("link");
     l.id="pcg-gf";l.rel="stylesheet";
-    l.href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap";
+    l.href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap";
     document.head.appendChild(l);
   },[]);
   return null;

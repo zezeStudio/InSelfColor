@@ -12,6 +12,15 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Security Headers Middleware (Strict-Transport-Security HSTS, X-Content-Type, X-Frame-Options)
+app.use((req, res, next) => {
+  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  next();
+});
+
 // Vite Middleware for development mode
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
