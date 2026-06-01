@@ -2805,6 +2805,38 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang}: LandingScreenProps
               {lang === "ko" ? "서비스 이용약관" : "Terms of Service"}
             </a>
           </div>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", flexWrap: "wrap", marginBottom: "12px", fontSize: "11px", color: "rgba(122,96,82,0.65)" }}>
+            <span style={{ fontWeight: "600" }}>{lang === "ko" ? "추천 사이트" : "Recommended Sites"}:</span>
+            <a 
+              href="https://www.zezelab.xyz" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style={{ color: "rgba(122,96,82,0.85)", textDecoration: "underline" }}
+              title={lang === "ko" ? "개발 지원 도구" : "Developer Support Tools"}
+            >
+              {lang === "ko" ? "ZezeLab(개발 지원 도구)" : "ZezeLab (Dev Tools)"}
+            </a>
+            <span style={{ color: "rgba(196,149,106,0.2)" }}>•</span>
+            <a 
+              href="https://www.zezeworklab.xyz" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style={{ color: "rgba(122,96,82,0.85)", textDecoration: "underline" }}
+              title={lang === "ko" ? "직장인 필수 통합 유틸리티 플랫폼" : "Essential Utilities for Office Workers"}
+            >
+              {lang === "ko" ? "ZezeWorkLab(직장인 통합 유틸리티)" : "ZezeWorkLab (Office Utilities)"}
+            </a>
+            <span style={{ color: "rgba(196,149,106,0.2)" }}>•</span>
+            <a 
+              href="https://everydaycalcs.pages.dev" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style={{ color: "rgba(122,96,82,0.85)", textDecoration: "underline" }}
+              title={lang === "ko" ? "글로벌 계산기 플랫폼" : "Global Calculator Platform"}
+            >
+              {lang === "ko" ? "EverydayCalcs(글로벌 계산기)" : "EverydayCalcs (Global Calculators)"}
+            </a>
+          </div>
           <p style={{ fontSize: "11px", color: "rgba(122,96,82,0.6)" }}>
             © {new Date().getFullYear()} InSelf Studio. All Rights Reserved.
           </p>
@@ -3867,6 +3899,38 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
                 style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
               >
                 {lang === "ko" ? "서비스 이용약관" : "Terms of Service"}
+              </a>
+            </div>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", flexWrap: "wrap", marginBottom: "10px", fontSize: "11px", color: "rgba(122,96,82,0.65)" }}>
+              <span style={{ fontWeight: "600" }}>{lang === "ko" ? "추천 사이트" : "Recommended Sites"}:</span>
+              <a 
+                href="https://www.zezelab.xyz" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                style={{ color: "rgba(122,96,82,0.85)", textDecoration: "underline" }}
+                title={lang === "ko" ? "개발 지원 도구" : "Developer Support Tools"}
+              >
+                {lang === "ko" ? "ZezeLab(개발 지원 도구)" : "ZezeLab (Dev Tools)"}
+              </a>
+              <span style={{ color: "rgba(196,149,106,0.2)" }}>•</span>
+              <a 
+                href="https://www.zezeworklab.xyz" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                style={{ color: "rgba(122,96,82,0.85)", textDecoration: "underline" }}
+                title={lang === "ko" ? "직장인 필수 통합 유틸리티 플랫폼" : "Essential Utilities for Office Workers"}
+              >
+                {lang === "ko" ? "ZezeWorkLab(직장인 통합 유틸리티)" : "ZezeWorkLab (Office Utilities)"}
+              </a>
+              <span style={{ color: "rgba(196,149,106,0.2)" }}>•</span>
+              <a 
+                href="https://everydaycalcs.pages.dev" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                style={{ color: "rgba(122,96,82,0.85)", textDecoration: "underline" }}
+                title={lang === "ko" ? "글로벌 계산기 플랫폼" : "Global Calculator Platform"}
+              >
+                {lang === "ko" ? "EverydayCalcs(글로벌 계산기)" : "EverydayCalcs (Global Calculators)"}
               </a>
             </div>
             <p style={{ fontSize: "10.5px", color: "rgba(122,96,82,0.5)" }}>
