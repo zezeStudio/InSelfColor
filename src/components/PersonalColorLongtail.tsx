@@ -401,6 +401,40 @@ export default function PersonalColorLongtail({ pageId, onBack, lang, setLang }:
     }
   };
 
+  const renderCosmeticItem = (item: string, idx: number, prefix: string) => {
+    const parts = item.split(" - ");
+    const productName = parts[0] || item;
+    const description = parts[1] || "";
+    // Clean search token for better accuracy on Olive Young search engine
+    const cleanSearchQuery = productName.replace(/\s*\(.*?\)\s*/g, " ").replace("맥(MAC)", "맥").trim();
+    const oliveYoungSearchUrl = `https://www.oliveyoung.co.kr/store/search/getSearchList.do?query=${encodeURIComponent(cleanSearchQuery)}`;
+
+    return (
+      <div 
+        key={idx} 
+        id={`${prefix}-item-${idx}`}
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-neutral-50/75 hover:bg-neutral-100 border border-neutral-100 rounded-xl transition-all duration-150"
+      >
+        <div className="flex-1">
+          <div className="font-bold text-[#3c3029] text-[13px] tracking-tight">{productName}</div>
+          {description && (
+            <div className="text-gray-500 text-[11.5px] mt-1.5 leading-relaxed font-normal">{description}</div>
+          )}
+        </div>
+        <a
+          href={oliveYoungSearchUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-1 px-3 py-1.5 bg-[#03C75A]/8 hover:bg-[#03C75A]/15 text-[#028C3E] rounded-lg text-[11px] font-black transition shrink-0 active:scale-95"
+          title={`${productName} 올리브영 실시간 가격 및 구매평 확인 💚`}
+        >
+          <ShoppingBag className="w-3.5 h-3.5" />
+          <span>{lang === "ko" ? "올리브영 쇼핑" : "Olive Young"}</span>
+        </a>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-[#FCFAF7] text-[#3c3029] pb-20 font-sans leading-relaxed" id={`seo-page-${pageData.id}`}>
       {/* Dynamic SEO Top Bar */}
@@ -545,41 +579,35 @@ export default function PersonalColorLongtail({ pageId, onBack, lang, setLang }:
               {lang === "ko" ? "💄 인생 화장품 추천 (립/아이섀도우/블러셔)" : "💄 Makeup Cabinet Life Items"}
             </h2>
             
-            <div className="space-y-5" id="cosmetics-list">
+            <div className="space-y-6" id="cosmetics-list">
               {/* LIP */}
               <div id="cosmetic-lip">
-                <h4 className="text-xs font-black text-amber-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <h4 className="text-xs font-black text-amber-700 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
                   💄 {lang === "ko" ? "베스트 리퀴드 립 / 립스틱" : "Best Lips & Tints"}
                 </h4>
-                <ul className="space-y-2 text-xs text-gray-600 font-medium pl-4 list-disc" id="lip-items">
-                  {pageData.bestItems.lip.map((item, idx) => (
-                    <li key={idx} id={`lip-item-${idx}`}>{item}</li>
-                  ))}
-                </ul>
+                <div className="space-y-2" id="lip-items">
+                  {pageData.bestItems.lip.map((item, idx) => renderCosmeticItem(item, idx, "lip"))}
+                </div>
               </div>
 
               {/* EYELASH / SHADOW */}
               <div id="cosmetic-shadow">
-                <h4 className="text-xs font-black text-amber-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <h4 className="text-xs font-black text-amber-700 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
                   👁️ {lang === "ko" ? "아이섀도우 & 글리터 팔레트" : "Eye Shadow & Glitters"}
                 </h4>
-                <ul className="space-y-2 text-xs text-gray-600 font-medium pl-4 list-disc" id="shadow-items">
-                  {pageData.bestItems.shadow.map((item, idx) => (
-                    <li key={idx} id={`shadow-item-${idx}`}>{item}</li>
-                  ))}
-                </ul>
+                <div className="space-y-2" id="shadow-items">
+                  {pageData.bestItems.shadow.map((item, idx) => renderCosmeticItem(item, idx, "shadow"))}
+                </div>
               </div>
 
               {/* BLUSHER */}
               <div id="cosmetic-blusher">
-                <h4 className="text-xs font-black text-amber-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <h4 className="text-xs font-black text-amber-700 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
                   🌸 {lang === "ko" ? "블러셔 (치크팝 에디션 등)" : "Cheeks & Blushers"}
                 </h4>
-                <ul className="space-y-2 text-xs text-gray-600 font-medium pl-4 list-disc" id="blusher-items">
-                  {pageData.bestItems.blusher.map((item, idx) => (
-                    <li key={idx} id={`blusher-item-${idx}`}>{item}</li>
-                  ))}
-                </ul>
+                <div className="space-y-2" id="blusher-items">
+                  {pageData.bestItems.blusher.map((item, idx) => renderCosmeticItem(item, idx, "blusher"))}
+                </div>
               </div>
             </div>
           </div>
