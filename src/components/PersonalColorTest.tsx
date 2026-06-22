@@ -3130,8 +3130,8 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
   const handleShare=()=>{
     const seasonName = lang === "ko" ? season.name : season.nameEn;
     const txt = lang === "ko"
-      ? `나의 퍼스널 컬러 결과: ${seasonName} ${season.icon}\n👉 테스트해보기: https://inselfcolor.pages.dev\n#InSelfColor #퍼스널컬러`
-      : `My Personal Color Result: ${seasonName} ${season.icon}\n👉 Analyze yours: https://inselfcolor.pages.dev\n#InSelfColor #PersonalColor`;
+      ? `나의 퍼스널 컬러 결과: ${seasonName} ${season.icon}\n👉 테스트해보기: https://inselfcolor.pages.dev\n[※ 네이버 블로그/카페 스크랩 및 포스팅 대환영! 💚]\n#InSelfColor #퍼스널컬러 #웜톤쿨톤 #자가진단`
+      : `My Personal Color Result: ${seasonName} ${season.icon}\n👉 Analyze yours: https://inselfcolor.pages.dev\n[※ Naver Blog/Café scrap & share welcomed! 💚]\n#InSelfColor #PersonalColor`;
     if(navigator.share) {
       navigator.share({title:"Personal Color - InSelf Color",text:txt,url:"https://inselfcolor.pages.dev"}).catch(() => {});
     } else if (navigator.clipboard?.writeText) {
@@ -3858,8 +3858,8 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
                 onClick={() => {
                   const seasonName = lang === "ko" ? season.name : season.nameEn;
                   const txt = lang === "ko"
-                    ? `[InSelf Color] 나의 퍼스널 컬러 결과는 '${seasonName}' ${season.icon}입니다! 모바일/PC로 10초 만에 분석해보세요.\n👉 https://inselfcolor.pages.dev`
-                    : `[InSelf Color] My personal color is '${seasonName}' ${season.icon}! Test your skin tone free here.\n👉 https://inselfcolor.pages.dev`;
+                    ? `[InSelf Color] 나의 퍼스널 컬러 결과는 '${seasonName}' ${season.icon}입니다! 모바일/PC로 10초 만에 분석해보세요.\n👉 https://inselfcolor.pages.dev\n[※ 네이버 블로그/카페 스크랩 및 포스팅 대환영!]`
+                    : `[InSelf Color] My personal color is '${seasonName}' ${season.icon}! Test your skin tone free here.\n👉 https://inselfcolor.pages.dev\n[※ Naver Blog / Café share & scrap welcome!]`;
                   if (navigator.clipboard?.writeText) {
                     navigator.clipboard.writeText(txt).then(() => onToast(T[lang].toastCopied));
                   } else {
@@ -3935,6 +3935,137 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
               >
                 <span style={{ fontSize: "14px" }}>🔗</span> {lang === "ko" ? "결과링크 복사" : "Copy Link"}
               </button>
+            </div>
+          </div>
+
+          {/* NAVER BLOG / CAFE OPTIMIZING KIT */}
+          <div style={{
+            marginTop: "18px",
+            padding: "18px 22px",
+            background: "#FFFFFF",
+            border: "1.5px dashed rgba(3,199,90,0.4)",
+            borderRadius: "16px",
+            textAlign: "left",
+            maxWidth: "640px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            fontFamily: "var(--fs)",
+            boxShadow: "0 4px 12px rgba(3,199,90,0.03)"
+          }} data-html2canvas-ignore="true">
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+              <span style={{
+                background: "#03C75A",
+                color: "#FFFFFF",
+                fontSize: "10px",
+                fontWeight: 800,
+                padding: "2px 6px",
+                borderRadius: "4px",
+                textTransform: "uppercase"
+              }}>NAVER BLOG/CAFE</span>
+              <span style={{ fontSize: "14px", fontWeight: 700, color: "#1E1E1E" }}>
+                {lang === "ko" ? "블로그/지식인 스크랩 & 포스팅 키트 💚" : "Naver Blog & Café Quick Post Kit 💚"}
+              </span>
+            </div>
+            
+            <p style={{ fontSize: "12px", color: "#555555", lineHeight: "1.55", margin: "0 0 12px 0" }}>
+              {lang === "ko" 
+                ? "인셀프컬러는 네이버 블로그, 카페(파우더룸 등), 지식인 스크랩을 100% 환영합니다! 분석 결과나 다운로드받은 메이크업 추천 이미지 카드를 활용해 자유롭게 꿀팁을 공유해보세요." 
+                : "We 100% welcome and encourage you to scrap, write reviews, and share your personal color result cards on Naver Blog, Cafés, or any beauty forums!"}
+            </p>
+
+            {/* Reward Box */}
+            <div style={{
+              background: "rgba(3,199,90,0.04)",
+              border: "1px solid rgba(3,199,90,0.12)",
+              borderRadius: "10px",
+              padding: "12px 14px",
+              marginBottom: "14px"
+            }}>
+              <div style={{ fontSize: "12.5px", fontWeight: 700, color: "#028C3E", marginBottom: "4px", display: "flex", alignItems: "center", gap: "5px" }}>
+                🎁 {lang === "ko" ? "정성 후기 리워드 이벤트!" : "Review Reward Event!"}
+              </div>
+              <p style={{ fontSize: "11.5px", color: "#333333", margin: 0, lineHeight: "1.55" }}>
+                {lang === "ko"
+                  ? "네이버 블로그 또는 뷰티 카페에 진단 결과 및 추천 아이템 카드 이미지를 포함하여 정성 어린 후기 포스팅을 작성하신 후 링크를 공유해 주시는 모든 분들께 전문 조색 디렉터가 선착순으로 '1:1 맞춤 정밀 톤 분석 보고서'를 송부해 드립니다!"
+                  : "Post your personal color card on Naver blog or your favorite cosmetic community, tag us, and send us the link to receive a highly detailed, premium makeup tone report curated by professional color directors!"}
+              </p>
+            </div>
+
+            {/* Copyable Blog Post Template generator */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: "12px", fontWeight: "700", color: "#3D2B1A" }}>
+                  {lang === "ko" ? "📝 1초 완성 포스팅 템플릿 복사" : "📝 1-Sec Post Outline Generator"}
+                </span>
+                <button
+                  onClick={() => {
+                    const seasonName = lang === "ko" ? season.name : season.nameEn;
+                    const naverPostTemplate = `${lang === "ko" ? "[네이버 블로그/지식인 스크랩 환영] 출처: 인셀프컬러" : "[Naver Blog / Café Scrap Welcomed] Source: InSelf Color"}\n\n` +
+                      (lang === "ko" 
+                        ? `제목: AI 명도분석으로 찾은 내 진짜 톤! 인셀프컬러 자가진단 후기 (${seasonName})\n\n` +
+                          `안녕하세요! 제 진짜 매력을 밝혀줄 AI 퍼스널컬러 진단 '인셀프컬러(InSelf Color)' 분석 후기입니다. 💚\n\n` +
+                          `이번에 직접 사진을 촬영하여 PCCS 수치 추출 분석을 해보니 저의 퍼스널 컬러 유형은 바로 바로...\n` +
+                          `👉 [ ${seasonName} ] ${season.icon} 가 나왔습니다!\n\n` +
+                          `요새 네이버 뷰(VIEW)나 블로그에서 퍼스널 뷰티 아이템 추천 정보를 많이 찾으실텐데요. ` +
+                          `인셀프컬러에서는 상세한 12타입별 맞춤형 컬러 매칭과 아이 메이크업, 립 추천 정보까지 실시간으로 보여주네요!\n\n` +
+                          `특히 분석 완료 후 저장하는 '결과 카드'에는 저의 톤에 맞는 대표 시그니처 톤 배색까지 예쁘게 입혀져서 저장됩니다.\n` +
+                          `네이버 블로그나 카페에 글 쓰실 때 결과 카드 올리기에도 딱이더라구요!\n\n` +
+                          `여러분도 10초 만에 로그인 없이 무료로 어울리는 인생템 수치를 확인해보세요!\n` +
+                          `👉 즉시 자가진단하기: https://inselfcolor.pages.dev\n\n` +
+                          `#인셀프컬러 #InSelfColor #퍼스널컬러 #퍼스널컬러진단 #웜톤쿨톤 #자가진단 #네이버블로그스크랩환영 #${seasonName.replace(/\s+/g, "")}`
+                        : `Title: Found My Real Spectrum on InSelf Color AI Tone Analyzer (${seasonName})\n\n` +
+                          `I just discovered my true personal color using the rapid PCCS calibration on InSelf Color!\n` +
+                          `👉 Result: [ ${seasonName} ] ${season.icon}\n\n` +
+                          `The web app generated beautiful downloadable design ID passes and precise cosmetic suggestions.\n` +
+                          `Scrapping to Naver blogs, cafés, or other social spots is 100% welcomed with open arms! 💚\n\n` +
+                          `Find your exact tone spectrum, contrast profile, and seasonal palettes in just 10 seconds:\n` +
+                          `👉 Test Free Now: https://inselfcolor.pages.dev\n\n` +
+                          `#InSelfColor #PersonalColor #PersonalColorTest #ColorAnalysis #${seasonName.replace(/\s+/g, "")} #ScrapWelcome`
+                      );
+                    if (navigator.clipboard?.writeText) {
+                      navigator.clipboard.writeText(naverPostTemplate).then(() => onToast(T[lang].toastCopied));
+                    } else {
+                      onToast(T[lang].toastNoShare);
+                    }
+                  }}
+                  style={{
+                    background: "#03C75A",
+                    color: "#FFFFFF",
+                    border: "none",
+                    borderRadius: "6px",
+                    padding: "5px 12px",
+                    fontSize: "11px",
+                    fontWeight: "700",
+                    cursor: "pointer",
+                    boxShadow: "0 1px 3px rgba(3,199,90,0.2)",
+                    transition: "all 0.1s"
+                  }}
+                >
+                  {lang === "ko" ? "📋 전체 본문 복사" : "📋 Copy Full Outline"}
+                </button>
+              </div>
+              <textarea
+                readOnly
+                value={
+                  lang === "ko"
+                    ? `[제목] AI 명도분석으로 찾은 내 진짜 톤! 인셀프컬러 자가진단 후기 (${season.name})\n\n[내용] 안녕하세요! 제 진짜 매력을 밝혀줄 AI 퍼스널컬러 진단 '인셀프컬러(InSelf Color)' 분석 후기입니다. 이번에 정밀 PCCS 자가진단을 해보니 저의 결과는 바로 [${season.name}] 이었습니다! 인생 메이크업 꿀팁과 추천 템들이 가득하네요... \n\n👉 무료 자가진단 링크: https://inselfcolor.pages.dev\n#인셀프컬러 #퍼스널컬러 #네이버블로그스크랩환영`
+                    : `[Title] Found My True Spectrum on InSelf Color AI Analyzer (${season.nameEn})\n\n[Content] Hi! I just analyzed my skin tone using InSelf Color and found out my type is [${season.nameEn}]! It gives exact styling tips & cosmetic items... \n\n👉 Test Link: https://inselfcolor.pages.dev\n#InSelfColor #PersonalColor #ScrapWelcome`
+                }
+                style={{
+                  width: "100%",
+                  height: "70px",
+                  fontSize: "11.5px",
+                  padding: "8px 10px",
+                  borderRadius: "8px",
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  background: "#F9F9F9",
+                  color: "#555555",
+                  resize: "none",
+                  outline: "none",
+                  fontFamily: "var(--fs)",
+                  lineHeight: "1.45"
+                }}
+              />
             </div>
           </div>
 
