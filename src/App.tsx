@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PersonalColorTest from "./components/PersonalColorTest";
 import PersonalColorGuide from "./components/PersonalColorGuide";
+import PersonalColorLongtail, { LONGTAIL_PAGES } from "./components/PersonalColorLongtail";
 
 export default function App() {
   const [path, setPath] = useState<string>(() => {
@@ -38,9 +39,19 @@ export default function App() {
     }
   };
 
+  const pageId = path.substring(1).toLowerCase();
+  const isLongtailRoute = pageId in LONGTAIL_PAGES;
+
   return (
     <>
-      {path === "/guide" ? (
+      {isLongtailRoute ? (
+        <PersonalColorLongtail
+          pageId={pageId}
+          onBack={handleBackToTest}
+          lang={lang}
+          setLang={setLang}
+        />
+      ) : path === "/guide" ? (
         <PersonalColorGuide onBack={handleBackToTest} lang={lang} setLang={setLang} />
       ) : (
         <PersonalColorTest

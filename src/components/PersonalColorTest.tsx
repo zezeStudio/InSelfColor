@@ -3060,9 +3060,10 @@ interface ResultsScreenProps {
   setLang: (lang: "ko" | "en") => void;
   gender: "female" | "male";
   setGender: (g: "female" | "male") => void;
+  uploadedImage: string | null;
 }
 
-function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: ResultsScreenProps){
+function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,uploadedImage: image}: ResultsScreenProps){
   const[bars,setBars] = useState<Record<string, number>>({spring:0,summer:0,autumn:0,winter:0});
   const [userName, setUserName] = useState<string>("");
   const season=SEASONS[result.season];
@@ -3129,10 +3130,10 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
   const handleShare=()=>{
     const seasonName = lang === "ko" ? season.name : season.nameEn;
     const txt = lang === "ko"
-      ? `나의 퍼스널 컬러 결과: ${seasonName} ${season.icon}\n#InSelfColor #퍼스널컬러`
-      : `My Personal Color Result: ${seasonName} ${season.icon}\n#InSelfColor #PersonalColor`;
+      ? `나의 퍼스널 컬러 결과: ${seasonName} ${season.icon}\n👉 테스트해보기: https://inselfcolor.pages.dev\n#InSelfColor #퍼스널컬러`
+      : `My Personal Color Result: ${seasonName} ${season.icon}\n👉 Analyze yours: https://inselfcolor.pages.dev\n#InSelfColor #PersonalColor`;
     if(navigator.share) {
-      navigator.share({title:"Personal Color - InSelf Color",text:txt}).catch(() => {});
+      navigator.share({title:"Personal Color - InSelf Color",text:txt,url:"https://inselfcolor.pages.dev"}).catch(() => {});
     } else if (navigator.clipboard?.writeText) {
       navigator.clipboard.writeText(txt).then(()=>onToast(T[lang].toastCopied)).catch(()=>onToast(T[lang].toastNoShare));
     } else {
@@ -3145,7 +3146,13 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
     
     onToast(T[lang].toastStartingAll);
 
-    if (!activeCard) {
+    const userImgSrc = image || (activeCard ? activeCard.imgPath : "");
+    const userTag = {
+      tag: image ? (lang === "ko" ? "#나의_스캔_아이디" : "#My_Scan_ID") : (activeCard ? activeCard.tag : "#InSelfCustomVibe"),
+      imgPath: userImgSrc
+    };
+
+    if (!userImgSrc) {
       try {
         downloadDetailedResultCard(season, scores, lang, customCelebs, undefined, null, userName);
         onToast(T[lang].toastSaveSuccess);
@@ -3158,10 +3165,12 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
     }
 
     const img = new Image();
-    img.crossOrigin = "anonymous";
+    if (!userImgSrc.startsWith("data:")) {
+      img.crossOrigin = "anonymous";
+    }
     img.onload = () => {
       try {
-        downloadDetailedResultCard(season, scores, lang, customCelebs, activeCard, img, userName);
+        downloadDetailedResultCard(season, scores, lang, customCelebs, userTag, img, userName);
         onToast(T[lang].toastSaveSuccess);
         trackEvent("full_save", { season: season.id, gender });
       } catch (e) {
@@ -3172,7 +3181,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
     img.onerror = () => {
       console.warn("Failed to load representative style image, drawing text fallback.");
       try {
-        downloadDetailedResultCard(season, scores, lang, customCelebs, activeCard, null, userName);
+        downloadDetailedResultCard(season, scores, lang, customCelebs, userTag, null, userName);
         onToast(T[lang].toastSaveSuccess);
         trackEvent("full_save", { season: season.id, gender });
       } catch (e) {
@@ -3180,7 +3189,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
         onToast(T[lang].toastError);
       }
     };
-    img.src = activeCard.imgPath;
+    img.src = userImgSrc;
   };
 
   const handleDlSns = () => {
@@ -3189,7 +3198,13 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
     
     onToast(T[lang].toastSavingCard);
 
-    if (!activeCard) {
+    const userImgSrc = image || (activeCard ? activeCard.imgPath : "");
+    const userTag = {
+      tag: image ? (lang === "ko" ? "#나의_스캔_아이디" : "#My_Scan_ID") : (activeCard ? activeCard.tag : "#InSelfCustomVibe"),
+      imgPath: userImgSrc
+    };
+
+    if (!userImgSrc) {
       try {
         downloadSnsCard(season, scores, lang, customCelebs, undefined, null, userName);
         trackEvent("sns_save", { season: season.id, gender });
@@ -3201,10 +3216,12 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
     }
 
     const img = new Image();
-    img.crossOrigin = "anonymous";
+    if (!userImgSrc.startsWith("data:")) {
+      img.crossOrigin = "anonymous";
+    }
     img.onload = () => {
       try {
-        downloadSnsCard(season, scores, lang, customCelebs, activeCard, img, userName);
+        downloadSnsCard(season, scores, lang, customCelebs, userTag, img, userName);
         trackEvent("sns_save", { season: season.id, gender });
       } catch (e) {
         console.error(e);
@@ -3214,26 +3231,31 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
     img.onerror = () => {
       console.warn("Failed to load representative style image, drawing text fallback.");
       try {
-        downloadSnsCard(season, scores, lang, customCelebs, activeCard, null, userName);
+        downloadSnsCard(season, scores, lang, customCelebs, userTag, null, userName);
         trackEvent("sns_save", { season: season.id, gender });
       } catch (e) {
         console.error(e);
         onToast(T[lang].toastError);
       }
     };
-    img.src = activeCard.imgPath;
+    img.src = userImgSrc;
   };
 
   const handleDlRepr = () => {
     const activeCard = celebCards[0];
-    if (!activeCard) {
+    const userImgSrc = image || (activeCard ? activeCard.imgPath : "");
+    const userTagText = image ? (lang === "ko" ? "#나의_스캔_아이디" : "#My_Scan_ID") : (activeCard ? activeCard.tag : "#InSelfCustomVibe");
+
+    if (!userImgSrc) {
       onToast(T[lang].toastError);
       return;
     }
     onToast(lang === "ko" ? "✨ 스타일 ID 출입증 카드를 발급하는 중입니다..." : "✨ Issuing style ID Pass card...");
     
     const img = new Image();
-    img.crossOrigin = "anonymous";
+    if (!userImgSrc.startsWith("data:")) {
+      img.crossOrigin = "anonymous";
+    }
     img.onload = () => {
       try {
         const W = 600, H = 900, dpr = 2;
@@ -3407,7 +3429,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
         rrect(imgX, imgY, imgW, imgH, 20, undefined, theme.borderStroke, 1.5);
 
         // Active Style tag badge float overlapping picture bottom-center
-        const tagText = activeCard.tag;
+        const tagText = userTagText;
         ctx.font = "bold 13px sans-serif";
         const tagTextWidth = ctx.measureText(tagText).width + 30;
         const tagPillX = W / 2 - tagTextWidth / 2;
@@ -3538,7 +3560,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
     img.onerror = () => {
       onToast(T[lang].toastError);
     };
-    img.src = activeCard.imgPath;
+    img.src = userImgSrc;
   };
 
   const seasonName = lang === "ko" ? season.name : season.nameEn;
@@ -3801,6 +3823,119 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender}: R
             <button className="bdl-detailed" onClick={handleDlDetailed}>{T[lang].saveAllBtn}</button>
             <button className="bdl-sns" onClick={handleDlSns}>{T[lang].saveSnsBtn}</button>
             <button className="bdl-repr" onClick={handleDlRepr}>{T[lang].saveReprBtn}</button>
+          </div>
+
+          {/* SHARE SYSTEM */}
+          <div style={{
+            marginTop: "18px",
+            padding: "16px 20px",
+            background: "rgba(196,149,106,0.06)",
+            border: "1px solid rgba(196,149,106,0.18)",
+            borderRadius: "16px",
+            textAlign: "center",
+            maxWidth: "640px",
+            marginLeft: "auto",
+            marginRight: "auto"
+          }} data-html2canvas-ignore="true">
+            <p style={{
+              fontSize: "13.5px",
+              fontWeight: 700,
+              color: "#5A483E",
+              marginBottom: "12px",
+              marginTop: 0,
+              letterSpacing: "-0.01em"
+            }}>
+              {lang === "ko" ? "🔗 이 결과 친구에게 자랑하기 (바이럴 루프)" : "🔗 Share Your Results with Friends"}
+            </p>
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "10px",
+              flexWrap: "wrap"
+            }}>
+              {/* Kakao copy helper */}
+              <button 
+                onClick={() => {
+                  const seasonName = lang === "ko" ? season.name : season.nameEn;
+                  const txt = lang === "ko"
+                    ? `[InSelf Color] 나의 퍼스널 컬러 결과는 '${seasonName}' ${season.icon}입니다! 모바일/PC로 10초 만에 분석해보세요.\n👉 https://inselfcolor.pages.dev`
+                    : `[InSelf Color] My personal color is '${seasonName}' ${season.icon}! Test your skin tone free here.\n👉 https://inselfcolor.pages.dev`;
+                  if (navigator.clipboard?.writeText) {
+                    navigator.clipboard.writeText(txt).then(() => onToast(T[lang].toastCopied));
+                  } else {
+                    onToast(T[lang].toastNoShare);
+                  }
+                }}
+                style={{
+                  background: "#FEE500",
+                  color: "#191919",
+                  border: "none",
+                  borderRadius: "100px",
+                  padding: "9px 16px",
+                  fontSize: "12.5px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  boxShadow: "0 2px 8px rgba(254,229,0,0.22)",
+                  transition: "all 0.2s"
+                }}
+              >
+                <span style={{ fontSize: "14px" }}>💬</span> {lang === "ko" ? "카카오톡 공유 문구 복사" : "KakaoTalk Link Copy"}
+              </button>
+
+              {/* Twitter/X */}
+              <button 
+                onClick={() => {
+                  const seasonName = lang === "ko" ? season.name : season.nameEn;
+                  const txt = lang === "ko"
+                    ? `나의 퍼스널 컬러 결과는 '${seasonName}' ${season.icon}입니다! PCCS로 분석해보는 나만의 분위기.\n#inselfcolor #퍼스널컬러 #웜톤쿨톤`
+                    : `My personal color is '${seasonName}' ${season.icon}! Discover your PCCS value & chroma tone.\n#inselfcolor #personalcolor`;
+                  const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(txt)}&url=${encodeURIComponent("https://inselfcolor.pages.dev")}`;
+                  window.open(url, "_blank");
+                }}
+                style={{
+                  background: "#111111",
+                  color: "#FFFFFF",
+                  border: "none",
+                  borderRadius: "100px",
+                  padding: "9px 16px",
+                  fontSize: "12.5px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                  transition: "all 0.2s"
+                }}
+              >
+                <span style={{ fontSize: "12px" }}>𝕏</span> {lang === "ko" ? "트위터 공유" : "Tweet"}
+              </button>
+
+              {/* Browser native share / copy link */}
+              <button 
+                onClick={handleShare}
+                style={{
+                  background: "linear-gradient(135deg, #7A6052, #5A483E)",
+                  color: "#FFFFFF",
+                  border: "none",
+                  borderRadius: "100px",
+                  padding: "9px 16px",
+                  fontSize: "12.5px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  boxShadow: "0 2px 8px rgba(122,96,82,0.22)",
+                  transition: "all 0.2s"
+                }}
+              >
+                <span style={{ fontSize: "14px" }}>🔗</span> {lang === "ko" ? "결과링크 복사" : "Copy Link"}
+              </button>
+            </div>
           </div>
 
           {/* ADSENSE POLICY COVENANT / QUALITY CERTIFICATE SHIELD */}
@@ -4346,7 +4481,7 @@ export default function PersonalColorTest({
       {page === "landing" && <LandingScreen onStart={() => navigateTo("upload")} onGoToGuide={onGoToGuide} lang={lang} setLang={setLang}/>}
       {page === "upload" && <UploadScreen onBack={() => navigateTo("landing")} onAnalyze={handleAnalyze} uploadedImage={image} onImageSet={setImage} lang={lang} setLang={setLang} gender={gender} setGender={setGender}/>}
       {page === "analyzing" && <AnalyzingScreen progress={progress} lang={lang} setLang={setLang}/>}
-      {page === "results" && result && <ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang} gender={gender} setGender={setGender}/>}
+      {page === "results" && result && <ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang} gender={gender} setGender={setGender} uploadedImage={image}/>}
       <Toast msg={toast}/>
       <LegalPolicyModal type={legalModal} onClose={handleCloseLegal} lang={lang} />
     </>

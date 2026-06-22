@@ -716,6 +716,62 @@ function SeasonCard({s, lang}: SeasonCardProps){
             : s.keywordsEn.map(k=><span key={k} className="sc-tag">{k}</span>)
           }
         </div>
+
+        {/* Dynamic SEO Longtail Links */}
+        <div style={{
+          marginTop: "14px",
+          paddingTop: "12px",
+          borderTop: "1px dashed rgba(62,40,20,0.12)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px"
+        }}>
+          <div style={{ fontSize: "11px", fontWeight: "700", color: "#5A483E", display: "flex", alignItems: "center", gap: "4px" }}>
+            📚 {lang === "ko" ? "세부 유형별 가을뮤트/봄브 추천 가이드" : "Detailed Style & Cosmetic Guides"}
+          </div>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            {s.id === "spring" && (
+              <>
+                <a href="/spring-bright" onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", "/spring-bright"); window.dispatchEvent(new Event("popstate")); }} style={{ flex: 1, minWidth: "100px", textAlign: "center", textDecoration: "none", fontSize: "11px", fontWeight: "700", padding: "7px 10px", background: "rgba(255,107,53,0.08)", border: "1px solid rgba(255,107,53,0.22)", borderRadius: "8px", color: "#FF6B35", transition: "all 0.2s" }} className="longtail-link-button">
+                  {lang === "ko" ? "봄 브라이트 🚀" : "Spring Bright 🚀"}
+                </a>
+                <a href="/spring-light" onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", "/spring-light"); window.dispatchEvent(new Event("popstate")); }} style={{ flex: 1, minWidth: "100px", textAlign: "center", textDecoration: "none", fontSize: "11px", fontWeight: "700", padding: "7px 10px", background: "rgba(232,144,90,0.08)", border: "1px solid rgba(232,144,90,0.22)", borderRadius: "8px", color: "#E8905A", transition: "all 0.2s" }} className="longtail-link-button">
+                  {lang === "ko" ? "봄 라이트 🚀" : "Spring Light 🚀"}
+                </a>
+              </>
+            )}
+            {s.id === "summer" && (
+              <>
+                <a href="/summer-light" onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", "/summer-light"); window.dispatchEvent(new Event("popstate")); }} style={{ flex: 1, minWidth: "100px", textAlign: "center", textDecoration: "none", fontSize: "11px", fontWeight: "700", padding: "7px 10px", background: "rgba(82,116,168,0.08)", border: "1px solid rgba(82,116,168,0.22)", borderRadius: "8px", color: "#5274A8", transition: "all 0.2s" }} className="longtail-link-button">
+                  {lang === "ko" ? "여름 라이트 🚀" : "Summer Light 🚀"}
+                </a>
+                <a href="/summer-mute" onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", "/summer-mute"); window.dispatchEvent(new Event("popstate")); }} style={{ flex: 1, minWidth: "100px", textAlign: "center", textDecoration: "none", fontSize: "11px", fontWeight: "700", padding: "7px 10px", background: "rgba(122,96,82,0.08)", border: "1px solid rgba(122,96,82,0.22)", borderRadius: "8px", color: "#7A6052", transition: "all 0.2s" }} className="longtail-link-button">
+                  {lang === "ko" ? "여름 뮤트 🚀" : "Summer Mute 🚀"}
+                </a>
+              </>
+            )}
+            {s.id === "autumn" && (
+              <>
+                <a href="/autumn-mute" onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", "/autumn-mute"); window.dispatchEvent(new Event("popstate")); }} style={{ flex: 1, minWidth: "100px", textAlign: "center", textDecoration: "none", fontSize: "11px", fontWeight: "700", padding: "7px 10px", background: "rgba(196,112,58,0.08)", border: "1px solid rgba(196,112,58,0.22)", borderRadius: "8px", color: "#C4703A", transition: "all 0.2s" }} className="longtail-link-button">
+                  {lang === "ko" ? "가을 뮤트 🚀" : "Autumn Mute 🚀"}
+                </a>
+                <a href="/autumn-deep" onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", "/autumn-deep"); window.dispatchEvent(new Event("popstate")); }} style={{ flex: 1, minWidth: "100px", textAlign: "center", textDecoration: "none", fontSize: "11px", fontWeight: "700", padding: "7px 10px", background: "rgba(139,69,32,0.08)", border: "1px solid rgba(139,69,32,0.22)", borderRadius: "8px", color: "#8B4520", transition: "all 0.2s" }} className="longtail-link-button">
+                  {lang === "ko" ? "가을 딥 🚀" : "Autumn Deep 🚀"}
+                </a>
+              </>
+            )}
+            {s.id === "winter" && (
+              <>
+                <a href="/winter-bright" onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", "/winter-bright"); window.dispatchEvent(new Event("popstate")); }} style={{ flex: 1, minWidth: "100px", textAlign: "center", textDecoration: "none", fontSize: "11px", fontWeight: "700", padding: "7px 10px", background: "rgba(200,0,101,0.08)", border: "1px solid rgba(200,0,101,0.22)", borderRadius: "8px", color: "#C80065", transition: "all 0.2s" }} className="longtail-link-button">
+                  {lang === "ko" ? "겨울 브라이트 🚀" : "Winter Bright 🚀"}
+                </a>
+                <a href="/winter-deep" onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", "/winter-deep"); window.dispatchEvent(new Event("popstate")); }} style={{ flex: 1, minWidth: "100px", textAlign: "center", textDecoration: "none", fontSize: "11px", fontWeight: "700", padding: "7px 10px", background: "rgba(74,0,51,0.08)", border: "1px solid rgba(74,0,51,0.22)", borderRadius: "8px", color: "#4A0033", transition: "all 0.2s" }} className="longtail-link-button">
+                  {lang === "ko" ? "겨울 딥 🚀" : "Winter Deep 🚀"}
+                </a>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
