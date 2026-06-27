@@ -1,11 +1,10 @@
-# Robots.txt for InSelf Color (https://inselfcolor.pages.dev)
-# Optimized for Google, Naver, Daum, Bing, and major AI Assistant Crawlers (ChatGPT, Gemini, Perplexity, Claude, Applebot)
-
 User-agent: *
 Allow: /
 Disallow: /api/
 
-# Explicitly allow major AI agents for maximal AI Visibility & Semantic Indexing
+User-agent: Yeti
+Allow: /
+
 User-agent: GPTBot
 Allow: /
 
@@ -29,3 +28,4 @@ Allow: /
 
 # Sitemap Location
 Sitemap: https://inselfcolor.pages.dev/sitemap.xml
+
