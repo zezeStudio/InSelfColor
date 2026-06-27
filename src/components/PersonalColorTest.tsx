@@ -2254,9 +2254,20 @@ interface NavProps {
 }
 
 function Nav({ onGoToGuide, lang, setLang }: NavProps){
+  const handleLogoClick = () => {
+    if (typeof window !== "undefined") {
+      if (window.location.pathname === "/") {
+        window.location.reload();
+      } else {
+        window.history.pushState(null, "", "/");
+        window.dispatchEvent(new PopStateEvent("popstate"));
+      }
+    }
+  };
+
   return(
     <nav className="nav">
-      <div className="logo" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }} onClick={() => window.location.reload()}>
+      <div className="logo" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }} onClick={handleLogoClick}>
         <img 
           src="/images/seasons/logo.png" 
           alt="InSelf Color" 
