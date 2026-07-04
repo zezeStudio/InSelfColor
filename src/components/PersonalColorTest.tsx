@@ -136,13 +136,13 @@ const SEASONS: Record<string, any> = {
     },
     fashion:{
       style:"내추럴 어스 어텀 룩",styleEn:"Natural Earth Autumn Look",
-      items:["카멜 코트","올리브 재킷","테라코타 니트","초콜릿 팬츠"],itemsEn:["Camel Coat","Olive Jacket","Terracotta Knitwear","Chocolate Pants"],
-      fabrics:["트위드","울","코듀로이","가죽"],fabricsEn:["Tweed","Wool","Corduroy","Leather"],
-      avoid:["형광·네온 계열","차가운 파스텔 단독 착장"],avoidEn:["Fluorescent/Neon Colors","Cold Pastel Outfits"]
+      items:["카멜 코트","브릭 레더 자켓","올리브 카고 팬츠","다크브라운 골지니트"],itemsEn:["Camel Coat","Brick Leather Jacket","Olive Cargo Pants","Dark Brown Knitwear"],
+      fabrics:["스웨이드","코듀로이","트위드","골지니트"],fabricsEn:["Suede","Corduroy","Tweed","Ribbed Knit"],
+      avoid:["블루진 단독 매치","아이시 페일 배색"],avoidEn:["Blue Denim Only","Icy Pale Combinations"]
     },
     celebs:{
-      female: ["#성숙한_분위기", "#가을뮤즈_센치", "#클래식_트렌치", "#고혹적인_음영", "#웜벨벳_러브", "#메이플브릭_감성"],
-      male: ["#깊이있는_서사", "#분위기_남신", "#클래식_트렌치", "#묵직한_어른미", "#따뜻한_라떼", "#빈티지코퍼_멋남"]
+      female: ["#우아한_분위기", "#가을의_뮤즈", "#클래식_트렌치", "#매혹적인_음영", "#따뜻한_벨벳", "#메이플브릭_감성"],
+      male: ["#묵직한_서사", "#분위기_미남", "#트렌치코트의_정석", "#묵직한_어른미", "#따뜻한_라떼", "#빈티지코퍼_멋남"]
     },
     celebsEn:{
       female: ["#SophisticatedMood", "#AutumnMuse", "#ClassicTrench", "#SeductiveShadow", "#WarmVelvetSoft", "#MapleBrickSensibility"],
@@ -176,17 +176,17 @@ const SEASONS: Record<string, any> = {
     tipEn:"Maximize your sophisticated appeal with stark color contrast. Black-and-white combos or jewel-tones bring out your best features.",
     makeup:{
       foundation:"뉴트럴·쿨핑크베이지",foundationEn:"Neutral / Cool Pink Beige",
-      blush:"차가운 핑크, 버건디로즈",blushEn:"Icy Pink, Burgundy Rose",
-      lip:"버건디, 레드, 핫핑크, 체리",lipEn:"Burgundy, Red, Hot Pink, Cherry",
-      eye:"블랙, 딥그레이, 딥네이비, 스모키",eyeEn:"Black, Deep Gray, Deep Navy, Smoky",
-      liner:"블랙, 딥네이비",linerEn:"Black, Deep Navy",
-      dots:["#722F37","#1B3A6B","#4B0082","#1C1C1C"]
+      blush:"플럼, 쿨베리, 마젠타",blushEn:"Plum, Cool Berry, Magenta",
+      lip:"플럼, 체리버건디, 푸시아레드",lipEn:"Plum, Cherry Burgundy, Fuchsia Red",
+      eye:"차콜, 블랙, 퍼플, 실버그레이",eyeEn:"Charcoal, Black, Purple, Silver Gray",
+      liner:"제트블랙, 다크차콜, 플럼네이비",linerEn:"Jet Black, Dark Charcoal, Plum Navy",
+      dots:["#1C1C1C","#722F37","#1B3A6B","#4B0082"]
     },
     fashion:{
-      style:"모던 미니멀 윈터 룩",styleEn:"Modern Minimal Winter Look",
-      items:["블랙 수트","화이트 셔츠","버건디 코트","로열블루 블라우스"],itemsEn:["Black Suit","White Shirt","Burgundy Coat","Royal Blue Blouse"],
-      fabrics:["캐시미어","실크","울","가죽"],fabricsEn:["Cashmere","Silk","Wool","Leather"],
-      avoid:["따뜻한 베이지·카멜 전체 착장","뮤트한 어스톤 코디"],avoidEn:["Beige/Camel Outfits","Muted Earthy Tones"]
+      style:"매혹적 어반 스트롱 윈터 룩",styleEn:"Charismatic Urban Strong Winter Look",
+      items:["제트블랙 자켓","스노우화이트 탑","로열블루 테일러드 코트","플럼 미니스커트"],itemsEn:["Jet Black Jacket","Snow White Top","Royal Blue Coat","Plum Skirt"],
+      fabrics:["레더","새틴","트위드","벨벳"],fabricsEn:["Leather","Satin","Tweed","Velvet"],
+      avoid:["베이지·카멜 원색 코디","따뜻한 어스톤 단독 착장"],avoidEn:["Beige/Camel Outfits","Muted Earthy Tones"]
     },
     celebs:{
       female: ["#도시적인_시크", "#볼드한_카리스마", "#독보적_아우라", "#백설공주_무드", "#대비감이_빛나는", "#차가운_버건디피플"],
@@ -237,14 +237,12 @@ const FAQ_DATA: Record<string, { q: string; a: string }[]> = {
 • 헤어/스타일링 연출: 머리 염색 색상, 컬러 렌즈, 메이크업 등의 대비 변화에 따라 베스트 룩의 폭이 조금씩 이동하며 어울리는 연출법이 서브 톤 영역으로 유동적으로 조화를 이룰 수 있습니다.`
     },
     {
-      q: "본 진단기기에서 제공하는 이미지와 가이드를 블로그나 웹사이트에 안심하고 배포해도 되나요?",
-      a: `네, 100% 완전 안전하며 자유로운 상업적 재배포와 웹사이트 인용이 전면 허용됩니다!
+      q: "본 진단기기에서 제공하는 이미지와 가이드를 블로그나 SNS에 배포해도 되나요?",
+      a: `네, 인셀프 컬러의 모든 분석 결과 이미지와 스타일링 가이드는 자유롭게 비영리적/상업적 용도로 배포하거나 인용하실 수 있습니다.
 
-InSelf Color는 구글 애드센스 광고주 고품질 웹사이트 가이드라인(독창성, 저작재산권 보호, 투명도 확보)을 완벽하게 완수하도록 기획되었습니다.
-
-1. 🚫 유명인 침해 요소 제로 (Anti-Celebrity-Theft Rule): 타 유사 진단 사이트에서 무단 인용하여 애드센스 계정 정지 사유가 되는 실존 연예인의 성명이나 미합의된 얼굴 초상권을 일체 도용하지 않습니다. 분석 결과는 '#사랑스러운_과즙미', '#은은한_라벤더' 같은 아름답게 정제된 키워드와 가독성 있는 '해시태그 페르소나' 형태로 출력되어 권리 관계 손실 위험을 완벽히 차단했습니다.
-2. 🎨 100% 저작권 프리 뷰티 그래픽스 (Copyright-Free Visual Artworks): 계절 결과별 발급되는 스타일 IDPass 및 스타일 시각 이미지들은 저작권 허용 라이선스가 발급된 100% 원본 AI 생성 아트워크 및 무료 분배 라이선스(Unsplash/Pixabay 기준) 특수 리소스이므로, 저작권 분쟁으로부터 완벽하게 자유롭습니다.
-3. 💼 도메인 점수 향상 및 상업적 이익: 본 이미지 다운로드 자산(📋 전체내용 이미지, 📸 SNS용 이미지 등)을 귀하의 네이버 블로그, 티스토리, 워드프레스 애드센스 수익형 사이트에 '독창적인 고해상도 정보 콘텐츠(High Unique Value Unit)'로 첨부하면 검색엔진 지표 최적화(SEO)에도 압도적으로 유리합니다.`
+1. 🚫 유명인 초상권 침해 우려 제로: 실존 연예인의 성명이나 미합의된 얼굴 초상권을 무단으로 도용하지 않습니다. '#사랑스러운_과즙미', '#은은한_라벤더'와 같이 아름답게 정제된 해시태그 키워드 중심으로 가이드를 제공합니다.
+2. 🎨 100% 저작권 안전 비주얼 자산: 결과서에 제공되는 사계절 대표 이미지들은 라이선스 분쟁의 소지가 없는 고품질 원본 생성 그래픽 및 저작권이 완전 개방된 프리 이미지(Unsplash 등) 리소스를 기반으로 제작되었습니다.
+3. 🔗 자유로운 공유와 리뷰 작성: 다운로드한 전체 결과서 이미지와 SNS용 공유 카드 이미지를 네이버 블로그, 인스타그램, 티스토리 등에 자유롭게 업로드하여 후기 작성 및 정보 제공용 콘텐츠로 활용하실 수 있습니다.`
     }
   ],
   en: [
@@ -3700,6 +3698,281 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
             </div>
           </div>
 
+          {/* CONTRAST CALENDAR */}
+          <div className="rcard contrast-calendar-card" style={{
+            position: "relative",
+            overflow: "hidden"
+          }}>
+            <div className="rlbl" style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              marginBottom: "16px"
+            }}>
+              <span>{lang === "ko" ? "🌓 대비 기반 데일리 룩 캘린더" : "🌓 Contrast-Based Daily Look Calendar"}</span>
+              <span style={{
+                fontSize: "11px",
+                background: "rgba(196,149,106,0.12)",
+                color: "#C4956A",
+                padding: "3px 9px",
+                borderRadius: "100px",
+                fontWeight: 500,
+                letterSpacing: "0.02em"
+              }}>{lang === "ko" ? "이목구비 조화 분석" : "Facial Harmony Analysis"}</span>
+            </div>
+
+            {/* 오늘의 추천 지수 */}
+            <div style={{
+              background: "rgba(255, 255, 255, 0.45)",
+              border: "1px solid rgba(196,149,106,0.12)",
+              borderRadius: "16px",
+              padding: "20px",
+              marginBottom: "20px"
+            }}>
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "14px"
+              }}>
+                <div>
+                  <div style={{ fontSize: "12px", color: "var(--sub)", fontWeight: 500, marginBottom: "2px" }}>
+                    {lang === "ko" ? "오늘의 대비 코디 추천 지수" : "Today's Contrast Style Index"}
+                  </div>
+                  <div style={{
+                    fontSize: "24px",
+                    fontWeight: 700,
+                    color: "var(--dark)",
+                    fontFamily: "var(--fs)"
+                  }}>
+                    {result.season === "winter" ? "92%" : result.season === "spring" ? "76%" : result.season === "summer" ? "34%" : "22%"}
+                    <span style={{
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: season.primary,
+                      marginLeft: "8px"
+                    }}>
+                      {result.season === "winter" || result.season === "spring" 
+                        ? (lang === "ko" ? "고대비 추천 (High Contrast)" : "High Contrast Rec")
+                        : (lang === "ko" ? "저대비 추천 (Tone-on-Tone)" : "Tone-on-Tone Rec")
+                      }
+                    </span>
+                  </div>
+                </div>
+                <div style={{
+                  fontSize: "36px",
+                  lineHeight: 1
+                }}>
+                  {result.season === "winter" ? "🔆" : result.season === "spring" ? "🌤️" : result.season === "summer" ? "🌫️" : "🍁"}
+                </div>
+              </div>
+
+              {/* Contrast Bar */}
+              <div style={{ marginBottom: "16px" }}>
+                <div style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  fontSize: "11px",
+                  color: "var(--sub)",
+                  marginBottom: "6px",
+                  fontWeight: 500
+                }}>
+                  <span>{lang === "ko" ? "소프트 톤온톤 (저대비)" : "Soft Tone-on-Tone"}</span>
+                  <span>{lang === "ko" ? "볼드 대비매치 (고대비)" : "Bold Contrast"}</span>
+                </div>
+                <div style={{
+                  height: "8px",
+                  background: "rgba(196,149,106,0.1)",
+                  borderRadius: "100px",
+                  position: "relative",
+                  overflow: "hidden"
+                }}>
+                  <div style={{
+                    position: "absolute",
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    width: result.season === "winter" ? "92%" : result.season === "spring" ? "76%" : result.season === "summer" ? "34%" : "22%",
+                    background: `linear-gradient(90deg, #E8AA80, ${season.primary})`,
+                    borderRadius: "100px",
+                    transition: "width 0.8s ease-in-out"
+                  }} />
+                </div>
+              </div>
+
+              {/* Description */}
+              <p style={{
+                fontSize: "13px",
+                lineHeight: "1.6",
+                color: "var(--text)",
+                margin: 0
+              }}>
+                {result.season === "winter" ? (
+                  lang === "ko" 
+                    ? "오늘은 이너와 아우터의 명도 대비(밝기 차이)를 뚜렷하게 주는 고대비 코디를 추천합니다! 선명한 리얼 화이트 이너와 제트 블랙 아우터 매치가 당신의 뚜렷한 이목구비를 입체적이고 세련되게 살려줍니다."
+                    : "We recommend a bold high-contrast look today! Styling a crisp real white inner with a jet black outer enhances your sharp facial features for a very chic and structural silhouette."
+                ) : result.season === "spring" ? (
+                  lang === "ko"
+                    ? "오늘은 맑고 가벼운 밀키 베이지 베이스에 브라이트 아프리콧 가디건을 매치해 싱그러운 중고대비 감각을 표현해 보세요. 얼굴 주변에 밝고 선명한 웜톤 대비를 둘렀을 때 생기가 극대화됩니다."
+                    : "Try a fresh mid-high contrast match today! Styling a bright apricot cardigan over a milky beige inner brings out the luminous, warm energy of your facial tone."
+                ) : result.season === "summer" ? (
+                  lang === "ko"
+                    ? "오늘은 전체적인 색감의 밝기 차이를 줄이고 부드러운 톤온톤으로 자연스럽게 어우러지는 저대비 코디를 추천합니다. 라벤더 니트에 애쉬 그레이 슬랙스 매치가 당신의 부드러운 무드를 완벽하게 완성해 줍니다."
+                    : "We recommend soft tone-on-tone dressing today. Minimizing value contrast between items, like pairing a lavender sweater with ash grey pants, elevates your elegant, delicate features."
+                ) : (
+                  lang === "ko"
+                    ? "오늘은 전체 룩의 명도 대비를 낮추고 따뜻한 낙엽과도 같은 아날로그 딥 톤온톤으로 깊이감을 완성해 보세요. 머스터드 가디건과 브릭 코듀로이 팬츠처럼 결이 같은 어스 톤(Earth Tone) 매치일 때 독보적인 고급스러움이 극대화됩니다."
+                    : "Embrace a rich, low-contrast earthy look today. Pairing deep analogous colors (e.g., a warm mustard knit with a terracotta pant) complements your natural elegance without overwhelming it."
+                )}
+              </p>
+            </div>
+
+            {/* 주간 캘린더 가이드 */}
+            <div>
+              <div style={{
+                fontSize: "12.5px",
+                fontWeight: 600,
+                color: "#3D2B1A",
+                marginBottom: "12px",
+                fontFamily: "var(--fs)"
+              }}>
+                📅 {lang === "ko" ? "주간 대비 추천 코디 스케줄" : "Weekly Contrast Styling Guide"}
+              </div>
+
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px"
+              }}>
+                {(() => {
+                  const daysOfWeekKo = ["일", "월", "화", "수", "목", "금", "토"];
+                  const daysOfWeekEn = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                  const todayDate = new Date();
+                  
+                  const outfits = {
+                    winter: [
+                      { ko: "리얼 화이트 셔츠 + 블랙 블레이저", en: "Real White Shirt + Black Blazer", index: "95%", icon: "🔆" },
+                      { ko: "실버 그레이 링클 셔츠 + 차콜 오버코트", en: "Silver Grey Shirt + Charcoal Coat", index: "75%", icon: "🌤️" },
+                      { ko: "제트 블랙 가죽 무스탕 + 맑은 레드 립 포인트", en: "Jet Black Leather Jacket + Red Lip Point", index: "90%", icon: "🔆" },
+                      { ko: "푸른빛 아이스 가디건 + 하이 콘트라스트 와이드 데님", en: "Icy Blue Cardigan + High-Contrast Denim", index: "85%", icon: "🔆" },
+                      { ko: "올 블랙 수트 + 네온 핑크 이너 포인트", en: "All Black Suit + Neon Pink Point Inner", index: "98%", icon: "⚡" },
+                      { ko: "다크 네이비 더블 코트 + 은빛 메탈릭 백 매칭", en: "Dark Navy Double Coat + Metallic Silver Bag", index: "80%", icon: "🌤️" },
+                      { ko: "스노우 화이트 니트웨어 + 딥 플럼 팬츠", en: "Snow White Knitwear + Deep Plum Pants", index: "92%", icon: "🔆" }
+                    ],
+                    spring: [
+                      { ko: "버터 옐로우 니트 + 라이트 크림 데님", en: "Butter Yellow Knit + Light Cream Denim", index: "70%", icon: "🌤️" },
+                      { ko: "생기 가득 코랄 가디건 + 베이지 카고 스커트", en: "Vibrant Coral Cardigan + Beige Cargo Skirt", index: "78%", icon: "🌤️" },
+                      { ko: "밀크 피치 탑 + 버블검 핑크 머플러 레이어링", en: "Milky Peach Top + Pink Muffler Layering", index: "82%", icon: "🔆" },
+                      { ko: "아이보리 오버핏 트러커 + 브라이트 진저 탑", en: "Ivory Trucker Jacket + Bright Ginger Top", index: "68%", icon: "🌤️" },
+                      { ko: "따뜻한 살구색 셔츠 + 크림 베스트 테일러드 코디", en: "Warm Apricot Shirt + Cream Vest Tailored Look", index: "74%", icon: "🌤️" },
+                      { ko: "골드 버클 브라운 자켓 + 피치 샤틴 스커트", en: "Gold Buckle Brown Jacket + Peach Satin Skirt", index: "72%", icon: "🌤️" },
+                      { ko: "밀키 카멜 하프 코트 + 바닐라 셔츠", en: "Milky Camel Half Coat + Vanilla Shirt", index: "76%", icon: "🌤️" }
+                    ],
+                    summer: [
+                      { ko: "라벤더 가디건 + 애쉬 블루 톤온톤 데님", en: "Lavender Cardigan + Ash Blue Denim", index: "35%", icon: "🌫️" },
+                      { ko: "은은한 파스텔 핑크 블라우스 + 라이트 그레이 카디건", en: "Muted Pastel Pink Blouse + Light Grey Cardigan", index: "30%", icon: "🌫️" },
+                      { ko: "에쉬 포그 블루 티셔츠 + 오프화이트 린넨 팬츠", en: "Ash Fog Blue T-shirt + Off-white Linen Pants", index: "32%", icon: "🌫️" },
+                      { ko: "소프트 페퍼민트 세트 + 파우더 실버 슬랙스", en: "Soft Peppermint Set + Powder Silver Slacks", index: "38%", icon: "🌫️" },
+                      { ko: "멜로우 오키드 가운 + 화이트 모달 민소매 이너", en: "Mellow Orchid Cardigan + White Modal Inner", index: "42%", icon: "🎨" },
+                      { ko: "코코아 믹스 브라운 니트 + 소프트 바이올렛 스카프", en: "Cocoa Mix Brown Knit + Muted Violet Scarf", index: "45%", icon: "🎨" },
+                      { ko: "밀키 라이트 네이비 자켓 + 아이스 그레이 슬랙스", en: "Milky Light Navy Jacket + Icy Grey Slacks", index: "40%", icon: "🌫️" }
+                    ],
+                    autumn: [
+                      { ko: "따뜻한 머스터드 스웨터 + 초콜릿 골지 팬츠", en: "Warm Mustard Sweater + Chocolate Pants", index: "20%", icon: "🍁" },
+                      { ko: "올리브 사파리 자켓 + 샌드 베이지 하프 팬츠", en: "Olive Safari Jacket + Sand Beige Shorts", index: "25%", icon: "🍁" },
+                      { ko: "테라코타 가죽 블레이저 + 크림 모크넥 니트", en: "Terracotta Leather Blazer + Cream Mockneck", index: "28%", icon: "🍁" },
+                      { ko: "카멜 샌드 울코트 + 로즈 브릭 브이넥 탑", en: "Camel Sand Wool Coat + Rose Brick V-neck Top", index: "18%", icon: "🍁" },
+                      { ko: "딥 틸그린 후드탑 + 스머지 우드 브라운 카고", en: "Deep Teal Green Hoodie + Smudge Wood Cargo", index: "22%", icon: "🍁" },
+                      { ko: "번트 시엔나 린넨 아우터 + 골드 브론즈 스커트", en: "Burnt Sienna Linen Outer + Gold Bronze Skirt", index: "15%", icon: "🍁" },
+                      { ko: "앤티크 토프 오버 가디건 + 모카 브라운 셔츠", en: "Antique Taupe Over Cardigan + Mocha Brown Shirt", index: "24%", icon: "🍁" }
+                    ]
+                  };
+
+                  const list = outfits[result.season as "spring" | "summer" | "autumn" | "winter"] || outfits.summer;
+                  
+                  return Array.from({ length: 7 }).map((_, i) => {
+                    const futureDate = new Date(todayDate);
+                    futureDate.setDate(todayDate.getDate() + i);
+                    
+                    const m = futureDate.getMonth() + 1;
+                    const d = futureDate.getDate();
+                    const dayName = lang === "ko" ? daysOfWeekKo[futureDate.getDay()] : daysOfWeekEn[futureDate.getDay()];
+                    
+                    const isToday = i === 0;
+                    const outfit = list[(futureDate.getDate() + futureDate.getMonth() * 3) % list.length];
+                    const outfitText = lang === "ko" ? outfit.ko : outfit.en;
+
+                    return (
+                      <div key={i} style={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "10px 14px",
+                        background: isToday ? "rgba(196,149,106,0.08)" : "rgba(255,255,255,0.25)",
+                        border: isToday ? "1px solid rgba(196,149,106,0.3)" : "1px solid rgba(196,149,106,0.08)",
+                        borderRadius: "12px",
+                        gap: "12px"
+                      }}>
+                        <div style={{
+                          width: "56px",
+                          textAlign: "center",
+                          borderRight: "1px solid rgba(196,149,106,0.12)",
+                          paddingRight: "10px",
+                          flexShrink: 0
+                        }}>
+                          <div style={{
+                            fontSize: "10px",
+                            color: "var(--sub)",
+                            fontWeight: 600,
+                            textTransform: "uppercase"
+                          }}>
+                            {dayName}
+                          </div>
+                          <div style={{
+                            fontSize: "13px",
+                            fontWeight: 700,
+                            color: isToday ? "var(--dark)" : "var(--sub)"
+                          }}>
+                            {m}/{d}
+                          </div>
+                        </div>
+
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{
+                            fontSize: "12.5px",
+                            color: "var(--text)",
+                            fontWeight: isToday ? 600 : 500,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap"
+                          }}>
+                            {outfitText}
+                          </div>
+                        </div>
+
+                        <div style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          flexShrink: 0
+                        }}>
+                          <span style={{ fontSize: "14px" }}>{outfit.icon}</span>
+                          <span style={{
+                            fontSize: "11px",
+                            fontWeight: 700,
+                            color: isToday ? "var(--dark)" : "var(--sub)",
+                            width: "28px",
+                            textAlign: "right"
+                          }}>{outfit.index}</span>
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+            </div>
+          </div>
+
           {/* COLOR GUIDE */}
           <div className="rcard">
             <div className="rlbl">{T[lang].colorGuideTitle}</div>
@@ -4075,58 +4348,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
             </div>
           </div>
 
-          {/* ADSENSE POLICY COVENANT / QUALITY CERTIFICATE SHIELD */}
-          <div className="adsense-compliance-shield font-sans" style={{
-            marginTop: "28px",
-            marginBottom: "12px",
-            padding: "20px",
-            borderRadius: "16px",
-            background: "linear-gradient(135deg, rgba(196,149,106,0.05) 0%, rgba(122,96,82,0.01) 100%)",
-            border: "1px solid rgba(196,149,106,0.22)",
-            textAlign: "left",
-            maxWidth: "640px",
-            marginLeft: "auto",
-            marginRight: "auto"
-          }} data-html2canvas-ignore="true">
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              color: "#A2744E",
-              fontWeight: "700",
-              fontSize: "12.5px",
-              letterSpacing: "-0.01em"
-            }}>
-              <span style={{ fontSize: "15px" }}>🛡️</span>
-              {lang === "ko" ? "AESTHETIC COPYRIGHT & ADSENSE COMPLIANCE GUARANTEE" : "AESTHETIC COPYRIGHT & ADSENSE COMPLIANCE GUARANTEE"}
-            </div>
-            <div style={{
-              marginTop: "8px",
-              fontSize: "11px",
-              lineHeight: "1.6",
-              color: "rgba(61,43,26,0.8)"
-            }}>
-              {lang === "ko" ? (
-                <>
-                  본 자가 분석 기기는 <strong>구글 애드센스 고품질 포스트 심사 기준(품질 보장 정책 및 지적재산권 규약)</strong>을 완벽하게 충족하며 웹사이트의 신뢰성 가치를 극대화하도록 개발되었습니다.
-                  <ul style={{ marginTop: "6px", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "4px", listStyle: "circle" }}>
-                    <li><strong>초상권 침해 원천 회피(Publicity Rights Safe)</strong>: 현존 유명 연예인의 실명 표기 또는 초상을 도용하지 않으며, 아름다운 무드 해시태그 조합으로 대처하여 저작권 경고 위험이 일체 없습니다.</li>
-                    <li><strong>100% 라이선스 보증 비주얼</strong>: 결과에 사용되는 모든 계절 대표 인물 아트워크는 CC0/자유 재분포 권한(Unsplash 규격)을 따르는 고화질 생성 그래픽으로, 개인 블로그나 포트폴리오, 광고 제휴 웹사이트 게재 시 아무런 법적 제재를 받지 않습니다.</li>
-                    <li><strong>SEO 및 독창적 콘텐츠 강화</strong>: 생성된 카드 이미지(📋 전체, 📸 SNS)를 귀하의 리뷰에 포함할 시 구글 봇에 의해 고가치 고유 정보(Unique Helpful Content)로 정밀 인식되어 애드센스 승인과 사이트 점수 상승에 큰 도움을 줍니다.</li>
-                  </ul>
-                </>
-              ) : (
-                <>
-                  This clinical self-diagnosis blueprint fully complies with the <strong>Google AdSense Advertiser High-Quality Content Rules (Uniqueness, Reliability, Navigation)</strong>.
-                  <ul style={{ marginTop: "6px", paddingLeft: "16px", display: "flex", flexDirection: "column", gap: "4px", listStyle: "circle" }}>
-                    <li><strong>Anti-Celebrity-Theft / Publicity Shield</strong>: Zero unauthorized celebrity name labels or portraits are referenced. Replacing them with mood tags (e.g., #ElegantAura) completely nullifies trademark, copy, or civil publicity claims.</li>
-                    <li><strong>100% Royalty-Free Creative Models</strong>: Every seasonal representative visual of the result is a professionally curated AI design conforming to safe CC0/Unsplash creative open licenses. Safe for all blogs.</li>
-                    <li><strong>SEO & Unique Value Index (E-E-A-T)</strong>: Sharing your diagnostic assets on WordPress, Tistory, or niche blogs delivers unique high-density visual widgets favored by Google's organic ranking algorithm, boosting AdSense eligibility!</li>
-                  </ul>
-                </>
-              )}
-            </div>
-          </div>
+
 
           <div className="res-disclaimer" style={{
             marginTop: "24px",
@@ -4356,8 +4578,8 @@ function LegalPolicyModal({ type, onClose, lang }: LegalPolicyModalProps) {
                   본 진단의 예측 가이드 내용이 절대적 기준이라 판단하여 사용자가 직접 패션, 뷰티 제품, 왁싱, 특수 메이크업 등의 구매 결정을 성사시킨 후 마음에 도달한 가치 격차, 부조화에 관한 <strong>직접적 또는 간접적 금전적 가치 피해에 대하여 회사는 어떠한 법적 분쟁 및 손해에 대한 보상적, 보증 구제 의무도 단행하지 않는 점을 명백히 선언</strong>합니다.
                 </p>
 
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>제3조 (지적재산권 및 자유로운 상업적 인용 촉진)</h3>
-                <p>InSelf Color의 결과서나 이미지 다운로드 파일(📸 SNS 카드, 📋 대시보드 리포트 등)은 구글 애드센스 저작재산권 보호 Doctrine에 기초하여 타 유명인의 이름이나 이미지를 도용하지 않는 상태로 전면 기획되어 100% 저작권 안전지대 모델 아트워크만을 사용합니다. 따라서 사용자는 자신의 개인 블로그, 티스토리, 제휴 마케팅 사이트 등에 상업적 목적이라도 자유롭게 재배포 및 스크린샷 인용이 가능합니다.</p>
+                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>제3조 (지적재산권 및 자유로운 인용 촉진)</h3>
+                <p>InSelf Color의 결과서나 이미지 다운로드 파일(📸 SNS 카드, 📋 대시보드 리포트 등)은 저작권 보호 및 권리 분쟁 방지 지침에 따라 실존 연예인 등의 성명이나 이미지를 무단으로 도용하지 않으며, 100% 저작권이 확보된 모델 디자인 리소스만을 사용합니다. 따라서 사용자는 개인 블로그, 인스타그램, 티스토리 등에 자유롭게 분석 결과를 재배포하거나 리뷰 콘텐츠로 업로드할 수 있습니다.</p>
 
                 <p style={{ marginTop: "20px", fontSize: "11px", color: "var(--sub)" }}>공표 일자: 2026년 05월 28일</p>
               </div>
@@ -4374,7 +4596,7 @@ function LegalPolicyModal({ type, onClose, lang }: LegalPolicyModalProps) {
                 </p>
 
                 <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>Article 3 (Copyright Clean Licensing Agreement)</h3>
-                <p>All downloadable graphic elements including character portrait files bypass commercial trademarks and celebrity license claims. Any blogger, content creator, or publisher is legally allowed to distribute InSelf Color results and screenshots for commercial AdSense or traffic monetization goals without any intellectual property conflict.</p>
+                <p>All downloadable graphic elements including character portrait files bypass commercial trademarks and celebrity license claims. Any blogger, content creator, or publisher is legally allowed to distribute InSelf Color results and screenshots for blogging, sharing, or reviewing purposes without any intellectual property conflict.</p>
 
                 <p style={{ marginTop: "20px", fontSize: "11px", color: "var(--sub)" }}>Published: May 28, 2026</p>
               </div>
