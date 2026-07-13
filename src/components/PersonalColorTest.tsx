@@ -2279,7 +2279,7 @@ function Nav({ onGoToGuide, lang, setLang }: NavProps){
         />
         <span id="p-logo-fallback" style={{ display: "none" }}>InSelf<span>Color</span></span>
       </div>
-      <div className="nav-tag" style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+      <div className="nav-tag" style={{ display: "flex", gap: "8px", alignItems: "center" }}>
         {onGoToGuide && (
           <button 
             type="button"
@@ -2296,9 +2296,29 @@ function Nav({ onGoToGuide, lang, setLang }: NavProps){
             }}
             onClick={onGoToGuide}
           >
-            {lang === "ko" ? "📖 색채 가이드북" : "📖 Color Guidebook"}
+            {lang === "ko" ? "📖 가이드" : "📖 Guide"}
           </button>
         )}
+        <a 
+          href="#donate"
+          onClick={(e) => { e.preventDefault(); window.location.hash = "donate"; }}
+          className="chip csp" 
+          style={{ 
+            cursor: "pointer", 
+            border: "1px solid rgba(224,155,61,0.22)", 
+            padding: "4px 10px", 
+            fontSize: "11px", 
+            borderRadius: "100px",
+            background: "rgba(224,155,61,0.06)", 
+            color: "#D28E3A",
+            fontWeight: 600,
+            textDecoration: "none",
+            display: "inline-flex",
+            alignItems: "center"
+          }}
+        >
+          {lang === "ko" ? "☕ 후원" : "☕ Support"}
+        </a>
         <div style={{ display: "flex", gap: "2px", background: "rgba(196,149,106,0.1)", padding: "2px", borderRadius: "20px" }}>
           <button
             type="button"
@@ -2812,6 +2832,14 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang}: LandingScreenProps
               style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
             >
               {lang === "ko" ? "서비스 이용약관" : "Terms of Service"}
+            </a>
+            <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
+            <a 
+              href="#donate" 
+              onClick={(e) => { e.preventDefault(); window.location.hash = "donate"; }} 
+              style={{ color: "#D28E3A", fontWeight: "700", textDecoration: "none", borderBottom: "1px dashed #D28E3A" }}
+            >
+              {lang === "ko" ? "☕ 개발자 후원" : "☕ Sponsor"}
             </a>
           </div>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", flexWrap: "wrap", marginBottom: "12px", fontSize: "11px", color: "rgba(122,96,82,0.65)" }}>
@@ -4378,7 +4406,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
             fontSize: "11.5px",
             color: "var(--sub)"
           }}>
-            <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap", marginBottom: "10px" }}>
+             <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap", marginBottom: "10px" }}>
               <a 
                 href="#privacy" 
                 onClick={(e) => { e.preventDefault(); window.location.hash = "privacy"; }} 
@@ -4393,6 +4421,14 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
                 style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
               >
                 {lang === "ko" ? "서비스 이용약관" : "Terms of Service"}
+              </a>
+              <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
+              <a 
+                href="#donate" 
+                onClick={(e) => { e.preventDefault(); window.location.hash = "donate"; }} 
+                style={{ color: "#D28E3A", fontWeight: "700", textDecoration: "none", borderBottom: "1px dashed #D28E3A" }}
+              >
+                {lang === "ko" ? "☕ 개발자 후원" : "☕ Sponsor"}
               </a>
             </div>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", flexWrap: "wrap", marginBottom: "10px", fontSize: "11px", color: "rgba(122,96,82,0.65)" }}>
@@ -4760,16 +4796,24 @@ export default function PersonalColorTest({
     }
   }, [result]);
 
-  // Modal support for helper policy links (#privacy, #terms)
+  const [isDonationOpen, setIsDonationOpen] = useState(false);
+
+  // Modal support for helper policy links (#privacy, #terms, #donate)
   useEffect(() => {
     const handleHash = () => {
       const h = window.location.hash;
       if (h === "#privacy") {
         setLegalModal("privacy");
+        setIsDonationOpen(false);
       } else if (h === "#terms") {
         setLegalModal("terms");
+        setIsDonationOpen(false);
+      } else if (h === "#donate") {
+        setIsDonationOpen(true);
+        setLegalModal(null);
       } else {
         setLegalModal(null);
+        setIsDonationOpen(false);
       }
     };
     window.addEventListener("popstate", handleHash);
@@ -4780,6 +4824,13 @@ export default function PersonalColorTest({
   const handleCloseLegal = () => {
     setLegalModal(null);
     if (window.location.hash === "#privacy" || window.location.hash === "#terms") {
+      window.history.pushState(null, "", window.location.pathname);
+    }
+  };
+
+  const handleCloseDonation = () => {
+    setIsDonationOpen(false);
+    if (window.location.hash === "#donate") {
       window.history.pushState(null, "", window.location.pathname);
     }
   };
@@ -4843,6 +4894,265 @@ export default function PersonalColorTest({
       {page === "results" && result && <ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang} gender={gender} setGender={setGender} uploadedImage={image}/>}
       <Toast msg={toast}/>
       <LegalPolicyModal type={legalModal} onClose={handleCloseLegal} lang={lang} />
+      <DonationModal isOpen={isDonationOpen} onClose={handleCloseDonation} lang={lang} />
     </>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// DONATION MODAL (KakaoPay Sponsorship)
+// ═══════════════════════════════════════════════════════════
+interface DonationModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  lang: "ko" | "en";
+}
+
+function DonationModal({ isOpen, onClose, lang }: DonationModalProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="donation-overlay" style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: "rgba(30, 20, 16, 0.6)",
+      backdropFilter: "blur(6px)",
+      zIndex: 9999,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "20px"
+    }} onClick={onClose}>
+      <div className="donation-content font-sans" style={{
+        background: "#FDF8F2",
+        border: "1px solid rgba(196,149,106,0.3)",
+        borderRadius: "20px",
+        width: "100%",
+        maxWidth: "500px",
+        maxHeight: "90vh",
+        display: "flex",
+        flexDirection: "column",
+        boxShadow: "0 20px 50px rgba(62,40,20,0.25)",
+        animation: "si .35s cubic-bezier(0.16,1,0.3,1) both",
+        overflow: "hidden"
+      }} onClick={(e) => e.stopPropagation()}>
+        
+        {/* Header */}
+        <div style={{
+          padding: "20px 24px",
+          borderBottom: "1px solid rgba(196,149,106,0.15)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          background: "#F9F3EB"
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span style={{ fontSize: "20px" }}>☕</span>
+            <h2 style={{
+              fontSize: "17px",
+              fontWeight: "700",
+              color: "var(--dark)",
+              margin: 0
+            }}>
+              {lang === "ko" ? "개발자 후원하기 (Sponsor)" : "Support the Developer"}
+            </h2>
+          </div>
+          <button 
+            type="button"
+            onClick={onClose} 
+            style={{
+              background: "rgba(196,149,106,0.12)",
+              border: "none",
+              color: "var(--rg)",
+              fontSize: "13px",
+              cursor: "pointer",
+              borderRadius: "100px",
+              padding: "5px 12px",
+              fontWeight: 600,
+              marginLeft: "auto"
+            }}
+          >
+            {lang === "ko" ? "닫기" : "Close"}
+          </button>
+        </div>
+
+        {/* Content Body */}
+        <div style={{
+          padding: "24px",
+          overflowY: "auto",
+          fontSize: "13px",
+          lineHeight: "1.7",
+          color: "var(--text)",
+          textAlign: "left"
+        }}>
+          {lang === "ko" ? (
+            <div>
+              <p style={{ marginTop: 0, fontSize: "14px", fontWeight: "600", color: "var(--dark)" }}>
+                인셀프컬러(InSelf Color)를 이용해 주셔서 진심으로 감사드립니다! 😊
+              </p>
+              <p style={{ color: "var(--sub)" }}>
+                더욱 유용한 기능 업데이트와 원활한 서버 유지 관리를 위해 소중한 응원과 후원을 기다립니다.
+              </p>
+
+              {/* Notice Banner */}
+              <div style={{
+                background: "rgba(224,155,61,0.08)",
+                border: "1px solid rgba(224,155,61,0.2)",
+                borderRadius: "12px",
+                padding: "14px 16px",
+                marginBottom: "20px",
+                color: "#9C621E"
+              }}>
+                <span style={{ fontWeight: "700", display: "block", marginBottom: "4px" }}>⚠️ 후원 지역 제한 안내 (필독)</span>
+                <ul style={{ paddingLeft: "16px", margin: 0, fontSize: "12.5px" }}>
+                  <li style={{ marginBottom: "4px" }}>
+                    본 후원은 <b>대한민국 국내 전용</b>입니다. (카카오페이 송금 및 결제 서비스 지원)
+                  </li>
+                  <li style={{ marginBottom: "4px" }}>
+                    현재 해외 신용카드나 PayPal 등 글로벌 결제 수단은 연동 한계로 인해 지원되지 않음을 양해 부탁드립니다.
+                  </li>
+                  <li style={{ fontWeight: "600" }}>
+                    해외 결제 불가로 인해 실제 후원을 하지 못하시더라도, 개발자를 응원하고 후원하기 위해 방문해 주신 따뜻한 마음에 깊이 감사드립니다! 🧡
+                  </li>
+                </ul>
+              </div>
+
+              {/* QR Image Area */}
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "12px",
+                margin: "24px 0",
+                padding: "16px",
+                background: "#ffffff",
+                border: "1px solid rgba(196,149,106,0.15)",
+                borderRadius: "16px",
+                boxShadow: "0 4px 12px rgba(61,43,26,0.03)"
+              }}>
+                <div style={{
+                  background: "#FEE500",
+                  color: "#191919",
+                  padding: "4px 14px",
+                  borderRadius: "100px",
+                  fontSize: "11px",
+                  fontWeight: "800",
+                  letterSpacing: "0.02em"
+                }}>kakaopay</div>
+                
+                <img 
+                  src="/donate-qr.png" 
+                  alt="KakaoPay QR Code" 
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    objectFit: "contain",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(0,0,0,0.05)"
+                  }} 
+                  referrerPolicy="no-referrer"
+                />
+                
+                <p style={{
+                  fontSize: "12px",
+                  color: "var(--sub)",
+                  textAlign: "center",
+                  margin: "4px 0 0 0",
+                  lineHeight: "1.5"
+                }}>
+                  <b>QR 코드 스캔 방법</b><br />
+                  1. 스마트폰 기본 <b>[카메라 앱]</b>으로 QR 코드를 비추면 자동으로 인식되어 연결됩니다.<br />
+                  2. 또는 <b>[카카오톡 앱]</b> 실행 후 우측 상단의 QR 스캐너 아이콘을 이용해 스캔해 주세요.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p style={{ marginTop: 0, fontSize: "14px", fontWeight: "600", color: "var(--dark)" }}>
+                Thank you so much for using InSelf Color! 😊
+              </p>
+              <p style={{ color: "var(--sub)" }}>
+                Your generous support helps us run servers, update custom features, and keep the application active.
+              </p>
+
+              {/* Notice Banner */}
+              <div style={{
+                background: "rgba(224,155,61,0.08)",
+                border: "1px solid rgba(224,155,61,0.2)",
+                borderRadius: "12px",
+                padding: "14px 16px",
+                marginBottom: "20px",
+                color: "#9C621E"
+              }}>
+                <span style={{ fontWeight: "700", display: "block", marginBottom: "4px" }}>⚠️ Donation Region Restriction (Important)</span>
+                <ul style={{ paddingLeft: "16px", margin: 0, fontSize: "12px" }}>
+                  <li style={{ marginBottom: "4px" }}>
+                    This sponsorship is <b>available DOMESTICALLY within South Korea ONLY</b> (via KakaoPay transfers).
+                  </li>
+                  <li style={{ marginBottom: "4px" }}>
+                    Unfortunately, international payment processors (such as PayPal, Stripe, or foreign credit cards) are not integrated.
+                  </li>
+                  <li style={{ fontWeight: "600" }}>
+                    Even if you cannot proceed with a donation from abroad due to regional limits, we are incredibly grateful that you visited our sponsorship section to show support! Your visit and warm encouragement mean the world to us. 🧡
+                  </li>
+                </ul>
+              </div>
+
+              {/* QR Image Area */}
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "12px",
+                margin: "24px 0",
+                padding: "16px",
+                background: "#ffffff",
+                border: "1px solid rgba(196,149,106,0.15)",
+                borderRadius: "16px",
+                boxShadow: "0 4px 12px rgba(61,43,26,0.03)"
+              }}>
+                <div style={{
+                  background: "#FEE500",
+                  color: "#191919",
+                  padding: "4px 14px",
+                  borderRadius: "100px",
+                  fontSize: "11px",
+                  fontWeight: "800",
+                  letterSpacing: "0.02em"
+                }}>kakaopay</div>
+                
+                <img 
+                  src="/donate-qr.png" 
+                  alt="KakaoPay QR Code" 
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    objectFit: "contain",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(0,0,0,0.05)"
+                  }} 
+                  referrerPolicy="no-referrer"
+                />
+                
+                <p style={{
+                  fontSize: "12px",
+                  color: "var(--sub)",
+                  textAlign: "center",
+                  margin: "4px 0 0 0",
+                  lineHeight: "1.5"
+                }}>
+                  <b>How to Scan QR Code</b><br />
+                  1. Simply open your phone's default <b>[Camera App]</b> and point it at the QR code to connect automatically.<br />
+                  2. Alternatively, launch <b>[KakaoTalk]</b> and tap the QR scanner icon in the top right to scan.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
