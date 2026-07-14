@@ -3,7 +3,7 @@ import html2canvas from "html2canvas";
 import { trackEvent, trackSessionVisit } from "../utils/stats";
 
 // ═══════════════════════════════════════════════════════════
-// SEASON DATA
+// SEASON DATA 
 // ═══════════════════════════════════════════════════════════
 const SEASONS: Record<string, any> = {
   spring: {
