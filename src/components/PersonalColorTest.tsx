@@ -2249,10 +2249,15 @@ interface NavProps {
   onGoToGuide?: () => void;
   lang: "ko" | "en";
   setLang: (lang: "ko" | "en") => void;
+  onLogoClick?: () => void;
 }
 
-function Nav({ onGoToGuide, lang, setLang }: NavProps){
+function Nav({ onGoToGuide, lang, setLang, onLogoClick }: NavProps){
   const handleLogoClick = () => {
+    if (onLogoClick) {
+      onLogoClick();
+      return;
+    }
     if (typeof window !== "undefined") {
       if (window.location.pathname === "/") {
         window.location.reload();
@@ -2444,12 +2449,13 @@ interface LandingScreenProps {
   onGoToGuide: () => void;
   lang: "ko" | "en";
   setLang: (lang: "ko" | "en") => void;
+  onLogoClick?: () => void;
 }
 
-function LandingScreen({onStart, onGoToGuide, lang, setLang}: LandingScreenProps){
+function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick}: LandingScreenProps){
   const[openFaq,setOpenFaq]=useState<number | null>(null);
   return(
-    <div className="w"><FontLoader/><style>{CSS}</style><Nav onGoToGuide={onGoToGuide} lang={lang} setLang={setLang}/>
+    <div className="w"><FontLoader/><style>{CSS}</style><Nav onGoToGuide={onGoToGuide} lang={lang} setLang={setLang} onLogoClick={onLogoClick}/>
       <div className="land se">
         <div className="orb o1"/><div className="orb o2"/><div className="orb o3"/>
         <div className="lbadge">✦ Personal Color Analysis</div>
@@ -2895,9 +2901,10 @@ interface UploadScreenProps {
   setLang: (lang: "ko" | "en") => void;
   gender: "female" | "male";
   setGender: (g: "female" | "male") => void;
+  onLogoClick?: () => void;
 }
 
-function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang,gender,setGender}: UploadScreenProps){
+function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang,gender,setGender,onLogoClick}: UploadScreenProps){
   const[isDrag,setIsDrag]=useState(false);
   const[hasAgreed,setHasAgreed]=useState(false);
   const handleFile=useCallback((file: File)=>{
@@ -2937,7 +2944,7 @@ function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang,ge
   const INPUT_ID="pct-file-input";
 
   return(
-    <div className="w"><FontLoader/><style>{CSS}</style><Nav lang={lang} setLang={setLang}/>
+    <div className="w"><FontLoader/><style>{CSS}</style><Nav lang={lang} setLang={setLang} onLogoClick={onLogoClick}/>
       <div className="uppage se">
         <div className="phdr">
           <button className="btnbk" onClick={onBack}>← {T[lang].back}</button>
@@ -3058,12 +3065,13 @@ interface AnalyzingScreenProps {
   progress: number;
   lang: "ko" | "en";
   setLang: (lang: "ko" | "en") => void;
+  onLogoClick?: () => void;
 }
 
-function AnalyzingScreen({progress,lang,setLang}: AnalyzingScreenProps){
+function AnalyzingScreen({progress,lang,setLang,onLogoClick}: AnalyzingScreenProps){
   const active=Math.min(Math.floor((progress/100)*T[lang].analysisSteps.length),T[lang].analysisSteps.length-1);
   return(
-    <div className="w"><FontLoader/><style>{CSS}</style><Nav lang={lang} setLang={setLang}/>
+    <div className="w"><FontLoader/><style>{CSS}</style><Nav lang={lang} setLang={setLang} onLogoClick={onLogoClick}/>
       <div className="anpage se">
         <div className="ringw">
           <div className="ar r1"/><div className="ar r2"/>
@@ -3098,9 +3106,10 @@ interface ResultsScreenProps {
   gender: "female" | "male";
   setGender: (g: "female" | "male") => void;
   uploadedImage: string | null;
+  onLogoClick?: () => void;
 }
 
-function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,uploadedImage: image}: ResultsScreenProps){
+function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,uploadedImage: image,onLogoClick}: ResultsScreenProps){
   const[bars,setBars] = useState<Record<string, number>>({spring:0,summer:0,autumn:0,winter:0});
   const [userName, setUserName] = useState<string>("");
   const season=SEASONS[result.season];
@@ -3623,7 +3632,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
   const rCelebs = lang === "ko" ? selectedCelebs : selectedCelebsEn;
 
   return(
-    <div className="w"><FontLoader/><style>{CSS}</style><Nav lang={lang} setLang={setLang}/>
+    <div className="w"><FontLoader/><style>{CSS}</style><Nav lang={lang} setLang={setLang} onLogoClick={onLogoClick}/>
       <div className="rpage se" id="result-page-content">
         {/* HERO */}
         <div className="rhero" style={{background:season.heroBg,color:season.textOnBg}}>
@@ -4888,10 +4897,10 @@ export default function PersonalColorTest({
 
   return (
     <>
-      {page === "landing" && <LandingScreen onStart={() => navigateTo("upload")} onGoToGuide={onGoToGuide} lang={lang} setLang={setLang}/>}
-      {page === "upload" && <UploadScreen onBack={() => navigateTo("landing")} onAnalyze={handleAnalyze} uploadedImage={image} onImageSet={setImage} lang={lang} setLang={setLang} gender={gender} setGender={setGender}/>}
-      {page === "analyzing" && <AnalyzingScreen progress={progress} lang={lang} setLang={setLang}/>}
-      {page === "results" && result && <ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang} gender={gender} setGender={setGender} uploadedImage={image}/>}
+      {page === "landing" && <LandingScreen onStart={() => navigateTo("upload")} onGoToGuide={onGoToGuide} lang={lang} setLang={setLang} onLogoClick={handleRetry}/>}
+      {page === "upload" && <UploadScreen onBack={() => navigateTo("landing")} onAnalyze={handleAnalyze} uploadedImage={image} onImageSet={setImage} lang={lang} setLang={setLang} gender={gender} setGender={setGender} onLogoClick={handleRetry}/>}
+      {page === "analyzing" && <AnalyzingScreen progress={progress} lang={lang} setLang={setLang} onLogoClick={handleRetry}/>}
+      {page === "results" && result && <ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang} gender={gender} setGender={setGender} uploadedImage={image} onLogoClick={handleRetry}/>}
       <Toast msg={toast}/>
       <LegalPolicyModal type={legalModal} onClose={handleCloseLegal} lang={lang} />
       <DonationModal isOpen={isDonationOpen} onClose={handleCloseDonation} lang={lang} />

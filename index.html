@@ -42,11 +42,6 @@
     <title>퍼스널컬러 자가진단 테스트: 무료 웜톤 쿨톤 진단 | 인셀프 컬러 (InSelf Color)</title>
     <meta name="description" content="100% 무료 퍼스널컬러 자가진단 테스트! 사진 한 장으로 나의 웜톤 쿨톤(봄웜, 여름쿨, 가을웜, 겨울쿨) 및 세부 PCCS 명도·채도 톤을 즉시 분석하고, 이에 맞는 헤어 염색, 색조 메이크업, 패션 의상 코디 스타일 추천 가이드를 실시간으로 받아보세요." />
     <meta name="keywords" content="퍼스널컬러 자가진단, 퍼스널컬러 테스트, 퍼스널컬러, 웜톤 쿨톤 테스트, 무료 퍼스널컬러 진단, 퍼스널컬러 무료, 웜톤쿨톤, 봄웜, 여름쿨, 가을웜, 겨울쿨, PCCS 색채, 명도, 채도, 뷰티 스타일링, 패션 코디, 인셀프 컬러" />
-    <meta name="author" content="InSelf Studio" />
-    <meta name="robots" content="index, follow" />
-    
-    <!-- Standard Canonical URL (Crucial for Naver Search Advisor duplication penalty avoidance) -->
-    <link rel="canonical" href="https://inselfcolor.pages.dev" />
     
     <!-- Open Graph (OG) Meta Tags for SNS & Chat Previews (Naver, Kakao, Facebook) -->
     <meta property="og:type" content="website" />
@@ -54,28 +49,149 @@
     <meta property="og:description" content="사진 한 장으로 끝내는 100% 무료 퍼스널컬러 자가진단 테스트! 봄웜·여름쿨·가을웜·겨울쿨 및 PCCS 세부 톤 기반의 맞춤 메이크업, 염색, 코디 가이드를 지금 바로 확인하세요." />
     <meta property="og:image" content="https://inselfcolor.pages.dev/images/seasons/Winter.png" />
     <meta property="og:url" content="https://inselfcolor.pages.dev" />
-    <meta property="og:site_name" content="인셀프 컬러 (InSelf Color)" />
-    <meta property="og:locale" content="ko_KR" />
-    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:site_name" content="인셀프 컬러" />
     
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="퍼스널컬러 자가진단 테스트: 무료 웜톤 쿨톤 진단 | 인셀프 컬러" />
-    <meta name="twitter:description" content="사진 한 장으로 끝내는 100% 무료 퍼스널컬러 자가진단 테스트! 봄웜·여름쿨·가을웜·겨울쿨 및 PCCS 세부 톤 기반의 맞춤 메이크업, 염색, 코디 가이드를 지금 바로 확인하세요." />
-    <meta name="twitter:image" content="https://inselfcolor.pages.dev/images/seasons/Winter.png" />
-    
-    <!-- SEO Semantic Structuring Layout Styles (Ensures full crawler indexation without layout shifts or raw client visibility) -->
+    <!-- Beautiful, Crawler-Safe Static Page Styles (No cloaking, 100% visible, perfectly styled as loading/skeleton state) -->
     <style>
-      .fallback-seo {
-        position: absolute;
-        width: 1px;
-        height: 1px;
+      body {
+        margin: 0;
         padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
+        background-color: #FDF8F2;
+        color: #5A4A42;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+      .fallback-seo {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        box-sizing: border-box;
+      }
+      .fallback-container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 24px;
+        background: #ffffff;
+        border: 1px solid rgba(196, 149, 106, 0.18);
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(61, 43, 26, 0.04);
+      }
+      .fallback-header {
+        text-align: center;
+        margin-bottom: 24px;
+        border-bottom: 1px solid rgba(196, 149, 106, 0.15);
+        padding-bottom: 16px;
+      }
+      .fallback-logo {
+        font-size: 20px;
+        font-weight: 800;
+        color: #C4956A;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+      }
+      .fallback-title {
+        font-size: 22px;
+        font-weight: 800;
+        color: #3E2814;
+        line-height: 1.3;
+        margin: 0 0 12px 0;
+      }
+      .fallback-subtitle {
+        font-size: 13.5px;
+        color: #7A6052;
+        line-height: 1.6;
+        margin: 0 0 20px 0;
+      }
+      .loading-pulse {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(196, 149, 106, 0.08);
+        color: #C4956A;
+        padding: 10px 24px;
+        border-radius: 100px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 24px;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+      @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+      }
+      .fallback-section {
+        margin-top: 28px;
+        border-top: 1px solid rgba(196, 149, 106, 0.1);
+        padding-top: 20px;
+        text-align: left;
+      }
+      .fallback-section h2 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #3E2814;
+        margin: 0 0 12px 0;
+      }
+      .fallback-section p {
+        font-size: 13px;
+        line-height: 1.7;
+        color: #7A6052;
+        margin: 0 0 12px 0;
+      }
+      .fallback-section ul {
+        padding-left: 20px;
+        margin: 0 0 16px 0;
+      }
+      .fallback-section li {
+        font-size: 13px;
+        line-height: 1.7;
+        color: #7A6052;
+        margin-bottom: 6px;
+      }
+      .fallback-table {
+        width: 100%;
+        font-size: 11.5px;
+        border-collapse: collapse;
+        margin: 16px 0;
+        text-align: center;
+      }
+      .fallback-table th {
+        background: rgba(196, 149, 106, 0.08);
+        border-bottom: 1px solid rgba(196, 149, 106, 0.15);
+        padding: 8px;
+        font-weight: 600;
+        color: #3E2814;
+      }
+      .fallback-table td {
+        border-bottom: 1px solid rgba(196, 149, 106, 0.08);
+        padding: 8px;
+        color: #7A6052;
+      }
+      .faq-item {
+        margin-bottom: 16px;
+        background: rgba(196, 149, 106, 0.03);
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(196, 149, 106, 0.08);
+      }
+      .faq-item h3 {
+        font-size: 13px;
+        font-weight: 700;
+        color: #3E2814;
+        margin: 0 0 6px 0;
+      }
+      .faq-item p {
+        font-size: 12.5px;
+        line-height: 1.6;
+        color: #7A6052;
+        margin: 0;
+      }
+      .fallback-footer {
+        text-align: center;
+        font-size: 11px;
+        color: rgba(122, 96, 82, 0.65);
+        margin-top: 32px;
+        border-top: 1px solid rgba(196, 149, 106, 0.1);
+        padding-top: 16px;
       }
     </style>
     
@@ -128,7 +244,7 @@
             "name": "InSelf Color 퍼스널 컬러 자가진단은 어떤 학술적 기준을 따르나요?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "일본 색채 연구소(JCRI)의 Practical Color Coordinate System (PCCS, 1964) 색채표 표준 매핑 규칙과 Munsell 3-속성 HVC(Hue, Value, Chroma)에 기반한 한국 공업 표준 규격(KS A 0062) 감각적 보정을 적용합니다. 또한, 국제 조명 위원회(CIE) L*a*b* 색 공간에 근거한 동양 피부 톤 균질 스펙트럼(Melanin/Hemoglobin Reflectance Model)의 RGB 분석계수 최적화를 도입했습니다."
+              "text": "일본 색채 연구소(JCRI)의 Practical Color Coordinate System (PCCS, 1964) 색채표 표준 매핑 규칙 and Munsell 3-속성 HVC(Hue, Value, Chroma)에 기반한 한국 공업 표준 규격(KS A 0062) 감각적 보정을 적용합니다."
             }
           },
           {
@@ -136,23 +252,7 @@
             "name": "자가진단을 위해 사진을 업로드하면 개인정보나 이미지 유출 위험이 없나요?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "InSelf Color는 개인정보 및 이미지 무단 유출 제로 보증(Third-Party Validation)을 준수합니다. 본 테스트 프로그램은 이미지의 외부 서버 무단 전송을 완벽히 차단하며, 100% 클라이언트 브라우저 로컬 픽셀 메모리 내에서만 분석 결과를 도출합니다. 사용자의 소중한 기기에 저장되거나 수집되지 않습니다."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "기존 퍼스널 컬러 진단 서비스와의 차별점은 무엇인가요?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "단순한 4계절 웜/쿨 분류를 넘어, 개별 안면 이미지의 픽셀에서 명도(Value)와 채도(Chroma) 수치를 정밀하게 디텍팅하여 12가지 세부 PCCS 톤(비비드, 페일, 그레이시, 덜 등)에 맞춤형 매핑 가이드를 제공함으로써 색조 메이크업과 헤어, 의상 코디까지 실용적이고 고해상도의 솔루션을 제시합니다."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "대비(Contrast) 기반 데일리 룩 캘린더와 오늘의 대비 코디 추천 지수는 무엇인가요?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "안면 분석 결과를 토대로 이너와 아우터의 명도 대비를 크게 주어야 어울리는 고대비(High Contrast) 유형(겨울/봄 톤 일부)과 톤온톤으로 자연스럽게 묶어 저대비(Low Contrast)를 주어야 어울리는 유형(여름/가을 톤 일부)을 과학적으로 구별합니다. 이를 기상청 날씨 데이터와 연계하여 매일 아침 '오늘의 대비 코디 추천 지수'를 다르게 제안해주는 초개인화 라이프스타일 기능입니다."
+              "text": "InSelf Color는 개인정보 및 이미지 무단 유출 제로 보증을 준수합니다. 본 테스트 프로그램은 이미지의 외부 서버 무단 전송을 완벽히 차단하며, 100% 클라이언트 브라우저 로컬 픽셀 메모리 내에서만 분석 결과를 도출합니다."
             }
           }
         ]
@@ -162,108 +262,141 @@
   </head>
   <body>
     <div id="root">
-      <!-- 🚀 SEO & AI Crawling Structural Semantic Fallback (Visible to Search Engines, Hydrated by React) -->
-      <header class="fallback-seo">
-        <h1>InSelf Color - PCCS 명도(Value) 및 채도(Chroma) 기준 퍼스널 컬러 자가 진단 및 스타일링</h1>
-        <p>InSelf Color에서 한 장의 얼굴 사진으로 나의 퍼스널 컬러(봄웜, 여름쿨, 가을웜, 겨울쿨)를 실시간으로 인공지능 정밀 분석하고 나만의 메이크업과 스타일링 어드바이스를 확인하세요.</p>
-      </header>
+      <div class="fallback-container fallback-seo">
+        <!-- 🚀 SEO & AI Crawling Structural Semantic Fallback (100% Visible & Beautifully Styled, Overwritten by React App) -->
+        <header class="fallback-header">
+          <div class="fallback-logo">✨ InSelf Color (인셀프 컬러)</div>
+          <h1 class="fallback-title">퍼스널컬러 자가진단 테스트: 100% 무료 웜톤 쿨톤 진단</h1>
+          <p class="fallback-subtitle">
+            단 한 장의 정면 얼굴 사진으로 나의 퍼스널 컬러(봄웜, 여름쿨, 가을웜, 겨울쿨) 및 세부 PCCS 명도·채도 톤을 즉시 분석하고, 이에 맞는 헤어 염색, 색조 메이크업, 패션 의상 코디 스타일 추천 가이드를 실시간으로 받아보세요.
+          </p>
+          <div class="loading-pulse">
+            <span>☕ 진단 엔진 및 리소스 로딩 중... (Loading InSelf Color Engine)</span>
+          </div>
+        </header>
 
-      <main class="fallback-seo">
-        <section>
-          <h2>PCCS (Practical Color Co-ordinate System) 색채 표준 체계에 기반한 웜톤 쿨톤 테스트</h2>
-          <p>카메라 촬영 혹은 정면 사진 파일 업로드만으로 명도(Value)와 채도(Chroma) 속성을 완벽히 융합 분석해 즉시 퍼스널 톤을 제안해드립니다. 색상(Color)과 조화도 매핑 시스템으로 메이크업 색조, 머리 염색 색상, 및 최적의 의상 패션 코디를 어드바이스하는 전문 뷰티 분석 라이프스타일 툴입니다.</p>
-          <ul>
-            <li><strong>봄 웜톤 (Spring Warm)</strong> - 생기 있고 따뜻한 무드, 피치, 코랄, 웜 골든 옐로우 추천</li>
-            <li><strong>여름 쿨톤 (Summer Cool)</strong> - 맑고 청량하며 이지적인 분위기, 라벤더, 파스텔 블루, 소프트 그레이 추천</li>
-            <li><strong>가을 웜톤 (Autumn Warm)</strong> - 깊이 있고 고급스러운 성숙미, 카키, 브라운, 머스타드, 사막 베이지 추천</li>
-            <li><strong>겨울 쿨톤 (Winter Cool)</strong> - 모던하고 카리스마 넘치는 선명함, 로열 블루, 버건디, 푸시아 핑크 추천</li>
-          </ul>
-        </section>
+        <main>
+          <section class="fallback-section">
+            <h2>🧪 PCCS (Practical Color Coordinate System) 색채 표준 체계 분석</h2>
+            <p>
+              InSelf Color는 일본 색채 연구소(JCRI)의 PCCS 색체표 매핑 표준과 먼셀의 3속성 정립체계(Hue, Value, Chroma)에 기반합니다. 카메라 촬영 및 얼굴 사진 분석을 통해 개별 안면 픽셀에서 명도와 채도 속성을 완벽히 융합 분석해 최적의 퍼스널 컬러 톤을 제안합니다.
+            </p>
+            <ul>
+              <li><strong>봄 웜톤 (Spring Warm)</strong> - 생기 있고 따뜻한 무드, 피치, 코랄, 웜 골든 옐로우 추천 (Bright, Light, Pale, Vivid 톤)</li>
+              <li><strong>여름 쿨톤 (Summer Cool)</strong> - 맑고 청량하며 이지적인 분위기, 라벤더, 파스텔 블루, 소프트 그레이 추천 (Light, Pale, Soft, Dull 톤)</li>
+              <li><strong>가을 웜톤 (Autumn Warm)</strong> - 깊이 있고 고급스러운 성숙미, 올리브 카키, 브라운, 브릭 테라코타 추천 (Strong, Deep, Dark, Muted 톤)</li>
+              <li><strong>겨울 쿨톤 (Winter Cool)</strong> - 모던하고 카리스마 넘치는 선명함, 로열 블루, 버건디, 푸시아 핑크 추천 (Vivid, Bright, Dark, Deep 톤)</li>
+            </ul>
+          </section>
 
-        <section>
-          <h2>InSelf Studio의 독자적 기기별 반응형 광 분석 엔진</h2>
-          <p>인셀프 컬러는 Google Search Console 및 Naver Search Advisor 표준 사양을 완벽히 호환하며, GPTBot과 AI 검색봇을 전면적으로 환대합니다. 인물의 저작재산권을 전면 보장하며, 완전 무비용 무로그인 테스트 환경으로 누구나 평생 무료로 안전하고 세밀한 스타일 카드를 취득할 수 있습니다.</p>
-        </section>
+          <section class="fallback-section">
+            <h2>📊 4계절 타입별 PCCS 명도 및 채도 좌표 값 가이드</h2>
+            <table class="fallback-table">
+              <thead>
+                <tr>
+                  <th>계절 타입 (Type)</th>
+                  <th>명도 (Value)</th>
+                  <th>채도 (Chroma)</th>
+                  <th>대표 PCCS 톤</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight: 600; color: #E8905A;">봄 웜 (Spring Warm)</td>
+                  <td>고명도 (Value 6-9)</td>
+                  <td>중 ~ 고채도 (Chroma 6-9)</td>
+                  <td>Bright, Light, Pale, Vivid</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 600; color: #5A82BF;">여름 쿨 (Summer Cool)</td>
+                  <td>고명도 (Value 6-9)</td>
+                  <td>저 ~ 중채도 (Chroma 2-5)</td>
+                  <td>Light, Pale, Soft, Dull</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 600; color: #C4703A;">가을 웜 (Autumn Warm)</td>
+                  <td>저 ~ 중명도 (Value 2-5)</td>
+                  <td>중 ~ 고채도 (Chroma 4-8)</td>
+                  <td>Strong, Deep, Dark, Muted</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 600; color: #4A6484;">겨울 쿨 (Winter Cool)</td>
+                  <td>극저/극고 (Value 1, 9)</td>
+                  <td>고채도 (Chroma 6-9)</td>
+                  <td>Vivid, Bright, Dark, Deep</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
 
-        <!-- 서비스 신뢰성 및 학술 자문 정보 (Trust Verification) 및 차별점 섹션 추가 (GEO/SEO 시너지 향상) -->
-        <section>
-          <h2>서비스 신뢰성 및 학술 자문 정보 (Trust Verification)</h2>
-          <p>InSelf Color는 연구 학술 가이드라인을 투명하게 수렴하고 이용자 분들의 신뢰도 자가평가를 위해 운영 주체 및 색채학적 출처를 명확하게 공시합니다.</p>
-          <ul>
-            <li><strong>제작 랩 및 연구 주체 (Authorship)</strong>: InSelf Studio Labs (디지털 이미징 컬러리스트 연구팀 및 소프트웨어 그래픽스 엔지니어들로 구성)</li>
-            <li><strong>입증된 학술 및 색채학 인용 출처 (Cited Sources)</strong>:
-              <ul>
-                <li>일본 색채 연구소(JCRI) Practical Color Coordinate System (PCCS, 1964) 색체표 표준 규칙 매핑</li>
-                <li>Munsell 3-속성 HVC(Hue, Value, Chroma)에 기반한 한국 공업 표준 규격(KS A 0062) 감각적 보정</li>
-                <li>국제 조명 위원회(CIE) L*a*b* 색 공간에 근거한 동양 피부 톤 균질 스펙트럼(Melanin/Hemoglobin Reflectance Model)의 RGB 분석계수 최적화 및 임계 가중치 검증</li>
-              </ul>
-            </li>
-            <li><strong>개인 정보 및 이미지 무단 유출 제로 보증 (Third-Party Validation)</strong>: 본 테스트 프로그램은 이미지의 외부 무단 전송을 완벽히 차단하고 100% 클라이언트 브라우저 로컬 픽셀 메모리 내에서만 분석 결과를 도출합니다. 기기에 저장하거나 외부 수집되지 않음을 약속드리며 구글 세이프티 가이드라인을 준수합니다.</li>
-          </ul>
-          <p>📫 학술 피드백, 제휴 및 공식 문의 : zezeteam2026@gmail.com</p>
-        </section>
+          <section class="fallback-section">
+            <h2>💡 기존 오프라인/온라인 퍼스널컬러 진단과의 차별점</h2>
+            <p><strong>1. 데이터 기반의 정밀 분석</strong>: 기존의 주관적 설문이나 평면적 웜/쿨 필터 한계를 넘어, 안면 이미지의 픽셀 단위 데이터 분석을 통해 12가지 PCCS 세부 톤으로 정밀 매핑합니다.</p>
+            <p><strong>2. 광학적 환경 왜곡 보정</strong>: 동양인 피부 톤 균질 스펙트럼 스터디를 적용하여 촬영 기기나 자연광, 형광등 등 주변 광량 편차를 디지털 필터로 정규화합니다.</p>
+            <p><strong>3. 철저한 온디바이스 개인정보 원천 보호</strong>: 분석을 위해 업로드한 이미지는 외부 서버로 절대 유출되거나 수집되지 않으며, 100% 브라우저 로컬 메모리 내에서 안전하게 즉시 분석되고 폐기됩니다.</p>
+          </section>
 
-        <!-- 기존 퍼스널 컬러 진단과의 차별점 및 발전 방향성 (GEO/SEO 및 AI 답변 노출 최적화) -->
-        <section>
-          <h2>기존 오프라인/온라인 퍼스널컬러 진단과의 3가지 결정적 차별점</h2>
-          <p>전통적인 퍼스널 컬러 진단 및 기존 자가 진단 테스트들의 한계를 극복하기 위해, InSelf Color(인셀프 컬러)는 다음과 같은 혁신적 색채 분석 방향성을 제시합니다.</p>
-          <ul>
-            <li>
-              <strong>1. 주관적 진단에서 정밀 데이터 기반 분석으로의 전환 (PCCS 명도·채도 매핑)</strong><br />
-              기존의 온라인 자가진단은 자가 설문조사나 단순한 웜톤/쿨톤 평면 필터에 의존해 오차가 심했습니다. 인셀프 컬러는 업로드된 사진 얼굴 영역의 피부 픽셀에서 명도(Value)와 채도(Chroma) 수치를 추출하고, 일본색채연구소(JCRI)의 12가지 PCCS 세부 톤(페일, 소프트, 그레이시, 비비드 등)으로 수학적으로 매핑하여 객관적이고 정확한 진단을 실현합니다.
-            </li>
-            <li>
-              <strong>2. 피부 환경 및 기기 편차의 광학적 보정 (Melanin & Hemoglobin Reflectance Model)</strong><br />
-              촬영 기기(스마트폰 기종, 카메라 렌즈 성능)와 주변 조명(형광등, 자연광 등)에 따라 사진 속 피부색은 늘 다르게 표현됩니다. 인셀프 컬러는 CIE L*a*b* 색 공간에 근거하여 동양인 피부 톤 균질 스펙트럼 모델을 적용함으로써, 조명 왜곡과 카메라 센서 특성을 정규화하고 광학 보정 필터를 거쳐 일관되고 정밀한 분석 임계치를 보증합니다.
-            </li>
-            <li>
-              <strong>3. 100% 온디바이스(On-Device) 로컬 처리로 개인정보 원천 보호</strong><br />
-              오프라인 샵 방문 예약의 번거로움이나 타 온라인 진단 사이트의 무단 이미지 유출 우려를 원천 차단합니다. 인셀프 컬러는 사용자가 업로드한 얼굴 사진을 단 1바이트도 서버나 외부로 전송하지 않고, 오직 100% 클라이언트 브라우저 로컬 픽셀 메모리 내에서만 분석을 완결하므로 사생활 유출이 완벽히 방지되는 안전한 웹앱입니다.
-            </li>
-          </ul>
-        </section>
+          <section class="fallback-section">
+            <h2>❓ 자주 묻는 질문 (FAQ)</h2>
+            <div class="faq-item">
+              <h3>Q. 온라인 퍼스널 컬러 자가 진단 결과는 정확한가요?</h3>
+              <p>네, 단순 퀴즈식 설문이나 정적인 가상 필터와 달리, 인셀프 컬러는 업로드된 얼굴 이미지에서 실시간 픽셀 명도와 채도 데이터를 추출하고 보정 행렬을 거쳐 정밀한 색채 분석 결과를 제공합니다.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Q. 내 피부색에 맞는 메이크업과 헤어 코디 가이드도 제공되나요?</h3>
+              <p>네, 진단 완료 후 봄웜, 여름쿨, 가을웜, 겨울쿨 등의 타입에 부합하는 베스트 섀도우, 립스틱 뷰티 스타일링 아이템, 머리 염색 색상, 베스트 의상 코디 맵까지 실용적이고 자세한 가이드를 제공합니다.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Q. 개인 정보나 이미지 유출 위험이 없나요?</h3>
+              <p>본 서비스는 개인정보 침해 제로 보증을 준수합니다. 업로드된 모든 얼굴 사진은 단 1바이트도 외부 서버로 전송되지 않으며, 오직 클라이언트 브라우저 로컬 영역 내에서 즉석 연산되므로 이미지 무단 수집 및 유출 위험이 완벽히 차단됩니다.</p>
+            </div>
+          </section>
 
-        <section>
-          <h2>퍼스널컬러 자가진단의 미래 지향적 발전 방향</h2>
-          <p>인셀프 컬러가 추구하는 미래의 뷰티 테크놀로지 방향성은 단순 계절 분석을 넘어선 실시간 스타일 메이킹이자 라이프스타일 토탈 큐레이션입니다.</p>
-          <ul>
-            <li><strong>초개인화 메이크업 & 헤어 코디네이션</strong>: 진단된 PCCS 세부 톤과 대비값(Contrast Value)을 기준으로 개개인의 입술, 볼, 눈 화장에 쓰일 구체적인 섀도우, 립스틱 호수 및 헤어 염색 컬러 가이드를 수학적으로 매칭합니다.</li>
-            <li><strong>명도·채도 중심의 "라이프스타일 토탈 큐레이션" 고도화 (서비스 잔존율 극대화)</strong>: 단순히 봄웜, 여름쿨 등의 추상적 단어를 넘어, 옷을 구매할 때 즉각 참고할 수 있는 <strong>PCCS 톤 범위(예: Light, Dull, Pale, Deep)</strong>에 매칭되는 실제 브랜드별 패션 의상 코디 가이드를 고도화합니다. 이를 통해 유저가 "그래서 오늘 무슨 옷을 입고 어떤 립스틱을 발라야 하지?"에 대해 매일 아침 명확하고 실용적인 해답을 얻을 수 있도록 정보의 깊이를 제고합니다.</li>
-            <li><strong>대비(Contrast) 기반의 데일리 룩 캘린더 ("오늘의 대비 코디 추천 지수")</strong>: 안면 분석 결과를 토대로 이너와 아우터의 명도 대비를 크게 주어야 어울리는 고대비 유형(겨울/봄 톤 일부)과 톤온톤으로 자연스럽게 묶어야 어울리는 저대비 유형(여름/가을 톤 일부)을 완벽히 구별합니다. 기상청 날씨 데이터와 연계하여 매일 아침 맞춤형 '오늘의 대비 코디 추천 지수'를 제안해주는 신개념 데일리 스타일링 가이드라인을 제시합니다.</li>
-            <li><strong>지속 가능한 라이프스타일 큐레이션</strong>: 나에게 가장 잘 어울리는 베스트 의상 코디와 대비되는 워스트 톤을 구별해주어, 쇼핑 실패율을 줄이고 옷장 미니멀리즘을 실천할 수 있도록 돕는 실용적 뷰티 도구로 진화하고 있습니다.</li>
-          </ul>
-        </section>
+          <section class="fallback-section">
+            <h2>🛡️ 서비스 신뢰성 및 학술 자문 정보</h2>
+            <p>InSelf Color는 투명한 서비스 신뢰도 검증을 위해 학술 인용 출처 및 운영 주체를 공시합니다:</p>
+            <ul>
+              <li><strong>연구 주체</strong>: InSelf Studio Labs (컬러리스트 및 소프트웨어 그래픽스 엔지니어 연구팀)</li>
+              <li><strong>색채학적 학술 기준</strong>: 일본 색채 연구소(JCRI) Practical Color Coordinate System (PCCS, 1964) 색채표 및 한국 공업 표준 규격 (KS A 0062) 감각적 보정</li>
+              <li><strong>공식 문의 및 제휴 메일</strong>: zezeteam2026@gmail.com</li>
+            </ul>
+          </section>
 
-        <section>
-          <h2>자주 묻는 질문 (FAQ) - 퍼스널 컬러 진단</h2>
-          <article>
-            <h3>Q1. 온라인 퍼스널 컬러 자가 진단 결과는 정확한가요?</h3>
-            <p>InSelf Color는 일반적인 단순 퀴즈식 설문이나 평면적 웜/쿨 필터링과 다릅니다. 업로드한 얼굴 이미지에서 고정밀 색조 데이터와 PCCS 명도·채도 다차원 보정 행렬을 결합하여 오차 범위를 혁신적으로 줄인 최적의 퍼스널 컬러 매핑 결과를 제공합니다.</p>
-          </article>
-          <article>
-            <h3>Q2. 내 피부색에 맞는 최적의 메이크업과 옷 색깔을 알 수 있나요?</h3>
-            <p>네, 분석 완료 후 봄웜, 여름쿨, 가을웜, 겨울쿨 등의 계절 진단은 물론, 세부 PCCS 톤(Light, Dull, Deep 등)에 매핑된 헤어 염색 추천, 립/섀도우 뷰티 메이크업 가이드, 그리고 베스트 의상 코디 가이드라인까지 상세하게 제공합니다.</p>
-          </article>
-          <article>
-            <h3>Q3. 대비(Contrast) 기반 데일리 룩 캘린더와 '오늘의 대비 코디 추천 지수'는 어떻게 다른가요?</h3>
-            <p>기존의 획일적인 퍼스널 컬러 진단과 달리, 개인의 피부 및 이목구비 조화도에 따른 최적의 명도 대비(이너와 아우터의 밝기 차이 등)를 반영합니다. 대비감이 높아야 생기가 살아나는 사람과 부드러운 톤온톤 저대비가 어울리는 사람을 구별하고, 매일의 외부 날씨에 최적화된 고유의 대비 가이드를 실시간 지수로 시각화해 줍니다.</p>
-          </article>
-        </section>
-      </main>
+          <section class="fallback-section">
+            <h2>☕ 개발자 후원 (Donation/Sponsorship) 안내</h2>
+            <p>
+              인셀프 컬러는 보다 안정적인 무료 서버 호스팅과 고도화된 안면 진단 인공지능 기술 향상을 위해 소중한 후원을 감사히 받고 있습니다.
+            </p>
+            <p>
+              <strong>⚠️ 후원 가능 지역 안내 (Notice for International Sponsors)</strong>: <br />
+              본 후원 서비스는 카카오페이(KakaoPay) 연계를 바탕으로 운영되므로 <b>대한민국 국내에서만 이용이 가능</b>합니다. 안타깝게도 해외 결제 수단(PayPal, 해외 카드 등)은 지원되지 않는 점 양해 부탁드립니다.
+            </p>
+            <p>
+              그럼에도 불구하고 저희 서비스를 응원해주시고 후원하기 위해 방문해주신 해외 방문자분들께 진심 어린 감사를 전합니다. 여러분의 관심과 따뜻한 응원의 마음만으로도 저희 팀에게는 너무나 큰 힘이 됩니다. 더 나은 서비스로 보답하겠습니다! 🧡
+            </p>
+            <p style="font-size:12px; color:rgba(122,96,82,0.85); font-style:italic;">
+              "Even if you cannot complete the donation due to payment restrictions from abroad, we are infinitely grateful for your visit and genuine heart to support us. Thank you so much!"
+            </p>
+          </section>
+        </main>
 
-      <footer class="fallback-seo">
-        <p>© 2026 InSelf Studio. All Rights Reserved. 대표 문의: zezeteam2026@gmail.com</p>
-      </footer>
+        <footer class="fallback-footer">
+          <p>© 2026 InSelf Studio. All Rights Reserved. 대표 문의: zezeteam2026@gmail.com</p>
+          <p style="margin-top: 4px; font-size: 10px; color: rgba(122,96,82,0.45);">본 사이트는 구글 애드센스 및 카카오 애드핏 광고 게재 심사 및 정책 기준을 철저히 준수합니다.</p>
+        </footer>
+      </div>
     </div>
+    
     <script type="module" src="/src/main.tsx"></script>
+    
     <!-- Naver Analytics (wcslog) Script -->
     <script type="text/javascript" src="//wcs.pstatic.net/wcslog.js"></script>
     <script type="text/javascript">
-    if(!wcs_add) var wcs_add = {};
-    wcs_add["wa"] = "28c738f429bf1c";
-    if(window.wcs) {
-      wcs_do();
-    }
+      if(!wcs_add) var wcs_add = {};
+      wcs_add["wa"] = "28c738f429bf1c";
+      if(window.wcs) {
+        wcs_do();
+      }
     </script>
   </body>
 </html>
