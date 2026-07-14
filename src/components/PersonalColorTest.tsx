@@ -2103,7 +2103,160 @@ const CSS=`
     .rcard{padding:28px 26px;}.swc{width:56px;height:56px;}
     .sclbl{width:88px;}.scl{gap:11px;}
   }
+
+  /* Kakao AdFit Side Ads & Bottom Ads for React UI */
+  .pct-ad-sidebar {
+    display: none;
+    position: fixed;
+    top: 100px;
+    width: 160px;
+    height: 600px;
+    z-index: 50;
+  }
+  .pct-ad-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto 20px;
+    width: 100%;
+    max-width: 160px;
+  }
+  @media (min-width: 768px) {
+    .pct-ad-sidebar.pct-ad-left {
+      display: block;
+      left: 16px;
+    }
+    .pct-ad-sidebar.pct-ad-right {
+      display: block;
+      right: 16px;
+    }
+    .w {
+      padding-left: 180px !important;
+      padding-right: 180px !important;
+    }
+    .pct-ad-mobile {
+      display: none !important;
+    }
+  }
+  @media (min-width: 1200px) {
+    .pct-ad-sidebar.pct-ad-left {
+      left: calc(50% - 380px - 180px);
+    }
+    .pct-ad-sidebar.pct-ad-right {
+      right: calc(50% - 380px - 180px);
+    }
+    .w {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+  .kakao_ad_area {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
 `;
+
+// ═══════════════════════════════════════════════════════════
+// KAKAO ADFIT AD BANNER COMPONENT (Self-Contained & Isolated)
+// ═══════════════════════════════════════════════════════════
+interface KakaoAdBannerProps {
+  className?: string;
+  unit?: string;
+  width?: string;
+  height?: string;
+}
+
+function KakaoAdBanner({ className, unit = "DAN-EvCbYNj9rO8ZN6jl", width = "160", height = "600" }: KakaoAdBannerProps) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+    if (!iframeDoc) return;
+
+    // Isolate Kakao AdFit rendering inside a safe sandbox iframe to prevent React Virtual DOM conflicts
+    const adHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            html, body {
+              margin: 0;
+              padding: 0;
+              width: 100%;
+              height: 100%;
+              overflow: hidden;
+              background: transparent;
+            }
+          </style>
+        </head>
+        <body>
+          <ins class="kakao_ad_area"
+               style="display:block; width:${width}px; height:${height}px; text-decoration:none;"
+               data-ad-unit="${unit}"
+               data-ad-width="${width}"
+               data-ad-height="${height}">
+          </ins>
+          <script type="text/javascript" src="https://t1.kakaocdn.net/kas/static/ba.min.js" async></script>
+        </body>
+      </html>
+    `;
+
+    try {
+      iframeDoc.open();
+      iframeDoc.write(adHtml);
+      iframeDoc.close();
+    } catch (e) {
+      console.error("Failed to write to AdFit iframe:", e);
+    }
+
+    return () => {
+      try {
+        if (iframeDoc) {
+          iframeDoc.open();
+          iframeDoc.write("");
+          iframeDoc.close();
+        }
+      } catch (e) {
+        // Silently catch clean-up errors on unmount
+      }
+    };
+  }, [unit, width, height]);
+
+  return (
+    <div 
+      className={className} 
+      style={{ 
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center", 
+        width: `${width}px`, 
+        height: `${height}px`,
+        position: "relative",
+        overflow: "hidden"
+      }}
+    >
+      <iframe
+        ref={iframeRef}
+        title={`AdFit Banner - ${unit}`}
+        style={{
+          width: "100%",
+          height: "100%",
+          border: "none",
+          overflow: "hidden",
+          background: "transparent"
+        }}
+        scrolling="no"
+        frameBorder="0"
+      />
+    </div>
+  );
+}
 
 // ═══════════════════════════════════════════════════════════
 // FONT LOADER  (fix: <link> injection instead of @import)
@@ -2811,6 +2964,9 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick}: Landi
             </div>
           )}
         </div>
+ 
+        {/* Mobile bottom ad */}
+        <KakaoAdBanner className="pct-ad-mobile" />
 
         {/* Footer with crawler compliant legal page anchors */}
         <footer style={{
@@ -4401,6 +4557,9 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
           }}>
             {T[lang].disclaimerBottom}
           </div>
+ 
+          {/* Mobile bottom ad */}
+          <KakaoAdBanner className="pct-ad-mobile" />
 
           {/* Footer with crawler compliant legal page anchors */}
           <footer style={{
@@ -4897,6 +5056,16 @@ export default function PersonalColorTest({
 
   return (
     <>
+      {/* 160x600 Left Skyscraper Ad for Desktop */}
+      <div className="pct-ad-sidebar pct-ad-left">
+        <KakaoAdBanner />
+      </div>
+
+      {/* 160x600 Right Skyscraper Ad for Desktop */}
+      <div className="pct-ad-sidebar pct-ad-right">
+        <KakaoAdBanner />
+      </div>
+
       {page === "landing" && <LandingScreen onStart={() => navigateTo("upload")} onGoToGuide={onGoToGuide} lang={lang} setLang={setLang} onLogoClick={handleRetry}/>}
       {page === "upload" && <UploadScreen onBack={() => navigateTo("landing")} onAnalyze={handleAnalyze} uploadedImage={image} onImageSet={setImage} lang={lang} setLang={setLang} gender={gender} setGender={setGender} onLogoClick={handleRetry}/>}
       {page === "analyzing" && <AnalyzingScreen progress={progress} lang={lang} setLang={setLang} onLogoClick={handleRetry}/>}

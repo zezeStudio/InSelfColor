@@ -193,6 +193,43 @@
         border-top: 1px solid rgba(196, 149, 106, 0.1);
         padding-top: 16px;
       }
+      .fallback-ad-sidebar {
+        display: none;
+        position: fixed;
+        top: 100px;
+        width: 160px;
+        height: 600px;
+        z-index: 50;
+      }
+      .fallback-ad-mobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 40px auto 20px;
+        width: 100%;
+        max-width: 160px;
+        height: 600px;
+      }
+      @media (min-width: 1040px) {
+        .fallback-ad-sidebar.fallback-ad-left {
+          display: block;
+          left: calc(50% - 300px - 200px);
+        }
+        .fallback-ad-sidebar.fallback-ad-right {
+          display: block;
+          right: calc(50% - 300px - 200px);
+        }
+        .fallback-ad-mobile {
+          display: none;
+        }
+      }
+      .kakao_ad_area {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
     </style>
     
     <!-- Structured Data (Naver, Google & AI Crawlers JSON-LD Schema Integration) -->
@@ -262,6 +299,14 @@
   </head>
   <body>
     <div id="root">
+      <!-- 160x600 Left Skyscraper Ad for Desktop (SEO/Screening) -->
+      <div class="fallback-ad-sidebar fallback-ad-left">
+      </div>
+
+      <!-- 160x600 Right Skyscraper Ad for Desktop (SEO/Screening) -->
+      <div class="fallback-ad-sidebar fallback-ad-right">
+      </div>
+
       <div class="fallback-container fallback-seo">
         <!-- 🚀 SEO & AI Crawling Structural Semantic Fallback (100% Visible & Beautifully Styled, Overwritten by React App) -->
         <header class="fallback-header">
@@ -378,6 +423,10 @@
               "Even if you cannot complete the donation due to payment restrictions from abroad, we are infinitely grateful for your visit and genuine heart to support us. Thank you so much!"
             </p>
           </section>
+          
+          <!-- 160x600 Bottom Skyscraper Ad for Mobile (SEO/Screening) -->
+          <div class="fallback-ad-mobile">
+          </div>
         </main>
 
         <footer class="fallback-footer">
@@ -387,15 +436,20 @@
       </div>
     </div>
     
+    <!-- Kakao AdFit Script -->
+    <script type="text/javascript" src="https://t1.kakaocdn.net/kas/static/ba.min.js" async></script>
+    
     <script type="module" src="/src/main.tsx"></script>
     
     <!-- Naver Analytics (wcslog) Script -->
-    <script type="text/javascript" src="//wcs.pstatic.net/wcslog.js"></script>
+    <script type="text/javascript" src="https://wcs.pstatic.net/wcslog.js"></script>
     <script type="text/javascript">
-      if(!wcs_add) var wcs_add = {};
-      wcs_add["wa"] = "28c738f429bf1c";
-      if(window.wcs) {
-        wcs_do();
+      if (typeof window !== "undefined") {
+        if (!window.wcs_add) window.wcs_add = {};
+        window.wcs_add["wa"] = "28c738f429bf1c";
+        if (window.wcs) {
+          window.wcs_do();
+        }
       }
     </script>
   </body>

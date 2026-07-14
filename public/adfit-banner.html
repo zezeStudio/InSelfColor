@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdFit Banner Loader</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+    }
+    #ad-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #fallback-container {
+      width: 160px;
+      height: 600px;
+      display: none;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Inter", sans-serif;
+    }
+    .fallback-card {
+      width: 100%;
+      height: 100%;
+      background: #FDFBF7;
+      border: 1px solid rgba(196, 149, 106, 0.25);
+      border-radius: 12px;
+      box-sizing: border-box;
+      padding: 24px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: space-between;
+      color: #3E2814;
+    }
+    .logo {
+      font-size: 13px;
+      font-weight: 700;
+      color: #C4956A;
+      letter-spacing: -0.5px;
+    }
+    .heart {
+      font-size: 32px;
+      margin: 8px 0;
+      animation: heartbeat 1.5s infinite ease-in-out;
+    }
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.15); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.15); }
+      70% { transform: scale(1); }
+    }
+    .msg-primary {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin: 8px 0;
+      color: #3E2814;
+    }
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: rgba(196, 149, 106, 0.2);
+      margin: 8px 0;
+    }
+    .msg-secondary {
+      font-size: 11px;
+      line-height: 1.6;
+      color: #7A6052;
+      margin: 0 0 12px 0;
+      word-break: keep-all;
+    }
+    .btn {
+      width: 100%;
+      background: #C4956A;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 4px 12px rgba(196, 149, 106, 0.2);
+    }
+    .btn:hover {
+      background: #B08055;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+  <div id="ad-container"></div>
+  
+  <div id="fallback-container">
+    <div class="fallback-card">
+      <div class="logo">✨ InSelf Color</div>
+      <div class="heart">🧡</div>
+      <p class="msg-primary">InSelf Color를<br>응원해 주세요!</p>
+      <div class="divider"></div>
+      <p class="msg-secondary">
+        본 서비스는 100% 무료로 운영되고 있습니다.<br><br>
+        더 안정적인 서버와 고도화된 진단 기술 향상을 위해 따뜻한 응원의 손길을 기다립니다. ☕
+      </p>
+      <button class="btn" onclick="openDonation()">개발자 후원하기</button>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    function openDonation() {
+      try {
+        if (window.parent) {
+          window.parent.location.hash = '';
+          setTimeout(() => {
+            window.parent.location.hash = '#donate';
+          }, 50);
+        }
+      } catch (e) {
+        console.error('Failed to open donation modal:', e);
+      }
+    }
+
+    try {
+      // 1. Parse configuration parameters from URL query string
+      const params = new URLSearchParams(window.location.search);
+      const unit = params.get('unit') || 'DAN-EvCbYNj9rO8ZN6jl';
+      const width = params.get('width') || '160';
+      const height = params.get('height') || '600';
+
+      // 2. Dynamically build the Kakao AdFit ins tag (without forcing percent width/height to let SDK style it)
+      const ins = document.createElement('ins');
+      ins.className = 'kakao_ad_area';
+      ins.style.display = 'none';
+      ins.setAttribute('data-ad-unit', unit);
+      ins.setAttribute('data-ad-width', width);
+      ins.setAttribute('data-ad-height', height);
+
+      // Append it to the container
+      const container = document.getElementById('ad-container');
+      container.appendChild(ins);
+
+      // Set up a MutationObserver to detect if the AdFit SDK successfully loads an ad iframe
+      const observer = new MutationObserver((mutations) => {
+        const hasAd = ins.querySelector('iframe') || ins.children.length > 0;
+        if (hasAd) {
+          // Ad loaded successfully! Show ad, hide fallback
+          container.style.display = 'flex';
+          document.getElementById('fallback-container').style.display = 'none';
+          observer.disconnect();
+        }
+      });
+      observer.observe(container, { childList: true, subtree: true, attributes: true });
+
+      // Fallback timeout after 2 seconds (in case of ad blocker or unapproved domain/no-fill)
+      setTimeout(() => {
+        observer.disconnect();
+        const hasAd = ins.querySelector('iframe') || ins.children.length > 0;
+        if (!hasAd) {
+          container.style.display = 'none';
+          document.getElementById('fallback-container').style.display = 'block';
+        }
+      }, 2000);
+
+      // 3. Load the Kakao AdFit Web SDK script cleanly
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://t1.kakaocdn.net/kas/static/ba.min.js';
+      script.async = true;
+      document.body.appendChild(script);
+    } catch (e) {
+      console.error('AdFit banner load failed:', e);
+      document.getElementById('ad-container').style.display = 'none';
+      document.getElementById('fallback-container').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
