@@ -2104,7 +2104,7 @@ const CSS=`
     .sclbl{width:88px;}.scl{gap:11px;}
   }
 
-  /* Kakao AdFit Side Ads & Bottom Ads for React UI */
+  /* Kakao AdFit Side Ads for React UI - Strictly Single Left Sidebar */
   .pct-ad-sidebar {
     display: none;
     position: fixed;
@@ -2113,29 +2113,17 @@ const CSS=`
     height: 600px;
     z-index: 50;
   }
-  .pct-ad-mobile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 40px auto 20px;
-    width: 100%;
-    max-width: 160px;
-  }
   @media (min-width: 768px) {
     .pct-ad-sidebar.pct-ad-left {
       display: block;
       left: 16px;
     }
     .pct-ad-sidebar.pct-ad-right {
-      display: block;
-      right: 16px;
+      display: none !important;
     }
     .w {
       padding-left: 180px !important;
-      padding-right: 180px !important;
-    }
-    .pct-ad-mobile {
-      display: none !important;
+      padding-right: 0 !important;
     }
   }
   @media (min-width: 1200px) {
@@ -2143,7 +2131,7 @@ const CSS=`
       left: calc(50% - 380px - 180px);
     }
     .pct-ad-sidebar.pct-ad-right {
-      right: calc(50% - 380px - 180px);
+      display: none !important;
     }
     .w {
       padding-left: 0 !important;
@@ -2179,7 +2167,6 @@ function KakaoAdBanner({ className, unit = "DAN-EvCbYNj9rO8ZN6jl", width = "160"
     const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
     if (!iframeDoc) return;
 
-    // Isolate Kakao AdFit rendering inside a safe sandbox iframe to prevent React Virtual DOM conflicts
     const adHtml = `
       <!DOCTYPE html>
       <html>
@@ -2965,8 +2952,7 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick}: Landi
           )}
         </div>
  
-        {/* Mobile bottom ad */}
-        <KakaoAdBanner className="pct-ad-mobile" />
+
 
         {/* Footer with crawler compliant legal page anchors */}
         <footer style={{
@@ -4558,8 +4544,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
             {T[lang].disclaimerBottom}
           </div>
  
-          {/* Mobile bottom ad */}
-          <KakaoAdBanner className="pct-ad-mobile" />
+
 
           {/* Footer with crawler compliant legal page anchors */}
           <footer style={{
@@ -5056,13 +5041,8 @@ export default function PersonalColorTest({
 
   return (
     <>
-      {/* 160x600 Left Skyscraper Ad for Desktop */}
+      {/* 160x600 Left Skyscraper Ad for Desktop (Adfit Approval Unit) */}
       <div className="pct-ad-sidebar pct-ad-left">
-        <KakaoAdBanner />
-      </div>
-
-      {/* 160x600 Right Skyscraper Ad for Desktop */}
-      <div className="pct-ad-sidebar pct-ad-right">
         <KakaoAdBanner />
       </div>
 
