@@ -2967,7 +2967,14 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick}: Landi
         }}>
           <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap", marginBottom: "12px" }}>
             <a 
-              href="#privacy" 
+              href="/personal-color-guide.html" 
+              style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
+            >
+              {lang === "ko" ? "PCCS 색채학 가이드" : "PCCS Color Guide"}
+            </a>
+            <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
+            <a 
+              href="/privacy.html" 
               onClick={(e) => { e.preventDefault(); window.location.hash = "privacy"; }} 
               style={{ color: "var(--rg)", fontWeight: "600", textDecoration: "none", borderBottom: "1px dashed var(--rg)" }}
             >
@@ -2975,7 +2982,7 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick}: Landi
             </a>
             <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
             <a 
-              href="#terms" 
+              href="/terms.html" 
               onClick={(e) => { e.preventDefault(); window.location.hash = "terms"; }} 
               style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
             >
@@ -4561,7 +4568,14 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
           }}>
              <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap", marginBottom: "10px" }}>
               <a 
-                href="#privacy" 
+                href="/personal-color-guide.html" 
+                style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
+              >
+                {lang === "ko" ? "PCCS 색채학 가이드" : "PCCS Color Guide"}
+              </a>
+              <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
+              <a 
+                href="/privacy.html" 
                 onClick={(e) => { e.preventDefault(); window.location.hash = "privacy"; }} 
                 style={{ color: "var(--rg)", fontWeight: "600", textDecoration: "none", borderBottom: "1px dashed var(--rg)" }}
               >
@@ -4569,7 +4583,7 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
               </a>
               <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
               <a 
-                href="#terms" 
+                href="/terms.html" 
                 onClick={(e) => { e.preventDefault(); window.location.hash = "terms"; }} 
                 style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
               >
@@ -4951,8 +4965,19 @@ export default function PersonalColorTest({
 
   const [isDonationOpen, setIsDonationOpen] = useState(false);
 
-  // Modal support for helper policy links (#privacy, #terms, #donate)
+  // Modal support for helper policy links (#privacy, #terms, #donate or /privacy, /terms paths)
   useEffect(() => {
+    if (currentPath === "/privacy") {
+      setLegalModal("privacy");
+      setIsDonationOpen(false);
+      return;
+    }
+    if (currentPath === "/terms") {
+      setLegalModal("terms");
+      setIsDonationOpen(false);
+      return;
+    }
+
     const handleHash = () => {
       const h = window.location.hash;
       if (h === "#privacy") {
@@ -4972,7 +4997,7 @@ export default function PersonalColorTest({
     window.addEventListener("popstate", handleHash);
     handleHash();
     return () => window.removeEventListener("popstate", handleHash);
-  }, []);
+  }, [currentPath]);
 
   const handleCloseLegal = () => {
     setLegalModal(null);
