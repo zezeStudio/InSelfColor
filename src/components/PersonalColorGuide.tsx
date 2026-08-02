@@ -485,6 +485,9 @@ function PCCSHueCircle({ lang = "ko" }: { lang?: "ko" | "en" }){
 // ─────────────────────────────────────────────────────────
 function PCCSToneMap({ lang = "ko" }: { lang?: "ko" | "en" }){
   const [isZoomed, setIsZoomed] = useState(false);
+  const imgSrc = lang === "en" 
+    ? "/images/Personal_Color_Seasonal_Tone_Guide.png" 
+    : "/images/PCCS_톤_맵_컬러_가이드.png";
 
   return(
     <div className="tone-svg-container" style={{ background: "#FFFFFF", padding: "20px", borderRadius: "20px", border: "1px solid var(--border)", boxShadow: "0 8px 30px rgba(62,40,20,0.06)" }}>
@@ -494,8 +497,8 @@ function PCCSToneMap({ lang = "ko" }: { lang?: "ko" | "en" }){
           style={{ cursor: "zoom-in", borderRadius: "14px", overflow: "hidden", border: "1px solid rgba(196,149,106,0.18)", background: "#FAF8F5" }}
         >
           <img
-            src="/images/PCCS_톤_맵_컬러_가이드.png"
-            alt="PCCS 톤 맵 & 사계절 퍼스널 컬러 가이드"
+            src={imgSrc}
+            alt={lang === "ko" ? "PCCS 톤 맵 & 사계절 퍼스널 컬러 가이드" : "PCCS Tone Map & Seasonal Personal Color Guide"}
             referrerPolicy="no-referrer"
             style={{ width: "100%", height: "auto", display: "block" }}
           />
@@ -548,8 +551,8 @@ function PCCSToneMap({ lang = "ko" }: { lang?: "ko" | "en" }){
               ✕
             </button>
             <img
-              src="/images/PCCS_톤_맵_컬러_가이드.png"
-              alt="PCCS 톤 맵 확대"
+              src={imgSrc}
+              alt={lang === "ko" ? "PCCS 톤 맵 확대" : "PCCS Tone Map Zoom"}
               referrerPolicy="no-referrer"
               style={{ maxWidth: "94vw", maxHeight: "90vh", objectFit: "contain", borderRadius: "12px", boxShadow: "0 10px 40px rgba(0,0,0,0.5)" }}
             />
@@ -1097,7 +1100,6 @@ export default function PersonalColorGuide({ onBack, lang = "ko", setLang }: Per
             }}
           />
           <span id="g-logo-fallback" style={{ display: "none" }}>InSelf<span>Color</span></span>
-          <span style={{fontSize:14,fontWeight:300,color:"var(--sub)",fontStyle:"normal",marginLeft:"4px"}}>{T.guideHeader}</span>
         </div>
 
         {/* Language selector & menu tabs */}
