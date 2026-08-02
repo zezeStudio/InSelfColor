@@ -481,76 +481,84 @@ function PCCSHueCircle({ lang = "ko" }: { lang?: "ko" | "en" }){
 }
 
 // ─────────────────────────────────────────────────────────
-// PCCS TONE MAP SVG
+// PCCS TONE MAP IMAGE COMPONENT
 // ─────────────────────────────────────────────────────────
 function PCCSToneMap({ lang = "ko" }: { lang?: "ko" | "en" }){
-  const W=560,H=360,ml=58,mr=24,mt=24,mb=52;
-  const pw=W-ml-mr,ph=H-mt-mb;
-  const[hover,setHover]=useState<number | null>(null);
-
-  const tx=(s: number)=>ml+s/100*pw;
-  const ty=(l: number)=>mt+(1-l/100)*ph;
-
-  const gridX=[0,20,40,60,80,100];
-  const gridY=[0,25,50,75,100];
+  const [isZoomed, setIsZoomed] = useState(false);
 
   return(
-    <div className="tone-svg-container">
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{display:"block"}}>
-        {gridX.map(v=>(
-          <line key={`gx${v}`} x1={tx(v)} y1={mt} x2={tx(v)} y2={H-mb} stroke="rgba(196,149,106,0.12)" strokeWidth="1" strokeDasharray="4 4"/>
-        ))}
-        {gridY.map(v=>(
-          <line key={`gy${v}`} x1={ml} y1={ty(v)} x2={W-mr} y2={ty(v)} stroke="rgba(196,149,106,0.12)" strokeWidth="1" strokeDasharray="4 4"/>
-        ))}
+    <div className="tone-svg-container" style={{ background: "#FFFFFF", padding: "20px", borderRadius: "20px", border: "1px solid var(--border)", boxShadow: "0 8px 30px rgba(62,40,20,0.06)" }}>
+      <div style={{ position: "relative", textAlign: "center" }}>
+        <div 
+          onClick={() => setIsZoomed(true)} 
+          style={{ cursor: "zoom-in", borderRadius: "14px", overflow: "hidden", border: "1px solid rgba(196,149,106,0.18)", background: "#FAF8F5" }}
+        >
+          <img
+            src="/images/PCCS_톤_맵_컬러_가이드.png"
+            alt="PCCS 톤 맵 & 사계절 퍼스널 컬러 가이드"
+            referrerPolicy="no-referrer"
+            style={{ width: "100%", height: "auto", display: "block" }}
+          />
+        </div>
+        <div style={{ marginTop: "10px", fontSize: "12px", color: "var(--sub)", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+          <span>🔍 {lang === "ko" ? "이미지를 클릭하면 크게 확대하여 볼 수 있습니다." : "Click image to enlarge"}</span>
+        </div>
 
-        <line x1={ml} y1={mt} x2={ml} y2={H-mb} stroke="rgba(196,149,106,0.4)" strokeWidth="1.5"/>
-        <line x1={ml} y1={H-mb} x2={W-mr} y2={H-mb} stroke="rgba(196,149,106,0.4)" strokeWidth="1.5"/>
-
-        <text x={W/2} y={H-8} textAnchor="middle" fontSize="11" fill="#7A6052" fontWeight="500">{lang === "ko" ? "채도 (Saturation) →" : "Saturation (S) →"}</text>
-        <text x={12} y={H/2} textAnchor="middle" fontSize="11" fill="#7A6052" fontWeight="500" transform={`rotate(-90,12,${H/2})`}>{lang === "ko" ? "명도 (Lightness) ↑" : "Lightness (L) ↑"}</text>
-
-        {gridX.map(v=>(
-          <text key={`xl${v}`} x={tx(v)} y={H-mb+13} textAnchor="middle" fontSize="8" fill="rgba(122,96,82,0.6)">{v}</text>
-        ))}
-        {gridY.map(v=>(
-          <text key={`yl${v}`} x={ml-6} y={ty(v)+3} textAnchor="end" fontSize="8" fill="rgba(122,96,82,0.6)">{v}</text>
-        ))}
-
-        {PCCS_TONES.map((t,i)=>{
-          const x=tx(t.s),y=ty(t.l);
-          const r=hover===i?22:18;
-          return (
-            <g key={t.key} onMouseEnter={()=>setHover(i)} onMouseLeave={()=>setHover(null)}
-              style={{cursor:"default"}}>
-              <circle cx={x} cy={y} r={r} fill={t.bg} stroke={t.border||"rgba(255,255,255,0.6)"} strokeWidth="1.5"
-                style={{filter:`drop-shadow(0 2px 4px rgba(0,0,0,0.12))`,transition:"r .15s"}}/>
-              <text x={x} y={y-3} textAnchor="middle" dominantBaseline="middle" fontSize="9" fontWeight="700" fill={t.tc}>{t.abbr}</text>
-              <text x={x} y={y+7} textAnchor="middle" fontSize="7" fill={t.tc} opacity="0.85">
-                {lang === "ko"
-                  ? (t.name.includes("\n") ? t.name.split("\n")[0] : t.name)
-                  : (t.nameEn.includes("\n") ? t.nameEn.split("\n")[0] : t.nameEn)
-                }
-              </text>
-              {hover===i&&(
-                <g>
-                  <rect x={x-45} y={y-r-28} width={90} height={22} rx={6} fill="rgba(30,20,10,0.82)"/>
-                  <text x={x} y={y-r-18} textAnchor="middle" fontSize="8.5" fill="white" fontWeight="600">
-                    {lang === "ko" ? t.name.replace("\n"," ") : t.nameEn.replace("\n"," ")}
-                  </text>
-                  <text x={x} y={y-r-10} textAnchor="middle" fontSize="7.5" fill="rgba(255,255,255,0.75)">
-                    {lang === "ko" ? `명:${t.l} 채:${t.s}` : `L:${t.l} S:${t.s}`}
-                  </text>
-                </g>
-              )}
-            </g>
-          );
-        })}
-
-        <text x={tx(80)} y={ty(85)} textAnchor="middle" fontSize="9" fill="rgba(200,100,50,0.55)" fontWeight="600">{lang === "ko" ? "고명도·고채도" : "Vivid & Light"}</text>
-        <text x={tx(12)} y={ty(50)} textAnchor="middle" fontSize="9" fill="rgba(122,96,82,0.45)" fontWeight="600">{lang === "ko" ? "중성·저채도" : "Muted & Gray"}</text>
-        <text x={tx(72)} y={ty(18)} textAnchor="middle" fontSize="9" fill="rgba(80,40,20,0.45)" fontWeight="600">{lang === "ko" ? "저명도·고채도" : "Dark & Intense"}</text>
-      </svg>
+        {/* Modal / Lightbox Zoom */}
+        {isZoomed && (
+          <div 
+            onClick={() => setIsZoomed(false)}
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.85)",
+              zIndex: 9999,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "20px",
+              cursor: "zoom-out",
+              backdropFilter: "blur(6px)"
+            }}
+          >
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setIsZoomed(false); }}
+              style={{
+                position: "absolute",
+                top: "20px",
+                right: "24px",
+                background: "rgba(255,255,255,0.2)",
+                color: "#fff",
+                border: "none",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                fontSize: "20px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              ✕
+            </button>
+            <img
+              src="/images/PCCS_톤_맵_컬러_가이드.png"
+              alt="PCCS 톤 맵 확대"
+              referrerPolicy="no-referrer"
+              style={{ maxWidth: "94vw", maxHeight: "90vh", objectFit: "contain", borderRadius: "12px", boxShadow: "0 10px 40px rgba(0,0,0,0.5)" }}
+            />
+            <span style={{ color: "#ffffff", marginTop: "12px", fontSize: "13px", fontWeight: 500 }}>
+              {lang === "ko" ? "클릭하거나 터치하여 닫기" : "Click anywhere to close"}
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

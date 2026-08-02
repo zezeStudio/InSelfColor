@@ -34,6 +34,62 @@
         line-height: 1.75;
         -webkit-font-smoothing: antialiased;
       }
+
+      /* Sticky Top Navigation Bar */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(253, 248, 242, 0.94);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--color-border);
+        box-shadow: 0 4px 20px rgba(61, 43, 26, 0.03);
+      }
+      .nav-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .nav-logo {
+        font-size: 20px;
+        font-weight: 900;
+        color: var(--color-primary);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--color-text-main);
+        text-decoration: none;
+        padding: 7px 14px;
+        border-radius: 100px;
+        transition: all 0.2s ease;
+      }
+      .nav-links a:hover {
+        background: rgba(196, 149, 106, 0.1);
+        color: var(--color-primary-dark);
+      }
+      .nav-links a.active {
+        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+        color: #FFFFFF;
+      }
+
       .container {
         max-width: 800px;
         margin: 40px auto;
@@ -44,22 +100,18 @@
         text-align: center;
         margin-bottom: 32px;
       }
-      .logo {
-        display: inline-block;
-        font-size: 24px;
-        font-weight: 900;
-        color: var(--color-primary);
-        letter-spacing: -0.02em;
-        text-decoration: none;
-        margin-bottom: 12px;
-      }
       .title {
         font-size: 26px;
         font-weight: 900;
         color: var(--color-text-main);
         line-height: 1.3;
-        margin: 0 0 12px 0;
+        margin: 0 0 8px 0;
         letter-spacing: -0.03em;
+      }
+      .subtitle {
+        font-size: 14px;
+        color: var(--color-text-sub);
+        margin: 0;
       }
       .main-card {
         background-color: var(--color-card-bg);
@@ -129,10 +181,23 @@
     </style>
   </head>
   <body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="nav-logo">✨ InSelf Color</a>
+        <div class="nav-links">
+          <a href="/">🧪 퍼스널컬러 진단</a>
+          <a href="/personal-color-guide.html">📖 PCCS 가이드</a>
+          <a href="/privacy.html" class="active">🔒 개인정보처리방침</a>
+          <a href="/terms.html">📜 서비스 이용약관</a>
+        </div>
+      </div>
+    </nav>
+
     <div class="container">
       <header>
-        <a href="/" class="logo">✨ InSelf Color</a>
         <h1 class="title">개인정보처리방침 (Privacy Policy)</h1>
+        <p class="subtitle">사용자의 개인정보 및 안면 이미지 데이터 보안에 관한 공식 선언</p>
       </header>
 
       <main class="main-card">

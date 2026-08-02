@@ -142,10 +142,13 @@
       const width = params.get('width') || '160';
       const height = params.get('height') || '600';
 
-      // 2. Dynamically build the Kakao AdFit ins tag (without forcing percent width/height to let SDK style it)
+      // 2. Dynamically build the Kakao AdFit ins tag (keeping layout dimensions for SDK visibility/size checks)
       const ins = document.createElement('ins');
       ins.className = 'kakao_ad_area';
-      ins.style.display = 'none';
+      ins.style.display = 'block';
+      ins.style.visibility = 'hidden';
+      ins.style.width = width + 'px';
+      ins.style.height = height + 'px';
       ins.setAttribute('data-ad-unit', unit);
       ins.setAttribute('data-ad-width', width);
       ins.setAttribute('data-ad-height', height);
@@ -159,7 +162,9 @@
         const hasAd = ins.querySelector('iframe') || ins.children.length > 0;
         if (hasAd) {
           // Ad loaded successfully! Show ad, hide fallback
+          ins.style.visibility = 'visible';
           container.style.display = 'flex';
+          container.style.visibility = 'visible';
           document.getElementById('fallback-container').style.display = 'none';
           observer.disconnect();
         }
@@ -173,6 +178,11 @@
         if (!hasAd) {
           container.style.display = 'none';
           document.getElementById('fallback-container').style.display = 'block';
+        } else {
+          ins.style.visibility = 'visible';
+          container.style.display = 'flex';
+          container.style.visibility = 'visible';
+          document.getElementById('fallback-container').style.display = 'none';
         }
       }, 2000);
 

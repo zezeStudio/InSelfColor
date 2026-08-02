@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import PersonalColorTest from "./components/PersonalColorTest";
 import PersonalColorGuide from "./components/PersonalColorGuide";
 import PersonalColorLongtail, { LONGTAIL_PAGES } from "./components/PersonalColorLongtail";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import TermsOfService from "./components/TermsOfService";
 
 export default function App() {
   const [path, setPath] = useState<string>(() => {
@@ -53,6 +55,10 @@ export default function App() {
         />
       ) : path === "/guide" ? (
         <PersonalColorGuide onBack={handleBackToTest} lang={lang} setLang={setLang} />
+      ) : path === "/privacy" || path === "/privacy.html" ? (
+        <PrivacyPolicy lang={lang} setLang={setLang} onNavigate={handleNavigate} />
+      ) : path === "/terms" || path === "/terms.html" ? (
+        <TermsOfService lang={lang} setLang={setLang} onNavigate={handleNavigate} />
       ) : (
         <PersonalColorTest
           currentPath={path}

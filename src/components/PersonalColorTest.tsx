@@ -4575,16 +4575,16 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
               </a>
               <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
               <a 
-                href="/privacy.html" 
-                onClick={(e) => { e.preventDefault(); window.location.hash = "privacy"; }} 
+                href="/privacy" 
+                onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", "/privacy"); window.dispatchEvent(new Event("popstate")); }} 
                 style={{ color: "var(--rg)", fontWeight: "600", textDecoration: "none", borderBottom: "1px dashed var(--rg)" }}
               >
                 {lang === "ko" ? "개인정보처리방침" : "Privacy Policy"}
               </a>
               <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
               <a 
-                href="/terms.html" 
-                onClick={(e) => { e.preventDefault(); window.location.hash = "terms"; }} 
+                href="/terms" 
+                onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", "/terms"); window.dispatchEvent(new Event("popstate")); }} 
                 style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
               >
                 {lang === "ko" ? "서비스 이용약관" : "Terms of Service"}

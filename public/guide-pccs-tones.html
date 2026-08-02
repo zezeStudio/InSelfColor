@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PCCS 12톤 시스템과 명도·채도 좌표계 심화 가이드 | InSelf Color</title>
+    <meta name="description" content="PCCS(Practical Color Coordinate System)의 24색상환, 12가지 톤(Vivid, Bright, Pale, Soft, Deep 등) 및 명도/채도 분석 가이드입니다." />
+    <link rel="canonical" href="https://inselfcolor.pages.dev/guide-pccs-tones.html" />
+    
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="PCCS 12톤 시스템과 명도·채도 분석 심화 가이드 | InSelf Color" />
+    <meta property="og:description" content="일본 색채 연구소(JCRI)의 학술적 PCCS 색채계 및 퍼스널컬러 진단 알고리즘 원리 해설." />
+    <meta property="og:url" content="https://inselfcolor.pages.dev/guide-pccs-tones.html" />
+    <meta property="og:site_name" content="InSelf Color" />
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" />
+    <style>
+      :root {
+        --color-bg: #FDF8F2;
+        --color-card-bg: #FFFFFF;
+        --color-primary: #C4956A;
+        --color-primary-dark: #A17349;
+        --color-text-main: #3E2814;
+        --color-text-sub: #7A6052;
+        --color-border: rgba(196, 149, 106, 0.18);
+      }
+      body { margin: 0; padding: 0; background-color: var(--color-bg); color: var(--color-text-main); font-family: 'Inter', 'Noto Sans KR', sans-serif; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+      .container { max-width: 800px; margin: 40px auto; padding: 0 20px; box-sizing: border-box; }
+      header { text-align: center; margin-bottom: 32px; }
+      .logo { display: inline-block; font-size: 24px; font-weight: 900; color: var(--color-primary); text-decoration: none; margin-bottom: 12px; }
+      .title { font-size: 28px; font-weight: 900; color: var(--color-text-main); margin: 0 0 12px 0; letter-spacing: -0.03em; }
+      .subtitle { font-size: 15px; color: var(--color-text-sub); margin-bottom: 20px; }
+      .main-card { background-color: var(--color-card-bg); border: 1px solid var(--color-border); border-radius: 24px; padding: 36px; box-shadow: 0 10px 40px rgba(61,43,26,0.03); }
+      h2 { font-size: 19px; font-weight: 800; color: var(--color-primary-dark); margin: 28px 0 14px 0; border-bottom: 2px solid rgba(196,149,106,0.15); padding-bottom: 6px; }
+      h2:first-of-type { margin-top: 0; }
+      p { font-size: 14.5px; color: var(--color-text-sub); margin: 0 0 16px 0; }
+      .grid-tones { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin: 20px 0; }
+      .tone-item { border: 1px solid var(--color-border); border-radius: 12px; padding: 12px; background: rgba(196,149,106,0.04); text-align: center; }
+      .tone-abbr { font-weight: 900; font-size: 16px; color: var(--color-primary-dark); }
+      .tone-name { font-size: 12px; font-weight: 700; color: var(--color-text-main); }
+      .tone-desc { font-size: 11px; color: var(--color-text-sub); }
+      .nav-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+      .btn { display: inline-block; padding: 12px 22px; border-radius: 12px; font-weight: 700; font-size: 14px; text-decoration: none; transition: background 0.2s; }
+      .btn-primary { background: var(--color-primary); color: #fff; }
+      .btn-primary:hover { background: var(--color-primary-dark); }
+      .btn-secondary { background: rgba(196,149,106,0.12); color: var(--color-text-main); }
+      footer { text-align: center; font-size: 12px; color: rgba(122,96,82,0.6); margin-top: 40px; border-top: 1px solid var(--color-border); padding-top: 20px; }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "PCCS 12톤 시스템과 명도·채도 좌표계 심화 가이드",
+      "description": "일본 색채 연구소 PCCS 24색상환과 12가지 톤 좌표계 해설.",
+      "url": "https://inselfcolor.pages.dev/guide-pccs-tones.html"
+    }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a href="/" class="logo">✨ InSelf Color</a>
+        <h1 class="title">PCCS 12톤 시스템 & 좌표계 심화 가이드</h1>
+        <p class="subtitle">Practical Color Coordinate System의 24색상환과 명도/채도 매트릭스 원리</p>
+      </header>
+
+      <main class="main-card">
+        <h2>1. PCCS란 무엇인가?</h2>
+        <p>PCCS(Practical Color Coordinate System)는 1964년 일본색채연구소가 개발한 색채 체계로, <strong>24가지 색상(Hue)</strong>과 <strong>12가지 톤(Tone)</strong>의 조합으로 색을 표현합니다. 먼셀 속성 체계의 학술적 정확성에 오스발트 색체계의 감각적 조화성을 창의적으로 정합한 한국 및 일본의 표준 퍼스널컬러 가이드라인입니다.</p>
+
+        <h2>2. PCCS 12가지 핵심 톤 분류</h2>
+        <div class="grid-tones">
+          <div class="tone-item"><div class="tone-abbr">v</div><div class="tone-name">Vivid (비비드)</div><div class="tone-desc">고채도 순색, 강렬함</div></div>
+          <div class="tone-item"><div class="tone-abbr">b</div><div class="tone-name">Bright (브라이트)</div><div class="tone-desc">고명도·고채도, 화사함</div></div>
+          <div class="tone-item"><div class="tone-abbr">lt</div><div class="tone-name">Light (라이트)</div><div class="tone-desc">고명도·중채도, 청량함</div></div>
+          <div class="tone-item"><div class="tone-abbr">p</div><div class="tone-name">Pale (페일)</div><div class="tone-desc">최고명도·저채도, 뽀얌</div></div>
+          <div class="tone-item"><div class="tone-abbr">sf</div><div class="tone-name">Soft (소프트)</div><div class="tone-desc">중명도·중채도, 부드러움</div></div>
+          <div class="tone-item"><div class="tone-abbr">d</div><div class="tone-name">Dull (덜)</div><div class="tone-desc">중명도·저채도, 차분함</div></div>
+          <div class="tone-item"><div class="tone-abbr">s</div><div class="tone-name">Strong (스트롱)</div><div class="tone-desc">중명도·고채도, 역동적</div></div>
+          <div class="tone-item"><div class="tone-abbr">dp</div><div class="tone-name">Deep (딥)</div><div class="tone-desc">저명도·고채도, 묵직함</div></div>
+          <div class="tone-item"><div class="tone-abbr">dk</div><div class="tone-name">Dark (다크)</div><div class="tone-desc">저명도·중채도, 깊음</div></div>
+          <div class="tone-item"><div class="tone-abbr">ltg</div><div class="tone-name">Light Grayish</div><div class="tone-desc">고명도 회색기, 포근함</div></div>
+          <div class="tone-item"><div class="tone-abbr">g</div><div class="tone-name">Grayish (그레이시)</div><div class="tone-desc">중명도 회색기, 세련됨</div></div>
+          <div class="tone-item"><div class="tone-abbr">dkg</div><div class="tone-name">Dark Grayish</div><div class="tone-desc">저명도 회색기, 스모키</div></div>
+        </div>
+
+        <h2>3. 웜톤(Warm) vs 쿨톤(Cool) 언더톤 구분</h2>
+        <p>PCCS 24색상환에서 1번부터 8번(pR, R, yR, rO, O, yO, rY, Y, gY)은 따스한 노란색/붉은색 기운을 가진 <strong>웜톤</strong> 영역이며, 10번부터 22번(YG, yG, G, bG, BG, gB, B, pB, V, bP, P, rP)은 청량한 푸른색 기운을 가진 <strong>쿨톤</strong> 영역입니다. 9번과 23~24번은 중성(Neutral) 영역에 위치합니다.</p>
+
+        <h2>4. AI 안면 픽셀 분석 매핑 원리</h2>
+        <p>InSelf Color 알고리즘은 사용자가 업로드한 얼굴 이미지에서 눈동자 주변 스킨 픽셀의 L*a*b* 및 HSV 스펙트럼 데이터를 추출하여, 명도축(L*)과 채도축(C*) 좌표계 상에 투영합니다. 이를 통해 오차 범위 ±2% 이내의 정밀한 PCCS 톤 결과를 실시간 도출합니다.</p>
+
+        <div class="nav-buttons">
+          <a href="/personal-color-guide.html" class="btn btn-primary">← PCCS 대표 메인 가이드</a>
+          <a href="/" class="btn btn-secondary">📸 10초 퍼스널컬러 자가진단</a>
+        </div>
+      </main>
+
+      <footer>
+        <p>© 2026 InSelf Studio. All Rights Reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>
