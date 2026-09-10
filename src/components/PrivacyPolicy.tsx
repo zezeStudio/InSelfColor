@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import HeaderNavbar from "./HeaderNavbar";
 import { ShieldCheck, Lock, EyeOff, FileText, ArrowLeft, Sparkles, CheckCircle2 } from "lucide-react";
+import { KakaoTopBanner, KakaoMiddleBanner } from "./KakaoAdBanner";
 
 interface PrivacyPolicyProps {
   lang: "ko" | "en";
@@ -34,6 +35,9 @@ export default function PrivacyPolicy({ lang, setLang, onNavigate }: PrivacyPoli
         setLang={setLang}
         onNavigate={onNavigate}
       />
+
+      {/* 320x50 Top Page Banner (DAN-keG6pMHM3YLMdQa4) */}
+      <KakaoTopBanner style={{ margin: "14px 0 0 0" }} />
 
       {/* Main Content Area */}
       <main
@@ -205,6 +209,9 @@ export default function PrivacyPolicy({ lang, setLang, onNavigate }: PrivacyPoli
                   <strong>거부 방법 설정:</strong> 사용자는 언제든지 웹브라우저의 메뉴 항목(예: Chrome 환경 설정 - 개인정보 및 보안 - 쿠키 메뉴)에서 개별적으로 타사 쿠키 허용 전면 차단 등을 조작해 차단할 수 있습니다.
                 </li>
               </ul>
+
+              {/* 300x250 Middle Page Banner (DAN-yIR46FWNSqGqGUfK) */}
+              <KakaoMiddleBanner style={{ margin: "24px 0" }} />
 
               <h2
                 style={{

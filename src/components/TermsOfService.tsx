@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import HeaderNavbar from "./HeaderNavbar";
 import { FileText, AlertCircle, ShieldAlert, Award, ArrowLeft, Sparkles } from "lucide-react";
+import { KakaoTopBanner, KakaoMiddleBanner } from "./KakaoAdBanner";
 
 interface TermsOfServiceProps {
   lang: "ko" | "en";
@@ -34,6 +35,9 @@ export default function TermsOfService({ lang, setLang, onNavigate }: TermsOfSer
         setLang={setLang}
         onNavigate={onNavigate}
       />
+
+      {/* 320x50 Top Page Banner (DAN-keG6pMHM3YLMdQa4) */}
+      <KakaoTopBanner style={{ margin: "14px 0 0 0" }} />
 
       {/* Main Content Area */}
       <main
@@ -193,6 +197,9 @@ export default function TermsOfService({ lang, setLang, onNavigate }: TermsOfSer
               >
                 본 진단의 예측 가이드 내용이 절대적 기준이라 판단하여 사용자가 직접 패션, 뷰티 제품, 왁싱, 특수 메이크업 등의 구매 결정을 성사시킨 후 마음에 도달한 가치 격차, 부조화에 관한 <strong>직접적 또는 간접적 금전적 가치 피해에 대하여 회사는 어떠한 법적 분쟁 및 손해에 대한 보상적, 보증 구제 의무도 단행하지 않는 점을 명백히 선언</strong>합니다.
               </div>
+
+              {/* 300x250 Middle Page Banner (DAN-yIR46FWNSqGqGUfK) */}
+              <KakaoMiddleBanner style={{ margin: "24px 0" }} />
 
               <h2
                 style={{

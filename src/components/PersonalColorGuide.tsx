@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import KakaoAdBanner, { KakaoTopBanner, KakaoMiddleBanner } from "./KakaoAdBanner";
 
 // ─────────────────────────────────────────────────────────
 // PCCS 24 HUE DATA
@@ -177,6 +178,36 @@ const CSS = `
   }
   body{background:var(--cream);font-family:var(--fs);color:var(--text);overflow-x:hidden;}
   .gw{min-height:100vh;background:var(--cream);position:relative;}
+
+  /* ── KAKAO ADFIT SIDEBAR ── */
+  .pct-ad-sidebar {
+    display: none;
+    position: fixed;
+    top: 96px;
+    width: 160px;
+    height: 600px;
+    z-index: 50;
+  }
+  @media (min-width: 1440px) {
+    .pct-ad-sidebar.pct-ad-left {
+      display: block;
+      left: calc(50% - 540px - 180px);
+    }
+    .pct-ad-sidebar.pct-ad-right {
+      display: block;
+      left: calc(50% + 540px + 20px);
+    }
+  }
+  @media (min-width: 1100px) and (max-width: 1439px) {
+    .pct-ad-sidebar.pct-ad-left {
+      display: block;
+      left: 14px;
+    }
+    .pct-ad-sidebar.pct-ad-right {
+      display: block;
+      right: 14px;
+    }
+  }
 
   /* ── NAV ── */
   .gnav{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 32px;position:sticky;top:0;background:rgba(253,248,242,0.88);backdrop-filter:blur(12px);z-index:100;border-bottom:1px solid var(--border);}
@@ -1085,6 +1116,16 @@ export default function PersonalColorGuide({ onBack, lang = "ko", setLang }: Per
       <FontLoader/>
       <style>{CSS}</style>
 
+      {/* 160x600 Left Skyscraper Ad for Desktop (DAN-EvCbYNj9rO8ZN6jl) */}
+      <div className="pct-ad-sidebar pct-ad-left">
+        <KakaoAdBanner unit="DAN-EvCbYNj9rO8ZN6jl" />
+      </div>
+
+      {/* 160x600 Right Skyscraper Ad for Desktop (DAN-ZOigPvVGm9hQPf2a) */}
+      <div className="pct-ad-sidebar pct-ad-right">
+        <KakaoAdBanner unit="DAN-ZOigPvVGm9hQPf2a" />
+      </div>
+
       {/* ── NAV ── */}
       <nav className="gnav">
         <div className="glogo" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }} onClick={onBack}>
@@ -1162,6 +1203,9 @@ export default function PersonalColorGuide({ onBack, lang = "ko", setLang }: Per
           </div>
         </div>
       </nav>
+
+      {/* 320x50 Top Page Banner (DAN-keG6pMHM3YLMdQa4) */}
+      <KakaoTopBanner />
 
       {/* ── HERO ── */}
       <section className="ghero">
@@ -1260,6 +1304,9 @@ export default function PersonalColorGuide({ onBack, lang = "ko", setLang }: Per
           </div>
         </div>
       </section>
+
+      {/* 300x250 Middle Page Banner (DAN-yIR46FWNSqGqGUfK) */}
+      <KakaoMiddleBanner />
 
       <div className="g-sep"/>
 

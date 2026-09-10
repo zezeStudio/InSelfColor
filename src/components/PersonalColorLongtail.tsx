@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft, Share2, Sparkles, Check, AlertTriangle, User, Palette, ShoppingBag, Shirt } from "lucide-react";
+import { KakaoTopBanner, KakaoMiddleBanner } from "./KakaoAdBanner";
 
 interface LongtailData {
   id: string;
@@ -468,6 +469,9 @@ export default function PersonalColorLongtail({ pageId, onBack, lang, setLang }:
         </div>
       </header>
 
+      {/* 320x50 Top Page Banner (DAN-keG6pMHM3YLMdQa4) */}
+      <KakaoTopBanner style={{ margin: "12px 0 8px 0" }} />
+
       {/* Hero Visual Area with Beautiful SEO optimized Headers */}
       <section 
         style={{ background: pageData.bannerBg }} 
@@ -571,6 +575,9 @@ export default function PersonalColorLongtail({ pageId, onBack, lang, setLang }:
               ))}
             </ul>
           </div>
+
+          {/* 300x250 Middle Page Banner (DAN-yIR46FWNSqGqGUfK) */}
+          <KakaoMiddleBanner style={{ margin: "20px 0" }} />
 
           {/* Cosmetic Recommendations */}
           <div className="bg-white border border-[#FAF0E6] rounded-2xl p-6 shadow-sm" id="cosmetics-box">
