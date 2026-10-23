@@ -327,8 +327,174 @@ export const LONGTAIL_PAGES: Record<string, LongtailData> = {
       "노란 기가 다분히 도는 따듯한 애쉬 골드, 베이지 염색, 주황 카라멜 가죽 자켓은 가히 겨울 딥에겐 최대치의 스킨 트러블을 도드라져 보이게 합니다.",
       "채도가 높은 파스텔 코랄 핑크나 오렌지 립은 이목구비를 지워버려서 환자 같은 인상으로 전락할 위험이 매우 높습니다."
     ]
+  },
+  "spring-warm": {
+    id: "spring-warm",
+    name: "봄 트루 / 웜",
+    nameEn: "Warm Spring",
+    title: "봄 트루/웜 (Warm Spring) 노란 햇살을 머금은 웜톤의 정석 & 생기발랄 코디 가이드",
+    description: "노란 기가 감도는 따스한 황금빛 햇살이 가장 완벽하게 조화되는 봄 트루/웜! PCCS 라이트·브라이트 톤의 인생 코랄 립스틱, 살구 블러셔부터 골드 주얼리 매칭까지 500자 완벽 총정리 가이드입니다.",
+    keywords: ["봄 트루", "봄 웜", "Warm Spring", "봄웜 립", "코랄 메이크업", "골드 주얼리", "퍼스널컬러 12타입"],
+    bannerBg: "linear-gradient(135deg, #FFF0D6, #FED7AA, #FB923C)",
+    accentColor: "#D97706",
+    paletteColors: [
+      { hex: "#F59E0B", name: "골든 옐로우" },
+      { hex: "#FB923C", name: "망고 코랄" },
+      { hex: "#F97316", name: "선셋 오렌지" },
+      { hex: "#FBBF24", name: "해바라기 노랑" },
+      { hex: "#84CC16", name: "스프링 라임" },
+      { hex: "#FFFBEB", name: "바닐라 크림" }
+    ],
+    celebrities: ["아이유", "윤아 (소녀시대)", "웬디 (레드벨벳)", "츄 (CHUU)"],
+    features: [
+      "봄 웜톤의 중심 축으로, 노란 기(Yellow-base)가 맑고 따뜻하게 감도는 정통 웜톤입니다.",
+      "PCCS 색체계에서 light(라이트), bright(브라이트), vivid(비비드) 중 웜한 색상들이 얼굴에 풍부한 생기와 밝은 혈색을 부여합니다.",
+      "피부 본연의 황금빛 윤광이 살아있어 매트한 질감보다 촉촉하고 광택 있는 수분 메이크업이 환상적으로 어울립니다."
+    ],
+    bestItems: {
+      lip: ["맥(MAC) 씨 쉬어(See Sheer) - 맑고 촉촉한 자몽 코랄 데일리 립의 교과서", "롬앤 쥬시 래스팅 틴트 쥬쥬브 - 자연스러운 대추 코랄 레드 광택", "페리페라 잉크 무드 글로이 틴트 웜고리즘 - 맑고 생기 넘치는 피치 코랄 틴트"],
+      shadow: ["데이지크 섀도우 팔레트 웜 베이직 - 따뜻한 살구 피치와 골드 글리터의 완벽 조합", "클리오 프로 아이 팔레트 인투 레이스 - 부드러운 웜 브라운과 화사한 골드 쉬머"],
+      blusher: ["크리니크 치크팝 멜론팝 - 수채화처럼 은은하고 사랑스러운 코랄 핑크", "네이처리퍼블릭 자몽 솜사탕 - 생기 가득한 자몽 살구빛 블러셔"]
+    },
+    stylingTips: [
+      "크림 아이보리, 웜 베이지 바탕에 살구 피치, 망고 오렌지 포인트로 온화하고 사랑스러운 인상을 연출하세요.",
+      "골드, 샴페인 골드, 옐로우 골드 주얼리가 피부의 따스한 광채를 극대화해 줍니다.",
+      "린넨, 가벼운 니트, 코튼처럼 자연스러운 질감과 부드러운 드레이프 소재가 최고로 잘 어울립니다."
+    ],
+    worstTips: [
+      "푸른 기가 감도는 쿨 핑크, 라벤더, 차가운 실버는 안색을 창백하고 흙빛으로 보이게 합니다.",
+      "탁하고 짙은 블랙 모노톤이나 차콜 그레이 착장은 본연의 화사한 생기를 완전히 가려버릴 수 있습니다."
+    ]
+  },
+  "summer-cool": {
+    id: "summer-cool",
+    name: "여름 트루 / 쿨",
+    nameEn: "Cool Summer",
+    title: "여름 트루/쿨 (Cool Summer) 푸른빛 청량함과 깨끗한 이슬 감성 & 쿨톤 메이크업 가이드",
+    description: "블루 언더톤의 시원함이 피부의 붉은 기와 노란 기를 완벽하게 정돈해 주는 여름 트루/쿨! 스카이블루, 쿨 핑크, 라벤더 팔레트와 실버 주얼리 매칭 팁을 500자 정밀 분석으로 전해드립니다.",
+    keywords: ["여름 트루", "여름 쿨", "Cool Summer", "여쿨 립", "쿨핑크 블러셔", "라벤더 섀도우", "여름 쿨톤 코디"],
+    bannerBg: "linear-gradient(135deg, #EFF6FF, #DBEAFE, #93C5FD)",
+    accentColor: "#2563EB",
+    paletteColors: [
+      { hex: "#3B82F6", name: "스카이 블루" },
+      { hex: "#60A5FA", name: "아이스 블루" },
+      { hex: "#A855F7", name: "페일 라벤더" },
+      { hex: "#EC4899", name: "쿨 핑크" },
+      { hex: "#94A3B8", name: "스틸 그레이" },
+      { hex: "#F8FAFC", name: "스노우 화이트" }
+    ],
+    celebrities: ["손예진", "태연 (소녀시대)", "이영애", "김고은"],
+    features: [
+      "여름 쿨톤의 정석으로, 푸른 기(Blue-base)의 시원함이 독보적인 청량감을 선사하는 타입입니다.",
+      "PCCS 색체계에서 light(라이트), soft(소프트), bright(브라이트) 구간 중 블루와 퍼플 언더톤이 안색을 매우 깨끗하고 투명하게 정돈합니다.",
+      "인위적인 두꺼운 커버보다 얇고 투명한 수채화 같은 텍스처와 은은한 유리알 광택이 베스트입니다."
+    ],
+    bestItems: {
+      lip: ["롬앤 쥬시 래스팅 틴트 베어 그레이프 - 차분하고 맑은 쿨 로즈 모브 틴트", "라카 프루티 글램 틴트 콜드 - 청량하고 선명한 쿨 베리 핑크", "디올 어딕트 립 글로우 007 라즈베리 - 이슬 머금은 촉촉한 쿨 라즈베리"],
+      shadow: ["롬앤 베러 댄 아이즈 말린 라벤더 - 깨끗하고 뽀얀 쿨 라벤더 음영 팔레트", "웨이크메이크 소프트 블러링 아이 팔레트 생기 블러링 - 여쿨 정석 핑크 그라데이션"],
+      blusher: ["크리니크 치크팝 팬지팝 - 노란 기를 한 번에 지워주는 은은한 보랏빛 국화 치크", "롬앤 베러 댄 치크 블루베리 칩 - 뽀얗고 자연스럽게 올라오는 뮤트 라벤더 핑크"]
+    },
+    stylingTips: [
+      "스카이 블루 셔츠, 라벤더 카디건, 소프트 그레이 슬랙스로 시원하고 세련된 도시적 무드를 완성하세요.",
+      "반드시 화이트 골드, 플래티넘, 유광 실버 주얼리를 매치하여 맑은 피부 톤을 극대화하세요.",
+      "쉬폰, 실크, 소프트 코튼 등 부드럽게 흐르는 섬세한 소재가 여름 트루 쿨톤의 청초함을 살려줍니다."
+    ],
+    worstTips: [
+      "오렌지, 머스타드, 카멜, 골드 등 노란 기 가득한 웜톤 계열은 피부를 누렇게 띄우는 워스트 컬러입니다.",
+      "너무 짙은 황동색 헤어 염색이나 브라운 렌즈는 쿨톤 고유의 투명한 인상을 흐려놓습니다."
+    ]
+  },
+  "autumn-warm": {
+    id: "autumn-warm",
+    name: "가을 트루 / 웜",
+    nameEn: "Warm Autumn",
+    title: "가을 트루/웜 (Warm Autumn) 풍성한 단풍과 그윽한 테라코타 & 클래식 패션 가이드",
+    description: "황금빛 들판과 가을 단풍의 따뜻하고 풍성한 깊이감을 자랑하는 가을 트루/웜! 칠리 레드 립, 호박 카멜 코디, 앤틱 골드 주얼리까지 500자 완벽 총정리 추천 가이드입니다.",
+    keywords: ["가을 트루", "가을 웜", "Warm Autumn", "맥 칠리", "테라코타 립", "카멜 코트", "가을 웜톤 코디"],
+    bannerBg: "linear-gradient(135deg, #FEF3C7, #FDE68A, #D97706)",
+    accentColor: "#B45309",
+    paletteColors: [
+      { hex: "#B45309", name: "테라코타 오렌지" },
+      { hex: "#78350F", name: "골든 초콜릿" },
+      { hex: "#D97706", name: "펌킨 옐로우" },
+      { hex: "#451A03", name: "딥 브라운" },
+      { hex: "#65A30D", name: "웜 카키" },
+      { hex: "#9A3412", name: "브릭 버건디" }
+    ],
+    celebrities: ["이효리", "제니 (블랙핑크)", "신세경", "수애"],
+    features: [
+      "가을 웜톤의 본류이자 정석으로, 깊고 풍부한 옐로우 언더톤(Yellow-base)이 주는 그윽함이 돋보입니다.",
+      "PCCS 색체계에서 strong(스트롱), deep(딥), dull(덜) 영역 중 따스하고 무르익은 컬러들이 우아하고 지적인 분위기를 만듭니다.",
+      "광택보다는 벨벳, 파우더리한 매트 텍스처와 자연스러운 음영 메이크업이 고혹적인 아우라를 완성합니다."
+    ],
+    bestItems: {
+      lip: ["맥(MAC) 칠리 - 가을 웜톤의 영원한 베스트셀러 브릭 오렌지레드", "롬앤 제로 매트 립스틱 실루엣 - 포근하고 부드러운 말린 마르살라 로즈", "에스쁘아 꾸뛰르 립 플루이드 벨벳 문릿 - 깊이감 있는 칠리 브라운 무스"],
+      shadow: ["3CE 무드 레시피 오버테이크 - 단풍빛 브릭 베이지와 카키 브라운의 정석 음영", "클리오 프로 아이 팔레트 아늑한 골목길 - 은은하고 따뜻한 가을 음영 컬러 조합"],
+      blusher: ["3CE 무드 레시피 로즈 베이지 - 차분하고 분위기 있는 빈티지 말린 장미빛 블러셔", "로라메르시에 블러쉬 인퓨전 진저 - 은은하고 고급스러운 요구르트 살구 베이지"]
+    },
+    stylingTips: [
+      "카멜 트렌치코트, 테라코타 니트, 올리브 카키 팬츠 등 자연의 색채를 톤온톤으로 고급스럽게 매칭하세요.",
+      "앤틱 골드, 브론즈, 우드 소재의 볼드한 액세서리가 우아한 기품을 더욱 살려줍니다.",
+      "스웨이드, 코듀로이, 캐시미어, 트위드 등 질감이 도톰하고 따뜻한 패브릭이 찰떡궁합입니다."
+    ],
+    worstTips: [
+      "형광빛이 도는 네온 핑크, 차가운 아이시 블루, 마젠타 퍼플은 얼굴을 흙빛으로 칙칙하게 만듭니다.",
+      "극단적으로 차가운 리얼 실버 주얼리는 피부 위에서 겉돌며 조화를 깨뜨립니다."
+    ]
+  },
+  "winter-cool": {
+    id: "winter-cool",
+    name: "겨울 트루 / 쿨",
+    nameEn: "Cool Winter",
+    title: "겨울 트루/쿨 (Cool Winter) 독보적인 냉미녀의 카리스마 & 블랙 & 마젠타 스타일링",
+    description: "푸른 기의 극치와 흑백의 높은 대비감이 연출하는 압도적인 도회적 아우라! 겨울 트루/쿨의 체리 루비 레드 립, 퓨어 블랙 정장 수트, 플래티넘 주얼리 500자 정밀 스타일 가이드.",
+    keywords: ["겨울 트루", "겨울 쿨", "Cool Winter", "겨쿨 립", "루비우", "블랙 수트", "겨울 쿨톤 메이크업"],
+    bannerBg: "linear-gradient(135deg, #1E1B4B, #312E81, #1E3A8A)",
+    accentColor: "#1E3A8A",
+    paletteColors: [
+      { hex: "#1E3A8A", name: "네이비 인디고" },
+      { hex: "#831843", name: "마젠타 퍼플" },
+      { hex: "#0284C7", name: "아이스 사파이어" },
+      { hex: "#000000", name: "피트 블랙" },
+      { hex: "#9333EA", name: "바이올렛 글램" },
+      { hex: "#F1F5F9", name: "플래티넘 아이스" }
+    ],
+    celebrities: ["김혜수", "임지연", "서예지", "카리나 (에스파)"],
+    features: [
+      "겨울 쿨톤의 정석이자 중심으로, 푸른 기(Blue-base)의 차가움과 높은 명도 대비(Contrast)가 이목구비를 또렷하게 강조합니다.",
+      "PCCS 색체계에서 vivid(비비드), deep(딥), dark(다크), icy pale(페일) 영역을 아우르며, 피부의 노란 기를 완전히 없애 투명한 도회적 인상을 줍니다.",
+      "애매한 그라데이션보다 깔끔하고 정교한 선과 포인트 립을 살리는 원 포인트 메이크업이 압도적인 세련미를 뽐냅니다."
+    ],
+    bestItems: {
+      lip: ["맥(MAC) 루비우 - 푸른 기가 흐르는 독보적인 쿨 체리 레드 립스틱의 정석", "샤넬 루쥬 알뤼르 벨벳 66 - 도도하고 세련된 쿨 딥 베리 레드", "롬앤 제로 매트 립스틱 미드나잇 - 시크한 무드를 연출하는 다크 플럼 와인"],
+      shadow: ["롬앤 베러 댄 아이즈 우유 시리즈 말린 스트로베리 - 뽀얗고 쿨한 아이시 핑크 베이스", "클리오 프로 아이 팔레트 에어 모브 체리 - 다크 플럼과 차가운 실버 펄의 환상적인 조화"],
+      blusher: ["크리니크 치크팝 플럼팝 - 맑고 화사하게 얼굴빛을 밝히는 푸른기 도는 오키드 핑크", "세잔느 블러셔 14호 라벤더 핑크 - 투명한 유리알 광채의 수채화 쿨 치크"]
+    },
+    stylingTips: [
+      "선명한 제트 블랙과 퓨어 화이트의 극명한 대비 룩에 선명한 마젠타 숄더백이나 스카프로 원 포인트를 주세요.",
+      "리얼 백금 플래티넘, 고광택 다이아몬드, 화이트 골드, 은빛 체인이 본연의 카리스마를 극대화합니다.",
+      "가죽 재킷, 단단한 수트 울, 매끄러운 새틴 등 라인이 정갈하고 칼각이 잡힌 모던한 실루엣이 베스트입니다."
+    ],
+    worstTips: [
+      "카멜, 오렌지, 골드 브라운, 머스타드 등 노란 기 가득한 웜톤 컬러는 피부를 칙칙하고 흙빛으로 만듭니다.",
+      "어중간하게 탁한 회색빛 베이지나 더스티 카키는 고유의 선명한 카리스마를 흐리게 하므로 피하세요."
+    ]
   }
 };
+
+// Map aliases for inverted slugs & alternate URLs
+LONGTAIL_PAGES["warm-spring"] = LONGTAIL_PAGES["spring-warm"];
+LONGTAIL_PAGES["cool-summer"] = LONGTAIL_PAGES["summer-cool"];
+LONGTAIL_PAGES["warm-autumn"] = LONGTAIL_PAGES["autumn-warm"];
+LONGTAIL_PAGES["cool-winter"] = LONGTAIL_PAGES["winter-cool"];
+LONGTAIL_PAGES["light-spring"] = LONGTAIL_PAGES["spring-light"];
+LONGTAIL_PAGES["bright-spring"] = LONGTAIL_PAGES["spring-bright"];
+LONGTAIL_PAGES["light-summer"] = LONGTAIL_PAGES["summer-light"];
+LONGTAIL_PAGES["mute-summer"] = LONGTAIL_PAGES["summer-mute"];
+LONGTAIL_PAGES["mute-autumn"] = LONGTAIL_PAGES["autumn-mute"];
+LONGTAIL_PAGES["deep-autumn"] = LONGTAIL_PAGES["autumn-deep"];
+LONGTAIL_PAGES["bright-winter"] = LONGTAIL_PAGES["winter-bright"];
+LONGTAIL_PAGES["deep-winter"] = LONGTAIL_PAGES["winter-deep"];
 
 interface LongtailProps {
   pageId: string;
@@ -656,6 +822,60 @@ export default function PersonalColorLongtail({ pageId, onBack, lang, setLang }:
                   ))}
                 </ul>
               </div>
+            </div>
+          </div>
+
+          {/* 12-Type Directory Quick Navigation Grid */}
+          <div className="bg-white border border-[#FAF0E6] rounded-2xl p-6 shadow-sm" id="all-12-types-directory">
+            <h3 className="text-base font-extrabold text-[#3c3029] mb-3 flex items-center gap-2">
+              <span>🌈</span>
+              {lang === "ko" ? "12가지 전체 퍼스널 컬러 타입 탐색하기" : "Explore All 12 Personal Color Types"}
+            </h3>
+            <p className="text-xs text-gray-500 mb-4">
+              {lang === "ko"
+                ? "각 타입별 500자 상세 분석 가이드, 시그니처 팔레트, 메이크업 인생템 및 워스트 색상을 확인해 보세요."
+                : "Browse detailed 500-character guides, signature palettes, life items, and styling tips for each type."}
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+              {[
+                { id: "spring-light", label: "봄 라이트", labelEn: "Spring Light", color: "#FFDAB9" },
+                { id: "spring-bright", label: "봄 브라이트", labelEn: "Spring Bright", color: "#FF6B35" },
+                { id: "spring-warm", label: "봄 트루/웜", labelEn: "Warm Spring", color: "#D97706" },
+                { id: "summer-light", label: "여름 라이트", labelEn: "Summer Light", color: "#93C5FD" },
+                { id: "summer-cool", label: "여름 트루/쿨", labelEn: "Cool Summer", color: "#2563EB" },
+                { id: "summer-mute", label: "여름 뮤트", labelEn: "Summer Mute", color: "#A89088" },
+                { id: "autumn-mute", label: "가을 뮤트", labelEn: "Autumn Mute", color: "#C4703A" },
+                { id: "autumn-warm", label: "가을 트루/웜", labelEn: "Warm Autumn", color: "#B45309" },
+                { id: "autumn-deep", label: "가을 딥", labelEn: "Autumn Deep", color: "#8B4520" },
+                { id: "winter-cool", label: "겨울 트루/쿨", labelEn: "Cool Winter", color: "#1E3A8A" },
+                { id: "winter-bright", label: "겨울 브라이트", labelEn: "Winter Bright", color: "#C80065" },
+                { id: "winter-deep", label: "겨울 딥", labelEn: "Winter Deep", color: "#4A0033" },
+              ].map((t) => {
+                const isActive = pageData.id === t.id;
+                return (
+                  <a
+                    key={t.id}
+                    href={`/types/${t.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.history.pushState(null, "", `/types/${t.id}`);
+                      window.dispatchEvent(new PopStateEvent("popstate"));
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className={`flex items-center gap-2 p-2.5 rounded-xl border text-xs font-bold transition ${
+                      isActive
+                        ? "bg-[#FAF0E6] border-[#D97706] text-[#3c3029] shadow-sm ring-1 ring-[#D97706]"
+                        : "bg-neutral-50 hover:bg-neutral-100 border-neutral-200 text-gray-700 hover:border-gray-300"
+                    }`}
+                  >
+                    <span
+                      className="w-3.5 h-3.5 rounded-full shrink-0 shadow-inner"
+                      style={{ backgroundColor: t.color }}
+                    />
+                    <span className="truncate">{lang === "ko" ? t.label : t.labelEn}</span>
+                  </a>
+                );
+              })}
             </div>
           </div>
 

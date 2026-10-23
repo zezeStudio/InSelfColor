@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import KakaoAdBanner, { KakaoTopBanner, KakaoMiddleBanner } from "./KakaoAdBanner";
+import { GUIDE_ARTICLES } from "./GuideArticlePage";
 
 // ─────────────────────────────────────────────────────────
 // PCCS 24 HUE DATA
@@ -1434,6 +1435,99 @@ export default function PersonalColorGuide({ onBack, lang = "ko", setLang }: Per
               <div className="tip-title">{tip.t}</div>
               <div className="tip-desc">{tip.d}</div>
             </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="g-sep"/>
+
+      {/* ── COLUMN ARTICLES ── */}
+      <section className="gsec" ref={setRef("columns")}>
+        <div className="sec-label">In-Depth Columns</div>
+        <h2 className="sec-title">{lang === "ko" ? "📚 퍼스널컬러 심화 칼럼 시리즈" : "📚 In-Depth Column Articles"}</h2>
+        <div className="sec-divider"/>
+        <p className="sec-desc">
+          {lang === "ko"
+            ? "색채학 원리부터 메이크업, 패션 코디, 남성 스타일링까지 전문 컬러리스트 연구팀의 알짜 노하우를 담았습니다."
+            : "From colorimetric science to makeup matching, contrast rules, and men's styling."}
+        </p>
+
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: "18px",
+          marginTop: "24px"
+        }}>
+          {Object.values(GUIDE_ARTICLES).map((art) => (
+            <a
+              key={art.slug}
+              href={`/guide/${art.slug}`}
+              onClick={(e) => {
+                e.preventDefault();
+                window.history.pushState(null, "", `/guide/${art.slug}`);
+                window.dispatchEvent(new PopStateEvent("popstate"));
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                textDecoration: "none",
+                background: "#ffffff",
+                border: "1px solid rgba(196,149,106,0.22)",
+                borderRadius: "20px",
+                padding: "24px",
+                boxShadow: "0 4px 16px rgba(61,43,26,0.03)",
+                transition: "all 0.2s ease",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                <span style={{
+                  background: "rgba(196,149,106,0.12)",
+                  color: "#A17349",
+                  padding: "4px 10px",
+                  borderRadius: "100px",
+                  fontSize: "11px",
+                  fontWeight: 800
+                }}>
+                  {lang === "ko" ? art.category : art.categoryEn}
+                </span>
+                <span style={{ fontSize: "11px", color: "var(--sub)" }}>⏱️ {art.readTime}</span>
+              </div>
+              <h3 style={{
+                fontSize: "16px",
+                fontWeight: 800,
+                color: "#3E2814",
+                lineHeight: 1.45,
+                margin: "0 0 10px 0"
+              }}>
+                {lang === "ko" ? art.title : art.titleEn}
+              </h3>
+              <p style={{
+                fontSize: "12.5px",
+                color: "var(--sub)",
+                lineHeight: 1.6,
+                margin: 0,
+                display: "-webkit-box",
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden"
+              }}>
+                {lang === "ko" ? art.summary : art.summaryEn}
+              </p>
+              <div style={{
+                marginTop: "auto",
+                paddingTop: "14px",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+                fontSize: "12px",
+                fontWeight: 700,
+                color: "#C4956A"
+              }}>
+                <span>{lang === "ko" ? "칼럼 읽기" : "Read Article"}</span>
+                <span>→</span>
+              </div>
+            </a>
           ))}
         </div>
       </section>

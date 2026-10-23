@@ -1,10 +1,9 @@
 <!doctype html>
 <html lang="ko">
   <head>
-    <!-- Google AdSense -->
-    <meta name="google-adsense-account" content="ca-pub-6665469928782647">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6665469928782647"
-     crossorigin="anonymous"></script>
+    <!-- Google AdSense Verification Meta & Script -->
+    <meta name="google-adsense-account" content="ca-pub-6665469928782647" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6665469928782647" crossorigin="anonymous"></script>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0VBW5XZ44B"></script>
@@ -12,7 +11,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-0VBW5XZ44B');
     </script>
 
@@ -27,15 +25,17 @@
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="https://inselfcolor.pages.dev/" />
     <link rel="icon" type="image/png" sizes="32x32" href="/images/seasons/favicon.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/images/seasons/favicon.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/images/seasons/favicon.png" />
     
-    <!-- Font Preconnect & DNS-Prefetch Optimization (Eliminates Render-Blocking Font Link Warning) -->
+    <!-- Font Preconnect & DNS-Prefetch Optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+KR:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" />
     
     <!-- Google & Naver Search Engine Optimization (SEO) Standard Tags -->
     <meta name="naver-site-verification" content="e13819562fe260121ef28b24b256d2f41c99fa6c" />
@@ -43,91 +43,315 @@
     <meta name="description" content="100% 무료 퍼스널컬러 자가진단 테스트! 사진 한 장으로 나의 웜톤 쿨톤(봄웜, 여름쿨, 가을웜, 겨울쿨) 및 세부 PCCS 명도·채도 톤을 즉시 분석하고, 이에 맞는 헤어 염색, 색조 메이크업, 패션 의상 코디 스타일 추천 가이드를 실시간으로 받아보세요." />
     <meta name="keywords" content="퍼스널컬러 자가진단, 퍼스널컬러 테스트, 퍼스널컬러, 웜톤 쿨톤 테스트, 무료 퍼스널컬러 진단, 퍼스널컬러 무료, 웜톤쿨톤, 봄웜, 여름쿨, 가을웜, 겨울쿨, PCCS 색채, 명도, 채도, 뷰티 스타일링, 패션 코디, 인셀프 컬러" />
     
-    <!-- Open Graph (OG) Meta Tags for SNS & Chat Previews (Naver, Kakao, Facebook) -->
+    <!-- Open Graph (OG) Meta Tags for SNS & Chat Previews -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="퍼스널컬러 자가진단 테스트: 무료 웜톤 쿨톤 진단 | 인셀프 컬러" />
     <meta property="og:description" content="사진 한 장으로 끝내는 100% 무료 퍼스널컬러 자가진단 테스트! 봄웜·여름쿨·가을웜·겨울쿨 및 PCCS 세부 톤 기반의 맞춤 메이크업, 염색, 코디 가이드를 지금 바로 확인하세요." />
     <meta property="og:image" content="https://inselfcolor.pages.dev/images/seasons/Winter.png" />
-    <meta property="og:url" content="https://inselfcolor.pages.dev" />
+    <meta property="og:url" content="https://inselfcolor.pages.dev/" />
     <meta property="og:site_name" content="인셀프 컬러" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="퍼스널컬러 자가진단 테스트: 무료 웜톤 쿨톤 진단 | 인셀프 컬러" />
+    <meta name="twitter:description" content="100% 무료 퍼스널컬러 자가진단 테스트! 사진 한 장으로 웜톤·쿨톤 세부 12타입을 분석하고 맞춤 메이크업과 스타일링 팁을 확인하세요." />
+    <meta name="twitter:image" content="https://inselfcolor.pages.dev/images/seasons/Winter.png" />
     
-    <!-- Beautiful Loading Screen Styles (Replaced by React Virtual DOM on Mount) -->
+    <!-- Beautiful Base Styles -->
     <style>
+      :root {
+        --cream: #FDF8F2;
+        --rg: #C4956A;
+        --dark: #1E1410;
+        --text: #3D2B1A;
+        --sub: #7A6052;
+        --border: rgba(196, 149, 106, 0.20);
+      }
       body {
         margin: 0;
         padding: 0;
-        background-color: #FDF8F2;
-        color: #5A4A42;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: var(--cream);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Malgun Gothic", "맑은 고딕", Roboto, sans-serif;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
       }
-      /* Clean centered loading screen displayed while React is booting */
-      .app-loader {
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .pre-container {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 24px 20px 60px;
+        box-sizing: border-box;
+      }
+      .pre-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0 20px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .pre-logo {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--dark);
+        letter-spacing: -0.02em;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .pre-logo span {
+        color: var(--rg);
+        font-style: italic;
+      }
+      .pre-nav {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .pre-nav a {
+        color: var(--sub);
+        padding: 6px 12px;
+        border-radius: 100px;
+        background: rgba(196, 149, 106, 0.08);
+        border: 1px solid rgba(196, 149, 106, 0.2);
+        transition: background 0.2s;
+      }
+      .pre-nav a:hover {
+        background: rgba(196, 149, 106, 0.18);
+        color: var(--dark);
+      }
+      .pre-notice {
+        background: rgba(224, 155, 61, 0.09);
+        border: 1px solid rgba(224, 155, 61, 0.35);
+        border-radius: 14px;
+        padding: 14px 18px;
+        margin-bottom: 28px;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 13px;
+        line-height: 1.65;
+        color: #7A4B13;
+      }
+      .pre-hero {
+        text-align: center;
+        padding: 20px 0 32px;
+      }
+      .pre-badge {
+        display: inline-block;
+        background: rgba(196, 149, 106, 0.12);
+        color: var(--rg);
+        padding: 4px 14px;
+        border-radius: 100px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        margin-bottom: 12px;
+      }
+      .pre-h1 {
+        font-size: clamp(26px, 5vw, 38px);
+        font-weight: 800;
+        color: var(--dark);
+        margin: 0 0 14px;
+        line-height: 1.25;
+        letter-spacing: -0.02em;
+      }
+      .pre-h1 span {
+        color: var(--rg);
+      }
+      .pre-desc {
+        font-size: 15px;
+        color: var(--sub);
+        max-width: 640px;
+        margin: 0 auto 24px;
+        line-height: 1.8;
+      }
+      .pre-btn-main {
+        display: inline-block;
+        background: linear-gradient(135deg, #C4956A, #E8AA80);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 14px 36px;
+        border-radius: 100px;
+        box-shadow: 0 6px 20px rgba(196, 149, 106, 0.35);
+      }
+      .pre-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 28px;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 24px rgba(61, 43, 26, 0.04);
+        margin-bottom: 30px;
+      }
+      .pre-card h2 {
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--dark);
+        margin: 0 0 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1.5px solid rgba(196, 149, 106, 0.2);
+        padding-bottom: 10px;
+      }
+      .pre-grid-4 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+      }
+      .pre-season-box {
+        background: #FAF6F1;
+        border-radius: 14px;
+        padding: 18px;
+        border: 1px solid rgba(196, 149, 106, 0.2);
+      }
+      .pre-season-title {
+        font-weight: 800;
+        font-size: 15px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .pre-season-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: #FDF8F2;
-        z-index: 9999;
+        gap: 6px;
+        font-size: 13px;
       }
-      .app-loader-spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid rgba(196, 149, 106, 0.15);
-        border-radius: 50%;
-        border-top-color: #C4956A;
-        animation: loader-spin 1s linear infinite;
+      .pre-season-list a {
+        color: var(--rg);
+        font-weight: 600;
+        text-decoration: underline;
       }
-      .app-loader-text {
-        margin-top: 18px;
+      .pre-season-list a:hover {
+        color: var(--dark);
+      }
+      .pre-guide-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 14px;
+        margin-top: 16px;
+      }
+      .pre-guide-item {
+        background: #FAF6F1;
+        border-radius: 12px;
+        padding: 16px;
+        border: 1px solid rgba(196, 149, 106, 0.16);
+      }
+      .pre-guide-item h3 {
+        margin: 0 0 6px;
         font-size: 14px;
         font-weight: 700;
-        color: #C4956A;
-        letter-spacing: -0.5px;
-        font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Inter", sans-serif;
       }
-      @keyframes loader-spin {
-        to { transform: rotate(360deg); }
+      .pre-guide-item p {
+        margin: 0;
+        font-size: 12.5px;
+        color: var(--sub);
+        line-height: 1.6;
+      }
+      .pre-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+        text-align: center;
+        margin-top: 14px;
+      }
+      .pre-table th, .pre-table td {
+        padding: 10px 8px;
+        border: 1px solid rgba(196, 149, 106, 0.2);
+      }
+      .pre-table th {
+        background: rgba(196, 149, 106, 0.12);
+        font-weight: 700;
+        color: var(--dark);
+      }
+      .pre-faq-item {
+        border-bottom: 1px solid rgba(196, 149, 106, 0.15);
+        padding: 14px 0;
+      }
+      .pre-faq-item:last-child {
+        border-bottom: none;
+      }
+      .pre-faq-q {
+        font-weight: 700;
+        font-size: 14.5px;
+        color: var(--dark);
+        margin-bottom: 6px;
+      }
+      .pre-faq-a {
+        font-size: 13.5px;
+        color: var(--sub);
+        line-height: 1.7;
+      }
+      .pre-footer {
+        text-align: center;
+        font-size: 12px;
+        color: var(--sub);
+        margin-top: 40px;
+        border-top: 1px solid var(--border);
+        padding-top: 24px;
+      }
+      .pre-footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+      .pre-footer-links a {
+        color: var(--sub);
+        text-decoration: underline;
       }
     </style>
     
-    <!-- Structured Data (Naver, Google & AI Crawlers JSON-LD Schema Integration) -->
+    <!-- Structured Data (Schema.org JSON-LD) -->
     <script type="application/ld+json">
     [
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "InSelf Color",
-        "url": "https://inselfcolor.pages.dev",
-        "description": "InSelf Color는 단 한 장의 정면 사진으로 사용자의 퍼스널 컬러를 진단하고 비주얼 PCCS 가이드를 제시하는 무료 자가진단 서비스입니다.",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://inselfcolor.pages.dev/?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        },
-        "inLanguage": ["ko", "en"]
+        "name": "InSelf Color (인셀프 컬러)",
+        "url": "https://inselfcolor.pages.dev/",
+        "description": "사진 한 장으로 나의 퍼스널컬러(웜톤, 쿨톤, 4계절 12세부타입)를 과학적 PCCS 색채학 및 CIE L*a*b* 알고리즘으로 무료 자가진단하는 온라인 뷰티 스타일링 분석 플랫폼입니다.",
+        "inLanguage": "ko"
       },
       {
         "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "InSelf Color",
-        "url": "https://inselfcolor.pages.dev",
-        "operatingSystem": "All",
+        "@type": "WebApplication",
+        "name": "InSelf Color - 퍼스널컬러 무료 자가진단",
+        "url": "https://inselfcolor.pages.dev/",
         "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "All",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "KRW"
         },
-        "description": "카메라 실시간 이미지 및 업로드된 정면 인면 사진을 분석하여 봄웜, 여름쿨, 가을웜, 겨울쿨의 상세 PCCS 퍼스널 컬러 카테고리를 고해상도 그래픽 가이드라인으로 무상 즉시 피드백 해주는 스마트 웹 애플리케이션입니다.",
+        "description": "클라이언트 브라우저 로컬 픽셀 분석을 통해 개인정보 유출 없이 즉시 봄웜·여름쿨·가을웜·겨울쿨 및 PCCS 12톤을 분석하고 맞춤 메이크업, 염색, 의상 코디 가이드를 제공합니다.",
         "author": {
           "@type": "Organization",
-          "name": "InSelf Studio",
-          "url": "https://inselfcolor.pages.dev"
+          "name": "InSelf Studio Labs",
+          "url": "https://inselfcolor.pages.dev/",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "rudcjf11@nate.com",
+            "contactType": "customer support"
+          }
         }
       },
       {
@@ -136,26 +360,50 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "퍼스널 컬러 테스트가 정확한가요?",
+            "name": "퍼스널 컬러 자가진단 테스트의 정확도는 어느 정도인가요?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "본 진단은 카메라로 촬영된 사진에서 피부 영역을 스스로 감지하여 정밀한 RGB 색상 스펙트럼, 웜/쿨 언더톤(골드-옐로우와 블루-핑크 베이스의 비율), 그리고 전체 밝기(명도)와 채도를 수학적 알고리즘으로 분석하는 시스템입니다. 오프라인 전문가의 정밀 진단과는 차이가 있을 수 있으니 스타일링 팁을 얻는 참고용으로 활용해 주세요."
+              "text": "InSelf Color는 사용자의 정면 얼굴 사진에서 피부 영역을 자동으로 감지하여 RGB 색상 스펙트럼, 웜/쿨 언더톤(골드-옐로우와 블루-핑크 베이스의 비율), 그리고 CIE L*a*b* 색 공간 기준의 밝기(명도)와 채도를 수학적 알고리즘으로 분석합니다. 일본 색채 연구소(JCRI)의 PCCS 실용색채계 12톤 좌표와 매핑되어 높은 객관성을 지니며, 일상 스타일링과 쇼핑 시 매우 유용한 가이드가 됩니다."
             }
           },
           {
             "@type": "Question",
-            "name": "사진은 어떻게 처리되나요?",
+            "name": "업로드한 사진은 안전하게 보호되나요?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "InSelf Color는 업로드하신 소중한 얼굴 사진을 절대로 외부 서버에 전송하거나 저장하지 않습니다. 모든 색상 좌표 픽셀 추출, 이미지 처리, 통계 매칭 분석 알고리즘은 사용자의 웹 브라우저(로컬 디바이스) 내부 메모리 상에서만 즉시 계산되고 폐기됩니다. 테스트 창을 닫거나 새로고침을 누르시면 업로드했던 사진 데이터는 물리적으로 완전히 흔적 없이 소멸됩니다."
+              "text": "인셀프 컬러는 업로드하신 소중한 얼굴 사진을 절대로 외부 서버로 전송하거나 저장하지 않습니다. 모든 이미지 처리와 색채 통계 분석은 사용자 웹 브라우저(로컬 디바이스) 내부 메모리(RAM) 상에서만 즉시 계산되고 폐기됩니다. 페이지를 새로고침하거나 창을 닫으면 사진 데이터는 물리적으로 완전히 소멸됩니다."
             }
           },
           {
             "@type": "Question",
-            "name": "어떤 사진을 업로드해야 하나요?",
+            "name": "어떤 사진을 업로드해야 가장 정확한 결과를 얻을 수 있나요?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "밝고 부드러운 자연광 아래에서 촬영된 보정이 적은 정면 얼굴 원본 사진이 가장 정확합니다. 노란 조명이나 붉은 조명, 필터 앱은 피부톤에 왜곡을 줄 수 있으므로 가급적 기본 카메라 민낯 상태의 정면 사진을 권장합니다."
+              "text": "자연광(흐린 날 창가 또는 부드러운 주광) 아래에서 촬영한 필터 없는 정면 민낯 사진이 가장 정확합니다. 노란 조명이나 붉은 조명, 과도한 메이크업, 뷰티 필터는 고유 피부톤에 왜곡을 줄 수 있으므로 기본 카메라 원본 사진을 권장합니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "봄웜, 여름쿨, 가을웜, 겨울쿨 4계절 타입은 어떻게 나뉘나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "퍼스널컬러는 피부 언더톤(옐로우 베이스=웜톤, 블루/핑크 베이스=쿨톤)과 피부의 밝기(고명도/중명도/저명도), 색의 선명도(고채도/중채도/저채도)의 결합으로 나뉩니다. 봄웜은 밝고 화사한 맑은 톤, 여름쿨은 부드럽고 차분한 파스텔 톤, 가을웜은 깊고 그윽한 어스 톤, 겨울쿨은 선명하고 대비감이 강한 톤이 어울립니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "퍼스널컬러 진단 결과는 무료로 저장하거나 공유할 수 있나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "네, 인셀프 컬러의 모든 진단 기능과 종합 리포트, SNS 공유용 카드 이미지 다운로드는 100% 무료로 무제한 제공됩니다. 진단 결과를 이미지로 저장하여 스마트폰 갤러리에 소장하거나 쇼핑 시 참고용으로 언제든 활용하실 수 있습니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "서비스 문의나 제휴는 어디로 연락하면 되나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "InSelf Studio Labs의 공식 지원 및 학술 제휴 문의 이메일은 rudcjf11@nate.com 입니다. 사용자 의견과 기능 개선 요청을 적극 수렴하고 있습니다."
             }
           }
         ]
@@ -164,14 +412,292 @@
     </script>
   </head>
   <body>
+    <!-- 
+      Pre-rendered SEO & AdSense Compliant Static Structure.
+      When JavaScript is enabled, React dynamically mounts into #root and renders the interactive SPA.
+      For web crawlers (Googlebot, Mediapartners-Google) and users with JS disabled, 
+      this rich, semantic content guarantees immediate authoritative readability, E-E-A-T signals, and internal crawlable links.
+    -->
     <div id="root">
-      <!-- Clean loading indicator shown to real users while React is booting -->
-      <div class="app-loader">
-        <div class="app-loader-spinner"></div>
-        <div class="app-loader-text">인셀프 컬러 로딩 중...</div>
+      <div class="pre-container">
+        <!-- Site Navigation -->
+        <header class="pre-header">
+          <div class="pre-logo">
+            ✨ InSelf<span>Color</span>
+          </div>
+          <nav class="pre-nav" aria-label="메인 메뉴">
+            <a href="/guide">📖 PCCS 색채학 가이드</a>
+            <a href="/about">🏢 서비스 소개</a>
+            <a href="/contact">📫 문의하기</a>
+            <a href="/privacy">🔒 개인정보처리방침</a>
+            <a href="/terms">📄 이용약관</a>
+          </nav>
+        </header>
+
+        <!-- Active Development & Live Update Notice Banner -->
+        <aside class="pre-notice" id="update-notice">
+          <span style="font-size: 20px; line-height: 1;">⚠️</span>
+          <div>
+            <strong style="display: block; font-size: 13.5px; margin-bottom: 2px;">서비스 상시 개발 및 무작위 실시간 업데이트 안내</strong>
+            <span>현재 인셀프 컬러는 알고리즘 고도화 및 세부 톤 정밀도 향상을 위해 상시 개발 및 유지관리가 이루어지고 있습니다. 정해진 주기 없이 무작위로 실시간 업데이트가 배포되므로, 업데이트 진행 중에는 일시적으로 사이트 접속이나 분석 기능이 불안정할 수 있습니다. 사용자 여러분의 너른 양해 부탁드립니다.</span>
+          </div>
+        </aside>
+
+        <!-- Main Hero Section -->
+        <main>
+          <section class="pre-hero">
+            <div class="pre-badge">✦ 100% FREE PERSONAL COLOR ANALYSIS</div>
+            <h1 class="pre-h1">퍼스널컬러 자가진단 테스트<br /><span>나만의 웜톤 쿨톤 & 12세부톤 찾기</span></h1>
+            <p class="pre-desc">
+              사진 한 장으로 끝내는 과학적 퍼스널컬러 자가진단! 일본 색채 연구소(JCRI)의 <strong>PCCS 실용색채계</strong>와 <strong>CIE L*a*b* 색 공간 모델</strong>을 기반으로 피부 픽셀을 분석하여 봄웜·여름쿨·가을웜·겨울쿨 및 세부 12톤을 정확하게 진단하고, 맞춤 메이크업·헤어 염색·패션 코디 가이드를 실시간으로 무료 제공합니다.
+            </p>
+            <div>
+              <a href="#test-section" class="pre-btn-main">📸 무료 진단 시작하기</a>
+            </div>
+          </section>
+
+          <!-- 3-Step Process Guide -->
+          <section class="pre-card">
+            <h2>🔬 3단계 스마트 퍼스널컬러 분석 과정</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 14px;">
+              <div style="background:#FAF6F1; padding: 18px; border-radius: 12px; border: 1px solid rgba(196,149,106,0.18);">
+                <div style="font-size: 24px; margin-bottom: 6px;">📸 STEP 01</div>
+                <div style="font-weight: 700; font-size: 14.5px; margin-bottom: 4px;">얼굴 사진 업로드</div>
+                <div style="font-size: 13px; color: var(--sub);">자연광 아래에서 촬영된 보정 없는 정면 얼굴 사진을 업로드하거나 실시간 카메라로 촬영합니다.</div>
+              </div>
+              <div style="background:#FAF6F1; padding: 18px; border-radius: 12px; border: 1px solid rgba(196,149,106,0.18);">
+                <div style="font-size: 24px; margin-bottom: 6px;">🧪 STEP 02</div>
+                <div style="font-weight: 700; font-size: 14.5px; margin-bottom: 4px;">색채 알고리즘 분석</div>
+                <div style="font-size: 13px; color: var(--sub);">피부 영역 픽셀을 정밀 필터링하여 멜라닌/헤모글로빈 반사율 모델과 CIE L*a*b* 언더톤을 산출합니다.</div>
+              </div>
+              <div style="background:#FAF6F1; padding: 18px; border-radius: 12px; border: 1px solid rgba(196,149,106,0.18);">
+                <div style="font-size: 24px; margin-bottom: 6px;">🎨 STEP 03</div>
+                <div style="font-weight: 700; font-size: 14.5px; margin-bottom: 4px;">맞춤 결과 & 스타일 가이드</div>
+                <div style="font-size: 13px; color: var(--sub);">사계절 12세부 톤 결과표, 베스트/워스트 컬러칩, 메이크업·파운데이션·패션 의상 추천 리포트를 확인합니다.</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4 Seasons and 12 Subtypes Grid with Direct Native Crawl Links -->
+          <section class="pre-card">
+            <h2>🌸 4계절 퍼스널컬러 & 12세부 톤 도감</h2>
+            <p style="font-size: 13.5px; color: var(--sub); margin: 0 0 16px;">
+              인셀프 컬러는 4계절 분류에 그치지 않고, 명도와 채도의 조합에 따른 세부 12가지 타입을 정밀하게 구분하여 최적의 스타일링 솔루션을 제안합니다.
+            </p>
+            <div class="pre-grid-4">
+              <!-- Spring -->
+              <div class="pre-season-box">
+                <div class="pre-season-title" style="color: #D96A3A;">🌸 봄 웜톤 (Spring Warm)</div>
+                <p style="font-size: 12.5px; color: var(--sub); margin-bottom: 8px;">밝고 화사한 황금빛 언더톤, 복숭아빛 생기와 높은 명도의 맑은 컬러가 어울리는 타입</p>
+                <ul class="pre-season-list">
+                  <li>• <a href="/types/spring-light">라이트 스프링 (Light Spring)</a></li>
+                  <li>• <a href="/types/spring-warm">웜 스프링 (Warm / True Spring)</a></li>
+                  <li>• <a href="/types/spring-bright">브라이트 스프링 (Bright Spring)</a></li>
+                </ul>
+              </div>
+
+              <!-- Summer -->
+              <div class="pre-season-box">
+                <div class="pre-season-title" style="color: #5274A8;">🌊 여름 쿨톤 (Summer Cool)</div>
+                <p style="font-size: 12.5px; color: var(--sub); margin-bottom: 8px;">핑크·로즈빛 쿨 베이스, 부드러운 안개처럼 은은하고 차분한 파스텔 톤이 어울리는 타입</p>
+                <ul class="pre-season-list">
+                  <li>• <a href="/types/summer-light">라이트 서머 (Light Summer)</a></li>
+                  <li>• <a href="/types/summer-cool">쿨 서머 (Cool / True Summer)</a></li>
+                  <li>• <a href="/types/summer-mute">뮤트 서머 (Muted Summer)</a></li>
+                </ul>
+              </div>
+
+              <!-- Autumn -->
+              <div class="pre-season-box">
+                <div class="pre-season-title" style="color: #8B4520;">🍂 가을 웜톤 (Autumn Warm)</div>
+                <p style="font-size: 12.5px; color: var(--sub); margin-bottom: 8px;">깊고 그윽한 골드 브론즈 베이스, 카멜·테라코타 등 풍부한 어스톤이 잘 어울리는 성숙한 타입</p>
+                <ul class="pre-season-list">
+                  <li>• <a href="/types/autumn-mute">뮤트 어텀 (Muted / Soft Autumn)</a></li>
+                  <li>• <a href="/types/autumn-warm">웜 어텀 (Warm / True Autumn)</a></li>
+                  <li>• <a href="/types/autumn-deep">딥 어텀 (Deep Autumn)</a></li>
+                </ul>
+              </div>
+
+              <!-- Winter -->
+              <div class="pre-season-box">
+                <div class="pre-season-title" style="color: #234B73;">❄️ 겨울 쿨톤 (Winter Cool)</div>
+                <p style="font-size: 12.5px; color: var(--sub); margin-bottom: 8px;">푸른빛의 차가운 베이스, 블랙앤화이트 대비감과 선명한 비비드·아이시 컬러가 돋보이는 모던 타입</p>
+                <ul class="pre-season-list">
+                  <li>• <a href="/types/winter-bright">브라이트 윈터 (Bright Winter)</a></li>
+                  <li>• <a href="/types/winter-cool">쿨 윈터 (Cool / True Winter)</a></li>
+                  <li>• <a href="/types/winter-deep">딥 윈터 (Deep Winter)</a></li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- PCCS & CIE Color Science Theory Table -->
+          <section class="pre-card">
+            <h2>📚 PCCS 색채학 좌표계 및 진단 알고리즘</h2>
+            <p style="font-size: 13.5px; color: var(--sub); line-height: 1.7; margin-bottom: 12px;">
+              인셀프 컬러의 분석 모델은 일본 색채 연구소(JCRI)의 <strong>PCCS(Practical Color Coordinate System, 실용색채계)</strong>와 <strong>먼셀의 3속성 체계(Hue, Value, Chroma / 한국 공업 규격 KS A 0062)</strong>에 근거합니다. 디지털 카메라로 입력된 RGB 신호를 국제 조명 위원회의 <strong>CIE L*a*b* 균등 색 공간</strong>으로 변환하여 피부의 멜라닌(Melanin) 및 헤모글로빈(Hemoglobin) 분광 반사율 가중치를 계산합니다.
+            </p>
+            <div style="overflow-x: auto;">
+              <table class="pre-table">
+                <thead>
+                  <tr>
+                    <th>시즌 카테고리</th>
+                    <th>피부 언더톤 성향</th>
+                    <th>명도(Value) 프로필</th>
+                    <th>채도(Chroma) 프로필</th>
+                    <th>매칭 PCCS 톤</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-weight:700; color:#D96A3A;">봄 웜 (Spring)</td>
+                    <td>황금빛·옐로우 베이스</td>
+                    <td>고명도 (Value 6.5 ~ 9.0)</td>
+                    <td>중~고채도 (Chroma 5.0 ~ 9.0)</td>
+                    <td>Bright, Light, Pale, Vivid</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:700; color:#5274A8;">여름 쿨 (Summer)</td>
+                    <td>핑크·블루 베이스</td>
+                    <td>고명도 (Value 6.0 ~ 9.0)</td>
+                    <td>저~중채도 (Chroma 2.0 ~ 5.5)</td>
+                    <td>Light, Pale, Soft, Dull</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:700; color:#8B4520;">가을 웜 (Autumn)</td>
+                    <td>올리브·구리빛 웜 베이스</td>
+                    <td>중~저명도 (Value 2.5 ~ 5.5)</td>
+                    <td>중~고채도 (Chroma 3.5 ~ 8.0)</td>
+                    <td>Strong, Deep, Dark, Muted</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:700; color:#234B73;">겨울 쿨 (Winter)</td>
+                    <td>푸른빛 차가운 쿨 베이스</td>
+                    <td>극저/극고 (Value 1.0, 9.0)</td>
+                    <td>고채도 (Chroma 6.5 ~ 9.0)</td>
+                    <td>Vivid, Bright, Dark, Deep</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Editorial Columns & In-depth Guides Hub -->
+          <section class="pre-card">
+            <h2>📖 퍼스널컬러 전문 칼럼 & 심층 가이드</h2>
+            <p style="font-size: 13.5px; color: var(--sub); margin-bottom: 14px;">
+              색채 전문가와 연구진이 집필한 고품질 스타일링 가이드북과 색채학 해설 콘텐츠를 열람해 보세요.
+            </p>
+            <div class="pre-guide-grid">
+              <div class="pre-guide-item">
+                <h3><a href="/guide/pccs-color-system" style="color:var(--rg); text-decoration:underline;">PCCS 24색상환과 12톤 좌표계 해설</a></h3>
+                <p>일본 색채 연구소의 PCCS 실용색채계가 현대 퍼스널컬러의 글로벌 표준이 된 원리를 명쾌하게 분석합니다.</p>
+              </div>
+              <div class="pre-guide-item">
+                <h3><a href="/guide/warm-vs-cool" style="color:var(--rg); text-decoration:underline;">웜톤 vs 쿨톤 구별법과 과학적 원리</a></h3>
+                <p>혈관 색, 피부 반사광, 금은 악세사리 반응을 통해 피부 언더톤의 생물학적 기전을 살펴봅니다.</p>
+              </div>
+              <div class="pre-guide-item">
+                <h3><a href="/guide/four-seasons-overview" style="color:var(--rg); text-decoration:underline;">사계절 퍼스널컬러 종합 분석 가이드</a></h3>
+                <p>봄, 여름, 가을, 겨울의 고유 이미지와 대표 연출법, 패션 컬러 팔레트를 총망라합니다.</p>
+              </div>
+              <div class="pre-guide-item">
+                <h3><a href="/guide/skin-tone-reflectance" style="color:var(--rg); text-decoration:underline;">피부 반사율과 멜라닌·헤모글로빈 스펙트럼</a></h3>
+                <p>피부 속 멜라닌과 산화 헤모글로빈이 피부톤 색조(L*a*b*)를 결정하는 디지털 이미지 과학을 밝힙니다.</p>
+              </div>
+              <div class="pre-guide-item">
+                <h3><a href="/guide/makeup-matching" style="color:var(--rg); text-decoration:underline;">퍼스널컬러 맞춤 메이크업 가이드</a></h3>
+                <p>파운데이션 홋수, 치크, 아이섀도우, 립스틱의 톤별 베스트 컬러 조합을 상세히 추천합니다.</p>
+              </div>
+              <div class="pre-guide-item">
+                <h3><a href="/guide/fashion-contrast" style="color:var(--rg); text-decoration:underline;">패션 대비감과 명도 조화 스타일링 법칙</a></h3>
+                <p>이목구비 대비감에 맞춘 상하의 배색 기법과 실패 없는 톤온톤·톤인톤 코디 공식을 안내합니다.</p>
+              </div>
+              <div class="pre-guide-item">
+                <h3><a href="/guide/men-personal-color" style="color:var(--rg); text-decoration:underline;">남성을 위한 퍼스널컬러 진단 가이드</a></h3>
+                <p>남성 수트 정장, 셔츠, 넥타이 및 그루밍 톤 매칭을 위한 현실적인 스타일링 솔루션입니다.</p>
+              </div>
+              <div class="pre-guide-item">
+                <h3><a href="/guide/worst-color-solution" style="color:var(--rg); text-decoration:underline;">워스트 컬러 극복법과 스마트 배색</a></h3>
+                <p>내 톤에 맞지 않는 옷이라도 얼굴과 거리를 두는 레이어드와 이너 배색으로 소화하는 실전 팁입니다.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Comprehensive FAQ Section -->
+          <section class="pre-card">
+            <h2>❓ 자주 묻는 질문 (FAQ)</h2>
+            <div class="pre-faq-item">
+              <div class="pre-faq-q">Q1. 퍼스널컬러 자가진단은 어떤 알고리즘으로 측정되나요?</div>
+              <div class="pre-faq-a">인셀프 컬러는 업로드된 정면 얼굴 사진에서 눈, 입술, 배경을 배제하고 순수 피부 영역 픽셀 수만 개를 자동 추출합니다. 이후 CIE L*a*b* 색 공간으로 변환하여 피부의 밝기(L*), 붉은기/초록기(a*), 노란기/푸른기(b*)를 정밀 계산하고, PCCS 실용색채계의 12개 톤 좌표와의 거리값을 기반으로 최종 타입을 판별합니다.</div>
+            </div>
+            <div class="pre-faq-item">
+              <div class="pre-faq-q">Q2. 업로드한 사진은 외부 서버에 저장되거나 수집되나요?</div>
+              <div class="pre-faq-a">절대로 저장되지 않습니다. 인셀프 컬러는 100% 온디바이스(Client-Side) 브라우저 메모리 연산 방식으로 설계되어 있어, 사진 파일이 외부 클라우드나 데이터베이스로 전송되지 않습니다. 브라우저 창을 닫거나 새로고침하는 즉시 모든 메모리 데이터는 완전히 폐기됩니다.</div>
+            </div>
+            <div class="pre-faq-item">
+              <div class="pre-faq-q">Q3. 어떤 사진을 사용할 때 가장 신뢰도 높은 결과가 나오나요?</div>
+              <div class="pre-faq-a">자연광(오전 10시~오후 3시 사이의 창가) 아래에서 과도한 화장이나 뷰티 필터 없이 촬영된 정면 사진이 가장 좋습니다. 붉은 조명이나 노란 백열등, 강한 그림자가 진 사진은 피부 픽셀 값에 왜곡을 줄 수 있으므로 주의해 주세요.</div>
+            </div>
+            <div class="pre-faq-item">
+              <div class="pre-faq-q">Q4. 오프라인 전문가 진단과의 차이점은 무엇인가요?</div>
+              <div class="pre-faq-a">오프라인 컨설팅은 다양한 물리적 드레이프 천을 얼굴 밑에 대어보며 안색의 변화를 육안으로 관찰하는 방식입니다. 인셀프 컬러는 이를 디지털 색채 좌표계로 모델링하여 시간과 장소에 구애받지 않고 언제 어디서나 객관적인 수치로 자신의 피부 톤을 점검할 수 있도록 돕는 디지털 가이드 도구입니다.</div>
+            </div>
+            <div class="pre-faq-item">
+              <div class="pre-faq-q">Q5. 웜톤과 쿨톤의 중간인 '뉴트럴톤'도 확인할 수 있나요?</div>
+              <div class="pre-faq-a">네, 알고리즘 분석 결과에서 웜톤과 쿨톤의 점수 분포가 백분율(%)로 표기되며, 점수 차이가 미세한 경우 뉴트럴한 성향을 지닌 것으로 해석할 수 있습니다. 각 세부 톤 가이드에서 걸침 톤 활용법도 함께 확인하실 수 있습니다.</div>
+            </div>
+            <div class="pre-faq-item">
+              <div class="pre-faq-q">Q6. 진단 서비스 이용료가 있나요?</div>
+              <div class="pre-faq-a">아닙니다. 인셀프 컬러의 모든 퍼스널컬러 진단, 결과 분석표 열람, 상세 가이드북, SNS 결과 카드 다운로드는 100% 무료입니다.</div>
+            </div>
+          </section>
+
+          <!-- E-E-A-T Transparency & Authorship Information -->
+          <section class="pre-card" style="background:#FAF6F1; border: 1.5px solid rgba(196,149,106,0.28);">
+            <h2>🛡️ 연구 주체, 학술 자문 및 신뢰성 공시 (E-E-A-T)</h2>
+            <div style="font-size: 13.5px; line-height: 1.8; color: #4A3528;">
+              <p style="margin: 0 0 10px;">
+                <strong>운영 및 연구 주체</strong>: InSelf Studio Labs (시니어 색채 디자이너, 디지털 이미징 연구원, 그래픽스 소프트웨어 엔지니어들로 구성)
+              </p>
+              <p style="margin: 0 0 10px;">
+                <strong>학술 및 색채학 표준 규격</strong>:
+              </p>
+              <ul style="padding-left: 20px; margin: 0 0 12px;">
+                <li>일본 색채 연구소(JCRI) Practical Color Coordinate System (PCCS, 1964) 12톤 표준 매핑</li>
+                <li>Munsell 3-속성 HVC(Hue, Value, Chroma)에 기반한 한국 공업 표준 규격 (KS A 0062) 감각적 보정</li>
+                <li>국제 조명 위원회 (CIE) L*a*b* 색차 공식 (ΔE*ab) 및 동양인 피부 멜라닌/헤모글로빈 반사율 최적화 계수 적용</li>
+              </ul>
+              <p style="margin: 0 0 10px;">
+                <strong>프라이버시 및 보안 원칙</strong>: 사진의 외부 무단 수집 및 서버 저장을 전면 배제하며, 사용자 단말기 브라우저 RAM 상에서 100% 안전하게 로컬 처리됩니다.
+              </p>
+              <div style="border-top: 1px solid rgba(196,149,106,0.2); padding-top: 10px; margin-top: 10px;">
+                <span>📫 <b>학술 피드백, 제휴 문의 및 고객 지원 공식 이메일</b>: </span>
+                <a href="mailto:rudcjf11@nate.com" style="color: var(--rg); font-weight: 700; text-decoration: underline;">rudcjf11@nate.com</a>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="pre-footer">
+          <div class="pre-footer-links">
+            <a href="/guide">PCCS 색채학 가이드</a>
+            <span>|</span>
+            <a href="/about">서비스 소개</a>
+            <span>|</span>
+            <a href="/privacy" style="font-weight:700; color:var(--rg);">개인정보처리방침</a>
+            <span>|</span>
+            <a href="/terms">이용약관</a>
+            <span>|</span>
+            <a href="/contact">문의하기</a>
+          </div>
+          <p>© 2026 InSelf Color (InSelf Studio Labs). All Rights Reserved.</p>
+        </footer>
       </div>
     </div>
     
+    <!-- React Entry Script -->
     <script type="module" src="/src/main.tsx"></script>
     
     <!-- Naver Analytics (wcslog) Script -->
@@ -187,4 +713,3 @@
     </script>
   </body>
 </html>
-

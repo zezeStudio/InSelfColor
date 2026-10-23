@@ -2481,9 +2481,10 @@ interface LandingScreenProps {
   lang: "ko" | "en";
   setLang: (lang: "ko" | "en") => void;
   onLogoClick?: () => void;
+  onNavigate?: (path: string) => void;
 }
 
-function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick}: LandingScreenProps){
+function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick, onNavigate}: LandingScreenProps){
   const[openFaq,setOpenFaq]=useState<number | null>(null);
   return(
     <div className="w"><FontLoader/><style>{CSS}</style><Nav onGoToGuide={onGoToGuide} lang={lang} setLang={setLang} onLogoClick={onLogoClick}/>
@@ -2491,6 +2492,41 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick}: Landi
       <KakaoTopBanner />
       <div className="land se">
         <div className="orb o1"/><div className="orb o2"/><div className="orb o3"/>
+        
+        {/* Development & Live Update Notice Banner */}
+        <div 
+          style={{
+            maxWidth: "480px",
+            width: "100%",
+            margin: "0 auto 20px",
+            padding: "11px 15px",
+            borderRadius: "14px",
+            background: "rgba(224, 155, 61, 0.09)",
+            border: "1px solid rgba(224, 155, 61, 0.32)",
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "10px",
+            textAlign: "left",
+            boxSizing: "border-box",
+            position: "relative",
+            zIndex: 2,
+            backdropFilter: "blur(4px)"
+          }}
+          id="dev-update-notice-banner"
+        >
+          <span style={{ fontSize: "16px", lineHeight: "1.3", flexShrink: 0 }}>⚠️</span>
+          <div style={{ flex: 1, fontSize: "11.5px", lineHeight: "1.6", color: "#8C5618" }}>
+            <strong style={{ display: "block", marginBottom: "2px", fontWeight: "700", color: "#6E400B", fontSize: "12px" }}>
+              {lang === "ko" ? "서비스 상시 개발 및 무작위 실시간 업데이트 안내" : "Active Development & Random Updates Notice"}
+            </strong>
+            <span>
+              {lang === "ko"
+                ? "현재 서비스 개선 및 알고리즘 고도화 작업이 수시로 진행 중입니다. 별도의 정해진 일시나 주기 없이 무작위로 실시간 업데이트가 배포되므로, 업데이트 진행 중에는 일시적으로 사이트 접속이나 기능이 불안정할 수 있습니다. 이용에 너른 양해 부탁드립니다."
+                : "This service is currently under active development. Updates may be deployed randomly at any time without a fixed schedule, which may cause temporary instability during deployment. Thank you for your understanding."}
+            </span>
+          </div>
+        </div>
+
         <div className="lbadge">✦ Personal Color Analysis</div>
         <h1 className="ltitle">{T[lang].appTitle}<span>{T[lang].appTitleSub}</span></h1>
         <p className="lsub" style={{ whiteSpace: "pre-line" }}>{T[lang].appDesc}</p>
@@ -2798,8 +2834,8 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick}: Landi
               
               <div style={{ borderTop: "1px solid rgba(196,149,106,0.1)", paddingTop: "10px", fontSize: "11px", color: "rgba(61, 43, 26, 0.7)" }}>
                 <span>📫 <b>학술 피드백, 제휴 및 공식 문의</b> : </span>
-                <a href="mailto:zezeteam2026@gmail.com" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "underline" }}>
-                  zezeteam2026@gmail.com
+                <a href="mailto:rudcjf11@nate.com" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "underline" }}>
+                  rudcjf11@nate.com
                 </a>
               </div>
             </div>
@@ -2841,8 +2877,8 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick}: Landi
               
               <div style={{ borderTop: "1px solid rgba(196,149,106,0.1)", paddingTop: "10px", fontSize: "11px", color: "rgba(61, 43, 26, 0.7)" }}>
                 <span>📫 <b>Feedback, Partnerships & Inquiries</b> : </span>
-                <a href="mailto:zezeteam2026@gmail.com" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "underline" }}>
-                  zezeteam2026@gmail.com
+                <a href="mailto:rudcjf11@nate.com" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "underline" }}>
+                  rudcjf11@nate.com
                 </a>
               </div>
             </div>
@@ -2862,28 +2898,45 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick}: Landi
           fontSize: "12px",
           color: "var(--sub)"
         }}>
-          <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap", marginBottom: "12px" }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: "14px", flexWrap: "wrap", marginBottom: "12px" }}>
             <a 
-              href="/personal-color-guide.html" 
+              href="/guide" 
+              onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate("/guide"); else onGoToGuide(); }}
               style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
             >
               {lang === "ko" ? "PCCS 색채학 가이드" : "PCCS Color Guide"}
             </a>
             <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
             <a 
-              href="/privacy.html" 
-              onClick={(e) => { e.preventDefault(); window.location.hash = "privacy"; }} 
+              href="/about" 
+              onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate("/about"); }} 
+              style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
+            >
+              {lang === "ko" ? "서비스 소개" : "About"}
+            </a>
+            <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
+            <a 
+              href="/privacy" 
+              onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate("/privacy"); }} 
               style={{ color: "var(--rg)", fontWeight: "600", textDecoration: "none", borderBottom: "1px dashed var(--rg)" }}
             >
               {lang === "ko" ? "개인정보처리방침" : "Privacy Policy"}
             </a>
             <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
             <a 
-              href="/terms.html" 
-              onClick={(e) => { e.preventDefault(); window.location.hash = "terms"; }} 
+              href="/terms" 
+              onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate("/terms"); }} 
               style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
             >
               {lang === "ko" ? "서비스 이용약관" : "Terms of Service"}
+            </a>
+            <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
+            <a 
+              href="/contact" 
+              onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate("/contact"); }} 
+              style={{ color: "var(--sub)", fontWeight: "500", textDecoration: "none" }}
+            >
+              {lang === "ko" ? "문의하기" : "Contact"}
             </a>
             <span style={{ color: "rgba(196,149,106,0.3)" }}>|</span>
             <a 
@@ -4547,201 +4600,8 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
   );
 }
 
-// ═══════════════════════════════════════════════════════════
-// LEGAL POLICY MODAL
-// ═══════════════════════════════════════════════════════════
-interface LegalPolicyModalProps {
-  type: "privacy" | "terms" | null;
-  onClose: () => void;
-  lang: "ko" | "en";
-}
 
-function LegalPolicyModal({ type, onClose, lang }: LegalPolicyModalProps) {
-  if (!type) return null;
 
-  return (
-    <div className="legal-overlay" style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: "rgba(30, 20, 16, 0.6)",
-      backdropFilter: "blur(6px)",
-      zIndex: 9999,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "20px"
-    }} onClick={onClose}>
-      <div className="legal-content font-sans" style={{
-        background: "#FDF8F2",
-        border: "1px solid rgba(196,149,106,0.3)",
-        borderRadius: "20px",
-        width: "100%",
-        maxWidth: "680px",
-        maxHeight: "80vh",
-        display: "flex",
-        flexDirection: "column",
-        boxShadow: "0 20px 50px rgba(62,40,20,0.25)",
-        animation: "si .35s cubic-bezier(0.16,1,0.3,1) both",
-        overflow: "hidden"
-      }} onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
-        <div style={{
-          padding: "20px 24px",
-          borderBottom: "1px solid rgba(196,149,106,0.15)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}>
-          <h2 style={{
-            fontSize: "17px",
-            fontWeight: "700",
-            color: "var(--dark)",
-            margin: 0
-          }}>
-            {type === "privacy" ? (
-              lang === "ko" ? "개인정보처리방침" : "Privacy Policy"
-            ) : (
-              lang === "ko" ? "서비스 이용약관" : "Terms of Service"
-            )}
-          </h2>
-          <button 
-            type="button"
-            onClick={onClose} 
-            style={{
-              background: "rgba(196,149,106,0.12)",
-              border: "none",
-              color: "var(--rg)",
-              fontSize: "13px",
-              cursor: "pointer",
-              borderRadius: "100px",
-              padding: "5px 12px",
-              fontWeight: 600,
-              marginLeft: "auto"
-            }}
-          >
-            {lang === "ko" ? "닫기" : "Close"}
-          </button>
-        </div>
-
-        {/* Content Body */}
-        <div style={{
-          padding: "24px",
-          overflowY: "auto",
-          fontSize: "13px",
-          lineHeight: "1.75",
-          color: "var(--text)",
-          textAlign: "left"
-        }}>
-          {type === "privacy" ? (
-            lang === "ko" ? (
-              <div>
-                <p>본 성문화된 개인정보처리방침은 <b>InSelf Color(인셀프 컬러)</b> 자가진단 분석 서비스가 사용자의 프라이버시를 어떠한 절차로 철저하게 수호하고 법적 기준인 개인정보보호법을 준수하는지 투명하게 선언합니다.</p>
-                
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>1. 개인정보 미수집 및 서버 비저장 선언 (Client-Side Only)</h3>
-                <p style={{ background: "rgba(196,149,106,0.06)", padding: "12px", borderRadius: "8px", borderLeft: "3px solid var(--rg)", fontWeight: "500" }}>
-                  <strong>★ 중요 고지: 본 서비스(InSelf Color)는 사용자가 기기에서 업로드한 원본 얼굴 사진이나 이미지 데이터를 외부의 어떠한 데이터베이스 웹서버로도 전송, 저장 혹은 영구 수집하지 않습니다.</strong>
-                </p>
-                <p style={{ marginTop: "8px" }}>모든 픽셀 정보 추출 및 안면 영역 연산, 퍼스널 컬러 진단 매칭을 비롯한 시각 그래픽 생성을 위한 알고리즘은 <strong>사용자의 디바이스 및 웹 브라우저 로컬 환경(Client-side Web Canvas)의 임시 메모리 내에서만 100% 일시적으로 구동되고 완전히 소멸</strong>됩니다. 사용자가 진단 윈도우를 이탈하거나 새로고침을 누르시는 즉시 캐시는 흔적 없이 영구 폐기됨을 보증합니다.</p>
-
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>2. 구글 애드센스 등 제3자 광고 사업자 쿠키 사용 고지</h3>
-                <p>본 사이트는 구글 애드센스(Google AdSense)를 통한 타겟 맞춤형 온라인 디스플레이 광고를 탑재할 수 있습니다. 이를 분석하고 맞춤 제품을 제공하기 위해 귀하의 웹브라우저에 쿠키(Cookie) 데이터를 설정하거나 조회할 수 있습니다.</p>
-                <ul style={{ paddingLeft: "18px", margin: "8px 0", listStyle: "disc" }}>
-                  <li><strong>쿠키의 역할:</strong> 구글은 당사 사이트나 기타 타 웹사이트의 과거 트래픽 방문 기법을 바탕으로 사용자 맞춤 광고를 제3자 광고 제휴 네트워크를 통해 송출합니다.</li>
-                  <li><strong>거부 방법 설정:</strong> 사용자는 언제든지 웹브라우저의 메뉴 항목(예: Chrome 환경 설정 - 개인정보 및 보안 - 쿠키 메뉴)에서 개별적으로 타사 쿠키 허용 전면 차단 등을 조작해 차단할 수 있습니다.</li>
-                </ul>
-
-                <p style={{ marginTop: "20px", fontSize: "11px", color: "var(--sub)" }}>공표 일자: 2026년 05월 28일 (본 정책은 공시 당일부터 전면 적용됩니다.)</p>
-              </div>
-            ) : (
-              <div>
-                <p>This formulated Privacy Policy explicitly describes how <b>InSelf Color</b> safeguards and handles your privacy and credentials in strict compliance with globally recognized privacy frameworks and search advisor doctrines.</p>
-                
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>1. Absolute Zero-Server Transfer Doctrine (Client-Side Execution)</h3>
-                <p style={{ background: "rgba(196,149,106,0.06)", padding: "12px", borderRadius: "8px", borderLeft: "3px solid var(--rg)", fontWeight: "500" }}>
-                  <strong>★ NOTICE: InSelf Color completely rejects uploading, transferring, or hosting your photos or any biometric representations on any visual database or external remote servers.</strong>
-                </p>
-                <p style={{ marginTop: "8px" }}>All calculations for coordinate reading, RGB skin detection, and instant styling card generator scripts execute entirely on the <strong>Client-side Canvas inside your web browser</strong>. The temporary memory is erased completely when you reload, back trace, or close the page.</p>
-
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>2. Google AdSense Personalized Ads Advertising Cookie Notice</h3>
-                <p>Third-party marketing vendors, premium analytics systems, and Google AdSense utilize persistent and session Cookies on your local browser cache to display dynamic target ads based on custom traffic patterns.</p>
-                <ul style={{ paddingLeft: "18px", margin: "8px 0", listStyle: "disc" }}>
-                  <li>Google's use of advertising cookies enables it and its affiliates to serve ads based on your specific digital journey across the internet.</li>
-                  <li>You possess the fundamental legal right to decline personalized advertising by adjusting your own cookie blocking tools within browser preferences.</li>
-                </ul>
-
-                <p style={{ marginTop: "20px", fontSize: "11px", color: "var(--sub)" }}>Effective Date: May 28, 2026 (Published under immediate effect.)</p>
-              </div>
-            )
-          ) : (
-            lang === "ko" ? (
-              <div>
-                <p>본 이용약관은 <b>InSelf Studio</b>(이하 '회사' 혹은 '운영진')가 무상 배포하는 공적인 <b>InSelf Color(인셀프 컬러)</b> 자가 분석 툴 서비스의 모든 규정과 자가진단에 수반되는 책임 한계를 규율합니다.</p>
-                
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>제1조 (기능의 준칙 및 자가진단 도구의 한계성)</h3>
-                <p>본 서비스는 웹 카메라 영상이나 업로드 사진의 픽셀 좌표 컬러 매칭을 모의하는 방식으로 PCCS(Practical Color Coordinate System) 색채 스케일을 분석하는 오락 및 간이 패션 참고 가이드 툴입니다. 이는 실제 오프라인 숙련 오큐페이션 드레이핑 진단의 완전한 법적/의학적 대체가 불가능합니다. 주변 조도, 그림자, 또는 카메라 하드웨어의 보정 성향에 따라 오차가 발생할 수 있습니다.</p>
-
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>제2조 (의무 면책 및 손실 배상 보호구역)</h3>
-                <p style={{ background: "rgba(196,149,106,0.06)", padding: "12px", borderRadius: "8px", borderLeft: "3px solid var(--rg)" }}>
-                  본 진단의 예측 가이드 내용이 절대적 기준이라 판단하여 사용자가 직접 패션, 뷰티 제품, 왁싱, 특수 메이크업 등의 구매 결정을 성사시킨 후 마음에 도달한 가치 격차, 부조화에 관한 <strong>직접적 또는 간접적 금전적 가치 피해에 대하여 회사는 어떠한 법적 분쟁 및 손해에 대한 보상적, 보증 구제 의무도 단행하지 않는 점을 명백히 선언</strong>합니다.
-                </p>
-
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>제3조 (지적재산권 및 자유로운 인용 촉진)</h3>
-                <p>InSelf Color의 결과서나 이미지 다운로드 파일(📸 SNS 카드, 📋 대시보드 리포트 등)은 저작권 보호 및 권리 분쟁 방지 지침에 따라 실존 연예인 등의 성명이나 이미지를 무단으로 도용하지 않으며, 100% 저작권이 확보된 모델 디자인 리소스만을 사용합니다. 따라서 사용자는 개인 블로그, 인스타그램, 티스토리 등에 자유롭게 분석 결과를 재배포하거나 리뷰 콘텐츠로 업로드할 수 있습니다.</p>
-
-                <p style={{ marginTop: "20px", fontSize: "11px", color: "var(--sub)" }}>공표 일자: 2026년 05월 28일</p>
-              </div>
-            ) : (
-              <div>
-                <p>Welcome to <b>InSelf Color</b>. These Terms of Service govern the legal usage limits and the mandatory disclaimer policies for our digital application provided by InSelf Studio.</p>
-
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>Article 1 (Purpose & Nature of Simplified Self-Diagnosis)</h3>
-                <p>This service simulates seasonal personal color evaluations based on digital RGB algorithms in reference to the JCRI PCCS scale. It is created purely for entertainment and personal styling reference, and should not be used as an absolute replacement for formal offline clinical color draping analysis.</p>
-
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>Article 2 (Limitation of Liability & Buying Indemnity)</h3>
-                <p style={{ background: "rgba(196,149,106,0.06)", padding: "12px", borderRadius: "8px", borderLeft: "3px solid var(--rg)" }}>
-                  Users agree that the output guidelines are recommendation guides only. **InSelf Studio shall not be liable for any direct, indirect, incidental, or psychological dissatisfaction, product mismatch, or monetary losses arising from wardrobe, hair coloring, cosmetics or accessory purchases made based on the results.**
-                </p>
-
-                <h3 style={{ fontSize: "14px", fontWeight: "700", color: "var(--rg)", margin: "18px 0 8px" }}>Article 3 (Copyright Clean Licensing Agreement)</h3>
-                <p>All downloadable graphic elements including character portrait files bypass commercial trademarks and celebrity license claims. Any blogger, content creator, or publisher is legally allowed to distribute InSelf Color results and screenshots for blogging, sharing, or reviewing purposes without any intellectual property conflict.</p>
-
-                <p style={{ marginTop: "20px", fontSize: "11px", color: "var(--sub)" }}>Published: May 28, 2026</p>
-              </div>
-            )
-          )}
-        </div>
-
-        {/* Footer */}
-        <div style={{
-          padding: "16px 24px",
-          borderTop: "1px solid rgba(196,149,106,0.15)",
-          textAlign: "right"
-        }}>
-          <button 
-            type="button"
-            onClick={onClose} 
-            style={{
-              background: "linear-gradient(135deg, #C4956A,#E8AA80)",
-              color: "#fff",
-              border: "none",
-              borderRadius: "100px",
-              padding: "10px 28px",
-              fontSize: "13px",
-              fontWeight: 600,
-              cursor: "pointer",
-              boxShadow: "0 4px 12px rgba(196,149,106,0.2)"
-            }}
-          >
-            {lang === "ko" ? "확인 및 동의" : "I Understand"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ═══════════════════════════════════════════════════════════
 // MAIN COMPONENT
@@ -4801,7 +4661,6 @@ export default function PersonalColorTest({
   const [progress, setProgress] = useState(0);
   const [toast, setToast] = useState("");
   const toastRef = useRef<any>(null);
-  const [legalModal, setLegalModal] = useState<"privacy" | "terms" | null>(null);
 
   const showToast = useCallback((msg: string)=>{
     setToast(msg); clearTimeout(toastRef.current);
@@ -4872,46 +4731,24 @@ export default function PersonalColorTest({
 
   const [isDonationOpen, setIsDonationOpen] = useState(false);
 
-  // Modal support for helper policy links (#privacy, #terms, #donate or /privacy, /terms paths)
+  // Modal support for donation link (#donate)
   useEffect(() => {
-    if (currentPath === "/privacy") {
-      setLegalModal("privacy");
-      setIsDonationOpen(false);
-      return;
-    }
-    if (currentPath === "/terms") {
-      setLegalModal("terms");
-      setIsDonationOpen(false);
-      return;
-    }
-
     const handleHash = () => {
       const h = window.location.hash;
-      if (h === "#privacy") {
-        setLegalModal("privacy");
-        setIsDonationOpen(false);
-      } else if (h === "#terms") {
-        setLegalModal("terms");
-        setIsDonationOpen(false);
-      } else if (h === "#donate") {
+      if (h === "#donate") {
         setIsDonationOpen(true);
-        setLegalModal(null);
       } else {
-        setLegalModal(null);
         setIsDonationOpen(false);
       }
     };
     window.addEventListener("popstate", handleHash);
+    window.addEventListener("hashchange", handleHash);
     handleHash();
-    return () => window.removeEventListener("popstate", handleHash);
-  }, [currentPath]);
-
-  const handleCloseLegal = () => {
-    setLegalModal(null);
-    if (window.location.hash === "#privacy" || window.location.hash === "#terms") {
-      window.history.pushState(null, "", window.location.pathname);
-    }
-  };
+    return () => {
+      window.removeEventListener("popstate", handleHash);
+      window.removeEventListener("hashchange", handleHash);
+    };
+  }, []);
 
   const handleCloseDonation = () => {
     setIsDonationOpen(false);
@@ -4983,12 +4820,11 @@ export default function PersonalColorTest({
         <KakaoAdBanner unit="DAN-ZOigPvVGm9hQPf2a" />
       </div>
 
-      {page === "landing" && <LandingScreen onStart={() => navigateTo("upload")} onGoToGuide={onGoToGuide} lang={lang} setLang={setLang} onLogoClick={handleRetry}/>}
+      {page === "landing" && <LandingScreen onStart={() => navigateTo("upload")} onGoToGuide={onGoToGuide} lang={lang} setLang={setLang} onLogoClick={handleRetry} onNavigate={onNavigate}/>}
       {page === "upload" && <UploadScreen onBack={() => navigateTo("landing")} onAnalyze={handleAnalyze} uploadedImage={image} onImageSet={setImage} lang={lang} setLang={setLang} gender={gender} setGender={setGender} onLogoClick={handleRetry}/>}
       {page === "analyzing" && <AnalyzingScreen progress={progress} lang={lang} setLang={setLang} onLogoClick={handleRetry}/>}
       {page === "results" && result && <ResultsScreen result={result} onRetry={handleRetry} onToast={showToast} lang={lang} setLang={setLang} gender={gender} setGender={setGender} uploadedImage={image} onLogoClick={handleRetry}/>}
       <Toast msg={toast}/>
-      <LegalPolicyModal type={legalModal} onClose={handleCloseLegal} lang={lang} />
       <DonationModal isOpen={isDonationOpen} onClose={handleCloseDonation} lang={lang} />
     </>
   );

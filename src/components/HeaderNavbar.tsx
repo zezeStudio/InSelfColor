@@ -23,7 +23,9 @@ export default function HeaderNavbar({
   };
 
   const isHomeActive = currentRoute === "/" || currentRoute === "/upload" || currentRoute === "/results" || currentRoute === "/analyzing";
-  const isGuideActive = currentRoute === "/guide" || currentRoute.startsWith("/type");
+  const isGuideActive = currentRoute === "/guide" || currentRoute.startsWith("/guide/") || currentRoute.startsWith("/type");
+  const isAboutActive = currentRoute === "/about";
+  const isContactActive = currentRoute === "/contact";
   const isPrivacyActive = currentRoute === "/privacy" || currentRoute === "/privacy.html";
   const isTermsActive = currentRoute === "/terms" || currentRoute === "/terms.html";
 
@@ -79,7 +81,7 @@ export default function HeaderNavbar({
             alignItems: "center",
             gap: "6px",
             flexWrap: "wrap",
-            fontSize: "13.5px",
+            fontSize: "13px",
             fontWeight: "600",
           }}
         >
@@ -88,7 +90,7 @@ export default function HeaderNavbar({
             onClick={(e) => handleNav("/", e)}
             style={{
               textDecoration: "none",
-              padding: "7px 14px",
+              padding: "7px 12px",
               borderRadius: "100px",
               color: isHomeActive ? "#ffffff" : "#3E2814",
               background: isHomeActive
@@ -97,7 +99,7 @@ export default function HeaderNavbar({
               transition: "all 0.2s ease",
             }}
           >
-            {lang === "ko" ? "🧪 퍼스널컬러 진단" : "🧪 Diagnosis"}
+            {lang === "ko" ? "🧪 진단" : "🧪 Test"}
           </a>
 
           <a
@@ -105,7 +107,7 @@ export default function HeaderNavbar({
             onClick={(e) => handleNav("/guide", e)}
             style={{
               textDecoration: "none",
-              padding: "7px 14px",
+              padding: "7px 12px",
               borderRadius: "100px",
               color: isGuideActive ? "#ffffff" : "#3E2814",
               background: isGuideActive
@@ -114,7 +116,24 @@ export default function HeaderNavbar({
               transition: "all 0.2s ease",
             }}
           >
-            {lang === "ko" ? "📖 PCCS 가이드" : "📖 PCCS Guide"}
+            {lang === "ko" ? "📖 가이드" : "📖 Guides"}
+          </a>
+
+          <a
+            href="/about"
+            onClick={(e) => handleNav("/about", e)}
+            style={{
+              textDecoration: "none",
+              padding: "7px 12px",
+              borderRadius: "100px",
+              color: isAboutActive ? "#ffffff" : "#3E2814",
+              background: isAboutActive
+                ? "linear-gradient(135deg, #C4956A, #A17349)"
+                : "transparent",
+              transition: "all 0.2s ease",
+            }}
+          >
+            {lang === "ko" ? "💡 소개" : "💡 About"}
           </a>
 
           <a
@@ -122,7 +141,7 @@ export default function HeaderNavbar({
             onClick={(e) => handleNav("/privacy", e)}
             style={{
               textDecoration: "none",
-              padding: "7px 14px",
+              padding: "7px 12px",
               borderRadius: "100px",
               color: isPrivacyActive ? "#ffffff" : "#3E2814",
               background: isPrivacyActive
@@ -131,7 +150,7 @@ export default function HeaderNavbar({
               transition: "all 0.2s ease",
             }}
           >
-            {lang === "ko" ? "🔒 개인정보처리방침" : "🔒 Privacy Policy"}
+            {lang === "ko" ? "🔒 개인정보" : "🔒 Privacy"}
           </a>
 
           <a
@@ -139,7 +158,7 @@ export default function HeaderNavbar({
             onClick={(e) => handleNav("/terms", e)}
             style={{
               textDecoration: "none",
-              padding: "7px 14px",
+              padding: "7px 12px",
               borderRadius: "100px",
               color: isTermsActive ? "#ffffff" : "#3E2814",
               background: isTermsActive
@@ -148,7 +167,24 @@ export default function HeaderNavbar({
               transition: "all 0.2s ease",
             }}
           >
-            {lang === "ko" ? "📜 서비스 이용약관" : "📜 Terms of Service"}
+            {lang === "ko" ? "📜 이용약관" : "📜 Terms"}
+          </a>
+
+          <a
+            href="/contact"
+            onClick={(e) => handleNav("/contact", e)}
+            style={{
+              textDecoration: "none",
+              padding: "7px 12px",
+              borderRadius: "100px",
+              color: isContactActive ? "#ffffff" : "#3E2814",
+              background: isContactActive
+                ? "linear-gradient(135deg, #C4956A, #A17349)"
+                : "transparent",
+              transition: "all 0.2s ease",
+            }}
+          >
+            {lang === "ko" ? "📫 문의" : "📫 Contact"}
           </a>
 
           {/* Language Selector */}

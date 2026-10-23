@@ -1,3 +1,9 @@
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
 User-agent: *
 Allow: /
 
@@ -27,4 +33,3 @@ Allow: /
 
 # Sitemap Location
 Sitemap: https://inselfcolor.pages.dev/sitemap.xml
-
