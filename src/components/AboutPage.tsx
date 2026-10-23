@@ -243,7 +243,7 @@ export default function AboutPage({ lang, setLang, onNavigate }: AboutPageProps)
             <div><b>• 운영 주체:</b> InSelf Studio Labs</div>
             <div><b>• 핵심 기술:</b> JCRI PCCS 매핑, CIE L*a*b* 색차 분석(ΔE*ab), 클라이언트 Canvas 픽셀 처리 엔진</div>
             <div><b>• 학술 인용:</b> 일본 색채 연구소 PCCS(1964), 한국 공업 규격(KS A 0062), 국제 조명 위원회 CIE 1976</div>
-            <div><b>• 공식 연락처:</b> <a href="mailto:rudcjf11@nate.com" style={{ color: "#C4956A", textDecoration: "underline" }}>rudcjf11@nate.com</a></div>
+            <div><b>• 공식 연락처:</b> <a href="mailto:zezeteam2026@gmail.com" style={{ color: "#C4956A", textDecoration: "underline" }}>zezeteam2026@gmail.com</a></div>
           </div>
         </div>
 

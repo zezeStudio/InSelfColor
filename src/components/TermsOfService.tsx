@@ -248,7 +248,7 @@ export default function TermsOfService({ lang, setLang, onNavigate }: TermsOfSer
               >
                 <div><b>• 서비스명:</b> InSelf Color (인셀프 컬러)</div>
                 <div><b>• 운영 및 개발:</b> InSelf Studio Labs</div>
-                <div><b>• 문의 이메일:</b> <a href="mailto:rudcjf11@nate.com" style={{ color: "#C4956A", textDecoration: "underline" }}>rudcjf11@nate.com</a></div>
+                <div><b>• 문의 이메일:</b> <a href="mailto:zezeteam2026@gmail.com" style={{ color: "#C4956A", textDecoration: "underline" }}>zezeteam2026@gmail.com</a></div>
               </div>
 
               <p style={{ marginTop: "28px", fontSize: "12.5px", color: "#7A6052" }}>
@@ -358,7 +358,7 @@ export default function TermsOfService({ lang, setLang, onNavigate }: TermsOfSer
               >
                 <div><b>• Service:</b> InSelf Color</div>
                 <div><b>• Provider:</b> InSelf Studio Labs</div>
-                <div><b>• Contact Email:</b> <a href="mailto:rudcjf11@nate.com" style={{ color: "#C4956A", textDecoration: "underline" }}>rudcjf11@nate.com</a></div>
+                <div><b>• Contact Email:</b> <a href="mailto:zezeteam2026@gmail.com" style={{ color: "#C4956A", textDecoration: "underline" }}>zezeteam2026@gmail.com</a></div>
               </div>
 
               <p style={{ marginTop: "28px", fontSize: "12.5px", color: "#7A6052" }}>

@@ -20,7 +20,7 @@ export default function ContactPage({ lang, setLang, onNavigate }: ContactPagePr
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const handleCopyEmail = () => {
-    navigator.clipboard?.writeText("rudcjf11@nate.com").then(() => {
+    navigator.clipboard?.writeText("zezeteam2026@gmail.com").then(() => {
       setCopiedEmail(true);
       setTimeout(() => setCopiedEmail(false), 2500);
     }).catch(() => {
@@ -62,7 +62,7 @@ export default function ContactPage({ lang, setLang, onNavigate }: ContactPagePr
     }
 
     // Try mailto fallback or simulated success
-    const mailtoUrl = `mailto:rudcjf11@nate.com?subject=${encodeURIComponent(`[InSelf Color 문의 - ${category}] ${subject || name}`)}&body=${encodeURIComponent(`보낸이: ${name} (${email})\n문의 분류: ${category}\n\n내용:\n${message}`)}`;
+    const mailtoUrl = `mailto:zezeteam2026@gmail.com?subject=${encodeURIComponent(`[InSelf Color 문의 - ${category}] ${subject || name}`)}&body=${encodeURIComponent(`보낸이: ${name} (${email})\n문의 분류: ${category}\n\n내용:\n${message}`)}`;
     
     // We display success screen, and open mailto link if user wants
     setIsSubmitted(true);
@@ -182,7 +182,7 @@ export default function ContactPage({ lang, setLang, onNavigate }: ContactPagePr
                   {lang === "ko" ? "공식 이메일" : "Official Email"}
                 </div>
                 <div style={{ fontSize: "14px", fontWeight: 800, color: "#3E2814", display: "flex", alignItems: "center", gap: "6px" }}>
-                  <span>rudcjf11@nate.com</span>
+                  <span>zezeteam2026@gmail.com</span>
                   <button
                     type="button"
                     onClick={handleCopyEmail}

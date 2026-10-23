@@ -2834,8 +2834,8 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick, onNavi
               
               <div style={{ borderTop: "1px solid rgba(196,149,106,0.1)", paddingTop: "10px", fontSize: "11px", color: "rgba(61, 43, 26, 0.7)" }}>
                 <span>📫 <b>학술 피드백, 제휴 및 공식 문의</b> : </span>
-                <a href="mailto:rudcjf11@nate.com" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "underline" }}>
-                  rudcjf11@nate.com
+                <a href="mailto:zezeteam2026@gmail.com" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "underline" }}>
+                  zezeteam2026@gmail.com
                 </a>
               </div>
             </div>
@@ -2877,8 +2877,8 @@ function LandingScreen({onStart, onGoToGuide, lang, setLang, onLogoClick, onNavi
               
               <div style={{ borderTop: "1px solid rgba(196,149,106,0.1)", paddingTop: "10px", fontSize: "11px", color: "rgba(61, 43, 26, 0.7)" }}>
                 <span>📫 <b>Feedback, Partnerships & Inquiries</b> : </span>
-                <a href="mailto:rudcjf11@nate.com" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "underline" }}>
-                  rudcjf11@nate.com
+                <a href="mailto:zezeteam2026@gmail.com" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "underline" }}>
+                  zezeteam2026@gmail.com
                 </a>
               </div>
             </div>
