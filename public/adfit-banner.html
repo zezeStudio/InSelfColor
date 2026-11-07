@@ -37,8 +37,7 @@
       
       const ins = document.createElement('ins');
       ins.className = 'kakao_ad_area';
-      ins.style.width = width + 'px';
-      ins.style.height = height + 'px';
+      ins.style.display = 'none';
       ins.setAttribute('data-ad-unit', unit);
       ins.setAttribute('data-ad-width', width);
       ins.setAttribute('data-ad-height', height);
@@ -46,7 +45,8 @@
 
       const script = document.createElement('script');
       script.type = 'text/javascript';
-      script.src = 'https://t1.kakaocdn.net/kas/static/ba.min.js';
+      script.src = 'https://t1.daumcdn.net/kas/static/ba.min.js';
+      script.charset = 'utf-8';
       script.async = true;
       document.body.appendChild(script);
     })();

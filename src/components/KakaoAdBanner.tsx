@@ -1,4 +1,4 @@
-import { useEffect, useRef, memo, type CSSProperties } from "react";
+import { useEffect, useRef, useState, memo, type CSSProperties } from "react";
 
 export interface KakaoAdBannerProps {
   className?: string;
@@ -8,172 +8,119 @@ export interface KakaoAdBannerProps {
   style?: CSSProperties;
 }
 
-// Global script loader for Kakao AdFit SDK
-let scriptLoaderPromise: Promise<void> | null = null;
-
-function loadAdfitSdk(): Promise<void> {
-  const win = typeof window !== "undefined" ? (window as unknown as { adfit?: unknown; kakaoAdFit?: unknown }) : null;
-  if (win && (win.adfit || win.kakaoAdFit)) {
-    return Promise.resolve();
-  }
-  if (scriptLoaderPromise) {
-    return scriptLoaderPromise;
-  }
-
-  scriptLoaderPromise = new Promise((resolve) => {
-    // Check if script already exists in document
-    const existing = document.querySelector('script[src*="/kas/static/ba.min.js"]');
-    if (existing) {
-      const currentWin = window as unknown as { adfit?: unknown; kakaoAdFit?: unknown };
-      if (currentWin.adfit || currentWin.kakaoAdFit) {
-        resolve();
-      } else {
-        existing.addEventListener("load", () => resolve());
-        existing.addEventListener("error", () => resolve());
-        setTimeout(resolve, 600);
-      }
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "//t1.kakaocdn.net/kas/static/ba.min.js";
-    script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => resolve();
-    document.head.appendChild(script);
-  });
-
-  return scriptLoaderPromise;
-}
-
 /**
  * Kakao AdFit Official Banner Component
- * Handles multiple simultaneous banners (e.g. Left/Right skyscrapers, Top, Middle)
- * and SPA navigation without script conflicts.
+ * Implements the standard React/Next.js dynamic <ins> + <script> insertion pattern
+ * directly into the document DOM without iframes.
  */
 export const KakaoAdBanner = memo(function KakaoAdBanner({
   className = "",
-  unit = "DAN-EvCbYNj9rO8ZN6jl",
-  width = "160",
-  height = "600",
+  unit = "DAN-keG6pMHM3YLMdQa4",
+  width = "320",
+  height = "50",
   style
 }: KakaoAdBannerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const insRef = useRef<HTMLElement | null>(null);
+  const [isDev, setIsDev] = useState<boolean>(false);
+  const [adLoaded, setAdLoaded] = useState<boolean>(false);
+
+  const w = String(width);
+  const h = String(height);
 
   useEffect(() => {
+    // Detect preview / development environment
+    if (typeof window !== "undefined") {
+      const host = window.location.hostname;
+      const devEnvironment = host === "localhost" || host === "127.0.0.1" || host.includes("run.app");
+      setIsDev(devEnvironment);
+    }
+
     const container = containerRef.current;
     if (!container) return;
 
-    let isMounted = true;
-    let t1: NodeJS.Timeout | null = null;
-    let t2: NodeJS.Timeout | null = null;
-    let t3: NodeJS.Timeout | null = null;
-
-    // Reset container
+    // Reset container contents to prevent duplicate ad elements on route change
     container.innerHTML = "";
 
-    // 1. Create the official ins element
+    // 1. Create official Kakao AdFit <ins> element
     const ins = document.createElement("ins");
     ins.className = "kakao_ad_area";
     ins.style.display = "none";
     ins.setAttribute("data-ad-unit", unit);
-    ins.setAttribute("data-ad-width", String(width));
-    ins.setAttribute("data-ad-height", String(height));
-    container.appendChild(ins);
-    insRef.current = ins;
+    ins.setAttribute("data-ad-width", w);
+    ins.setAttribute("data-ad-height", h);
 
-    const renderAd = () => {
-      if (!isMounted || !ins) return;
-      // If already rendered with iframe or content, avoid duplicate calls
-      if (ins.querySelector("iframe")) return;
+    // 2. Create official Kakao AdFit script element
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://t1.daumcdn.net/kas/static/ba.min.js";
+    script.charset = "utf-8";
+    script.async = true;
 
-      try {
-        const win = window as unknown as {
-          adfit?: {
-            (elem?: HTMLElement): void;
-            render?: (elem: HTMLElement) => void;
-            destroy?: (target: string | HTMLElement) => void;
-          };
-          kakaoAdFit?: {
-            (elem?: HTMLElement): void;
-            render?: (elem: HTMLElement) => void;
-            destroy?: (target: string | HTMLElement) => void;
-          };
-        };
-
-        const sdk = win.adfit || win.kakaoAdFit;
-        if (sdk) {
-          if (typeof sdk.render === "function") {
-            sdk.render(ins);
-          } else if (typeof sdk === "function") {
-            sdk(ins);
-          }
-        }
-      } catch {
-        // Ignore render exceptions
-      }
+    script.onload = () => {
+      setAdLoaded(true);
     };
 
-    // 2. Load SDK and trigger rendering
-    loadAdfitSdk().then(() => {
-      if (!isMounted) return;
-      renderAd();
-
-      // Ensure render is triggered even if DOM layout settles after mount
-      t1 = setTimeout(renderAd, 200);
-      t2 = setTimeout(renderAd, 600);
-      t3 = setTimeout(renderAd, 1200);
-    });
+    container.appendChild(ins);
+    container.appendChild(script);
 
     return () => {
-      isMounted = false;
-      if (t1) clearTimeout(t1);
-      if (t2) clearTimeout(t2);
-      if (t3) clearTimeout(t3);
-
-      try {
-        const win = window as unknown as {
-          adfit?: {
-            destroy?: (target: string | HTMLElement) => void;
-          };
-          kakaoAdFit?: {
-            destroy?: (target: string | HTMLElement) => void;
-          };
-        };
-        const sdk = win.adfit || win.kakaoAdFit;
-        if (sdk && typeof sdk.destroy === "function") {
-          if (ins) {
-            sdk.destroy(ins);
-          } else {
-            sdk.destroy(unit);
-          }
-        }
-      } catch {
-        // Ignore destroy exceptions
-      }
-
       if (container) {
         container.innerHTML = "";
       }
     };
-  }, [unit, width, height]);
+  }, [unit, w, h]);
 
   return (
     <div
-      ref={containerRef}
-      className={className}
+      className={`kakao-ad-wrapper ${className}`}
       style={{
-        width: `${width}px`,
-        minHeight: `${height}px`,
+        width: `${w}px`,
+        minHeight: `${h}px`,
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         margin: "0 auto",
+        position: "relative",
+        boxSizing: "border-box",
         ...style
       }}
-    />
+    >
+      {/* Real Kakao AdFit Target */}
+      <div
+        ref={containerRef}
+        style={{
+          width: `${w}px`,
+          minHeight: `${h}px`,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      />
+
+      {/* Development Environment Visual Indicator (Only visible in localhost / dev preview) */}
+      {isDev && (
+        <div
+          style={{
+            width: "100%",
+            padding: "4px 8px",
+            background: "rgba(254, 229, 0, 0.15)",
+            border: "1px dashed rgba(254, 229, 0, 0.6)",
+            borderRadius: "6px",
+            fontSize: "10.5px",
+            color: "#4A3B12",
+            textAlign: "center",
+            marginTop: "2px",
+            lineHeight: "1.4"
+          }}
+        >
+          🟡 <b>AdFit 광고 영역 ({w}×{h})</b>: <code>{unit}</code>
+          <div style={{ fontSize: "9.5px", color: "rgba(74, 59, 18, 0.75)" }}>
+            ※ 카카오 애드핏은 등록 도메인(inselfcolor.pages.dev) 배포 시 실시간 광고가 송출됩니다.
+          </div>
+        </div>
+      )}
+    </div>
   );
 });
 
@@ -246,4 +193,3 @@ export const KakaoMiddleBanner = memo(function KakaoMiddleBanner({
 });
 
 export default KakaoAdBanner;
-

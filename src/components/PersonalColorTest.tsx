@@ -45,6 +45,20 @@ const SEASONS: Record<string, any> = {
       fabrics:["시폰","면","린넨","니트"],fabricsEn:["Chiffon","Cotton","Linen","Knitwear"],
       avoid:["블랙 모노톤","무채색 전체 착장"],avoidEn:["Total Black Look","Achromatic Outfits"]
     },
+    skincare:{
+      toneFocus:"생기 활력 브라이트닝 & 복숭아빛 피부 결 케어",
+      toneFocusEn:"Radiance Brightening & Dewy Peach Texture",
+      skinProfile:"밝고 얇은 피부 특성상 자외선 색소 침착과 칙칙함에 취약하므로, 비타민 C 항산화와 맑은 수분 광채를 공급하는 루틴이 핵심입니다.",
+      skinProfileEn:"Transparent and delicate skin prone to mild freckles or dullness. Antioxidant Vitamin C and hydrating glow boosters restore natural spring radiance.",
+      ingredients:[
+        {name:"순수 비타민 C (Ascorbic Acid)",nameEn:"Vitamin C (Ascorbic Acid)",tag:"#피부톤화사함",tagEn:"#ToneUpGlow",desc:"멜라닌 합성을 억제하고 맑은 복숭아빛 생기를 유도",descEn:"Inhibits melanin and boosts lively natural glow",icon:"🍊"},
+        {name:"나이아신아마이드 (Niacinamide)",nameEn:"Niacinamide (Vitamin B3)",tag:"#안색정돈",tagEn:"#ToneRefining",desc:"노란기 잡티를 완화하고 균일한 피부 톤 장벽 강화",descEn:"Balances warm yellowish undertones and evens out texture",icon:"✨"},
+        {name:"글루타티온 (Glutathione)",nameEn:"Glutathione",tag:"#항산화브라이트닝",tagEn:"#AntiOxidant",desc:"피부 속 칙칙함을 걷어내 투명한 황금빛 윤기 유지",descEn:"Purifies dullness for luminous golden translucency",icon:"💧"},
+        {name:"판테놀 & 유자 추출물",nameEn:"Panthenol & Yuzu Extract",tag:"#수분생기에너지",tagEn:"#HydraEnergy",desc:"자극 없이 촉촉하고 부드러운 광채 피부막 형성",descEn:"Soothes and hydrates with energizing citrus bioflavonoids",icon:"🍋"}
+      ],
+      routineTip:"아침에는 비타민 C 세럼 후 SPF 50+ 자외선 차단제를 필수로 발라 골든 언더톤의 투명함을 지켜주세요.",
+      routineTipEn:"Pair Vitamin C serum with SPF 50+ sunscreen each morning to protect translucent golden undertones."
+    },
     celebs:{
       female: ["#사랑스러운_과즙미", "#상큼청량", "#인간_비타민", "#햇살가득_포근함", "#피치브릭_어바웃", "#상큼발랄한_무드"],
       male: ["#밀크남", "#청량한_소년미", "#따뜻한_밀크티", "#부드러운_클래식", "#피치베이지_댄디", "#상큼한_스무디"]
@@ -92,6 +106,20 @@ const SEASONS: Record<string, any> = {
       items:["라벤더 블라우스","소프트핑크 카디건","스모키블루 팬츠","모브 롱스커트"],itemsEn:["Lavender Blouse","Soft Pink Cardigan","Smoky Blue Pants","Mauve Long Skirt"],
       fabrics:["시폰","새틴","벨벳","울 블렌드"],fabricsEn:["Chiffon","Satin","Velvet","Wool Blend"],
       avoid:["오렌지·골드 계열 전체 착장","강렬한 원색 코디"],avoidEn:["Total Orange/Gold Outfit","Vivid Primary Colors"]
+    },
+    skincare:{
+      toneFocus:"홍조·붉은기 진정 & 쿨링 수분 장벽 케어",
+      toneFocusEn:"Redness Calming & Cooling Barrier Hydration",
+      skinProfile:"온도 변화와 얇은 모세혈관으로 인한 붉은기(Redness)가 쿨톤의 맑은 인상을 방해하기 쉬워, 강력한 진정과 쿨링 진정 케어가 필수적입니다.",
+      skinProfileEn:"Thin cool-toned capillaries make skin prone to flushing or irritation. Targeted calming and micro-cooling agents preserve pure rosy clarity.",
+      ingredients:[
+        {name:"병풀 추출물 (Cica / Madecassoside)",nameEn:"Centella Asiatica (Cica)",tag:"#홍조붉은기진정",tagEn:"#RednessRelief",desc:"자극받아 붉어진 쿨톤 피부 열감을 즉각 진정",descEn:"Rapidly calms flushed skin and strengthens sensitive barrier",icon:"🌿"},
+        {name:"아줄렌 & 어성초 (Azulene)",nameEn:"Azulene & Houttuynia",tag:"#쿨링진정효과",tagEn:"#CoolingSoothe",desc:"피부 온도를 낮춰 맑고 뽀얀 라벤더빛 쿨톤 결 유지",descEn:"Lowers epidermal heat to maintain soft, even cool tones",icon:"🌸"},
+        {name:"히알루론산 8중 복합체",nameEn:"Multi-Hyaluronic Acid",tag:"#수분밀착충전",tagEn:"#MoisturePlump",desc:"끈적임 없는 맑은 수분감으로 쿨톤 특유의 청초함 극대화",descEn:"Lightweight, non-greasy hydration for fresh transparent dewyness",icon:"💧"},
+        {name:"티트리 & 알란토인",nameEn:"Tea Tree & Allantoin",tag:"#피부청정케어",tagEn:"#PurifyingCare",desc:"모공 주변 붉은기와 울긋불긋한 트러블 스팟 완화",descEn:"Clears blemishes while preventing temperature-induced redness",icon:"🌱"}
+      ],
+      routineTip:"열감이 느껴질 때 냉장 보관한 시카 수분 패드로 5분간 쿨링 팩을 진행하면 맑은 쿨톤 베이스가 완벽히 살아납니다.",
+      routineTipEn:"Use chilled Cica soothing toner pads for 5 minutes when flushed to restore pure, luminous cool tones."
     },
     celebs:{
       female: ["#청초한_아우라", "#이슬같은_투명함", "#은은한_라벤더", "#우아한_클래식", "#깨끗한_퓨어룩", "#소프트모브_아로마"],
@@ -141,6 +169,20 @@ const SEASONS: Record<string, any> = {
       fabrics:["스웨이드","코듀로이","트위드","골지니트"],fabricsEn:["Suede","Corduroy","Tweed","Ribbed Knit"],
       avoid:["블루진 단독 매치","아이시 페일 배색"],avoidEn:["Blue Denim Only","Icy Pale Combinations"]
     },
+    skincare:{
+      toneFocus:"풍부한 영양 보습 & 각질 턴오버 벨벳 결 케어",
+      toneFocusEn:"Deep Nourishing Barrier & Velvet Glow Texture",
+      skinProfile:"뮤트하고 깊은 어스톤 피부는 건조해지면 피부 결이 거칠어지고 푸석해 보이기 쉬워, 세라마이드 장벽 강화와 부드러운 각질 관리가 최적입니다.",
+      skinProfileEn:"Warm golden/bronze complexions can appear parched or uneven under dryness. Ceramide lipid replenishment and gentle PHA turnover maintain velvety sophistication.",
+      ingredients:[
+        {name:"세라마이드 NP (Ceramide NP)",nameEn:"Ceramide NP",tag:"#고밀도장벽보습",tagEn:"#BarrierLipids",desc:"지질막을 촘촘히 메워 깊은 가을 웜톤의 벨벳 윤기 형성",descEn:"Reinforces protective stratum corneum for rich velvety glow",icon:"🛡️"},
+        {name:"프로폴리스 & 로열젤리",nameEn:"Propolis & Royal Jelly",tag:"#풍부한영양공급",tagEn:"#HoneyNutrition",desc:"푸석해진 피부에 꿀광 보습막과 탄력 에너지 선사",descEn:"Infuses rich honey nourishment and elasticity into dry skin",icon:"🍯"},
+        {name:"PHA & 마일드 바쿠치올",nameEn:"PHA & Gentle Bakuchiol",tag:"#저자극턴오버",tagEn:"#GentleTurnover",desc:"각질을 순하게 정돈해 어스톤 메이크업 밀착력 강화",descEn:"Smooths dead skin cells gently to prime seamless warm makeup",icon:"🌿"},
+        {name:"호호바 & 아르간 오일",nameEn:"Jojoba & Argan Oils",tag:"#윤광오일코팅",tagEn:"#GlowLocking",desc:"피부 수분 증발을 막고 매끄러운 내추럴 윤광 완성",descEn:"Locks in moisture for natural, radiant autumn luster",icon:"🌰"}
+      ],
+      routineTip:"토너 후 세라마이드 앰플과 페이스 오일 1방울을 블렌딩하면 깊은 어스톤의 고급스러운 벨벳 광채가 연출됩니다.",
+      routineTipEn:"Blend 1 drop of facial oil with Ceramide ampoule for a satin-soft, luxurious velvet finish."
+    },
     celebs:{
       female: ["#우아한_분위기", "#가을의_뮤즈", "#클래식_트렌치", "#매혹적인_음영", "#따뜻한_벨벳", "#메이플브릭_감성"],
       male: ["#묵직한_서사", "#분위기_미남", "#트렌치코트의_정석", "#묵직한_어른미", "#따뜻한_라떼", "#빈티지코퍼_멋남"]
@@ -188,6 +230,20 @@ const SEASONS: Record<string, any> = {
       items:["제트블랙 자켓","스노우화이트 탑","로열블루 테일러드 코트","플럼 미니스커트"],itemsEn:["Jet Black Jacket","Snow White Top","Royal Blue Coat","Plum Skirt"],
       fabrics:["레더","새틴","트위드","벨벳"],fabricsEn:["Leather","Satin","Tweed","Velvet"],
       avoid:["베이지·카멜 원색 코디","따뜻한 어스톤 단독 착장"],avoidEn:["Beige/Camel Outfits","Muted Earthy Tones"]
+    },
+    skincare:{
+      toneFocus:"투명 아이시 글래스 스킨 & 고대비 피부 명도 정화",
+      toneFocusEn:"Icy Glass Clarity & High-Contrast Purifying Care",
+      skinProfile:"겨울 쿨톤은 흑백에 가까운 강한 명도 대비와 유리알처럼 매끄러운 결이 생명입니다. 노폐물 필링과 수분 광채를 채워 투명도를 극대화해야 합니다.",
+      skinProfileEn:"Defined by striking high-contrast sharpness. Glass skin transparency without yellow or gray undertone cloudiness accentuates winter majesty.",
+      ingredients:[
+        {name:"갈락토미세스 발효 여과물",nameEn:"Galactomyces Ferment",tag:"#유리알투명광채",tagEn:"#GlassSkinClarity",desc:"각질 턴오버를 촉진하고 얼룩덜룩함을 정돈해 맑은 결 선사",descEn:"Enhances skin clarity and refines pores for crystal-like sheen",icon:"✨"},
+        {name:"트라넥삼산 (Tranexamic Acid)",nameEn:"Tranexamic Acid",tag:"#색소침착집중케어",tagEn:"#SpotCorrection",desc:"다크스팟을 타겟팅해 겨울 쿨톤의 백옥 대비감 극대화",descEn:"Fades hyperpigmentation to amplify striking icy pale contrast",icon:"💎"},
+        {name:"펩타이드 & 콜라겐 콤플렉스",nameEn:"Peptide & Collagen",tag:"#탄력광채코팅",tagEn:"#FirmingLuster",desc:"이목구비의 또렷한 입체감을 돋보이게 하는 탄력 코팅",descEn:"Firms facial contours to complement bold, sharp features",icon:"🧬"},
+        {name:"알부틴 & 빙하수 미네랄",nameEn:"Arbutin & Glacier Water",tag:"#청량아이시수분",tagEn:"#IcyHydration",desc:"모공을 조여주고 차가운 쿨톤 특유의 시크함 완성",descEn:"Tightens pores with mineral-rich cooling purity",icon:"❄️"}
+      ],
+      routineTip:"갈락토미세스 에센스를 3겹 레이어링하여 유리알처럼 투명한 쿨톤 글래스 스킨을 연출해보세요.",
+      routineTipEn:"Layer Galactomyces hydrating essence three times to build striking, jewel-like glass translucency."
     },
     celebs:{
       female: ["#도시적인_시크", "#볼드한_카리스마", "#독보적_아우라", "#백설공주_무드", "#대비감이_빛나는", "#차가운_버건디피플"],
@@ -1758,6 +1814,60 @@ const CSS=`
   .sw:hover .swc{transform:scale(1.12);}
   .swn{font-size:9px;color:var(--sub);text-align:center;}
 
+  /* Season Comparison Component */
+  .cmp-card{background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border:1.5px solid rgba(196,149,106,0.3);border-radius:var(--rl);padding:24px 20px;margin-bottom:14px;box-shadow:var(--shadow);}
+  .cmp-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px;}
+  .cmp-tab{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border-radius:12px;border:1px solid rgba(196,149,106,0.2);background:rgba(255,255,255,0.6);font-size:12.5px;font-weight:600;color:var(--dark);cursor:pointer;transition:all 0.22s ease;font-family:var(--fs);}
+  .cmp-tab:hover{background:#fff;border-color:var(--rg);transform:translateY(-1px);}
+  .cmp-tab.active{background:var(--dark);color:#fff;border-color:var(--dark);box-shadow:0 4px 14px rgba(30,20,15,0.18);}
+  .cmp-badge-match{background:rgba(196,149,106,0.15);color:var(--rg);font-size:10px;padding:2px 6px;border-radius:100px;font-weight:700;}
+  .cmp-tab.active .cmp-badge-match{background:rgba(255,255,255,0.22);color:#fff;}
+  .cmp-layout{display:grid;grid-template-columns:240px 1fr;gap:20px;align-items:stretch;}
+  @media(max-width:680px){
+    .cmp-tabs{grid-template-columns:repeat(2,1fr);gap:8px;}
+    .cmp-layout{grid-template-columns:1fr;gap:16px;}
+  }
+  .cmp-photo-box{display:flex;flex-direction:column;align-items:center;background:rgba(253,248,242,0.65);border:1px solid rgba(196,149,106,0.2);border-radius:16px;padding:14px;position:relative;overflow:hidden;}
+  .cmp-photo-frame{position:relative;width:100%;max-width:200px;aspect-ratio:3/4;border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.08);border:2px solid #fff;}
+  .cmp-photo-img{width:100%;height:100%;object-fit:cover;display:block;}
+  .cmp-drape-collar{position:absolute;bottom:0;left:0;right:0;height:38%;transition:background-color 0.35s ease;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;box-shadow:inset 0 4px 8px rgba(0,0,0,0.15);}
+  .cmp-drape-label{font-size:10px;color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.6);background:rgba(0,0,0,0.3);padding:2px 8px;border-radius:100px;backdrop-filter:blur(4px);}
+  .cmp-palette-box{display:flex;flex-direction:column;justify-content:space-between;background:rgba(253,248,242,0.5);border:1px solid rgba(196,149,106,0.18);border-radius:16px;padding:16px;}
+  .cmp-swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px;}
+  .cmp-swatch-card{display:flex;flex-direction:column;align-items:center;padding:8px 6px;border-radius:12px;border:1.5px solid transparent;background:#fff;cursor:pointer;transition:all 0.2s ease;box-shadow:0 2px 6px rgba(0,0,0,0.04);position:relative;overflow:hidden;}
+  .cmp-swatch-card:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,0.08);border-color:rgba(196,149,106,0.4);}
+  .cmp-swatch-card.active{border-color:var(--dark);box-shadow:0 4px 12px rgba(30,20,15,0.16);transform:scale(1.03);}
+  .cmp-swatch-circle{width:36px;height:36px;border-radius:50%;margin-bottom:6px;border:2px solid rgba(255,255,255,0.9);box-shadow:0 2px 6px rgba(0,0,0,0.12);position:relative;display:flex;align-items:center;justify-content:center;}
+  .cmp-swatch-name{font-size:11px;font-weight:600;color:var(--text);text-align:center;}
+  .cmp-swatch-hex{font-size:9.5px;color:var(--sub);font-family:monospace;}
+
+  /* High-Contrast / Color-Blind Support Mode */
+  .cmp-hc-toggle{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:100px;font-size:11.5px;font-weight:700;border:1.5px solid rgba(196,149,106,0.35);background:#fff;color:var(--dark);cursor:pointer;transition:all 0.2s ease;font-family:var(--fs);}
+  .cmp-hc-toggle:hover{background:rgba(196,149,106,0.08);border-color:var(--rg);}
+  .cmp-hc-toggle.active{background:#1E1410;color:#fff;border-color:#1E1410;box-shadow:0 3px 10px rgba(30,20,15,0.25);}
+  .cmp-card.high-contrast{border-color:#1E1410;background:#ffffff;}
+  .cmp-card.high-contrast .cmp-tab{border-width:2px;font-weight:700;}
+  .cmp-card.high-contrast .cmp-tab.active{border:2px solid #000;outline:2px solid #C4956A;}
+  .cmp-card.high-contrast .cmp-swatch-card{border:2px solid #D6D3D1;background:#FAFAF9;}
+  .cmp-card.high-contrast .cmp-swatch-card.active{border:2.5px solid #000000;background:#fff;outline:2px solid #D97706;}
+  .cmp-card.high-contrast .cmp-swatch-circle{border:2px solid #000 !important;box-shadow:0 0 0 1px #fff inset;}
+  .cmp-swatch-symbol{font-size:14px;font-weight:900;text-shadow:0 1px 2px rgba(0,0,0,0.8), 0 0 4px rgba(255,255,255,0.8);line-height:1;user-select:none;}
+  .cmp-hc-badge{font-size:9px;font-weight:800;padding:1px 5px;border-radius:4px;background:#1E1410;color:#fff;letter-spacing:0.02em;margin-top:2px;}
+  .cmp-drape-hc-pattern{position:absolute;inset:0;pointer-events:none;opacity:0.35;}
+
+  /* Skincare Ingredient Recommendation Cards */
+  .sk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:14px 0;}
+  @media(max-width:600px){
+    .sk-grid{grid-template-columns:1fr;gap:10px;}
+  }
+  .sk-card{background:rgba(255,255,255,0.7);border:1px solid rgba(196,149,106,0.22);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:all 0.22s ease;}
+  .sk-card:hover{background:#ffffff;border-color:var(--rg);transform:translateY(-2px);box-shadow:0 6px 16px rgba(196,149,106,0.12);}
+  .sk-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .sk-name{font-size:13px;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:6px;}
+  .sk-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;background:rgba(196,149,106,0.14);color:var(--rg);}
+  .sk-desc{font-size:11.5px;color:var(--sub);line-height:1.55;margin:0;}
+  .sk-routine-box{background:linear-gradient(135deg,rgba(196,149,106,0.08),rgba(232,170,128,0.04));border:1px dashed rgba(196,149,106,0.3);border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.6;color:var(--text);margin-top:10px;}
+
   /* Makeup */
   .mkrows{display:flex;flex-direction:column;gap:9px;}
   .mkrow{display:flex;align-items:center;gap:11px;}
@@ -2009,8 +2119,13 @@ const CSS=`
   .ract{display:flex;gap:9px;margin-top:22px;flex-wrap:wrap;}
   .btr{flex:1;min-width:110px;background:rgba(196,149,106,.08);border:1px solid rgba(196,149,106,.26);color:var(--rg);border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;}
   .btr:hover{background:rgba(196,149,106,.14);transform:translateY(-1px);}
+  .bdl-insta{flex:1.3;min-width:150px;background:linear-gradient(135deg,#833AB4,#E1306C,#FD1D1D,#F56040);border:none;color:#fff;border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;box-shadow:0 6px 20px rgba(225,48,108,.28);font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+  .bdl-insta:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(225,48,108,0.38);}
   .bdl-detailed{flex:1.2;min-width:140px;background:rgba(196,149,106,.1);border:1px solid rgba(196,149,106,.4);color:var(--dark);border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;font-weight:600;}
   .bdl-detailed:hover{background:rgba(196,149,106,.18);transform:translateY(-1px);}
+  .bdl-screenshot{flex:1.2;min-width:150px;background:linear-gradient(135deg,#D97706,#B45309);border:none;color:#fff;border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;box-shadow:0 6px 20px rgba(180,83,9,.28);font-weight:600;}
+  .bdl-screenshot:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(180,83,9,0.38);}
+  .bdl-screenshot:disabled{opacity:0.65;cursor:not-allowed;transform:none !important;}
   .bdl-sns{flex:1.2;min-width:140px;background:linear-gradient(135deg,#C4956A,#E8AA80);border:none;color:#fff;border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;box-shadow:0 6px 20px rgba(196,149,106,.26);font-weight:600;}
   .bdl-sns:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(196,149,106,0.36);}
   .bdl-repr{flex:1.2;min-width:140px;background:linear-gradient(135deg,#5A483E,#7A6052);border:none;color:#fff;border-radius:100px;padding:13px 18px;font-size:13px;font-family:var(--fs);cursor:pointer;transition:all .22s;text-align:center;box-shadow:0 6px 20px rgba(122,96,82,.2);font-weight:600;}
@@ -2185,10 +2300,20 @@ const T: Record<string, Record<string, any>> = {
     resultHeader: "퍼스널 컬러 분석 결과",
     scoreTitle: "분석 점수",
     skinScanWarning: "⚠️ 피부 픽셀 감지가 어려운 사진이었습니다. 얼굴이 잘 보이는 사진을 사용하시면 더 정확합니다.",
+    comparisonTitle: "계절별 팔레트 조화 실시간 비교 (Color Harmony Viewer)",
+    comparisonSub: "업로드한 사진과 사계절(봄·여름·가을·겨울) 대표 컬러 드레이핑을 나란히 대조하여 최적의 안색 조화를 직접 확인해보세요.",
+    comparisonPaletteLabel: "선택된 계절 시그니처 팔레트",
+    comparisonUnderFace: "안색 조화 실시간 드레이프 (Drape Test)",
+    comparisonSwatchTip: "컬러칩을 클릭하면 드레이프 색상을 변경할 수 있습니다.",
+    highContrastToggle: "👁️ 고대비/색약 보조 모드",
+    highContrastPatternTip: "고유 기하학 패턴 및 명도·색조 심볼(적/녹색약 보조) 적용 중",
     recoPalette: "추천 컬러 팔레트",
     characteristicsTitle: "나의 특징",
     makeupTitle: "메이크업 추천",
     makeupLabels: ["파운데이션", "블러셔", "립", "아이섀도", "아이라이너", "컬러칩"],
+    skincareTitle: "피부 톤 맞춤 스킨케어 성분 큐레이션 (Skincare Synergy)",
+    skincareSubtitle: "진단된 톤의 투명함과 생기를 극대화하는 맞춤 유효 성분 가이드",
+    skincareRoutineTitle: "💡 시너지 스킨케어 루틴 팁",
     fashionTitle: "패션 스타일 가이드",
     fashionLabels: ["추천 아이템", "어울리는 소재", "피하면 좋은 코디"],
     colorGuideTitle: "컬러 가이드",
@@ -2199,7 +2324,19 @@ const T: Record<string, Record<string, any>> = {
     genderFemale: "여성 스타일 무드 ✦",
     genderMale: "남성 스타일 무드 ✦",
     retryBtn: "← 다시 테스트",
+    instaCardBtn: "📸 인스타 요약 카드",
+    instaModalTitle: "인스타그램 감성 요약 카드 생성",
+    instaModalSub: "피드(1:1) 및 스토리(9:16)에 최적화된 고감도 프로필 요약 카드",
+    instaFormatSquare: "1:1 피드 (Square)",
+    instaFormatStory: "9:16 스토리 (Story)",
+    instaDownloadBtn: "카드 이미지 다운로드 (PNG)",
+    instaShareBtn: "인스타 / 모바일 공유",
+    instaCopyCaptionBtn: "인스타 캡션 & 해시태그 복사",
+    instaToastGenerating: "고감도 인스타그램 카드를 생성 중입니다...",
+    instaToastSuccess: "인스타그램 카드가 저장되었습니다! 📸",
+    instaToastCaptionCopied: "인스타 업로드용 캡션이 복사되었습니다 ✓",
     saveAllBtn: "📋 전체내용 이미지 저장",
+    saveScreenshotBtn: "📸 진단 리포트 스크린샷 저장",
     saveSnsBtn: "📸 SNS용 이미지 저장",
     saveReprBtn: "📸 대표 이미지 단독 저장",
     guidebookBtn: "📖 색채 가이드북",
@@ -2208,6 +2345,8 @@ const T: Record<string, Record<string, any>> = {
     toastNoShare: "공유 기능이 지원되지 않습니다",
     toastStartingAll: "전체 결과 이미지 생성을 시작합니다...",
     toastSaveSuccess: "전체 내용 이미지가 저장되었습니다 ✓",
+    toastCapturingScreenshot: "리포트 스크린샷을 고화질로 캡처 중입니다...",
+    toastScreenshotSuccess: "진단 리포트 스크린샷이 저장되었습니다 ✓",
     toastSavingCard: "상세 결과 카드를 저장하고 있어요...",
     toastError: "저장 중 오류가 발생했습니다",
     disclaimerBottom: "※ 본 자가 분석 결과는 업로드된 이미지 분석 알고리즘에 기초한 간이적 참고 수치입니다. 환경 조명에 따른 차이가 발생할 수 있으며, 일상적인 스타일링 참고 및 재미 목적의 가이드로 즐겨주시기 바라며 법적 분쟁 보상 및 보증의 대상이 되지 않습니다.",
@@ -2244,10 +2383,20 @@ const T: Record<string, Record<string, any>> = {
     resultHeader: "Personal Color Result",
     scoreTitle: "Analysis Score",
     skinScanWarning: "⚠️ It was difficult to detect skin pixels from this photo. Using a clear photo will result in higher accuracy.",
+    comparisonTitle: "Seasonal Palette Harmony Comparison",
+    comparisonSub: "Toggle between Spring, Summer, Autumn, and Winter palettes side-by-side with your photo to visually verify color harmony.",
+    comparisonPaletteLabel: "Selected Seasonal Signature Palette",
+    comparisonUnderFace: "Real-time Digital Drape Test",
+    comparisonSwatchTip: "Click any color swatch to test it as a digital draping base.",
+    highContrastToggle: "👁️ High-Contrast / Color-Blind Mode",
+    highContrastPatternTip: "Distinct geometric patterns & tone markers active (Protan/Deutan assist)",
     recoPalette: "Recommended Color Palette",
     characteristicsTitle: "My Characteristics",
     makeupTitle: "Recommended Makeup",
     makeupLabels: ["Foundation", "Blusher", "Lip", "Eyeshadow", "Eyeliner", "Color Chips"],
+    skincareTitle: "Tone-Matched Skincare Ingredient Synergy",
+    skincareSubtitle: "Targeted active ingredient guide optimizing your undertone's clarity & glow",
+    skincareRoutineTitle: "💡 Synergy Routine Suggestion",
     fashionTitle: "Fashion Style Guide",
     fashionLabels: ["Recommended Items", "Matching Fabrics", "Avoid Outfits"],
     colorGuideTitle: "Color Guide",
@@ -2258,7 +2407,19 @@ const T: Record<string, Record<string, any>> = {
     genderFemale: "Female Style Mood ✦",
     genderMale: "Male Style Mood ✦",
     retryBtn: "← Retest",
+    instaCardBtn: "📸 Instagram Card",
+    instaModalTitle: "Generate Instagram Summary Card",
+    instaModalSub: "Aesthetic profile summary card optimized for Instagram Feed (1:1) & Stories (9:16)",
+    instaFormatSquare: "1:1 Feed (Square)",
+    instaFormatStory: "9:16 Story (Vertical)",
+    instaDownloadBtn: "Download Card (PNG)",
+    instaShareBtn: "Share to Instagram / Mobile",
+    instaCopyCaptionBtn: "Copy Caption & Hashtags",
+    instaToastGenerating: "Generating aesthetic Instagram card...",
+    instaToastSuccess: "Instagram card downloaded! 📸",
+    instaToastCaptionCopied: "Instagram caption & hashtags copied ✓",
     saveAllBtn: "📋 Save Full Content",
+    saveScreenshotBtn: "📸 Save Report Screenshot",
     saveSnsBtn: "📸 Save Card for SNS",
     saveReprBtn: "📸 Save Representative Image",
     guidebookBtn: "📖 Color Guidebook",
@@ -2267,6 +2428,8 @@ const T: Record<string, Record<string, any>> = {
     toastNoShare: "Sharing is not supported on this browser",
     toastStartingAll: "Generating image...",
     toastSaveSuccess: "Full result image saved successfully ✓",
+    toastCapturingScreenshot: "Capturing high-resolution report screenshot...",
+    toastScreenshotSuccess: "Diagnosis report screenshot saved ✓",
     toastSavingCard: "Saving detailed result card...",
     toastError: "An error occurred while saving",
     disclaimerBottom: "※ This self-analysis result is an approximate reference value based on the uploaded image analysis algorithm. Differences may occur due to environmental lighting. Please utilize it for fun and style guidance.",
@@ -3216,6 +3379,14 @@ interface ResultsScreenProps {
 function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,uploadedImage: image,onLogoClick}: ResultsScreenProps){
   const[bars,setBars] = useState<Record<string, number>>({spring:0,summer:0,autumn:0,winter:0});
   const [userName, setUserName] = useState<string>("");
+  const [isCapturing, setIsCapturing] = useState<boolean>(false);
+  const [isInstaModalOpen, setIsInstaModalOpen] = useState<boolean>(false);
+  const [isHighContrast, setIsHighContrast] = useState<boolean>(false);
+  const [compareSeason, setCompareSeason] = useState<string>(result.season || "spring");
+  const [compareSwatch, setCompareSwatch] = useState<string>(() => {
+    const initS = SEASONS[result.season] || SEASONS.spring;
+    return initS.palette[0]?.hex || "#FF9E7C";
+  });
   const season=SEASONS[result.season];
   const{scores}=result;
 
@@ -3713,6 +3884,104 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
     img.src = userImgSrc;
   };
 
+  /**
+   * Captures a high-resolution, perfectly consistent screenshot of the diagnosis report
+   * using html2canvas. Guarantees font readiness, image loading, and standard 760px layout width.
+   */
+  const handleDownloadScreenshot = async () => {
+    const reportEl = document.getElementById("result-page-content");
+    if (!reportEl || isCapturing) return;
+
+    setIsCapturing(true);
+    onToast(T[lang].toastCapturingScreenshot);
+
+    try {
+      if (document.fonts?.ready) {
+        await document.fonts.ready;
+      }
+
+      // Pre-wait for images inside report to finish loading if any
+      const imgElements = Array.from(reportEl.querySelectorAll("img"));
+      await Promise.all(
+        imgElements.map((im) => {
+          if (im.complete) return Promise.resolve();
+          return new Promise((resolve) => {
+            im.onload = () => resolve(true);
+            im.onerror = () => resolve(false);
+            setTimeout(() => resolve(false), 2000);
+          });
+        })
+      );
+
+      const canvas = await html2canvas(reportEl, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: "#FDF8F2",
+        logging: false,
+        imageTimeout: 15000,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: 1024,
+        onclone: (clonedDoc: Document) => {
+          const clonedEl = clonedDoc.getElementById("result-page-content");
+          if (!clonedEl) return;
+
+          // Remove elements marked to ignore in screenshot
+          const ignoredElements = clonedEl.querySelectorAll("[data-html2canvas-ignore='true']");
+          ignoredElements.forEach((el) => el.remove());
+
+          // Also remove Kakao ad wrappers and script tags from the captured cloned DOM
+          const adWrappers = clonedEl.querySelectorAll(".pct-ad-top-wrapper, .pct-ad-middle-wrapper, ins.kakao_ad_area, iframe");
+          adWrappers.forEach((el) => el.remove());
+
+          // Ensure standard consistent report width and layout in screenshot
+          clonedEl.style.width = "760px";
+          clonedEl.style.maxWidth = "760px";
+          clonedEl.style.margin = "0 auto";
+          clonedEl.style.padding = "0 0 40px";
+          clonedEl.style.boxSizing = "border-box";
+          clonedEl.style.backgroundColor = "#FDF8F2";
+
+          const clonedHero = clonedEl.querySelector(".rhero") as HTMLElement | null;
+          if (clonedHero) {
+            clonedHero.style.width = "100%";
+            clonedHero.style.boxSizing = "border-box";
+          }
+
+          const clonedRc = clonedEl.querySelector(".rc") as HTMLElement | null;
+          if (clonedRc) {
+            clonedRc.style.width = "100%";
+            clonedRc.style.maxWidth = "760px";
+            clonedRc.style.margin = "0 auto";
+            clonedRc.style.padding = "0 16px";
+            clonedRc.style.boxSizing = "border-box";
+          }
+
+          // Clean up bottom margin and footer
+          const clonedFooter = clonedEl.querySelector("footer") as HTMLElement | null;
+          if (clonedFooter) {
+            clonedFooter.style.marginTop = "28px";
+            clonedFooter.style.padding = "16px";
+          }
+        }
+      });
+
+      const a = document.createElement("a");
+      a.download = `inself-report-${season.id}_${getFormattedTimestamp()}.png`;
+      a.href = canvas.toDataURL("image/png");
+      a.click();
+
+      onToast(T[lang].toastScreenshotSuccess);
+      trackEvent("screenshot_save", { season: season.id, gender });
+    } catch (err) {
+      console.error("Screenshot capture failed:", err);
+      onToast(T[lang].toastError);
+    } finally {
+      setIsCapturing(false);
+    }
+  };
+
   const seasonName = lang === "ko" ? season.name : season.nameEn;
   const seasonKeyword = lang === "ko" ? season.keyword : season.keywordEn;
   const seasonDesc = lang === "ko" ? season.description : season.descriptionEn;
@@ -3797,6 +4066,354 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
             </div>
           </div>
 
+          {/* SEASON PALETTE HARMONY COMPARISON VIEW */}
+          <div className={`cmp-card ${isHighContrast ? "high-contrast" : ""}`} id="season-harmony-comparison">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "10px", marginBottom: "8px" }}>
+              <div className="rlbl" style={{ margin: 0 }}>{T[lang].comparisonTitle}</div>
+              <button
+                type="button"
+                className={`cmp-hc-toggle ${isHighContrast ? "active" : ""}`}
+                onClick={() => setIsHighContrast((prev) => !prev)}
+                aria-pressed={isHighContrast}
+                title={lang === "ko" ? "적색약, 녹색약 및 저시력 사용자를 위한 고대비 패턴 및 심볼 라벨 모드를 켭니다" : "Enable high-contrast geometric patterns and symbols for color-blind accessibility"}
+              >
+                <span>{T[lang].highContrastToggle}</span>
+                <span style={{
+                  fontSize: "10px",
+                  padding: "1px 6px",
+                  borderRadius: "100px",
+                  background: isHighContrast ? "#D97706" : "rgba(196,149,106,0.18)",
+                  color: isHighContrast ? "#fff" : "var(--dark)"
+                }}>
+                  {isHighContrast ? "ON" : "OFF"}
+                </span>
+              </button>
+            </div>
+
+            <p style={{ fontSize: "12.5px", color: "var(--sub)", lineHeight: "1.6", margin: "0 0 16px 0" }}>
+              {T[lang].comparisonSub}
+            </p>
+
+            {isHighContrast && (
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 12px",
+                background: "rgba(30,20,15,0.05)",
+                border: "1.5px solid #1E1410",
+                borderRadius: "10px",
+                marginBottom: "16px",
+                fontSize: "11.5px",
+                fontWeight: 600,
+                color: "#1E1410"
+              }}>
+                <span>♿</span>
+                <span>{T[lang].highContrastPatternTip}</span>
+              </div>
+            )}
+
+            {/* Season Toggle Tabs */}
+            <div className="cmp-tabs" role="tablist" aria-label="Season comparison selector">
+              {(["spring", "summer", "autumn", "winter"] as const).map((sId) => {
+                const sData = SEASONS[sId];
+                const isSelected = compareSeason === sId;
+                const isUserWinner = result.season === sId;
+                const tabLabel = lang === "ko" ? sData.name.replace(" 타입", "") : sData.nameEn;
+                const seasonHcSymbol = sId === "spring" ? "● [W-Light]"
+                  : sId === "summer" ? "▲ [C-Soft]"
+                  : sId === "autumn" ? "■ [W-Deep]"
+                  : "◆ [C-Vivid]";
+                return (
+                  <button
+                    key={sId}
+                    type="button"
+                    role="tab"
+                    aria-selected={isSelected}
+                    className={`cmp-tab ${isSelected ? "active" : ""}`}
+                    onClick={() => {
+                      setCompareSeason(sId);
+                      setCompareSwatch(sData.palette[0]?.hex || "#FF9E7C");
+                      trackEvent("gender_select", { season: sId, gender });
+                    }}
+                  >
+                    <span>{sData.icon}</span>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", lineHeight: 1.2 }}>
+                      <span>{tabLabel}</span>
+                      {isHighContrast && (
+                        <span style={{ fontSize: "9px", opacity: 0.85, fontWeight: 700 }}>
+                          {seasonHcSymbol}
+                        </span>
+                      )}
+                    </div>
+                    {isUserWinner && (
+                      <span className="cmp-badge-match">
+                        {lang === "ko" ? "내 톤" : "MATCH"}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Side-by-Side Comparison Layout */}
+            {(() => {
+              const activeCompareData = SEASONS[compareSeason] || season;
+              const compareSeasonTitle = lang === "ko" ? activeCompareData.name : activeCompareData.nameEn;
+              const activeSwatchObj = activeCompareData.palette.find((p: any) => p.hex.toLowerCase() === compareSwatch.toLowerCase()) || activeCompareData.palette[0];
+              const swatchName = lang === "ko" ? activeSwatchObj?.name : activeSwatchObj?.nameEn;
+
+              // Color-blind geometric patterns map (diagonal stripes, polka dots, crosses, zig-zags, grids, chevrons)
+              const getPatternStyle = (idx: number, hex: string) => {
+                const isLight = (() => {
+                  const cleaned = hex.replace("#", "");
+                  const r = parseInt(cleaned.substring(0, 2), 16) || 0;
+                  const g = parseInt(cleaned.substring(2, 4), 16) || 0;
+                  const b = parseInt(cleaned.substring(4, 6), 16) || 0;
+                  return (r * 299 + g * 587 + b * 114) / 1000 > 140;
+                })();
+                const lineCol = isLight ? "rgba(0,0,0,0.35)" : "rgba(255,255,255,0.45)";
+                const textColor = isLight ? "#000000" : "#ffffff";
+                
+                const patterns = [
+                  // 0: Diagonal stripes (///)
+                  `repeating-linear-gradient(45deg, transparent, transparent 5px, ${lineCol} 5px, ${lineCol} 10px)`,
+                  // 1: Horizontal stripes (≡)
+                  `repeating-linear-gradient(0deg, transparent, transparent 4px, ${lineCol} 4px, ${lineCol} 8px)`,
+                  // 2: Crosshatch grid (#)
+                  `repeating-linear-gradient(0deg, transparent, transparent 6px, ${lineCol} 6px, ${lineCol} 8px), repeating-linear-gradient(90deg, transparent, transparent 6px, ${lineCol} 6px, ${lineCol} 8px)`,
+                  // 3: Reverse diagonal stripes (\\\)
+                  `repeating-linear-gradient(-45deg, transparent, transparent 5px, ${lineCol} 5px, ${lineCol} 10px)`,
+                  // 4: Polka dots (::: )
+                  `radial-gradient(${lineCol} 2px, transparent 2.5px)`,
+                  // 5: Double horizontal bars (=)
+                  `repeating-linear-gradient(90deg, transparent, transparent 5px, ${lineCol} 5px, ${lineCol} 9px)`
+                ];
+                const symbols = ["▲", "●", "■", "◆", "★", "❖"];
+                const toneLabels = [
+                  lang === "ko" ? "명도高" : "Bright",
+                  lang === "ko" ? "중간톤" : "Medium",
+                  lang === "ko" ? "채도高" : "Vivid",
+                  lang === "ko" ? "소프트" : "Soft",
+                  lang === "ko" ? "뮤트" : "Muted",
+                  lang === "ko" ? "딥/다크" : "Deep"
+                ];
+
+                return {
+                  backgroundPattern: patterns[idx % patterns.length],
+                  symbol: symbols[idx % symbols.length],
+                  toneLabel: toneLabels[idx % toneLabels.length],
+                  isLight,
+                  textColor
+                };
+              };
+
+              const activeSwatchIndex = Math.max(0, activeCompareData.palette.findIndex((p: any) => p.hex.toLowerCase() === compareSwatch.toLowerCase()));
+              const activePatternData = getPatternStyle(activeSwatchIndex, compareSwatch);
+
+              // Fallback preview photo if user didn't upload or took photo from representative model
+              const previewPhotoSrc = image || (celebCards[0] ? celebCards[0].imgPath : "");
+
+              return (
+                <div className="cmp-layout">
+                  {/* Left Column: User Photo + Realtime Drape Overlay */}
+                  <div className="cmp-photo-box">
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--dark)", marginBottom: "10px", textAlign: "center" }}>
+                      {T[lang].comparisonUnderFace}
+                    </div>
+
+                    <div className="cmp-photo-frame">
+                      {previewPhotoSrc ? (
+                        <img
+                          src={previewPhotoSrc}
+                          alt="Selfie Drape Analysis"
+                          className="cmp-photo-img"
+                          crossOrigin="anonymous"
+                        />
+                      ) : (
+                        <div style={{
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          background: "rgba(196,149,106,0.1)",
+                          color: "var(--sub)",
+                          fontSize: "12px",
+                          padding: "16px",
+                          textAlign: "center"
+                        }}>
+                          <span style={{ fontSize: "36px", marginBottom: "8px" }}>👤</span>
+                          <span>{lang === "ko" ? "정면 사진 프리뷰" : "Face Preview"}</span>
+                        </div>
+                      )}
+
+                      {/* Realtime Digital Drape Collar on lower portrait */}
+                      <div
+                        className="cmp-drape-collar"
+                        style={{
+                          backgroundColor: compareSwatch,
+                          backgroundImage: isHighContrast ? activePatternData.backgroundPattern : undefined,
+                          backgroundSize: isHighContrast && activeSwatchIndex === 4 ? "8px 8px" : undefined
+                        }}
+                      >
+                        <span className="cmp-drape-label" style={{
+                          border: isHighContrast ? "1.5px solid #fff" : undefined,
+                          color: "#fff"
+                        }}>
+                          {isHighContrast ? `${activePatternData.symbol} ` : `${activeCompareData.icon} `}
+                          {swatchName} ({compareSwatch})
+                          {isHighContrast && ` · ${activePatternData.toneLabel}`}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div style={{
+                      marginTop: "12px",
+                      fontSize: "11px",
+                      color: "var(--sub)",
+                      textAlign: "center",
+                      lineHeight: "1.5"
+                    }}>
+                      <div style={{ fontWeight: 700, color: activeCompareData.primary, display: "flex", alignItems: "center", justifyContent: "center", gap: "4px" }}>
+                        {isHighContrast && <span>{activePatternData.symbol}</span>}
+                        <span>{compareSeasonTitle} 톤 대조 중</span>
+                      </div>
+                      <span style={{ opacity: 0.85 }}>{T[lang].comparisonSwatchTip}</span>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Active Season Swatches + Tone Characteristics */}
+                  <div className="cmp-palette-box">
+                    <div>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px", flexWrap: "wrap", gap: "8px" }}>
+                        <div style={{ fontSize: "13.5px", fontWeight: 700, color: "var(--dark)", display: "flex", alignItems: "center", gap: "6px" }}>
+                          <span>{activeCompareData.icon}</span>
+                          <span>{compareSeasonTitle}</span>
+                          <span style={{ fontSize: "11px", color: "var(--sub)", fontWeight: 500 }}>
+                            ("{lang === "ko" ? activeCompareData.keyword : activeCompareData.keywordEn}")
+                          </span>
+                        </div>
+
+                        {result.season === compareSeason ? (
+                          <span style={{
+                            background: isHighContrast ? "#000" : "rgba(5, 150, 105, 0.12)",
+                            color: isHighContrast ? "#fff" : "#059669",
+                            fontSize: "11px",
+                            fontWeight: 700,
+                            padding: "3px 8px",
+                            borderRadius: "100px",
+                            border: isHighContrast ? "1.5px solid #059669" : undefined
+                          }}>
+                            ✓ {lang === "ko" ? "나의 진단 결과 (Best Match)" : "Your Diagnostic Match"}
+                          </span>
+                        ) : (
+                          <span style={{
+                            background: isHighContrast ? "#F5F5F4" : "rgba(196, 149, 106, 0.12)",
+                            color: isHighContrast ? "#1E1410" : "var(--sub)",
+                            fontSize: "11px",
+                            fontWeight: 600,
+                            padding: "3px 8px",
+                            borderRadius: "100px",
+                            border: isHighContrast ? "1px solid #78716C" : undefined
+                          }}>
+                            {lang === "ko" ? "비교 톤 (Contrast)" : "Comparison Tone"}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Swatch Grid with High-Contrast Shapes and Patterns */}
+                      <div className="cmp-swatch-grid">
+                        {activeCompareData.palette.map(({ hex, name, nameEn }: any, idx: number) => {
+                          const isSwatchActive = compareSwatch.toLowerCase() === hex.toLowerCase();
+                          const sLabel = lang === "ko" ? name : nameEn;
+                          const patternData = getPatternStyle(idx, hex);
+
+                          return (
+                            <button
+                              key={hex}
+                              type="button"
+                              className={`cmp-swatch-card ${isSwatchActive ? "active" : ""}`}
+                              onClick={() => {
+                                setCompareSwatch(hex);
+                                if (navigator.clipboard?.writeText) {
+                                  const toastMsg = T[lang].toastColorCopied.replace("{hex}", hex);
+                                  navigator.clipboard.writeText(hex).then(() => onToast(toastMsg)).catch(() => {});
+                                }
+                              }}
+                              title={`${sLabel} (${hex}) ${isHighContrast ? `[심볼: ${patternData.symbol}, ${patternData.toneLabel}]` : ""} - 드레이프 적용`}
+                            >
+                              <div
+                                className="cmp-swatch-circle"
+                                style={{
+                                  backgroundColor: hex,
+                                  backgroundImage: isHighContrast ? patternData.backgroundPattern : undefined,
+                                  backgroundSize: isHighContrast && idx === 4 ? "8px 8px" : undefined
+                                }}
+                              >
+                                {isHighContrast && (
+                                  <span
+                                    className="cmp-swatch-symbol"
+                                    style={{ color: patternData.textColor }}
+                                  >
+                                    {patternData.symbol}
+                                  </span>
+                                )}
+                              </div>
+                              <span className="cmp-swatch-name">{sLabel}</span>
+                              <span className="cmp-swatch-hex">{hex}</span>
+                              {isHighContrast && (
+                                <span className="cmp-hc-badge">
+                                  {patternData.toneLabel}
+                                </span>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Quick Tone Description & Recommended Accents */}
+                    <div style={{
+                      marginTop: "16px",
+                      paddingTop: "14px",
+                      borderTop: isHighContrast ? "1.5px solid #1E1410" : "1px dashed rgba(196,149,106,0.22)",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "6px"
+                    }}>
+                      <p style={{ fontSize: "12px", color: "var(--text)", lineHeight: "1.6", margin: 0, fontWeight: isHighContrast ? 600 : 400 }}>
+                        {lang === "ko" ? activeCompareData.description : activeCompareData.descriptionEn}
+                      </p>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", marginTop: "4px" }}>
+                        <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--sub)" }}>
+                          {lang === "ko" ? "어울리는 대표 색상:" : "Signature Hues:"}
+                        </span>
+                        {(lang === "ko" ? activeCompareData.recommended : activeCompareData.recommendedEn).slice(0, 5).map((recName: string) => (
+                          <span
+                            key={recName}
+                            style={{
+                              fontSize: "10.5px",
+                              padding: "2px 7px",
+                              borderRadius: "100px",
+                              background: isHighContrast ? "#F5F5F4" : "rgba(196,149,106,0.1)",
+                              color: "var(--dark)",
+                              border: isHighContrast ? "1.5px solid #1E1410" : "1px solid rgba(196,149,106,0.18)",
+                              fontWeight: isHighContrast ? 700 : 500
+                            }}
+                          >
+                            {recName}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+
           {/* CHARACTERISTICS */}
           <div className="rcard">
             <div className="rlbl">{T[lang].characteristicsTitle}</div>
@@ -3820,6 +4437,63 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
               </div>
             </div>
           </div>
+
+          {/* SKINCARE INGREDIENTS (Skin-Tone Matched) */}
+          {season.skincare && (
+            <div className="rcard" id="skincare-recommendation-section">
+              <div className="rlbl">{T[lang].skincareTitle}</div>
+              <p style={{ fontSize: "12px", color: "var(--sub)", margin: "0 0 10px 0", lineHeight: "1.5" }}>
+                {T[lang].skincareSubtitle}
+              </p>
+
+              {/* Tone Focus Banner */}
+              <div style={{
+                background: "rgba(196,149,106,0.08)",
+                borderLeft: `4px solid ${season.primary}`,
+                borderRadius: "10px",
+                padding: "12px 14px",
+                marginBottom: "14px"
+              }}>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--dark)", marginBottom: "4px" }}>
+                  ✦ {lang === "ko" ? season.skincare.toneFocus : season.skincare.toneFocusEn}
+                </div>
+                <p style={{ fontSize: "12px", color: "var(--text)", lineHeight: "1.6", margin: 0 }}>
+                  {lang === "ko" ? season.skincare.skinProfile : season.skincare.skinProfileEn}
+                </p>
+              </div>
+
+              {/* Ingredients Grid */}
+              <div className="sk-grid">
+                {season.skincare.ingredients.map((ing: any, i: number) => {
+                  const ingName = lang === "ko" ? ing.name : ing.nameEn;
+                  const ingTag = lang === "ko" ? ing.tag : ing.tagEn;
+                  const ingDesc = lang === "ko" ? ing.desc : ing.descEn;
+                  return (
+                    <div key={i} className="sk-card">
+                      <div className="sk-head">
+                        <span className="sk-name">
+                          <span>{ing.icon}</span>
+                          <span>{ingName}</span>
+                        </span>
+                        <span className="sk-tag">{ingTag}</span>
+                      </div>
+                      <p className="sk-desc">{ingDesc}</p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Synergy Routine Suggestion */}
+              <div className="sk-routine-box">
+                <div style={{ fontWeight: 700, color: season.primary, marginBottom: "4px" }}>
+                  {T[lang].skincareRoutineTitle}
+                </div>
+                <p style={{ margin: 0 }}>
+                  {lang === "ko" ? season.skincare.routineTip : season.skincare.routineTipEn}
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* FASHION */}
           <div className="rcard">
@@ -4250,6 +4924,26 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
           {/* ACTIONS */}
           <div className="ract" data-html2canvas-ignore="true">
             <button className="btr" onClick={onRetry}>{T[lang].retryBtn}</button>
+            <button 
+              className="bdl-insta" 
+              onClick={() => setIsInstaModalOpen(true)}
+              title={lang === "ko" ? "인스타그램 피드 및 스토리용 감성 요약 카드를 생성합니다" : "Generate aesthetic summary card for Instagram"}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              {T[lang].instaCardBtn}
+            </button>
+            <button 
+              className="bdl-screenshot" 
+              onClick={handleDownloadScreenshot}
+              disabled={isCapturing}
+              title={lang === "ko" ? "화면에 표시된 진단 리포트를 그대로 고화질 캡처하여 저장합니다" : "Capture and save the diagnosis report screenshot as displayed"}
+            >
+              {isCapturing ? (lang === "ko" ? "⏳ 캡처 중..." : "⏳ Capturing...") : T[lang].saveScreenshotBtn}
+            </button>
             <button className="bdl-detailed" onClick={handleDlDetailed}>{T[lang].saveAllBtn}</button>
             <button className="bdl-sns" onClick={handleDlSns}>{T[lang].saveSnsBtn}</button>
             <button className="bdl-repr" onClick={handleDlRepr}>{T[lang].saveReprBtn}</button>
@@ -4283,6 +4977,32 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
               gap: "10px",
               flexWrap: "wrap"
             }}>
+              {/* Instagram Card Generator Button */}
+              <button 
+                onClick={() => setIsInstaModalOpen(true)}
+                style={{
+                  background: "linear-gradient(135deg, #833AB4, #FD1D1D, #FCB045)",
+                  color: "#FFFFFF",
+                  border: "none",
+                  borderRadius: "100px",
+                  padding: "9px 18px",
+                  fontSize: "12.5px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  boxShadow: "0 2px 8px rgba(225,48,108,0.24)",
+                  transition: "all 0.2s"
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                {lang === "ko" ? "인스타 감성 요약 카드" : "Instagram Card"}
+              </button>
               {/* Kakao copy helper */}
               <button 
                 onClick={() => {
@@ -4594,6 +5314,18 @@ function ResultsScreen({result,onRetry,onToast,lang,setLang,gender,setGender,upl
               © {new Date().getFullYear()} InSelf Studio. All Rights Reserved.
             </p>
           </footer>
+
+          <InstagramCardModal 
+            isOpen={isInstaModalOpen}
+            onClose={() => setIsInstaModalOpen(false)}
+            season={season}
+            scores={scores}
+            lang={lang}
+            userImgSrc={image}
+            userName={userName}
+            gender={gender}
+            onToast={onToast}
+          />
         </div>
       </div>
     </div>
@@ -4827,6 +5559,806 @@ export default function PersonalColorTest({
       <Toast msg={toast}/>
       <DonationModal isOpen={isDonationOpen} onClose={handleCloseDonation} lang={lang} />
     </>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// INSTAGRAM SUMMARY CARD MODAL
+// ═══════════════════════════════════════════════════════════
+interface InstagramCardModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  season: any;
+  scores: Record<string, number>;
+  lang: "ko" | "en";
+  userImgSrc: string | null;
+  userName?: string;
+  gender: "female" | "male";
+  onToast: (msg: string) => void;
+}
+
+function InstagramCardModal({
+  isOpen,
+  onClose,
+  season,
+  scores,
+  lang,
+  userImgSrc,
+  userName,
+  gender,
+  onToast
+}: InstagramCardModalProps) {
+  const [aspectRatio, setAspectRatio] = useState<"feed" | "story">("feed");
+  const [isExporting, setIsExporting] = useState<boolean>(false);
+
+  if (!isOpen) return null;
+
+  // Season specific aesthetic palette
+  const themeBySeason: Record<string, {
+    bgGradient: string;
+    outerBorder: string;
+    innerCardBg: string;
+    accentColor: string;
+    badgeBg: string;
+    badgeText: string;
+    ring: string;
+    textColor: string;
+    textMuted: string;
+    toneTag: string;
+    toneSub: string;
+    patternGlow: string;
+  }> = {
+    spring: {
+      bgGradient: "linear-gradient(155deg, #FFF9F3 0%, #FEF0E4 50%, #FEDFCF 100%)",
+      outerBorder: "rgba(224, 138, 102, 0.35)",
+      innerCardBg: "rgba(255, 255, 255, 0.75)",
+      accentColor: "#C45A38",
+      badgeBg: "#FFE5D6",
+      badgeText: "#A83C1C",
+      ring: "linear-gradient(135deg, #FF9E7C, #F7C59F)",
+      textColor: "#3D2517",
+      textMuted: "rgba(61, 37, 23, 0.65)",
+      toneTag: lang === "ko" ? "봄 웜톤 (Spring Warm)" : "Spring Warm Tone",
+      toneSub: lang === "ko" ? "화사하고 생기 넘치는 피치 코랄 톤" : "Light, clear & vibrant peach coral radiance",
+      patternGlow: "radial-gradient(circle at 80% 20%, rgba(255, 180, 140, 0.22) 0%, transparent 60%)"
+    },
+    summer: {
+      bgGradient: "linear-gradient(155deg, #F4F8FC 0%, #E8F0F8 50%, #DCE8F4 100%)",
+      outerBorder: "rgba(110, 150, 185, 0.35)",
+      innerCardBg: "rgba(255, 255, 255, 0.78)",
+      accentColor: "#3B678D",
+      badgeBg: "#E1EDF7",
+      badgeText: "#254F73",
+      ring: "linear-gradient(135deg, #A8C0D6, #C5D8E8)",
+      textColor: "#1B2B38",
+      textMuted: "rgba(27, 43, 56, 0.65)",
+      toneTag: lang === "ko" ? "여름 쿨톤 (Summer Cool)" : "Summer Cool Tone",
+      toneSub: lang === "ko" ? "청량하고 은은한 파스텔 수국 톤" : "Soft, airy & elegant hydrangea mist breeze",
+      patternGlow: "radial-gradient(circle at 80% 20%, rgba(160, 200, 235, 0.25) 0%, transparent 60%)"
+    },
+    autumn: {
+      bgGradient: "linear-gradient(155deg, #FAF4ED 0%, #EFE4D6 50%, #E5D4C1 100%)",
+      outerBorder: "rgba(163, 115, 78, 0.35)",
+      innerCardBg: "rgba(255, 255, 255, 0.75)",
+      accentColor: "#8C4E28",
+      badgeBg: "#EBDAC8",
+      badgeText: "#753916",
+      ring: "linear-gradient(135deg, #C19A6B, #9A6A47)",
+      textColor: "#302014",
+      textMuted: "rgba(48, 32, 20, 0.65)",
+      toneTag: lang === "ko" ? "가을 웜톤 (Autumn Warm)" : "Autumn Warm Tone",
+      toneSub: lang === "ko" ? "성숙하고 그윽한 카멜 테라코타 톤" : "Rich, earthy & deep amber terracotta depth",
+      patternGlow: "radial-gradient(circle at 80% 20%, rgba(210, 160, 120, 0.22) 0%, transparent 60%)"
+    },
+    winter: {
+      bgGradient: "linear-gradient(155deg, #13151A 0%, #1A1E26 50%, #252B36 100%)",
+      outerBorder: "rgba(255, 255, 255, 0.18)",
+      innerCardBg: "rgba(255, 255, 255, 0.08)",
+      accentColor: "#8EA7C4",
+      badgeBg: "rgba(255, 255, 255, 0.14)",
+      badgeText: "#FFFFFF",
+      ring: "linear-gradient(135deg, #8EA7C4, #E2E8F0)",
+      textColor: "#F0F3F7",
+      textMuted: "rgba(240, 243, 247, 0.68)",
+      toneTag: lang === "ko" ? "겨울 쿨톤 (Winter Cool)" : "Winter Cool Tone",
+      toneSub: lang === "ko" ? "도시적이고 선명한 모던 고대비 톤" : "Crisp, bold & modern monochrome clarity",
+      patternGlow: "radial-gradient(circle at 80% 20%, rgba(140, 170, 210, 0.15) 0%, transparent 60%)"
+    }
+  };
+
+  const theme = themeBySeason[season.id] || themeBySeason.spring;
+  const displayName = userName && userName.trim() ? userName.trim().toUpperCase() : "INSELF GUEST";
+  const topActiveIngredient = season.skincare?.actives?.[0]?.name || "Tone Serum";
+
+  const getInstagramCaption = () => {
+    const seasonName = lang === "ko" ? season.name : season.nameEn;
+    const bestColors = season.palette.slice(0, 5).map((p: any) => lang === "ko" ? p.name : p.nameEn).join(", ");
+    
+    if (lang === "ko") {
+      return `✨ 나의 2026 퍼스널 컬러 진단 결과는? [${seasonName}] ${season.icon}\n\n` +
+        `인셀프컬러(InSelf Color) 디지털 PCCS 안색 드레이핑 분석 완료!\n\n` +
+        `🎨 베스트 팔레트: ${bestColors}\n` +
+        `💄 베스트 립: ${season.makeup.lip}\n` +
+        `🌿 찰떡 스킨케어 성분: ${topActiveIngredient}\n` +
+        `💎 어울리는 주얼리: ${season.jewelry}\n\n` +
+        `👉 10초 만에 내 톤 찾아보기: https://inselfcolor.pages.dev\n\n` +
+        `#인셀프컬러 #퍼스널컬러 #퍼스널컬러진단 #${season.id === "spring" ? "봄웜톤" : season.id === "summer" ? "여름쿨톤" : season.id === "autumn" ? "가을웜톤" : "겨울쿨톤"} #웜톤 #쿨톤 #PersonalColor #InSelfColor #BeautyTok #OOTD`;
+    } else {
+      return `✨ My 2026 Personal Color Result: [${seasonName}] ${season.icon}\n\n` +
+        `Verified with InSelf Color PCCS digital drape analysis!\n\n` +
+        `🎨 Signature Palette: ${bestColors}\n` +
+        `💄 Best Lip Match: ${season.makeup.lip}\n` +
+        `🌿 Skincare Synergy: ${topActiveIngredient}\n` +
+        `💎 Jewelry: ${season.jewelry}\n\n` +
+        `👉 Discover your true seasonal spectrum free: https://inselfcolor.pages.dev\n\n` +
+        `#InSelfColor #PersonalColor #ColorAnalysis #${season.id} #BeautyTips #OOTD`;
+    }
+  };
+
+  const handleDownloadImage = async () => {
+    const cardEl = document.getElementById("insta-card-render-target");
+    if (!cardEl || isExporting) return;
+    setIsExporting(true);
+    onToast(T[lang].instaToastGenerating);
+
+    try {
+      const scale = aspectRatio === "feed" ? 2.25 : 2.7;
+      const canvas = await html2canvas(cardEl, {
+        scale,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: null,
+        logging: false,
+        imageTimeout: 15000,
+      });
+
+      const timestamp = getFormattedTimestamp();
+      const link = document.createElement("a");
+      link.download = `inself-instagram-${season.id}-${aspectRatio}_${timestamp}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+
+      trackEvent("insta_save", { season: season.id, gender });
+      onToast(T[lang].instaToastSuccess);
+    } catch (err) {
+      console.error(err);
+      onToast(T[lang].toastError);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleShareToInstagram = async () => {
+    const cardEl = document.getElementById("insta-card-render-target");
+    if (!cardEl || isExporting) return;
+    setIsExporting(true);
+    onToast(T[lang].instaToastGenerating);
+
+    try {
+      const scale = aspectRatio === "feed" ? 2.25 : 2.7;
+      const canvas = await html2canvas(cardEl, {
+        scale,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: null,
+        logging: false,
+        imageTimeout: 15000,
+      });
+
+      const caption = getInstagramCaption();
+
+      // Check mobile Web Share API Level 2 file sharing
+      if (navigator.share && navigator.canShare) {
+        const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, "image/png"));
+        if (blob) {
+          const file = new File([blob], `inself-personal-color-${season.id}.png`, { type: "image/png" });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: `My Personal Color: ${lang === "ko" ? season.name : season.nameEn}`,
+              text: caption,
+              files: [file]
+            });
+            trackEvent("insta_save", { season: season.id, gender });
+            setIsExporting(false);
+            return;
+          }
+        }
+      }
+
+      // Fallback: download PNG image + copy caption to clipboard
+      const timestamp = getFormattedTimestamp();
+      const link = document.createElement("a");
+      link.download = `inself-instagram-${season.id}-${aspectRatio}_${timestamp}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(caption);
+      }
+      trackEvent("insta_save", { season: season.id, gender });
+      onToast(lang === "ko" ? "카드 이미지가 저장되고 캡션이 복사되었습니다! 📸" : "Image downloaded & caption copied! 📸");
+    } catch (err) {
+      console.error(err);
+      onToast(T[lang].toastError);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleCopyCaption = async () => {
+    const caption = getInstagramCaption();
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(caption);
+        onToast(T[lang].instaToastCaptionCopied);
+      } else {
+        onToast(T[lang].toastNoShare);
+      }
+    } catch (e) {
+      onToast(T[lang].toastError);
+    }
+  };
+
+  // Card dimensions
+  const isStory = aspectRatio === "story";
+  const cardWidth = isStory ? "380px" : "440px";
+  const cardHeight = isStory ? "676px" : "440px";
+
+  return (
+    <div 
+      className="insta-modal-overlay" 
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "rgba(20, 14, 10, 0.75)",
+        backdropFilter: "blur(8px)",
+        zIndex: 9999,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "16px"
+      }}
+      onClick={onClose}
+    >
+      <div 
+        style={{
+          background: "#FDF8F2",
+          border: "1px solid rgba(196,149,106,0.3)",
+          borderRadius: "24px",
+          width: "100%",
+          maxWidth: "540px",
+          maxHeight: "92vh",
+          display: "flex",
+          flexDirection: "column",
+          boxShadow: "0 24px 60px rgba(0,0,0,0.3)",
+          overflow: "hidden"
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Modal Top Bar */}
+        <div style={{
+          padding: "16px 20px",
+          borderBottom: "1px solid rgba(196,149,106,0.18)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          background: "#F9F3EB"
+        }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{
+                background: "linear-gradient(135deg, #833AB4, #FD1D1D, #FCB045)",
+                color: "#fff",
+                borderRadius: "6px",
+                padding: "3px 6px",
+                fontSize: "10px",
+                fontWeight: 800
+              }}>INSTAGRAM</span>
+              <h3 style={{ margin: 0, fontSize: "16px", fontWeight: 700, color: "#3D2B1A", fontFamily: "var(--fs)" }}>
+                {T[lang].instaModalTitle}
+              </h3>
+            </div>
+            <p style={{ margin: "3px 0 0 0", fontSize: "11.5px", color: "var(--sub)" }}>
+              {T[lang].instaModalSub}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            style={{
+              background: "rgba(196,149,106,0.12)",
+              border: "none",
+              color: "var(--rg)",
+              fontSize: "13px",
+              cursor: "pointer",
+              borderRadius: "100px",
+              padding: "5px 12px",
+              fontWeight: 600
+            }}
+          >
+            {lang === "ko" ? "닫기" : "Close"}
+          </button>
+        </div>
+
+        {/* Aspect Ratio Filter Tabs */}
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "8px",
+          padding: "12px 20px 6px 20px",
+          background: "#FAF4EC"
+        }}>
+          <button
+            onClick={() => setAspectRatio("feed")}
+            style={{
+              padding: "7px 18px",
+              borderRadius: "100px",
+              fontSize: "12.5px",
+              fontWeight: 600,
+              cursor: "pointer",
+              border: aspectRatio === "feed" ? "1.5px solid #C4956A" : "1px solid rgba(196,149,106,0.22)",
+              background: aspectRatio === "feed" ? "#C4956A" : "transparent",
+              color: aspectRatio === "feed" ? "#FFFFFF" : "var(--dark)",
+              transition: "all 0.2s"
+            }}
+          >
+            ⬜ {T[lang].instaFormatSquare}
+          </button>
+          <button
+            onClick={() => setAspectRatio("story")}
+            style={{
+              padding: "7px 18px",
+              borderRadius: "100px",
+              fontSize: "12.5px",
+              fontWeight: 600,
+              cursor: "pointer",
+              border: aspectRatio === "story" ? "1.5px solid #C4956A" : "1px solid rgba(196,149,106,0.22)",
+              background: aspectRatio === "story" ? "#C4956A" : "transparent",
+              color: aspectRatio === "story" ? "#FFFFFF" : "var(--dark)",
+              transition: "all 0.2s"
+            }}
+          >
+            📱 {T[lang].instaFormatStory}
+          </button>
+        </div>
+
+        {/* Preview Scroll Area */}
+        <div style={{
+          flex: 1,
+          overflowY: "auto",
+          padding: "18px 20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "#ECE3D6"
+        }}>
+          {/* THE PRE-FORMATTED AESTHETIC CARD TO RENDER */}
+          <div
+            id="insta-card-render-target"
+            style={{
+              width: cardWidth,
+              height: cardHeight,
+              background: theme.bgGradient,
+              borderRadius: "22px",
+              border: `1.5px solid ${theme.outerBorder}`,
+              boxShadow: "0 18px 45px rgba(0,0,0,0.18)",
+              position: "relative",
+              overflow: "hidden",
+              padding: isStory ? "28px 22px" : "22px 20px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              boxSizing: "border-box",
+              fontFamily: "var(--fs)"
+            }}
+          >
+            {/* Subtle glow / background texture */}
+            <div style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: theme.patternGlow,
+              pointerEvents: "none"
+            }} />
+
+            {/* Top Tagline Bar */}
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              fontSize: "10px",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              color: theme.textMuted,
+              textTransform: "uppercase",
+              position: "relative",
+              zIndex: 1
+            }}>
+              <span>✦ INSELF COLOR ARCHIVE</span>
+              <span>2026 SPECTRUM</span>
+            </div>
+
+            {/* Profile Hero Block */}
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+              margin: isStory ? "14px 0" : "8px 0",
+              position: "relative",
+              zIndex: 1
+            }}>
+              {/* Photo / Icon Avatar Frame */}
+              <div style={{
+                width: isStory ? "82px" : "72px",
+                height: isStory ? "82px" : "72px",
+                borderRadius: "50%",
+                padding: "3px",
+                background: theme.ring,
+                boxShadow: "0 6px 20px rgba(0,0,0,0.14)",
+                marginBottom: "8px"
+              }}>
+                {userImgSrc ? (
+                  <img
+                    src={userImgSrc}
+                    alt="User Profile"
+                    crossOrigin="anonymous"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      display: "block"
+                    }}
+                  />
+                ) : (
+                  <div style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "50%",
+                    background: theme.innerCardBg,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: isStory ? "34px" : "30px"
+                  }}>
+                    {season.icon}
+                  </div>
+                )}
+              </div>
+
+              {/* Passenger Name Kicker */}
+              <div style={{
+                fontSize: "10px",
+                fontWeight: 800,
+                letterSpacing: "0.12em",
+                color: theme.accentColor,
+                textTransform: "uppercase",
+                marginBottom: "3px"
+              }}>
+                PASSENGER · {displayName}
+              </div>
+
+              {/* Big Season Name */}
+              <h2 style={{
+                margin: 0,
+                fontSize: isStory ? "25px" : "22px",
+                fontWeight: 800,
+                color: theme.textColor,
+                lineHeight: "1.15",
+                letterSpacing: "-0.02em"
+              }}>
+                {lang === "ko" ? season.name : season.nameEn} {season.icon}
+              </h2>
+
+              {/* Subtitle Tone Description */}
+              <p style={{
+                margin: "4px 0 0 0",
+                fontSize: "11px",
+                color: theme.textMuted,
+                fontWeight: 600
+              }}>
+                {theme.toneSub}
+              </p>
+            </div>
+
+            {/* Signature Palette Swatches */}
+            <div style={{
+              background: theme.innerCardBg,
+              backdropFilter: "blur(8px)",
+              border: `1px solid ${theme.outerBorder}`,
+              borderRadius: "14px",
+              padding: isStory ? "12px 14px" : "10px 12px",
+              margin: isStory ? "8px 0" : "4px 0",
+              position: "relative",
+              zIndex: 1
+            }}>
+              <div style={{
+                fontSize: "9px",
+                fontWeight: 800,
+                letterSpacing: "0.1em",
+                color: theme.textMuted,
+                textTransform: "uppercase",
+                marginBottom: "8px",
+                textAlign: "center"
+              }}>
+                SIGNATURE BEST PALETTE
+              </div>
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}>
+                {season.palette.slice(0, 5).map((color: any, idx: number) => (
+                  <div key={idx} style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "4px"
+                  }}>
+                    <div style={{
+                      width: isStory ? "36px" : "32px",
+                      height: isStory ? "36px" : "32px",
+                      borderRadius: "50%",
+                      background: color.hex,
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                      border: season.id === "winter" && (color.hex === "#FFFFFF" || color.hex === "#FAFAFA")
+                        ? "1px solid rgba(255,255,255,0.4)"
+                        : "2px solid #FFFFFF"
+                    }} />
+                    <span style={{
+                      fontSize: "9px",
+                      fontWeight: 700,
+                      color: theme.textColor,
+                      letterSpacing: "-0.01em",
+                      maxWidth: "48px",
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis"
+                    }}>
+                      {lang === "ko" ? color.name : color.nameEn}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Beauty & Styling Synergy Grid */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: isStory ? "8px" : "6px",
+              position: "relative",
+              zIndex: 1
+            }}>
+              <div style={{
+                background: theme.innerCardBg,
+                borderRadius: "10px",
+                padding: "8px 10px",
+                border: `1px solid ${theme.outerBorder}`
+              }}>
+                <span style={{ fontSize: "9px", fontWeight: 800, color: theme.accentColor, display: "block" }}>
+                  💄 BEST LIP
+                </span>
+                <span style={{ fontSize: "11px", fontWeight: 700, color: theme.textColor }}>
+                  {season.makeup.lip}
+                </span>
+              </div>
+
+              <div style={{
+                background: theme.innerCardBg,
+                borderRadius: "10px",
+                padding: "8px 10px",
+                border: `1px solid ${theme.outerBorder}`
+              }}>
+                <span style={{ fontSize: "9px", fontWeight: 800, color: theme.accentColor, display: "block" }}>
+                  🌿 SKINCARE HERO
+                </span>
+                <span style={{ fontSize: "11px", fontWeight: 700, color: theme.textColor }}>
+                  {topActiveIngredient}
+                </span>
+              </div>
+
+              <div style={{
+                background: theme.innerCardBg,
+                borderRadius: "10px",
+                padding: "8px 10px",
+                border: `1px solid ${theme.outerBorder}`
+              }}>
+                <span style={{ fontSize: "9px", fontWeight: 800, color: theme.accentColor, display: "block" }}>
+                  💎 JEWELRY
+                </span>
+                <span style={{ fontSize: "11px", fontWeight: 700, color: theme.textColor }}>
+                  {season.jewelry}
+                </span>
+              </div>
+
+              <div style={{
+                background: theme.innerCardBg,
+                borderRadius: "10px",
+                padding: "8px 10px",
+                border: `1px solid ${theme.outerBorder}`
+              }}>
+                <span style={{ fontSize: "9px", fontWeight: 800, color: "#B84826", display: "block" }}>
+                  ⚠️ AVOID TONE
+                </span>
+                <span style={{ fontSize: "11px", fontWeight: 700, color: theme.textColor, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {season.colorsToAvoid?.slice(0, 2).join(", ")}
+                </span>
+              </div>
+            </div>
+
+            {/* Extra Story Details (Only in 9:16 Story format) */}
+            {isStory && (
+              <div style={{
+                background: theme.innerCardBg,
+                borderRadius: "12px",
+                padding: "10px 14px",
+                marginTop: "4px",
+                border: `1px solid ${theme.outerBorder}`,
+                display: "flex",
+                flexDirection: "column",
+                gap: "6px",
+                position: "relative",
+                zIndex: 1
+              }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "10px", color: theme.textColor, fontWeight: 700 }}>
+                  <span>{lang === "ko" ? "피부 언더톤 성향" : "Skin Undertone"}</span>
+                  <span style={{ color: theme.accentColor }}>{season.id === "spring" || season.id === "autumn" ? "Warm 84% · Cool 16%" : "Cool 86% · Warm 14%"}</span>
+                </div>
+                <div style={{
+                  height: "5px",
+                  background: "rgba(0,0,0,0.06)",
+                  borderRadius: "100px",
+                  overflow: "hidden"
+                }}>
+                  <div style={{
+                    width: season.id === "spring" || season.id === "autumn" ? "84%" : "14%",
+                    height: "100%",
+                    background: theme.ring,
+                    borderRadius: "100px"
+                  }} />
+                </div>
+                <div style={{ fontSize: "10px", color: theme.textMuted, textAlign: "center", marginTop: "4px" }}>
+                  {lang === "ko" ? "👆 스토리 링크 클릭하여 무료 정밀 진단 받기" : "👆 Tap link to find your personal color free"}
+                </div>
+              </div>
+            )}
+
+            {/* Bottom Minimal Stamp & Watermark */}
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingTop: "6px",
+              borderTop: `1px dashed ${theme.outerBorder}`,
+              position: "relative",
+              zIndex: 1
+            }}>
+              <span style={{
+                fontSize: "9px",
+                fontWeight: 700,
+                color: theme.textMuted,
+                letterSpacing: "0.02em"
+              }}>
+                inselfcolor.pages.dev · @inself.studio
+              </span>
+              <span style={{
+                fontSize: "8.5px",
+                fontWeight: 800,
+                color: theme.accentColor,
+                letterSpacing: "0.06em",
+                fontFamily: "monospace"
+              }}>
+                IS-PASS-{season.id.toUpperCase()}-2026
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Modal Action Buttons Footer */}
+        <div style={{
+          padding: "16px 20px",
+          borderTop: "1px solid rgba(196,149,106,0.18)",
+          background: "#F9F3EB",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px"
+        }}>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            {/* Download PNG Button */}
+            <button
+              onClick={handleDownloadImage}
+              disabled={isExporting}
+              style={{
+                flex: 1.2,
+                minWidth: "150px",
+                background: "linear-gradient(135deg, #C4956A, #9A6A47)",
+                color: "#FFFFFF",
+                border: "none",
+                borderRadius: "100px",
+                padding: "12px 18px",
+                fontSize: "13px",
+                fontWeight: 700,
+                cursor: "pointer",
+                boxShadow: "0 4px 14px rgba(196,149,106,0.28)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "6px",
+                transition: "all 0.2s"
+              }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              {isExporting ? (lang === "ko" ? "생성 중..." : "Generating...") : T[lang].instaDownloadBtn}
+            </button>
+
+            {/* Direct Mobile Share / Instagram Button */}
+            <button
+              onClick={handleShareToInstagram}
+              disabled={isExporting}
+              style={{
+                flex: 1.3,
+                minWidth: "160px",
+                background: "linear-gradient(135deg, #833AB4, #FD1D1D, #FCB045)",
+                color: "#FFFFFF",
+                border: "none",
+                borderRadius: "100px",
+                padding: "12px 18px",
+                fontSize: "13px",
+                fontWeight: 700,
+                cursor: "pointer",
+                boxShadow: "0 4px 14px rgba(225,48,108,0.28)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "6px",
+                transition: "all 0.2s"
+              }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              {T[lang].instaShareBtn}
+            </button>
+          </div>
+
+          {/* Copy Caption Helper */}
+          <button
+            onClick={handleCopyCaption}
+            style={{
+              width: "100%",
+              background: "rgba(196,149,106,0.08)",
+              border: "1px dashed rgba(196,149,106,0.35)",
+              color: "var(--dark)",
+              borderRadius: "100px",
+              padding: "9px 14px",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "6px",
+              transition: "all 0.2s"
+            }}
+          >
+            <span>📋</span> {T[lang].instaCopyCaptionBtn}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

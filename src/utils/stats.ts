@@ -5,7 +5,7 @@
 
 export interface StatLog {
   timestamp: string; // ISO String
-  type: "visit" | "test_complete" | "gender_select" | "sns_save" | "full_save" | "repr_save";
+  type: "visit" | "test_complete" | "gender_select" | "sns_save" | "full_save" | "repr_save" | "screenshot_save" | "insta_save";
   season?: "spring" | "summer" | "autumn" | "winter";
   gender?: "female" | "male";
   lang?: "ko" | "en";
