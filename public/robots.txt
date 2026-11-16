@@ -33,3 +33,5 @@ Allow: /
 
 # Sitemap Location
 Sitemap: https://inselfcolor.pages.dev/sitemap.xml
+
+#DaumWebMasterTool:ca10123492ea00a3239445179df0122c3ee5bd899b3897854117ca02a15ee5c2:CNSJIIGOISrSV2aL3hPlgQ==
