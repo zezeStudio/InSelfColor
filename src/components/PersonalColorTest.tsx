@@ -432,6 +432,188 @@ function analyzePersonalColor(imgEl: HTMLImageElement){
   }
 }
 
+interface FaceFocusSuggestion {
+  zoom: number;
+  dx: number;
+  dy: number;
+  detected: boolean;
+}
+
+function buildRotatedSourceCanvas(img: HTMLImageElement, rotationDeg: number): HTMLCanvasElement {
+  const MAX_DIM = 1400;
+  const origW = img.naturalWidth || img.width || 600;
+  const origH = img.naturalHeight || img.height || 600;
+  const scale = Math.min(MAX_DIM / origW, MAX_DIM / origH, 1);
+  const drawW = Math.max(1, Math.round(origW * scale));
+  const drawH = Math.max(1, Math.round(origH * scale));
+  const normalizedRot = ((rotationDeg % 360) + 360) % 360;
+  const swap = normalizedRot === 90 || normalizedRot === 270;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = swap ? drawH : drawW;
+  canvas.height = swap ? drawW : drawH;
+  const ctx = canvas.getContext("2d");
+  if (ctx) {
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate((normalizedRot * Math.PI) / 180);
+    ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+  }
+  return canvas;
+}
+
+function clampCropOffset(
+  srcW: number,
+  srcH: number,
+  zoom: number,
+  dx: number,
+  dy: number
+): { cropSide: number; dx: number; dy: number; sx: number; sy: number } {
+  const safeZoom = Math.max(1, Math.min(3, zoom));
+  const cropSide = Math.min(srcW, srcH) / safeZoom;
+  const maxDx = Math.max(0, (srcW - cropSide) / 2);
+  const maxDy = Math.max(0, (srcH - cropSide) / 2);
+  const clampedDx = Math.max(-maxDx, Math.min(maxDx, dx));
+  const clampedDy = Math.max(-maxDy, Math.min(maxDy, dy));
+  const sx = Math.max(0, Math.min(srcW - cropSide, (srcW - cropSide) / 2 + clampedDx));
+  const sy = Math.max(0, Math.min(srcH - cropSide, (srcH - cropSide) / 2 + clampedDy));
+  return { cropSide, dx: clampedDx, dy: clampedDy, sx, sy };
+}
+
+function detectFaceFocus(sourceCanvas: HTMLCanvasElement): FaceFocusSuggestion {
+  const srcW = sourceCanvas.width || 600;
+  const srcH = sourceCanvas.height || 600;
+  const SAMPLE_MAX = 128;
+  const sc = Math.min(SAMPLE_MAX / srcW, SAMPLE_MAX / srcH, 1);
+  const sw = Math.max(16, Math.round(srcW * sc));
+  const sh = Math.max(16, Math.round(srcH * sc));
+
+  const sampleCanvas = document.createElement("canvas");
+  sampleCanvas.width = sw;
+  sampleCanvas.height = sh;
+  const sctx = sampleCanvas.getContext("2d");
+  if (!sctx) {
+    return { zoom: 1.15, dx: 0, dy: -srcH * 0.08, detected: false };
+  }
+  sctx.drawImage(sourceCanvas, 0, 0, sw, sh);
+  const data = sctx.getImageData(0, 0, sw, sh).data;
+
+  let sumW = 0;
+  let sumX = 0;
+  let sumY = 0;
+  const pts: Array<{ x: number; y: number; w: number }> = [];
+
+  for (let y = 0; y < sh; y++) {
+    const ny = y / sh;
+    const yPrior = ny >= 0.08 && ny <= 0.72 ? 1.45 : ny < 0.08 ? 0.65 : 0.45;
+    for (let x = 0; x < sw; x++) {
+      const idx = (y * sw + x) * 4;
+      if (!isSkinTone(data[idx], data[idx + 1], data[idx + 2])) continue;
+      const nx = x / sw;
+      const xPrior = 1 - Math.abs(nx - 0.5) * 0.55;
+      const w = yPrior * Math.max(0.4, xPrior);
+      sumW += w;
+      sumX += nx * w;
+      sumY += ny * w;
+      pts.push({ x: nx, y: ny, w });
+    }
+  }
+
+  if (sumW < sw * sh * 0.012 || pts.length < 20) {
+    const fallbackZoom = srcW > srcH * 1.25 || srcH > srcW * 1.25 ? 1.18 : 1.05;
+    const fallbackDy = srcH > srcW ? -Math.max(0, (srcH - srcW) * 0.22) : 0;
+    const clamped = clampCropOffset(srcW, srcH, fallbackZoom, 0, fallbackDy);
+    return { zoom: fallbackZoom, dx: clamped.dx, dy: clamped.dy, detected: false };
+  }
+
+  const cx = sumX / sumW;
+  const cy = sumY / sumW;
+
+  let varX = 0;
+  let varY = 0;
+  for (let i = 0; i < pts.length; i++) {
+    const p = pts[i];
+    const ddx = p.x - cx;
+    const ddy = p.y - cy;
+    varX += p.w * ddx * ddx;
+    varY += p.w * ddy * ddy;
+  }
+  const stdX = Math.sqrt(varX / sumW);
+  const stdY = Math.sqrt(varY / sumW);
+  const spreadPx = Math.max(stdX * srcW * 3.1, stdY * srcH * 3.4);
+  const baseSide = Math.min(srcW, srcH);
+  const rawZoom = spreadPx > 1 ? (baseSide * 0.62) / spreadPx : 1.2;
+  const zoom = Math.max(1.06, Math.min(2.25, Number(rawZoom.toFixed(2))));
+
+  const targetX = cx * srcW;
+  const targetY = cy * srcH;
+  const cropSide = baseSide / zoom;
+  // Slightly align skin centroid to optical upper-center of the oval (0.48y)
+  const desiredDx = targetX - srcW / 2;
+  const desiredDy = targetY - srcH / 2 + cropSide * 0.02;
+  const clamped = clampCropOffset(srcW, srcH, zoom, desiredDx, desiredDy);
+
+  return {
+    zoom,
+    dx: clamped.dx,
+    dy: clamped.dy,
+    detected: true,
+  };
+}
+
+function exportFaceCrop(
+  sourceCanvas: HTMLCanvasElement,
+  zoom: number,
+  dx: number,
+  dy: number
+): { dataUrl: string; skinCoverage: number } {
+  const OUT_SIZE = 600;
+  const srcW = sourceCanvas.width || OUT_SIZE;
+  const srcH = sourceCanvas.height || OUT_SIZE;
+  const { cropSide, sx, sy } = clampCropOffset(srcW, srcH, zoom, dx, dy);
+
+  const outCanvas = document.createElement("canvas");
+  outCanvas.width = OUT_SIZE;
+  outCanvas.height = OUT_SIZE;
+  const ctx = outCanvas.getContext("2d");
+  if (!ctx) {
+    return { dataUrl: sourceCanvas.toDataURL("image/jpeg", 0.92), skinCoverage: 0 };
+  }
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(sourceCanvas, sx, sy, cropSide, cropSide, 0, 0, OUT_SIZE, OUT_SIZE);
+  const dataUrl = outCanvas.toDataURL("image/jpeg", 0.92);
+
+  // Measure skin-tone coverage inside the central facial oval (96x96 fast scan)
+  const SCAN = 96;
+  const scanCanvas = document.createElement("canvas");
+  scanCanvas.width = SCAN;
+  scanCanvas.height = SCAN;
+  const sctx = scanCanvas.getContext("2d");
+  let skinCoverage = 0;
+  if (sctx) {
+    sctx.drawImage(outCanvas, 0, 0, SCAN, SCAN);
+    const px = sctx.getImageData(0, 0, SCAN, SCAN).data;
+    let ovalPixels = 0;
+    let skinPixels = 0;
+    for (let y = 0; y < SCAN; y++) {
+      const ny = (y / SCAN - 0.48) / 0.34;
+      for (let x = 0; x < SCAN; x++) {
+        const nx = (x / SCAN - 0.5) / 0.25;
+        if (nx * nx + ny * ny <= 1) {
+          ovalPixels++;
+          const idx = (y * SCAN + x) * 4;
+          if (isSkinTone(px[idx], px[idx + 1], px[idx + 2])) {
+            skinPixels++;
+          }
+        }
+      }
+    }
+    skinCoverage = ovalPixels > 0 ? Math.round((skinPixels / ovalPixels) * 100) : 0;
+  }
+
+  return { dataUrl, skinCoverage };
+}
+
 function getFormattedTimestamp() {
   const d = new Date();
   const yyyy = d.getFullYear();
@@ -1738,6 +1920,41 @@ const CSS=`
   .pov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.36) 0%,transparent 55%);border-radius:var(--rl);display:flex;align-items:flex-end;padding:16px;pointer-events:none;}
   .pov button{pointer-events:all;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border:none;border-radius:100px;padding:8px 17px;font-size:12px;font-family:var(--fs);cursor:pointer;color:var(--dark);transition:all .2s;}
   .pov button:hover{background:#fff;}
+  .crop-studio{width:100%;padding:16px;display:flex;flex-direction:column;gap:14px;background:rgba(255,255,255,.82);}
+  .crop-header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .crop-header-info{display:flex;flex-direction:column;gap:2px;}
+  .crop-header-title{font-size:13.5px;font-weight:600;color:var(--dark);display:flex;align-items:center;gap:6px;}
+  .crop-header-sub{font-size:11.5px;color:var(--sub);line-height:1.45;}
+  .crop-change-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;min-height:36px;border-radius:100px;border:1px solid var(--border);background:#fff;color:var(--dark);font-size:12px;font-weight:500;font-family:var(--fs);cursor:pointer;white-space:nowrap;transition:all .2s ease;}
+  .crop-change-btn:hover{border-color:var(--rg);color:var(--rg);background:rgba(196,149,106,.06);}
+  .crop-viewport-wrap{display:flex;justify-content:center;width:100%;}
+  .crop-viewport{position:relative;width:100%;max-width:320px;aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:#1d1510;box-shadow:0 8px 24px rgba(40,26,16,.14);border:1px solid rgba(196,149,106,.35);touch-action:none;user-select:none;cursor:grab;}
+  .crop-viewport.dragging{cursor:grabbing;}
+  .crop-canvas{width:100%;height:100%;display:block;pointer-events:none;}
+  .crop-guide-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+  .crop-drag-hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(24,17,13,.68);backdrop-filter:blur(6px);color:rgba(255,255,255,.94);padding:4px 11px;border-radius:100px;font-size:11px;font-family:var(--fs);white-space:nowrap;pointer-events:none;letter-spacing:0.01em;}
+  .crop-controls{display:flex;flex-direction:column;gap:10px;}
+  .crop-zoom-row{display:flex;align-items:center;gap:10px;background:rgba(250,247,242,.9);border:1px solid rgba(196,149,106,.22);border-radius:14px;padding:8px 12px;}
+  .crop-zoom-btn{width:36px;height:36px;min-width:36px;border-radius:10px;border:1px solid var(--border);background:#fff;color:var(--dark);font-size:16px;font-weight:600;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;}
+  .crop-zoom-btn:hover:not(:disabled){border-color:var(--rg);color:var(--rg);}
+  .crop-zoom-btn:disabled{opacity:.38;cursor:not-allowed;}
+  .crop-zoom-slider{flex:1;accent-color:var(--rg);cursor:pointer;height:6px;}
+  .crop-zoom-val{font-size:12px;font-weight:600;color:var(--dark);min-width:40px;text-align:right;font-variant-numeric:tabular-nums;}
+  .crop-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+  .crop-act-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:40px;padding:8px 10px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--dark);font-size:12px;font-weight:500;font-family:var(--fs);cursor:pointer;white-space:nowrap;transition:all .2s;}
+  .crop-act-btn:hover{border-color:var(--rg);color:var(--rg);background:rgba(196,149,106,.06);}
+  @media(max-width:420px){
+    .crop-studio{padding:14px;}
+    .crop-actions{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .crop-actions .crop-act-btn:first-child{grid-column:span 2;}
+  }
+  .crop-output-card{display:flex;align-items:center;gap:13px;padding:11px 13px;border-radius:16px;background:linear-gradient(135deg,rgba(255,248,242,.95),rgba(250,243,235,.9));border:1px solid rgba(196,149,106,.28);}
+  .crop-output-thumb{width:60px;height:60px;border-radius:14px;object-fit:cover;border:1.5px solid rgba(196,149,106,.45);flex-shrink:0;background:#f4ece4;}
+  .crop-output-meta{display:flex;flex-direction:column;gap:3px;min-width:0;}
+  .crop-output-title{font-size:12.5px;font-weight:600;color:var(--dark);}
+  .crop-output-status{font-size:11.5px;line-height:1.45;color:var(--sub);}
+  .crop-output-status.good{color:#2f6f44;font-weight:500;}
+  .crop-output-status.warn{color:#9a5b1e;font-weight:500;}
   .tips{width:100%;max-width:520px;margin-top:14px;background:rgba(255,255,255,.43);border:1px solid var(--border);border-radius:var(--r);padding:13px 17px;display:flex;gap:10px;align-items:flex-start;}
   .tiptxt{font-size:11px;color:var(--sub);line-height:1.68;}
   .tiptxt strong{color:var(--text);font-weight:500;}
@@ -2290,6 +2507,16 @@ const T: Record<string, Record<string, any>> = {
     fileSupport: "JPG, PNG, WEBP 지원 / 정면 얼굴 사진 권장",
     selectFile: "파일 선택",
     changePhoto: "사진 변경",
+    cropStudioTitle: "얼굴 중심 미리보기 & 위치 맞춤",
+    cropAutoHint: "피부 영역을 감지해 얼굴 중심으로 자동 배치했어요",
+    cropManualHint: "드래그와 확대로 얼굴을 타원 가이드 안에 맞춰주세요",
+    cropDragHint: "드래그하여 위치 조정",
+    cropAutoCenter: "🎯 얼굴 맞춤",
+    cropRotate: "↻ 90° 회전",
+    cropReset: "↺ 초기화",
+    cropOutputTitle: "분석에 적용될 크롭 이미지 (1:1)",
+    cropStatusGood: "가이드 내 피부 톤 감지 양호 · 정밀 분석 준비 완료",
+    cropStatusWarn: "얼굴 피부가 가이드 중앙에 오도록 살짝 확대하거나 이동해보세요",
     uploadTips: "💡 좋은 결과를 위한 팁: 자연광 아래 촬영, 과도한 필터 없음, 메이크업 최소화, 얼굴이 중앙에 있는 정면 사진을 사용해주세요.",
     startAnalysis: "🔬 분석 시작하기 →",
     pleaseUpload: "사진을 먼저 업로드해주세요",
@@ -2373,6 +2600,16 @@ const T: Record<string, Record<string, any>> = {
     fileSupport: "Supports JPG, PNG, WEBP / Front face photo recommended",
     selectFile: "Select File",
     changePhoto: "Change Photo",
+    cropStudioTitle: "Face-Centered Preview & Framing",
+    cropAutoHint: "Auto-centered on detected facial skin area",
+    cropManualHint: "Drag and zoom to center your face inside the oval guide",
+    cropDragHint: "Drag to reposition",
+    cropAutoCenter: "🎯 Auto-Center",
+    cropRotate: "↻ Rotate 90°",
+    cropReset: "↺ Reset",
+    cropOutputTitle: "Cropped Image for Analysis (1:1)",
+    cropStatusGood: "Good skin-tone coverage inside guide · Ready for analysis",
+    cropStatusWarn: "Try zooming or centering your face closer inside the oval guide",
     uploadTips: "💡 Tips for great results: Share a front-facing photo taken under soft natural light, with no heavy filters, minimal makeup, and your face centered.",
     startAnalysis: "🔬 Start Analysis →",
     pleaseUpload: "Please upload a photo first",
@@ -3169,6 +3406,71 @@ interface UploadScreenProps {
 function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang,gender,setGender,onLogoClick}: UploadScreenProps){
   const[isDrag,setIsDrag]=useState(false);
   const[hasAgreed,setHasAgreed]=useState(false);
+  const[rawImg,setRawImg]=useState<HTMLImageElement|null>(null);
+  const[rotation,setRotation]=useState(0);
+  const[sourceCanvas,setSourceCanvas]=useState<HTMLCanvasElement|null>(null);
+  const[zoom,setZoom]=useState(1.1);
+  const[pan,setPan]=useState<{dx:number;dy:number}>({dx:0,dy:0});
+  const[autoDetected,setAutoDetected]=useState(false);
+  const[skinCoverage,setSkinCoverage]=useState(0);
+  const[isPanning,setIsPanning]=useState(false);
+
+  const previewCanvasRef=useRef<HTMLCanvasElement|null>(null);
+  const dragStartRef=useRef<{clientX:number;clientY:number;dx:number;dy:number}|null>(null);
+  const prevUploadedRef=useRef<string|null>(uploadedImage);
+
+  // Clear local crop state if parent explicitly clears uploadedImage
+  useEffect(()=>{
+    if(prevUploadedRef.current && !uploadedImage){
+      setRawImg(null);
+      setSourceCanvas(null);
+      setRotation(0);
+      setZoom(1.1);
+      setPan({dx:0,dy:0});
+      setAutoDetected(false);
+      setSkinCoverage(0);
+    }
+    prevUploadedRef.current=uploadedImage;
+  },[uploadedImage]);
+
+  const applyCanvasAndAutoFocus=useCallback((canvas: HTMLCanvasElement)=>{
+    const focus=detectFaceFocus(canvas);
+    setSourceCanvas(canvas);
+    setZoom(focus.zoom);
+    setPan({dx:focus.dx,dy:focus.dy});
+    setAutoDetected(focus.detected);
+  },[]);
+
+  // Keep preview canvas synced at 60fps; export cropped 600x600 JPEG when framing settles
+  useEffect(()=>{
+    if(!sourceCanvas)return;
+    const srcW=sourceCanvas.width||600;
+    const srcH=sourceCanvas.height||600;
+    const {cropSide,sx,sy}=clampCropOffset(srcW,srcH,zoom,pan.dx,pan.dy);
+
+    const viewCanvas=previewCanvasRef.current;
+    if(viewCanvas){
+      const dpr=Math.min(window.devicePixelRatio||1,2);
+      const displaySize=Math.round(320*dpr);
+      if(viewCanvas.width!==displaySize||viewCanvas.height!==displaySize){
+        viewCanvas.width=displaySize;
+        viewCanvas.height=displaySize;
+      }
+      const vctx=viewCanvas.getContext("2d");
+      if(vctx){
+        vctx.clearRect(0,0,displaySize,displaySize);
+        vctx.imageSmoothingEnabled=true;
+        vctx.imageSmoothingQuality="high";
+        vctx.drawImage(sourceCanvas,sx,sy,cropSide,cropSide,0,0,displaySize,displaySize);
+      }
+    }
+
+    if(isPanning)return;
+    const {dataUrl,skinCoverage:cov}=exportFaceCrop(sourceCanvas,zoom,pan.dx,pan.dy);
+    setSkinCoverage(cov);
+    onImageSet(dataUrl);
+  },[sourceCanvas,zoom,pan,isPanning,onImageSet]);
+
   const handleFile=useCallback((file: File)=>{
     if(!file||!file.type.startsWith("image/"))return;
     const r=new FileReader();
@@ -3176,32 +3478,81 @@ function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang,ge
       const src=e.target?.result as string;
       const img=new Image();
       img.onload=()=>{
-        const MAX_WIDTH=1024;
-        const MAX_HEIGHT=1024;
-        let w=img.width;
-        let h=img.height;
-        if(w>MAX_WIDTH||h>MAX_HEIGHT){
-          if(w>h){h=Math.round((h*MAX_WIDTH)/w);w=MAX_WIDTH;}
-          else{w=Math.round((w*MAX_HEIGHT)/h);h=MAX_HEIGHT;}
-          const canvas=document.createElement("canvas");
-          canvas.width=w;
-          canvas.height=h;
-          const ctx=canvas.getContext("2d");
-          if(ctx){
-            ctx.drawImage(img,0,0,w,h);
-            onImageSet(canvas.toDataURL("image/jpeg",0.9));
-          }else{
-            onImageSet(src);
-          }
-        }else{
-          onImageSet(src);
-        }
+        setRawImg(img);
+        setRotation(0);
+        const canvas=buildRotatedSourceCanvas(img,0);
+        applyCanvasAndAutoFocus(canvas);
       };
       img.onerror=()=>onImageSet(src);
       img.src=src;
     };
     r.readAsDataURL(file);
-  },[onImageSet]);
+  },[applyCanvasAndAutoFocus,onImageSet]);
+
+  const handlePointerDown=(e: React.PointerEvent<HTMLDivElement>)=>{
+    if(!sourceCanvas)return;
+    e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
+    dragStartRef.current={clientX:e.clientX,clientY:e.clientY,dx:pan.dx,dy:pan.dy};
+    setIsPanning(true);
+  };
+
+  const handlePointerMove=(e: React.PointerEvent<HTMLDivElement>)=>{
+    if(!dragStartRef.current||!sourceCanvas)return;
+    const rect=e.currentTarget.getBoundingClientRect();
+    const boxSize=Math.max(120,rect.width);
+    const srcW=sourceCanvas.width||600;
+    const srcH=sourceCanvas.height||600;
+    const cropSide=Math.min(srcW,srcH)/Math.max(1,zoom);
+    const ratio=cropSide/boxSize;
+    const deltaX=(e.clientX-dragStartRef.current.clientX)*ratio;
+    const deltaY=(e.clientY-dragStartRef.current.clientY)*ratio;
+    const clamped=clampCropOffset(
+      srcW,
+      srcH,
+      zoom,
+      dragStartRef.current.dx-deltaX,
+      dragStartRef.current.dy-deltaY
+    );
+    setPan({dx:clamped.dx,dy:clamped.dy});
+  };
+
+  const handlePointerUp=(e: React.PointerEvent<HTMLDivElement>)=>{
+    if(dragStartRef.current){
+      try{e.currentTarget.releasePointerCapture(e.pointerId);}catch{}
+      dragStartRef.current=null;
+      setIsPanning(false);
+    }
+  };
+
+  const handleZoomChange=(nextZoom: number)=>{
+    if(!sourceCanvas)return;
+    const clampedZoom=Math.max(1,Math.min(3,Number(nextZoom.toFixed(2))));
+    const clamped=clampCropOffset(sourceCanvas.width,sourceCanvas.height,clampedZoom,pan.dx,pan.dy);
+    setZoom(clampedZoom);
+    setPan({dx:clamped.dx,dy:clamped.dy});
+  };
+
+  const handleAutoCenter=()=>{
+    if(!sourceCanvas)return;
+    const focus=detectFaceFocus(sourceCanvas);
+    setZoom(focus.zoom);
+    setPan({dx:focus.dx,dy:focus.dy});
+    setAutoDetected(focus.detected);
+  };
+
+  const handleRotate=()=>{
+    if(!rawImg)return;
+    const nextRot=(rotation+90)%360;
+    setRotation(nextRot);
+    const canvas=buildRotatedSourceCanvas(rawImg,nextRot);
+    applyCanvasAndAutoFocus(canvas);
+  };
+
+  const handleResetCrop=()=>{
+    setZoom(1);
+    setPan({dx:0,dy:0});
+  };
 
   const INPUT_ID="pct-file-input";
 
@@ -3234,14 +3585,127 @@ function UploadScreen({onBack,onAnalyze,uploadedImage,onImageSet,lang,setLang,ge
           onDragLeave={()=>setIsDrag(false)}
           onDrop={e=>{e.preventDefault();setIsDrag(false);if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);}}
         >
-          {uploadedImage?(
+          {sourceCanvas ? (
+            <div className="crop-studio">
+              <div className="crop-header">
+                <div className="crop-header-info">
+                  <span className="crop-header-title">🎯 {T[lang].cropStudioTitle}</span>
+                  <span className="crop-header-sub">
+                    {autoDetected ? T[lang].cropAutoHint : T[lang].cropManualHint}
+                  </span>
+                </div>
+                <label htmlFor={INPUT_ID} className="crop-change-btn">📁 {T[lang].changePhoto}</label>
+              </div>
+
+              <div className="crop-viewport-wrap">
+                <div
+                  className={`crop-viewport${isPanning ? " dragging" : ""}`}
+                  onPointerDown={handlePointerDown}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={handlePointerUp}
+                  onPointerCancel={handlePointerUp}
+                >
+                  <canvas ref={previewCanvasRef} className="crop-canvas" />
+                  <svg className="crop-guide-svg" viewBox="0 0 100 100" aria-hidden="true">
+                    <defs>
+                      <mask id="pct-face-oval-mask">
+                        <rect x="0" y="0" width="100" height="100" fill="white" />
+                        <ellipse cx="50" cy="48" rx="25" ry="34" fill="black" />
+                      </mask>
+                    </defs>
+                    <rect
+                      x="0"
+                      y="0"
+                      width="100"
+                      height="100"
+                      fill="rgba(20, 14, 10, 0.42)"
+                      mask="url(#pct-face-oval-mask)"
+                    />
+                    <ellipse
+                      cx="50"
+                      cy="48"
+                      rx="25"
+                      ry="34"
+                      fill="none"
+                      stroke="rgba(255, 255, 255, 0.9)"
+                      strokeWidth="0.7"
+                      strokeDasharray="2.4 1.8"
+                    />
+                    <line x1="50" y1="11" x2="50" y2="16" stroke="rgba(255,255,255,0.65)" strokeWidth="0.6" />
+                    <line x1="50" y1="80" x2="50" y2="85" stroke="rgba(255,255,255,0.65)" strokeWidth="0.6" />
+                    <line x1="21" y1="45" x2="27" y2="45" stroke="rgba(255,255,255,0.5)" strokeWidth="0.55" />
+                    <line x1="73" y1="45" x2="79" y2="45" stroke="rgba(255,255,255,0.5)" strokeWidth="0.55" />
+                  </svg>
+                  <span className="crop-drag-hint">✋ {T[lang].cropDragHint}</span>
+                </div>
+              </div>
+
+              <div className="crop-controls">
+                <div className="crop-zoom-row">
+                  <button
+                    type="button"
+                    className="crop-zoom-btn"
+                    onClick={() => handleZoomChange(zoom - 0.15)}
+                    disabled={zoom <= 1.01}
+                    aria-label="Zoom out"
+                  >
+                    −
+                  </button>
+                  <input
+                    type="range"
+                    min={1}
+                    max={3}
+                    step={0.02}
+                    value={zoom}
+                    onChange={(e) => handleZoomChange(parseFloat(e.target.value))}
+                    className="crop-zoom-slider"
+                    aria-label="Zoom level"
+                  />
+                  <button
+                    type="button"
+                    className="crop-zoom-btn"
+                    onClick={() => handleZoomChange(zoom + 0.15)}
+                    disabled={zoom >= 2.99}
+                    aria-label="Zoom in"
+                  >
+                    +
+                  </button>
+                  <span className="crop-zoom-val">{zoom.toFixed(1)}×</span>
+                </div>
+
+                <div className="crop-actions">
+                  <button type="button" className="crop-act-btn" onClick={handleAutoCenter}>
+                    {T[lang].cropAutoCenter}
+                  </button>
+                  <button type="button" className="crop-act-btn" onClick={handleRotate}>
+                    {T[lang].cropRotate}
+                  </button>
+                  <button type="button" className="crop-act-btn" onClick={handleResetCrop}>
+                    {T[lang].cropReset}
+                  </button>
+                </div>
+              </div>
+
+              {uploadedImage && (
+                <div className="crop-output-card">
+                  <img src={uploadedImage} alt="Cropped Face Preview" className="crop-output-thumb" />
+                  <div className="crop-output-meta">
+                    <span className="crop-output-title">{T[lang].cropOutputTitle}</span>
+                    <span className={`crop-output-status ${skinCoverage >= 14 ? "good" : "warn"}`}>
+                      {skinCoverage >= 14 ? `✓ ${T[lang].cropStatusGood}` : `ℹ️ ${T[lang].cropStatusWarn}`}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : uploadedImage ? (
             <>
               <img src={uploadedImage} alt="Preview" className="pimg"/>
               <div className="pov">
                 <label htmlFor={INPUT_ID} className="uchglabel">📁 {T[lang].changePhoto}</label>
               </div>
             </>
-          ):(
+          ) : (
             <label htmlFor={INPUT_ID} className="ulabel">
               <div className="uic">📷</div>
               <p className="umain">{T[lang].dragOrClick}</p>
