@@ -324,12 +324,21 @@ function createTypeHtml(t) {
     <title>${t.title} | InSelf Color</title>
     <meta name="description" content="${t.desc}" />
     <link rel="canonical" href="https://inselfcolor.pages.dev/types/${t.id}" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     
     <meta property="og:type" content="article" />
     <meta property="og:title" content="${t.title} | InSelf Color" />
     <meta property="og:description" content="${t.desc}" />
+    <meta property="og:image" content="https://inselfcolor.pages.dev/images/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:url" content="https://inselfcolor.pages.dev/types/${t.id}" />
     <meta property="og:site_name" content="InSelf Color" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://inselfcolor.pages.dev/images/og-cover.jpg" />
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" />
     <style>
@@ -529,12 +538,21 @@ function createArticleHtml(art) {
     <title>${art.title} | InSelf Color 칼럼</title>
     <meta name="description" content="${art.summary}" />
     <link rel="canonical" href="https://inselfcolor.pages.dev/guide/${art.slug}" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     
     <meta property="og:type" content="article" />
     <meta property="og:title" content="${art.title} | InSelf Color" />
     <meta property="og:description" content="${art.summary}" />
+    <meta property="og:image" content="https://inselfcolor.pages.dev/images/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:url" content="https://inselfcolor.pages.dev/guide/${art.slug}" />
     <meta property="og:site_name" content="InSelf Color" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://inselfcolor.pages.dev/images/og-cover.jpg" />
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" />
     <style>
@@ -627,6 +645,15 @@ const aboutHtml = `<!DOCTYPE html>
     <title>서비스 소개 (About Us) | InSelf Color</title>
     <meta name="description" content="InSelf Color는 PCCS 색채학과 CIE L*a*b* 색공간 모델에 기반한 100% 온디바이스 퍼스널컬러 진단 플랫폼입니다." />
     <link rel="canonical" href="https://inselfcolor.pages.dev/about" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="서비스 소개 (About Us) | InSelf Color" />
+    <meta property="og:description" content="InSelf Color는 PCCS 색채학과 CIE L*a*b* 색공간 모델에 기반한 100% 온디바이스 퍼스널컬러 진단 플랫폼입니다." />
+    <meta property="og:image" content="https://inselfcolor.pages.dev/images/og-cover.jpg" />
+    <meta property="og:url" content="https://inselfcolor.pages.dev/about" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" />
     <style>
       body { margin: 0; padding: 40px 20px; background-color: #FDF8F2; color: #3E2814; font-family: 'Inter', 'Noto Sans KR', sans-serif; line-height: 1.8; }
@@ -660,6 +687,15 @@ const contactHtml = `<!DOCTYPE html>
     <title>문의하기 & 고객 지원 (Contact Us) | InSelf Color</title>
     <meta name="description" content="InSelf Color 제휴, 기술 자문, 학술 피드백, 서비스 오류 신고를 위한 공식 문의 센터입니다." />
     <link rel="canonical" href="https://inselfcolor.pages.dev/contact" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="문의하기 & 고객 지원 (Contact Us) | InSelf Color" />
+    <meta property="og:description" content="InSelf Color 제휴, 기술 자문, 학술 피드백, 서비스 오류 신고를 위한 공식 문의 센터입니다." />
+    <meta property="og:image" content="https://inselfcolor.pages.dev/images/og-cover.jpg" />
+    <meta property="og:url" content="https://inselfcolor.pages.dev/contact" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" />
     <style>
       body { margin: 0; padding: 40px 20px; background-color: #FDF8F2; color: #3E2814; font-family: 'Inter', 'Noto Sans KR', sans-serif; line-height: 1.8; }
